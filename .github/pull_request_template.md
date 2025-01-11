@@ -39,6 +39,6 @@ Related #이슈번호
 
 ## ✅ PR Checklist
 <!-- PR이 다음 요구 사항을 충족하는지 확인해 주세요. -->
-- [ ] [Commit Message Convention](../../#commit-message-convention)을 준수했습니다.
-- [ ] [Code Convention](../../#code-convention)을 준수했습니다.
+- [ ] [Commit Message Convention](https://github.com/Hrr-HabbitRoutineResult/Hrr_FE#commit-message-convention)을 준수했습니다.
+- [ ] [Code Convention](https://github.com/Hrr-HabbitRoutineResult/Hrr_FE#code-convention)을 준수했습니다.
 - [ ] 변경한 기능이 잘 동작하는지 테스트했습니다.
