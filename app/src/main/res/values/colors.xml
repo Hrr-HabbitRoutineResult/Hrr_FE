@@ -2,4 +2,33 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Main Color -->
+    <color name="main_active">#001522</color>
+
+    <!-- Navigation Colors -->
+    <color name="navi_default">#AEB2B8</color>
+    <color name="navi_selected">#222222</color>
+
+    <!-- Sub Colors -->
+    <color name="sub_01">#FC6749</color>
+    <color name="sub_02">#FC9149</color>
+    <color name="sub_03">#FCA849</color>
+    <color name="sub_04">#FFC078</color>
+    <color name="sub_05">#FFFCAE</color>
+    <color name="sub_06_bg">#FFFDD2</color>
+
+    <!-- Text Colors -->
+    <color name="text_primary">#222222</color>
+    <color name="text_secondary">#595E6A</color>
+    <color name="text_tertiary">#8E929B</color>
+    <color name="text_line">#E6E7E8</color>
+
+    <!-- Grey Scale -->
+    <color name="grey_700">#747983</color>
+    <color name="grey_500">#AEB2B8</color>
+    <color name="grey_400">#CBCCD0</color>
+    <color name="grey_300">#D8D9DD</color>
+    <color name="grey_100">#F0F1F1</color>
+    <color name="grey_50">#F7F7F7</color>
 </resources>
