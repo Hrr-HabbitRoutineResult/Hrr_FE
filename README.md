@@ -3,13 +3,54 @@ UMC-7th Hrr(흐르르) 프로젝트의 Android 파트 Repository입니다.
 
 <br>
 
+## Git Branch Strategy
+Hrr 프로젝트는 GitHub Flow를 기반으로 한 브랜치 전략을 사용합니다.
+- `main`: 배포 가능한 안정적인 코드를 관리하는 브랜치
+- `develop`: 개발 중인 코드를 관리하는 default 브랜치
+- `feature`: 새로운 기능 개발을 위한 브랜치
+
+### 작업 순서
+1. **Issue 생성**
+   - 새로운 기능이나 버그 수정을 위한 이슈 생성
+   - 이슈 템플릿을 사용하여 작업할 내용에 대해 작성
+     
+2. **Branch 생성**
+   - develop 브랜치의 최신 상태 가져오기
+     ```
+     git fetch origin
+     git pull origin develop
+     ```
+   - 새로운 feature 브랜치 생성 및 이동
+     ```
+     git checkout -b feature/{issue-number}-{feature-name}
+     ```
+     
+3. **Commit & Push**
+   - 작은 단위로 나눠 commit
+   - 아래의 Commit Message Convention을 준수
+
+4. **Pull Request**
+   - GitHub에서 PR 생성
+     - develop ← feature/{issue-number}-{feature-name}
+   - PR 템플릿에 따라 상세 내용 작성
+   - 팀원들의 코드 리뷰와 피드백 진행
+
+5. **Merge**
+   - 최소 1명 이상의 리뷰어가 Approve(승인)한 경우에만 merge 가능
+   - 작업 브랜치 삭제
+   - 관련 이슈 close
+
+6. **배포**
+   - 개발이 완료되고 QA 테스트를 마친 코드는 main 브랜치로 merge하여 배포
+
 ## Branch Naming Convention
 브랜치를 생성할 때는 다음과 같은 형식을 따릅니다.
 ```
 feature/{issue-number}-{feature-name}
 ```
 ### 예시
-feature/1-login
+feature/1-login  
+feature/7-challenge-create
 
 <br>
 
@@ -17,8 +58,6 @@ feature/1-login
 작업한 내용을 커밋할 때는 다음과 같은 형식을 따릅니다.
 ```
 type: Subject #issue-number
-
-body
 ```
 
 ### Type
@@ -41,20 +80,10 @@ body
 - **50자 이내**로 작성
 - 마침표나 특수문자는 사용하지 않음
 
-### Body (선택 사항)
-- 작업 내용이 복잡하거나 자세한 설명이 필요한 경우 작성
-- 제목과 본문 사이에 한 줄의 공백 추가
-- '어떻게'보다는 '무엇을', '왜' 변경했는지에 대해 설명
-- 한 줄 당 **72자 이내**로 작성
-- 여러 줄의 메시지를 작성할 땐 '-'로 구분 
-
 ### 예시
 ```
-Feat: 로그인 화면 구현 #1
-
-- 이메일, 비밀번호 입력 필드 추가
-- 로그인 버튼 클릭 시 이벤트 처리
-- 유효성 검사 로직 구현
+Feat: 로그인 화면 UI 구현 #1
+Fix: 챌린지 유형 선택 시 버튼 활성화 오류 수정 #7
 ```
 <br>
 
