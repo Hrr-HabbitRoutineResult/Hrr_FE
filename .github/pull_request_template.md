@@ -39,6 +39,6 @@ Related #이슈번호
 
 ## ✅ PR Checklist
 <!-- PR이 다음 요구 사항을 충족하는지 확인해 주세요. -->
-- [ ] [커밋 메시지 컨벤션](../README.md#커밋-메시지-컨벤션)을 준수했습니다.
-- [ ] [코드 컨벤션](../README.md#코드-컨벤션)을 준수했습니다.
+- [ ] [Commit Message Convention](../../#commit-message-convention)을 준수했습니다.
+- [ ] [Code Convention](../../#code-convention)을 준수했습니다.
 - [ ] 변경한 기능이 잘 동작하는지 테스트했습니다.
