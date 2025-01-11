@@ -22,6 +22,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:itemIconSize="34dp"
+        app:itemIconTint="@color/navi_item_color"
+        app:itemTextColor="@color/navi_item_color"
+        app:itemBackground="@android:color/transparent"
+        android:background="@android:color/transparent"
+        app:itemActiveIndicatorStyle="@style/Theme.Navi.Indicator"
         app:labelVisibilityMode="labeled"
         app:menu="@menu/menu_bottom_navi"/>
 

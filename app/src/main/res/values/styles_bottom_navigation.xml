@@ -1,0 +1,5 @@
+<resources>
+    <style name="NaviStyle" parent="Widget.Material3.BottomNavigationView">
+        <item name="backgroundTint">@color/white</item>
+    </style>
+</resources>
