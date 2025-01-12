@@ -28,6 +28,9 @@
         android:background="@android:color/transparent"
         app:itemActiveIndicatorStyle="@style/Theme.Navi.Indicator"
         app:labelVisibilityMode="labeled"
-        app:menu="@menu/menu_bottom_navi"/>
+        app:menu="@menu/menu_bottom_navi"
+        app:itemPaddingTop="12dp"
+        app:itemPaddingBottom="12dp"
+        android:paddingHorizontal="26dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
