@@ -16,7 +16,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:scaleType="centerCrop"
-        android:src="@drawable/bg_login_logo" />
+        android:src="@drawable/bg_login_gradient" />
 
     <!-- 둥근 흰색 배경 추가 -->
     <LinearLayout
@@ -186,17 +186,24 @@
         </LinearLayout>
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/tv_login_title"
+    <ImageView
+        android:id="@+id/iv_login_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="26dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="23dp"
+        android:src="@drawable/ic_app_slogan"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/layout_login_form"
-        android:text="@string/app_description"
-        android:textColor="@android:color/white"
-        android:textSize="20sp"
-        android:fontFamily="@font/noto_sans_kr_light"/>
+        app:layout_constraintBottom_toTopOf="@+id/layout_login_form" />
+
+    <ImageView
+        android:id="@+id/iv_login_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="26dp"
+        android:layout_marginBottom="15dp"
+        android:src="@drawable/ic_app_logo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/iv_login_title" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
