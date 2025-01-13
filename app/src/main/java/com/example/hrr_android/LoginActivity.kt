@@ -19,8 +19,8 @@ class LoginActivity : AppCompatActivity() {
 
         // 로그인 버튼 클릭 리스너
         binding.btnLogin.setOnClickListener {
-            val email = binding.etId.text.toString().trim()
-            val password = binding.etPassword.text.toString().trim()
+            val email = binding.etLoginEmail.text.toString().trim()
+            val password = binding.etLoginPassword.text.toString().trim()
 
             // 유효성 검사 실행
             if (isValidInput(email, password)) {

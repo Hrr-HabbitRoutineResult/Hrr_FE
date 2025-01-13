@@ -9,7 +9,7 @@
     android:background="@color/white">
 
     <ImageView
-        android:id="@+id/iv_bg_login"
+        android:id="@+id/iv_login_bg"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -20,7 +20,7 @@
 
     <!-- 둥근 흰색 배경 추가 -->
     <LinearLayout
-        android:id="@+id/login_layout"
+        android:id="@+id/layout_login_form"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -34,9 +34,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- 아이디 입력 필드 -->
+        <!-- 이메일 입력 필드 -->
         <EditText
-            android:id="@+id/et_id"
+            android:id="@+id/et_login_email"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@drawable/bg_input_field"
@@ -47,7 +47,7 @@
 
         <!-- 비밀번호 입력 필드 -->
         <EditText
-            android:id="@+id/et_password"
+            android:id="@+id/et_login_password"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="12dp"
@@ -71,16 +71,16 @@
             android:textSize="16sp"
             android:textStyle="bold" />
 
-        <!-- 아이디 찾기, 비밀번호 찾기, 회원가입 -->
+        <!-- 계정 찾기, 비밀번호 찾기, 회원가입 -->
         <LinearLayout
-            android:id="@+id/help_layout"
+            android:id="@+id/layout_login_helper"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="20dp">
 
             <TextView
-                android:id="@+id/tv_find_id"
+                android:id="@+id/tv_login_find_account"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="계정 찾기"
@@ -95,7 +95,7 @@
                 android:textColor="@color/text_line"/>
 
             <TextView
-                android:id="@+id/tv_find_password"
+                android:id="@+id/tv_login_find_password"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="비밀번호 찾기"
@@ -110,7 +110,7 @@
                 android:textColor="@color/text_line"/>
 
             <TextView
-                android:id="@+id/tv_signup"
+                android:id="@+id/tv_login_signup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="회원가입"
@@ -120,13 +120,13 @@
 
         <!-- SNS 로그인 구분선 및 텍스트 -->
         <LinearLayout
-            android:id="@+id/ll_sns_divider"
+            android:id="@+id/layout_login_divider"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center"
             android:layout_marginTop="75dp"
-            app:layout_constraintTop_toBottomOf="@id/help_layout"
+            app:layout_constraintTop_toBottomOf="@id/layout_login_helper"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
@@ -140,7 +140,7 @@
 
             <!-- SNS 계정으로 로그인 텍스트 -->
             <TextView
-                android:id="@+id/tv_sns_login"
+                android:id="@+id/tv_login_sns_account"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="SNS 계정으로 로그인"
@@ -158,19 +158,19 @@
 
         <!-- SNS 로그인 버튼 -->
         <LinearLayout
-            android:id="@+id/btn_social"
+            android:id="@+id/layout_login_sns"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center"
             android:layout_marginTop="20dp"
-            app:layout_constraintTop_toBottomOf="@id/ll_sns_divider"
+            app:layout_constraintTop_toBottomOf="@id/layout_login_divider"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
             <!-- 카카오톡 로그인 -->
             <ImageView
-                android:id="@+id/btn_kakao_login"
+                android:id="@+id/iv_login_kakao"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginEnd="20dp"
@@ -178,7 +178,7 @@
 
             <!-- 네이버 로그인 -->
             <ImageView
-                android:id="@+id/btn_naver_login"
+                android:id="@+id/iv_login_naver"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:src="@drawable/ic_logo_naver" />
@@ -187,13 +187,13 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/tv_title"
+        android:id="@+id/tv_login_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="26dp"
         android:layout_marginBottom="10dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/login_layout"
+        app:layout_constraintBottom_toTopOf="@+id/layout_login_form"
         android:text="@string/app_description"
         android:textColor="@android:color/white"
         android:textSize="20sp"
