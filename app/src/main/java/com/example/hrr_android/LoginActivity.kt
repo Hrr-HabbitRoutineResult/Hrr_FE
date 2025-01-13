@@ -1,5 +1,6 @@
 package com.example.hrr_android
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns
 import android.widget.Toast
@@ -25,6 +26,9 @@ class LoginActivity : AppCompatActivity() {
             if (isValidInput(email, password)) {
                 Toast.makeText(this, "유효성 검사 완료", Toast.LENGTH_SHORT).show()
                 // MainActivity로 화면 전환 (추후에 로그인 API 호출)
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+                finish()
             }
         }
     }
