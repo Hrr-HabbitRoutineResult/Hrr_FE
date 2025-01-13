@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <!-- Profile Frame -->
         <FrameLayout
             android:id="@+id/topBanner_profile"
             android:layout_width="match_parent"
@@ -40,6 +41,40 @@
             android:src="@drawable/ic_menu"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <com.mikhaellopez.circularprogressbar.CircularProgressBar
+            android:id="@+id/cpb_profile_levelGauge"
+            android:layout_width="124dp"
+            android:layout_height="124dp"
+            android:layout_marginTop="88dp"
+            app:cpb_background_progressbar_color="@color/white"
+            app:cpb_background_progressbar_width="22dp"
+            app:cpb_progressbar_color="@color/sub_01"
+            app:cpb_progressbar_width="22dp"
+            app:cpb_start_angle="-90"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/topBanner_profile" />
+
+        <ImageView
+            android:id="@+id/iv_profile_userBgImage"
+            android:layout_width="102dp"
+            android:layout_height="102dp"
+            android:layout_marginTop="99dp"
+            android:src="@drawable/ic_profile_bg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/topBanner_profile" />
+
+        <ImageView
+            android:id="@+id/iv_profile_userImage"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="110dp"
+            android:src="@drawable/ic_profile_default"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/topBanner_profile" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
