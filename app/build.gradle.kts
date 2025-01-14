@@ -51,4 +51,5 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     implementation(libs.circularprogressbar)
+    implementation(libs.androidx.viewpager2)
 }

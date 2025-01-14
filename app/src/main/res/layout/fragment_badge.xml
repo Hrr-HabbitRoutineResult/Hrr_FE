@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".BadgeFragment">
+
+    <TextView
+        android:id="@+id/tv_profile_badge_title"
+        android:layout_width="86dp"
+        android:layout_height="26dp"
+        android:text="획득한 뱃지"
+        android:textColor="@color/text_primary"
+        android:fontFamily="@font/font_style"
+        android:textFontWeight="600"
+        android:includeFontPadding="false"
+        android:textSize="18sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="38dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="258dp"/>
+
+    <LinearLayout
+        android:id="@+id/ll_profile_badge_more"
+        android:layout_width="50dp"
+        android:layout_height="40dp"
+        app:layout_constraintStart_toEndOf="@+id/tv_profile_badge_title"
+        android:layout_marginStart="176dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/iv_profile_badge_default_bg"
+        android:layout_marginBottom="13dp"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="38dp"
+            android:layout_height="19dp"
+            android:text="더보기"
+            android:textColor="@color/text_tertiary"
+            android:fontFamily="@font/font_style"
+            android:textFontWeight="500"
+            android:includeFontPadding="false"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginEnd="7dp"/>
+
+        <ImageView
+            android:layout_width="5dp"
+            android:layout_height="20dp"
+            android:src="@drawable/btn_arrow_right"
+            app:tint="@color/text_tertiary"
+            android:tintMode="src_in"
+            android:scaleType="centerCrop"
+            android:layout_marginTop="2dp"/>
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/iv_profile_badge_default_bg"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:src="@drawable/profile_challenge_default_bg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_profile_badge_title"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"/>
+
+    <ImageView
+        android:id="@+id/iv_profile_badge_no"
+        android:layout_width="50dp"
+        android:layout_height="63.11dp"
+        android:src="@drawable/ic_profile_no_data"
+        app:layout_constraintTop_toTopOf="@+id/iv_profile_badge_default_bg"
+        app:layout_constraintStart_toStartOf="@+id/iv_profile_badge_default_bg"
+        app:layout_constraintEnd_toEndOf="@+id/iv_profile_badge_default_bg"
+        app:layout_constraintBottom_toBottomOf="@id/iv_profile_badge_default_bg"
+        android:layout_marginTop="58.95dp"
+        android:layout_marginBottom="77.95dp"
+        android:layout_marginStart="139dp"
+        android:layout_marginEnd="139dp"/>
+
+    <TextView
+        android:id="@+id/tv_profile_badge_no"
+        android:layout_width="111dp"
+        android:layout_height="19dp"
+        android:text="인증한 기록이 없어요"
+        android:textSize="13sp"
+        android:fontFamily="@font/font_style"
+        android:textFontWeight="400"
+        android:includeFontPadding="false"
+        app:layout_constraintTop_toBottomOf="@+id/iv_profile_badge_no"
+        app:layout_constraintStart_toStartOf="@+id/iv_profile_badge_default_bg"
+        app:layout_constraintEnd_toEndOf="@+id/iv_profile_badge_default_bg"
+        android:layout_marginTop="1dp"
+        android:layout_marginStart="108.5dp"
+        android:layout_marginEnd="108.55dp"/>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

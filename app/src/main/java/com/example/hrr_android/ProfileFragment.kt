@@ -6,16 +6,29 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.hrr_android.databinding.FragmentProfileBinding
+import com.google.android.material.tabs.TabLayoutMediator
 import com.mikhaellopez.circularprogressbar.CircularProgressBar
 
 class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding
+    private var tabs = arrayListOf("챌린지", "인증기록", "뱃지")
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentProfileBinding.inflate(inflater, container, false)
+
+        val profileVPAdapter = ProfileVPAdapter(this)
+        binding.vpProfile.adapter = profileVPAdapter
+
+//        binding.nsProfile.requestDisallowInterceptTouchEvent(true)
+//        binding.vpProfile.requestDisallowInterceptTouchEvent(true)
+
+        //탭 제목 설정
+        TabLayoutMediator(binding.tlProfile, binding.vpProfile){
+            tab, position ->tab.text = tabs[position]
+        }.attach()
 
         return binding.root
     }
