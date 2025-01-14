@@ -43,7 +43,10 @@
             android:hint="이메일"
             android:paddingHorizontal="16dp"
             android:textColorHint="@color/text_tertiary"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            android:textCursorDrawable="@drawable/cursor_custom"
+            android:fontFamily="@font/noto_sans_kr_regular"
+            android:includeFontPadding="false"/>
 
         <!-- 비밀번호 입력 필드 -->
         <EditText
@@ -56,20 +59,34 @@
             android:inputType="textPassword"
             android:paddingHorizontal="16dp"
             android:textColorHint="@color/text_tertiary"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            android:textCursorDrawable="@drawable/cursor_custom"
+            android:fontFamily="@font/noto_sans_kr_regular"
+            android:includeFontPadding="false"/>
 
-        <!-- 로그인 버튼 -->
-        <android.widget.Button
-            android:id="@+id/btn_login"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:layout_marginTop="25dp"
-            android:background="@drawable/btn_navy"
-            android:text="로그인"
-            android:fontFamily="@font/noto_sans_kr_semi_bold"
-            android:textColor="#FFFFFF"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            android:layout_marginTop="25dp">
+
+            <ImageView
+                android:id="@+id/btn_login"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/btn_navy"/>
+
+            <TextView
+                android:id="@+id/btn_login_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="로그인"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/noto_sans_kr_semi_bold"
+                android:layout_gravity="center"/>
+        </FrameLayout>
+
 
         <!-- 계정 찾기, 비밀번호 찾기, 회원가입 -->
         <LinearLayout
@@ -85,7 +102,9 @@
                 android:layout_height="wrap_content"
                 android:text="계정 찾기"
                 android:textSize="12sp"
-                android:textColor="@color/text_secondary"/>
+                android:textColor="@color/text_secondary"
+                android:fontFamily="@font/noto_sans_kr_regular"
+                android:includeFontPadding="false"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -100,7 +119,9 @@
                 android:layout_height="wrap_content"
                 android:text="비밀번호 찾기"
                 android:textSize="12sp"
-                android:textColor="@color/text_secondary"/>
+                android:textColor="@color/text_secondary"
+                android:fontFamily="@font/noto_sans_kr_regular"
+                android:includeFontPadding="false"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -115,7 +136,9 @@
                 android:layout_height="wrap_content"
                 android:text="회원가입"
                 android:textSize="12sp"
-                android:textColor="@color/text_secondary"/>
+                android:textColor="@color/text_secondary"
+                android:fontFamily="@font/noto_sans_kr_regular"
+                android:includeFontPadding="false"/>
         </LinearLayout>
 
         <!-- SNS 로그인 구분선 및 텍스트 -->
@@ -145,7 +168,9 @@
                 android:layout_height="wrap_content"
                 android:text="SNS 계정으로 로그인"
                 android:textColor="@color/text_tertiary"
-                android:textSize="12sp"/>
+                android:textSize="12sp"
+                android:fontFamily="@font/noto_sans_kr_regular"
+                android:includeFontPadding="false"/>
 
             <!-- 우측 선 -->
             <View
