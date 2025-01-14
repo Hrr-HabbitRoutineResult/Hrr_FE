@@ -1,0 +1,6 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <size android:width="2dp"/> <!-- 커서 두께 -->
+    <corners android:radius="10dp"/>
+    <solid android:color="@color/sub_03"/> <!-- 커서 색상 -->
+</shape>
