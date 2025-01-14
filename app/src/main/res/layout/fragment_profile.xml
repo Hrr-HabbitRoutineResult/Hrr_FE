@@ -17,7 +17,7 @@
 
         <!-- Profile Frame -->
         <FrameLayout
-            android:id="@+id/topBanner_profile"
+            android:id="@+id/fl_topBanner_profile"
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:background="@color/main_active"
@@ -32,8 +32,8 @@
             android:layout_marginStart="22dp"
             android:layout_marginTop="37dp"
             android:src="@drawable/ic_logo"
-            app:layout_constraintStart_toStartOf="@+id/topBanner_profile"
-            app:layout_constraintTop_toTopOf="@+id/topBanner_profile" />
+            app:layout_constraintStart_toStartOf="@+id/fl_topBanner_profile"
+            app:layout_constraintTop_toTopOf="@+id/fl_topBanner_profile" />
 
         <ImageView
             android:id="@+id/iv_profile_menu"
@@ -57,7 +57,7 @@
             app:cpb_start_angle="-90"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/topBanner_profile" />
+            app:layout_constraintTop_toTopOf="@+id/fl_topBanner_profile" />
 
         <ImageView
             android:id="@+id/iv_profile_userBgImage"
@@ -67,7 +67,7 @@
             android:src="@drawable/ic_profile_bg"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/topBanner_profile" />
+            app:layout_constraintTop_toTopOf="@+id/fl_topBanner_profile" />
 
         <ImageView
             android:id="@+id/iv_profile_userImage"
@@ -77,7 +77,7 @@
             android:src="@drawable/ic_profile_default"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/topBanner_profile" />
+            app:layout_constraintTop_toTopOf="@+id/fl_topBanner_profile" />
 
         <TextView
             android:id="@+id/tv_profile_edit"
@@ -90,7 +90,7 @@
             android:textColor="@color/text_tertiary"
             android:textSize="13sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/topBanner_profile" />
+            app:layout_constraintTop_toBottomOf="@+id/fl_topBanner_profile" />
 
         <TextView
             android:id="@+id/tv_profile_username"
@@ -110,7 +110,7 @@
             android:includeFontPadding="false"/>
 
         <LinearLayout
-            android:id="@+id/profile_rank"
+            android:id="@+id/ll_profile_rank"
             android:layout_width="29dp"
             android:layout_height="17dp"
             android:orientation="horizontal"
@@ -137,13 +137,13 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/profile_follow"
+            android:id="@+id/ll_profile_follow"
             android:layout_width="117dp"
             android:layout_height="17dp"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/profile_rank"
+            app:layout_constraintTop_toBottomOf="@+id/ll_profile_rank"
             android:layout_marginTop="5dp"
             android:fontFamily="@font/font_style"
             android:textFontWeight="400"
@@ -183,13 +183,13 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/profile_badge_all"
+            android:id="@+id/ll_profile_badge"
             android:layout_width="206dp"
             android:layout_height="61dp"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/profile_follow"
+            app:layout_constraintTop_toBottomOf="@+id/ll_profile_follow"
             android:layout_marginTop="20dp"
             android:weightSum="3"
             android:gravity="center_horizontal"
@@ -198,7 +198,7 @@
             android:includeFontPadding="false">
 
             <LinearLayout
-                android:id="@+id/profile_badge_01"
+                android:id="@+id/ll_profile_badge_01"
                 android:layout_width="62dp"
                 android:layout_height="61dp"
                 android:orientation="vertical"
@@ -224,7 +224,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/profile_badge_02"
+                android:id="@+id/ll_profile_badge_02"
                 android:layout_width="62dp"
                 android:layout_height="61dp"
                 android:orientation="vertical"
@@ -249,7 +249,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/profile_badge_03"
+                android:id="@+id/ll_profile_badge_03"
                 android:layout_width="62dp"
                 android:layout_height="61dp"
                 android:orientation="vertical"
@@ -280,7 +280,7 @@
             android:id="@+id/tl_profile"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            app:layout_constraintTop_toBottomOf="@+id/profile_badge_all"
+            app:layout_constraintTop_toBottomOf="@+id/ll_profile_badge"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="23dp"
