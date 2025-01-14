@@ -182,9 +182,9 @@
 
         <TextView
             android:id="@+id/tv_profile_completedChallenge_no"
-            android:layout_width="134dp"
+            android:layout_width="149dp"
             android:layout_height="19dp"
-            android:text="참가중인 챌린지가 없어요"
+            android:text="최근 완주한 챌린지가 없어요"
             android:textSize="13sp"
             android:fontFamily="@font/font_style"
             android:textFontWeight="400"
@@ -197,7 +197,5 @@
             android:layout_marginEnd="97dp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
