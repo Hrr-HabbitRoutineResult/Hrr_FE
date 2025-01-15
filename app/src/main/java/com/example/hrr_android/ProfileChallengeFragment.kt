@@ -6,17 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.hrr_android.databinding.FragmentChallengeBinding
+import com.example.hrr_android.databinding.FragmentProfileChallengeBinding
 
-class ChallengeFragment : Fragment() {
-    private lateinit var binding: FragmentChallengeBinding
+class ProfileChallengeFragment : Fragment() {
+    private lateinit var binding: FragmentProfileChallengeBinding
     private var participatingChallengeList = ArrayList<Challenge>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentChallengeBinding.inflate(inflater, container, false)
+        binding = FragmentProfileChallengeBinding.inflate(inflater, container, false)
 
         //더미 데이터
         participatingChallengeList.apply {

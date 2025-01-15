@@ -8,9 +8,9 @@ class ProfileVPAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 
     override fun createFragment(position: Int): Fragment {
         return when(position){
-            0 -> ChallengeFragment()
-            1 -> CertificationRecordFragment()
-            else -> BadgeFragment()
+            0 -> ProfileChallengeFragment()
+            1 -> ProfileCertificationRecordFragment()
+            else -> ProfileBadgeFragment()
         }
     }
 }

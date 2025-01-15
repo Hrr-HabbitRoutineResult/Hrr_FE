@@ -5,16 +5,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.hrr_android.databinding.FragmentBadgeBinding
+import com.example.hrr_android.databinding.FragmentProfileCertificationRecordBinding
 
-class BadgeFragment : Fragment() {
-    private lateinit var binding: FragmentBadgeBinding
+class ProfileCertificationRecordFragment : Fragment() {
+    private lateinit var binding: FragmentProfileCertificationRecordBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentBadgeBinding.inflate(inflater, container, false)
+        binding = FragmentProfileCertificationRecordBinding.inflate(inflater, container, false)
 
         return binding.root
     }

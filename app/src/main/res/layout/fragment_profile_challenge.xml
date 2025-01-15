@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context=".ChallengeFragment"
+    tools:context=".ProfileChallengeFragment"
     android:paddingBottom="77dp">
 
     <!-- 참가중인 챌린지 -->
