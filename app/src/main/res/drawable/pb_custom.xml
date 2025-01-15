@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 배경 이미지 -->
+    <item android:id="@android:id/background">
+        <shape>
+            <corners android:radius="20dp" />   <!-- 둥근 모서리 적용 -->
+            <solid android:color="@color/text_line" />  <!-- 배경 색상 -->
+        </shape>
+    </item>
+
+    <!-- 진행 부분 -->
+    <item android:id="@android:id/progress">
+        <scale
+            android:scaleWidth="100%"
+            android:gravity="left">
+            <shape>
+                <corners android:radius="20dp"/>  <!-- 둥근 모서리 유지 -->
+                <solid android:color="@color/sub_03"/>  <!-- 진행 색상 -->
+            </shape>
+        </scale>
+    </item>
+
+</layer-list>
