@@ -43,13 +43,16 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_profile_participatingChallenge_content_no"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/tv_profile_participatingChallenge_title"
         android:layout_marginTop="15dp"
+        app:layout_constraintBottom_toTopOf="@+id/tv_profile_completedChallenge_title"
+        android:layout_marginBottom="43dp"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="16dp">
+        android:layout_marginEnd="16dp"
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/iv_profile_challenge_default_bg"
@@ -63,7 +66,7 @@
             />
 
         <ImageView
-            android:id="@+id/iv_profile_participatingChallenge"
+            android:id="@+id/iv_profile_participatingChallenge_no"
             android:layout_width="50dp"
             android:layout_height="63.11dp"
             android:src="@drawable/ic_profile_no_data"
@@ -85,13 +88,30 @@
             android:fontFamily="@font/font_style"
             android:textFontWeight="400"
             android:includeFontPadding="false"
-            app:layout_constraintTop_toBottomOf="@+id/iv_profile_participatingChallenge"
+            app:layout_constraintTop_toBottomOf="@+id/iv_profile_participatingChallenge_no"
             app:layout_constraintStart_toStartOf="@+id/iv_profile_challenge_default_bg"
             app:layout_constraintEnd_toEndOf="@+id/iv_profile_challenge_default_bg"
             android:layout_marginTop="1dp"
             android:layout_marginStart="97dp"
             android:layout_marginEnd="97dp"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_profile_participatingChallenge_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/tv_profile_participatingChallenge_title"
+        android:layout_marginTop="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="1dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/tv_profile_completedChallenge_title"
+        android:layout_marginBottom="45dp"
+        tools:listitem="@layout/item_profile_participating_challenge"
+        android:visibility="visible"/>
 
     <!-- 최근 완주한 챌린지 -->
     <TextView
@@ -103,10 +123,9 @@
         android:textFontWeight="600"
         android:includeFontPadding="false"
         android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@+id/cl_profile_participatingChallenge_content_no"
+        app:layout_constraintBottom_toTopOf="@+id/cl_profile_completedChallenge_content_no"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="43dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="206dp"/>
     
@@ -167,7 +186,7 @@
             app:layout_constraintEnd_toEndOf="parent"/>
 
         <ImageView
-            android:id="@+id/iv_profile_completedChallenge"
+            android:id="@+id/iv_profile_completedChallenge_no"
             android:layout_width="50dp"
             android:layout_height="63.11dp"
             android:src="@drawable/ic_profile_no_data"
@@ -189,7 +208,7 @@
             android:fontFamily="@font/font_style"
             android:textFontWeight="400"
             android:includeFontPadding="false"
-            app:layout_constraintTop_toBottomOf="@+id/iv_profile_completedChallenge"
+            app:layout_constraintTop_toBottomOf="@+id/iv_profile_completedChallenge_no"
             app:layout_constraintStart_toStartOf="@+id/iv_profile_completedChallenge_default_bg"
             app:layout_constraintEnd_toEndOf="@+id/iv_profile_completedChallenge_default_bg"
             android:layout_marginTop="1dp"
