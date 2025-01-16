@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <!-- 이메일 및 비밀번호 입력 영역 -->
+    <LinearLayout
+        android:id="@+id/layout_signup_inputs"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="70dp"
+        android:paddingHorizontal="16dp">
+
+        <!-- 이메일 입력 레이블 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_signup_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="아이디"
+                android:textSize="13sp"
+                android:fontFamily="@font/noto_sans_kr_medium"
+                android:includeFontPadding="false"
+                android:textColor="@android:color/black"/>
+
+            <TextView
+                android:id="@+id/tv_signup_email_required"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" *"
+                android:textSize="13sp"
+                android:fontFamily="@font/noto_sans_kr_medium"
+                android:includeFontPadding="false"
+                android:textColor="@color/sub_01"/>
+        </LinearLayout>
+
+        <!-- 이메일 입력 필드 -->
+        <EditText
+            android:id="@+id/et_signup_email"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="아이디를 입력해주세요"
+            android:background="@drawable/bg_input_field"
+            android:padding="14dp"
+            android:inputType="text"
+            android:textSize="15sp"
+            android:fontFamily="@font/noto_sans_kr_regular"
+            android:includeFontPadding="false"
+            android:textColor="@color/text_tertiary"
+            android:textCursorDrawable="@drawable/cursor_custom"
+            android:layout_marginTop="9dp"/>
+
+        <!-- 이메일 안내 문구 -->
+        <TextView
+            android:id="@+id/tv_signup_email_helper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="5dp"
+            android:text="6자~20자 이하, 영대소문자, 숫자 조합"
+            android:textSize="12sp"
+            android:fontFamily="@font/noto_sans_kr_regular"
+            android:includeFontPadding="false"
+            android:textColor="@color/text_tertiary"
+            android:layout_marginTop="7dp"/>
+
+        <!-- 비밀번호 레이블 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp">
+
+            <TextView
+                android:id="@+id/tv_signup_password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="비밀번호"
+                android:textSize="13sp"
+                android:fontFamily="@font/noto_sans_kr_medium"
+                android:includeFontPadding="false"
+                android:textColor="@android:color/black"/>
+
+            <TextView
+                android:id="@+id/tv_signup_password_required"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" *"
+                android:textSize="13sp"
+                android:fontFamily="@font/noto_sans_kr_medium"
+                android:includeFontPadding="false"
+                android:textColor="@color/sub_01"/>
+        </LinearLayout>
+
+        <!-- 비밀번호 입력 필드 -->
+        <EditText
+            android:id="@+id/et_password"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="비밀번호를 입력해주세요"
+            android:background="@drawable/bg_input_field"
+            android:padding="14dp"
+            android:inputType="textPassword"
+            android:textSize="15sp"
+            android:fontFamily="@font/noto_sans_kr_regular"
+            android:includeFontPadding="false"
+            android:textColor="@color/text_tertiary"
+            android:textCursorDrawable="@drawable/cursor_custom"
+            android:layout_marginTop="9dp"/>
+
+        <!-- 비밀번호 안내 문구 -->
+        <TextView
+            android:id="@+id/tv_signup_password_helper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="5dp"
+            android:text="8자~20자 이하, 영대소문자, 숫자, 특수기호 2가지 이상 조합"
+            android:textSize="12sp"
+            android:fontFamily="@font/noto_sans_kr_regular"
+            android:includeFontPadding="false"
+            android:textColor="@color/text_tertiary"
+            android:layout_marginTop="7dp"/>
+
+        <!-- 비밀번호 확인 레이블 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp">
+
+            <TextView
+                android:id="@+id/tv_signup_password_confirm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="비밀번호 확인"
+                android:textSize="13sp"
+                android:fontFamily="@font/noto_sans_kr_medium"
+                android:includeFontPadding="false"
+                android:textColor="@android:color/black"/>
+
+            <TextView
+                android:id="@+id/tv_signup_password_confirm_required"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" *"
+                android:textSize="13sp"
+                android:fontFamily="@font/noto_sans_kr_medium"
+                android:includeFontPadding="false"
+                android:textColor="@color/sub_01"/>
+        </LinearLayout>
+
+        <!-- 비밀번호 확인 입력 필드 -->
+        <EditText
+            android:id="@+id/et_signup_password_confirm"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="비밀번호를 다시 입력해주세요"
+            android:background="@drawable/bg_input_field"
+            android:padding="14dp"
+            android:inputType="textPassword"
+            android:textSize="15sp"
+            android:fontFamily="@font/noto_sans_kr_regular"
+            android:includeFontPadding="false"
+            android:textColor="@color/text_tertiary"
+            android:textCursorDrawable="@drawable/cursor_custom"
+            android:layout_marginTop="9dp"/>
+    </LinearLayout>
+
+    <!-- 선 (구분선) -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="14dp"
+        android:background="@color/text_line"
+        app:layout_constraintBottom_toTopOf="@id/btn_info_input_next"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- 다음 버튼 -->
+    <FrameLayout
+        android:id="@+id/btn_info_input_next"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="61dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- 배경 이미지 -->
+        <ImageView
+            android:id="@+id/iv_info_input_next"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/btn_navy" />
+
+        <!-- 버튼 텍스트 -->
+        <TextView
+            android:id="@+id/tv_info_input_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="다음"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:fontFamily="@font/noto_sans_kr_semi_bold"
+            android:layout_gravity="center"/>
+    </FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

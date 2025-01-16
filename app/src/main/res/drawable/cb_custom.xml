@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 체크된 상태 -->
+    <item android:state_checked="true"
+        android:drawable="@drawable/cb_checked" />  <!-- 체크된 이미지 -->
+
+    <!-- 체크되지 않은 상태 -->
+    <item android:drawable="@drawable/cb_unchecked" />  <!-- 기본 이미지 -->
+</selector>
