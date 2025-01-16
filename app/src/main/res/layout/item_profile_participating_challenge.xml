@@ -19,6 +19,12 @@
             android:layout_height="match_parent"
             android:src="@drawable/img_english_book"
             android:scaleType="fitCenter"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/gradient_participating_challenge"/>
+
     </androidx.cardview.widget.CardView>
 
     <TextView
