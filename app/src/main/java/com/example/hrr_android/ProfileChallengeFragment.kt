@@ -11,6 +11,7 @@ import com.example.hrr_android.databinding.FragmentProfileChallengeBinding
 class ProfileChallengeFragment : Fragment() {
     private lateinit var binding: FragmentProfileChallengeBinding
     private var participatingChallengeList = ArrayList<Challenge>()
+    private var completedChallengeList = ArrayList<Challenge>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -20,8 +21,12 @@ class ProfileChallengeFragment : Fragment() {
 
         //더미 데이터
         participatingChallengeList.apply {
-            add(Challenge("토익 800점", R.drawable.img_english_book, false))
-            add(Challenge("토익 900점", R.drawable.img_english_book, true))
+            add(Challenge("토익 800점", R.drawable.img_english_book, isCertified = false))
+            add(Challenge("토익 900점 찍기. 쫄?", R.drawable.img_english_book, isCertified = true))
+        }
+        completedChallengeList.apply {
+            add(Challenge("흑백 요리사 나가실 분", R.drawable.img_cook, "흑백요리사 시즌 4쯤에 나가는 걸 목표로"))
+            add(Challenge("백종원 따라잡기", R.drawable.img_cook, "흑백요리사 시즌 400쯤에 나가는 걸 목표로"))
         }
 
         //데이터 유무 판단하여 뷰 전환
@@ -30,10 +35,20 @@ class ProfileChallengeFragment : Fragment() {
             binding.rvProfileParticipatingChallengeContent.visibility = View.GONE
         }
 
+        if(completedChallengeList.size==0){
+            binding.clProfileCompletedChallengeContentNo.visibility = View.VISIBLE
+            binding.rvProfileCompletedChallengeContent.visibility = View.GONE
+        }
+
+
         //RecyclerView Adapter 연결
-        val challengeRVAdapter = ProfileParticipatingChallengeRVAdapter(participatingChallengeList)
-        binding.rvProfileParticipatingChallengeContent.adapter = challengeRVAdapter
+        val profileParticipatingChallengeRVAdapter = ProfileParticipatingChallengeRVAdapter(participatingChallengeList)
+        binding.rvProfileParticipatingChallengeContent.adapter = profileParticipatingChallengeRVAdapter
         binding.rvProfileParticipatingChallengeContent.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+
+        val profileCompletedChallengeRVAdapter = ProfileCompletedChallengeRVAdapter(completedChallengeList)
+        binding.rvProfileCompletedChallengeContent.adapter = profileCompletedChallengeRVAdapter
+        binding.rvProfileCompletedChallengeContent.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
         return binding.root
     }
