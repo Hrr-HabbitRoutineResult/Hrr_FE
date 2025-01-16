@@ -227,7 +227,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="26dp"
         android:layout_marginBottom="15dp"
-        android:src="@drawable/ic_app_logo"
+        android:src="@drawable/ic_app_logo_white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/iv_login_title" />
 
