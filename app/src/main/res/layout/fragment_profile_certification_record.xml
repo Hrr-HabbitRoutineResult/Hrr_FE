@@ -68,7 +68,8 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="16dp" >
+        android:layout_marginEnd="16dp"
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/iv_profile_certification_record_default_bg"
@@ -111,5 +112,17 @@
             android:layout_marginEnd="108.55dp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_profile_certification_recored"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/tv_profile_certification_record_title"
+        android:layout_marginTop="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:listitem="@layout/item_profile_certification_recored"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
