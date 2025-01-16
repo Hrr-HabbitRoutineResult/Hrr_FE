@@ -152,6 +152,34 @@
 
         </FrameLayout>
 
+        <!-- 챌린지 보러가기 텍스트 -->
+        <TextView
+            android:id="@+id/tv_home_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="챌린지 보러가기"
+            android:textColor="@color/text_primary"
+            android:textSize="18sp"
+            android:fontFamily="@font/noto_sans_kr_semi_bold"
+            android:includeFontPadding="false"
+            app:layout_constraintTop_toBottomOf="@id/iv_home_background"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="48dp"
+            android:layout_marginStart="16dp"/>
+
+        <!-- 가로 스크롤 가능한 RecyclerView -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_home_category"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="16dp"
+            android:clipToPadding="false"
+            app:layout_constraintTop_toBottomOf="@id/tv_home_category"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:orientation="horizontal"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>
