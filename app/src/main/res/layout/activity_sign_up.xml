@@ -8,13 +8,12 @@
     android:background="@android:color/white">
 
     <!-- 뒤로가기 버튼 -->
-    <ImageButton
-        android:id="@+id/btn_back"
+    <ImageView
+        android:id="@+id/btn_signup_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
         android:src="@drawable/ic_arrow_back"
-        android:contentDescription="뒤로가기"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="20dp"
@@ -22,14 +21,14 @@
 
     <!-- 단계 Progress Bar -->
     <ProgressBar
-        android:id="@+id/pb_signup"
+        android:id="@+id/pb_signup_step"
         style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Horizontal"
         android:layout_width="match_parent"
         android:layout_height="5dp"
         android:max="100"
         android:progress="25"
         android:progressDrawable="@drawable/pb_custom"
-        app:layout_constraintTop_toBottomOf="@id/btn_back"
+        app:layout_constraintTop_toBottomOf="@id/btn_signup_back"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="36dp"
@@ -37,7 +36,7 @@
 
     <!-- 단계별 제목 -->
     <TextView
-        android:id="@+id/tv_step_title"
+        android:id="@+id/tv_signup_step_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="35dp"
@@ -47,16 +46,16 @@
         android:textStyle="bold"
         android:fontFamily="@font/noto_sans_kr_bold"
         android:includeFontPadding="false"
-        app:layout_constraintStart_toStartOf="@+id/pb_signup"
-        app:layout_constraintTop_toBottomOf="@+id/pb_signup" />
+        app:layout_constraintStart_toStartOf="@+id/pb_signup_step"
+        app:layout_constraintTop_toBottomOf="@+id/pb_signup_step" />
 
     <!-- 프래그먼트 컨테이너 -->
     <FrameLayout
-        android:id="@+id/fragment_container"
+        android:id="@+id/layout_signup_fragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_step_title" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_signup_step_title" />
 </androidx.constraintlayout.widget.ConstraintLayout>
