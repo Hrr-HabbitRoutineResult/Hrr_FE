@@ -67,7 +67,8 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="16dp">
+        android:layout_marginEnd="16dp"
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/iv_profile_badge_default_bg"
@@ -108,6 +109,70 @@
             android:layout_marginTop="1dp"
             android:layout_marginStart="108.5dp"
             android:layout_marginEnd="108.55dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_profile_badge_my"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/tv_profile_badge_title"
+        android:layout_marginTop="21dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="16dp">
+
+        <TextView
+            android:id="@+id/tv_profile_badge_content_type"
+            android:layout_width="wrap_content"
+            android:layout_height="22dp"
+            android:text="유형"
+            android:fontFamily="@font/font_style"
+            android:textFontWeight="500"
+            android:includeFontPadding="false"
+            android:textSize="15sp"
+            android:textColor="@color/text_primary"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_profile_badge_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/tv_profile_badge_content_type"
+            android:layout_marginTop="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="2dp"
+            tools:listitem="@layout/item_profile_badge"/>
+
+        <TextView
+            android:id="@+id/tv_profile_badge_content_category"
+            android:layout_width="wrap_content"
+            android:layout_height="22dp"
+            android:text="카테고리"
+            android:fontFamily="@font/font_style"
+            android:textFontWeight="500"
+            android:includeFontPadding="false"
+            android:textSize="15sp"
+            android:textColor="@color/text_primary"
+            app:layout_constraintTop_toBottomOf="@+id/rv_profile_badge_type"
+            android:layout_marginTop="45dp"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_profile_badge_category"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/tv_profile_badge_content_category"
+            android:layout_marginTop="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="2dp"
+            tools:listitem="@layout/item_profile_badge"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

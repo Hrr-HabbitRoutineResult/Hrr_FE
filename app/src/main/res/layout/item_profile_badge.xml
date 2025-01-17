@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginStart="14dp"
+    android:layout_marginEnd="14dp">
+
+    <ImageView
+        android:id="@+id/iv_profile_badge_icon"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/img_badge_challenge_01"/>
+    
+    <TextView
+        android:id="@+id/tv_profile_badge_name"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:text="뱃지명"
+        android:maxLines="1"
+        android:gravity="center"
+        android:fontFamily="@font/font_style"
+        android:textFontWeight="400"
+        android:includeFontPadding="false"
+        android:textSize="13sp"
+        android:textColor="@color/text_primary"
+        />
+
+</LinearLayout>

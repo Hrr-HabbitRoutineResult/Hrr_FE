@@ -5,16 +5,41 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.hrr_android.databinding.FragmentProfileBadgeBinding
 
 class ProfileBadgeFragment : Fragment() {
     private lateinit var binding: FragmentProfileBadgeBinding
+    private var typeBadgeList = ArrayList<Badge>()
+    private var categoryBadgeList = ArrayList<Badge>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentProfileBadgeBinding.inflate(inflater, container, false)
+
+        typeBadgeList.apply {
+            add(Badge("오늘부터 챌린저", R.drawable.img_badge_challenge_01))
+            add(Badge("뱃지 이름이 이렇게 길어지면 어떻게 될까요", R.drawable.img_badge_challenge_01))
+        }
+
+        val typeBadgeRVAdapter = ProfileBadgeRVAdapter(typeBadgeList)
+        binding.rvProfileBadgeType.adapter = typeBadgeRVAdapter
+        binding.rvProfileBadgeType.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+
+        categoryBadgeList.apply {
+            add(Badge("프로 운동러", R.drawable.img_badge_health_03))
+            add(Badge("뱃지 이름이 이렇게 길어지면 어떻게 될까요", R.drawable.img_badge_health_03))
+        }
+
+        val categoryBadgeRVAdapter = ProfileBadgeRVAdapter(categoryBadgeList)
+        binding.rvProfileBadgeCategory.adapter = categoryBadgeRVAdapter
+        binding.rvProfileBadgeCategory.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+
+        if(typeBadgeList.size != 0 || categoryBadgeList.size != 0){
+            binding.tvProfileBadgeTitle.text = "마이 뱃지"
+        }
 
         return binding.root
     }
