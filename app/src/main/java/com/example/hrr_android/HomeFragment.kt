@@ -45,6 +45,9 @@ class HomeFragment : Fragment() {
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             adapter = categoryAdapter
         }
+
+        // 홈 화면에서만 사용하는 인기 챌린지 아이콘
+        binding.itemHomeChallengeSummary.ivChallengePopular.visibility = View.VISIBLE
     }
 
     override fun onDestroyView() {
