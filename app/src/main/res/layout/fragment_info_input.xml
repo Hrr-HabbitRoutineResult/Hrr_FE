@@ -28,7 +28,7 @@
                 android:id="@+id/tv_signup_email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="아이디"
+                android:text="이메일"
                 android:textSize="13sp"
                 android:fontFamily="@font/noto_sans_kr_medium"
                 android:includeFontPadding="false"
@@ -50,7 +50,7 @@
             android:id="@+id/et_signup_email"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:hint="아이디를 입력해주세요"
+            android:hint="정확한 주소의 이메일을 입력해주세요"
             android:background="@drawable/bg_input_field"
             android:padding="14dp"
             android:inputType="text"
@@ -60,19 +60,6 @@
             android:textColor="@color/text_tertiary"
             android:textCursorDrawable="@drawable/cursor_custom"
             android:layout_marginTop="9dp"/>
-
-        <!-- 이메일 안내 문구 -->
-        <TextView
-            android:id="@+id/tv_signup_email_helper"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="5dp"
-            android:text="6자~20자 이하, 영대소문자, 숫자 조합"
-            android:textSize="12sp"
-            android:fontFamily="@font/noto_sans_kr_regular"
-            android:includeFontPadding="false"
-            android:textColor="@color/text_tertiary"
-            android:layout_marginTop="7dp"/>
 
         <!-- 비밀번호 레이블 -->
         <LinearLayout
