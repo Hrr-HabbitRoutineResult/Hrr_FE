@@ -22,16 +22,17 @@ class SignUpActivity : AppCompatActivity() {
         binding = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // 프래그먼트 로드
+        // 약관동의 프래그먼트로 시작
         if (savedInstanceState == null) {
-            loadFragment(InfoInputFragment())
+            changeFragment(TermsFragment())
         }
     }
 
-    // 프래그먼트 로드 함수
-    private fun loadFragment(fragment: Fragment) {
+    // 프래그먼트 전환 함수
+    fun changeFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .replace(binding.fragmentContainer.id, fragment)
+            .addToBackStack(null)
             .commit()
     }
 }
