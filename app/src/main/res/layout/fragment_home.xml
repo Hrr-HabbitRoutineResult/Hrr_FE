@@ -230,6 +230,61 @@
                 android:layout_height="match_parent"/>
         </FrameLayout>
 
+        <!-- 인기 글 텍스트 -->
+        <TextView
+            android:id="@+id/tv_home_popular_post"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="45dp"
+            android:text="인기 글"
+            android:textSize="18sp"
+            android:textColor="@color/text_primary"
+            android:fontFamily="@font/noto_sans_kr_semi_bold"
+            android:includeFontPadding="false"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layout_home_popular_challenge" />
+
+        <!-- 더보기 텍스트 -->
+        <TextView
+            android:id="@+id/tv_home_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:text="더 보기"
+            android:textSize="13sp"
+            android:textColor="@color/text_tertiary"
+            android:fontFamily="@font/noto_sans_kr_medium"
+            android:includeFontPadding="false"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_home_more"
+            app:layout_constraintEnd_toEndOf="@id/iv_home_more"
+            app:layout_constraintTop_toTopOf="@+id/iv_home_more" />
+
+        <!-- 더보기 아이콘 -->
+        <ImageView
+            android:id="@+id/iv_home_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="45dp"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/ic_home_more"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_home_popular_post"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layout_home_popular_challenge" />
+
+        <!-- 인기글 섹션 -->
+        <ImageView
+            android:id="@+id/iv_home_popular_post"
+            android:layout_width="match_parent"
+            android:layout_height="230dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="30dp"
+            android:src="@drawable/bg_square_grey_15"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_home_popular_post" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>
