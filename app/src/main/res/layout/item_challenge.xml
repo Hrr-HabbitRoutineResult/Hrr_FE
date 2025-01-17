@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="90dp"
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="20dp">
+
+    <!-- 왼쪽 상단: 챌린지 타이틀 및 아이콘 -->
+    <TextView
+        android:id="@+id/tv_challenge_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="챌린지 타이틀"
+        android:textSize="16sp"
+        android:textColor="@color/text_primary"
+        android:fontFamily="@font/noto_sans_kr_semi_bold"
+        android:includeFontPadding="false"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <!-- 스터디 챌린지 아이콘 -->
+    <ImageView
+        android:id="@+id/ic_challenge_study"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:src="@drawable/ic_challenge_study"
+        android:visibility="visible"
+        app:layout_constraintStart_toEndOf="@id/tv_challenge_title"
+        app:layout_constraintTop_toTopOf="@id/tv_challenge_title"
+        app:layout_constraintBottom_toBottomOf="@id/tv_challenge_title"/>
+
+    <FrameLayout
+        android:id="@+id/layout_challenge_icons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        app:layout_constraintStart_toEndOf="@id/ic_challenge_study"
+        app:layout_constraintTop_toTopOf="@id/ic_challenge_study"
+        app:layout_constraintBottom_toBottomOf="@id/ic_challenge_study">
+
+        <!-- 글 인증 아이콘 -->
+        <ImageView
+            android:id="@+id/iv_challenge_write"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:src="@drawable/ic_challenge_pen"
+            android:visibility="gone" />
+
+        <!-- 사진 인증 아이콘 -->
+        <ImageView
+            android:id="@+id/iv_challenge_camera"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:src="@drawable/ic_challenge_camera"
+            android:visibility="visible" />
+    </FrameLayout>
+
+    <!-- 인기 챌린지 아이콘 (홈화면에서만 사용) -->
+    <ImageView
+        android:id="@+id/iv_challenge_popular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:src="@drawable/ic_challenge_fire"
+        android:visibility="gone"
+        app:layout_constraintStart_toEndOf="@id/layout_challenge_icons"
+        app:layout_constraintTop_toTopOf="@id/layout_challenge_icons"
+        app:layout_constraintBottom_toBottomOf="@id/layout_challenge_icons" />
+
+    <!-- 왼쪽 하단: 챌린지 설명 -->
+    <TextView
+        android:id="@+id/tv_challenge_describe"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="챌린지 설명 (챌린지 주기 텍스트랑 겹치는지 확인하려고 텍스트를 길게 작성해 봅니다)"
+        android:textSize="12sp"
+        android:textColor="@color/text_tertiary"
+        android:fontFamily="@font/noto_sans_kr_regular"
+        android:includeFontPadding="false"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tv_challenge_cycle" />
+
+    <!-- 오른쪽 상단: 참여 인원-->
+    <TextView
+        android:id="@+id/tv_challenge_people"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="99 / 100"
+        android:textSize="12sp"
+        android:textColor="@color/text_secondary"
+        android:fontFamily="@font/noto_sans_kr_regular"
+        android:includeFontPadding="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <ImageView
+        android:id="@+id/ic_challenge_person"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_challenge_person"
+        android:layout_marginEnd="5dp"
+        app:layout_constraintEnd_toStartOf="@id/tv_challenge_people"
+        app:layout_constraintTop_toTopOf="@id/tv_challenge_people"
+        app:layout_constraintBottom_toBottomOf="@id/tv_challenge_people"/>
+
+    <!-- 오른쪽 하단: 주기 및 기간 -->
+    <TextView
+        android:id="@+id/tv_challenge_cycle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="매일 | 6개월"
+        android:textSize="12sp"
+        android:textColor="@color/text_secondary"
+        android:fontFamily="@font/noto_sans_kr_regular"
+        android:includeFontPadding="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
