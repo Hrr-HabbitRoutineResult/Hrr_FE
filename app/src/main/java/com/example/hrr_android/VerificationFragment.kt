@@ -24,9 +24,9 @@ class VerificationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // 가입정보 입력 화면으로 이동
         binding.btnVerificationNext.setOnClickListener {
-            (activity as? SignUpActivity)?.changeFragment(InfoInputFragment())
+            (activity as? SignUpActivity)?.updateProgress(75, "가입정보 입력")  // 진행상태 업데이트
+            (activity as? SignUpActivity)?.changeFragment(InfoInputFragment())  // 가입정보 입력 프래그먼트로 이동
         }
 
     }

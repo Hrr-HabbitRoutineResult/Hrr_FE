@@ -25,14 +25,21 @@ class SignUpActivity : AppCompatActivity() {
         // 약관동의 프래그먼트로 시작
         if (savedInstanceState == null) {
             changeFragment(TermsFragment())
+            updateProgress(25, "약관동의")
         }
     }
 
     // 프래그먼트 전환 함수
     fun changeFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
-            .replace(binding.fragmentContainer.id, fragment)
+            .replace(binding.layoutSignupFragment.id, fragment)
             .addToBackStack(null)
             .commit()
+    }
+
+    // 진행도 및 단계 업데이트 함수
+    fun updateProgress(progress: Int, title: String) {
+        binding.pbSignupStep.progress = progress   // ProgressBar 업데이트
+        binding.tvSignupStepTitle.text = title   // 단계 업데이트
     }
 }
