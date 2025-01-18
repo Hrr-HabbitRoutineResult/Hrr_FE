@@ -12,6 +12,7 @@ import com.mikhaellopez.circularprogressbar.CircularProgressBar
 class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding
     private var tabs = arrayListOf("챌린지", "인증기록", "뱃지")
+    private var selectedBadges = ArrayList<Badge>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,6 +27,13 @@ class ProfileFragment : Fragment() {
         TabLayoutMediator(binding.tlProfile, binding.vpProfile){
             tab, position ->tab.text = tabs[position]
         }.attach()
+
+        //뱃지 더미 데이터
+        selectedBadges.apply {
+            add(Badge("오늘부터 챌린저", R.drawable.img_badge_challenge_01))
+            add(Badge("길어지면 어떻게 될까요", R.drawable.img_badge_challenge_01))
+            add(Badge("테스트", R.drawable.img_badge_challenge_01))
+        }
 
         return binding.root
     }
@@ -47,6 +55,36 @@ class ProfileFragment : Fragment() {
             progressBarColorDirection =
                 CircularProgressBar.GradientDirection.RIGHT_TO_LEFT
             setProgressWithAnimation(progressPercentage, 1000) // 1초 동안
+        }
+
+        when(selectedBadges.size){
+            0 -> {}
+            1 -> {
+                binding.ivProfileBadge01.setImageResource(selectedBadges[0].icon)
+                binding.tvProfileBadge01.text = selectedBadges[0].name
+            }
+            2 -> {
+                binding.llProfileBadge02.visibility = View.VISIBLE
+
+                binding.ivProfileBadge01.setImageResource(selectedBadges[0].icon)
+                binding.tvProfileBadge01.text = selectedBadges[0].name
+
+                binding.ivProfileBadge02.setImageResource(selectedBadges[1].icon)
+                binding.tvProfileBadge02.text = selectedBadges[1].name
+            }
+            3 -> {
+                binding.llProfileBadge02.visibility = View.VISIBLE
+                binding.llProfileBadge03.visibility = View.VISIBLE
+
+                binding.ivProfileBadge01.setImageResource(selectedBadges[0].icon)
+                binding.tvProfileBadge01.text = selectedBadges[0].name
+
+                binding.ivProfileBadge02.setImageResource(selectedBadges[1].icon)
+                binding.tvProfileBadge02.text = selectedBadges[1].name
+
+                binding.ivProfileBadge03.setImageResource(selectedBadges[2].icon)
+                binding.tvProfileBadge03.text = selectedBadges[2].name
+            }
         }
     }
 
