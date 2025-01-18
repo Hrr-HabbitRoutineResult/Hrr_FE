@@ -5,8 +5,7 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context=".ProfileChallengeFragment"
-    android:paddingBottom="77dp">
+    tools:context=".ProfileChallengeFragment">
 
     <!-- 참가중인 챌린지 -->
     <TextView
@@ -168,19 +167,20 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_profile_completedChallenge_content_no"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/tv_profile_completedChallenge_title"
         android:layout_marginTop="15dp"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginEnd="16dp"
-        android:visibility="gone">
+        android:visibility="gone"
+        android:paddingBottom="77dp">
 
         <ImageView
             android:id="@+id/iv_profile_completedChallenge_default_bg"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="120dp"
             android:src="@drawable/profile_challenge_default_bg"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -215,7 +215,7 @@
             app:layout_constraintEnd_toEndOf="@+id/iv_profile_completedChallenge_default_bg"
             android:layout_marginTop="1dp"
             android:layout_marginStart="97dp"
-            android:layout_marginEnd="97dp"/>
+            android:layout_marginEnd="97dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -233,6 +233,7 @@
         android:layout_marginEnd="16dp"
         tools:listitem="@layout/item_profile_completed_challenge"
         android:visibility="visible"
-        android:clipToPadding="false"/>
+        android:clipToPadding="false"
+        android:paddingBottom="62dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

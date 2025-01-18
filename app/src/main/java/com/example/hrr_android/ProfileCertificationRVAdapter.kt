@@ -30,9 +30,17 @@ class ProfileCertificationRVAdapter (private val certificationList : ArrayList<C
             binding.tvProfileCertificationRecordContentName.text = certification.challengeName
             binding.tvProfileCertificationRecordContentTitle.text = certification.title
             binding.tvProfileCertificationRecordContentDate.text = certification.date
-            binding.ivProfileCertificationRecordContentImg.setImageResource(certification.coverimg)
+            if(certification.coverimg == null){
+                binding.ivProfileCertificationRecordContentImg.visibility = View.INVISIBLE
+            }
+            else{
+                binding.ivProfileCertificationRecordContentImg.setImageResource(certification.coverimg!!)
+            }
             if(!certification.hasLink){
                 binding.ivProfileCertificationRecordLink.visibility = View.INVISIBLE
+            }
+            if(certification.title==""){
+                binding.llProfileCertificationTitleAndLink.visibility = View.GONE
             }
         }
     }
