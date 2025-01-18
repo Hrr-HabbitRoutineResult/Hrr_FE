@@ -146,7 +146,8 @@
             android:layout_marginTop="15dp"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="2dp"
-            tools:listitem="@layout/item_profile_badge"/>
+            tools:listitem="@layout/item_profile_badge"
+            android:clipToPadding="false"/>
 
         <TextView
             android:id="@+id/tv_profile_badge_content_category"
@@ -172,7 +173,8 @@
             android:layout_marginTop="15dp"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="2dp"
-            tools:listitem="@layout/item_profile_badge"/>
+            tools:listitem="@layout/item_profile_badge"
+            android:clipToPadding="false"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
