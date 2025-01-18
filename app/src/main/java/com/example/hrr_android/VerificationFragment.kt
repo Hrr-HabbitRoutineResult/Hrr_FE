@@ -31,8 +31,7 @@ class VerificationFragment : Fragment() {
     }
 
     override fun onDestroyView() {
-        binding.btnVerificationNext.setOnClickListener(null)
-        _binding = null
         super.onDestroyView()
+        _binding = null
     }
 }

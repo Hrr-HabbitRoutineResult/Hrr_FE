@@ -63,9 +63,8 @@ class TermsFragment : Fragment() {
     }
 
     override fun onDestroyView() {
-        binding.btnTermsNext.setOnClickListener(null)
-        _binding = null
         super.onDestroyView()
+        _binding = null
     }
 
     // 전체 동의 체크박스 상태 동기화

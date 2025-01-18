@@ -95,9 +95,8 @@ class InfoInputFragment : Fragment() {
     }
 
     override fun onDestroyView() {
-        binding.btnInfoInputNext.setOnClickListener(null)
-        _binding = null
         super.onDestroyView()
+        _binding = null
     }
 
     // 이메일 유효성 검사 함수
