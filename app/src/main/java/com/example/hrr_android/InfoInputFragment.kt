@@ -34,6 +34,7 @@ class InfoInputFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val defaultTextColor = ContextCompat.getColor(requireContext(), R.color.text_tertiary)
+        val defaultBackground = ContextCompat.getDrawable(requireContext(), R.drawable.bg_input_field)
 
         // 이메일 실시간 유효성 검사
         binding.etSignupEmail.addTextChangedListener {
@@ -41,10 +42,14 @@ class InfoInputFragment : Fragment() {
             isEmailValid = if (!isValidEmail(email)) {  // 이메일 형식에 부합하지 않을 때
                 binding.tvSignupEmailHelper.text = "올바른 이메일 주소를 입력해 주세요."
                 binding.tvSignupEmailHelper.setTextColor(ContextCompat.getColor(requireContext(), R.color.sub_01))
+                binding.ivSignupEmailError.visibility = View.VISIBLE
+                binding.etSignupEmail.background = ContextCompat.getDrawable(requireContext(), R.drawable.bg_input_field_error)
                 false
             } else {  // 이메일 형식에 부합할 때
                 binding.tvSignupEmailHelper.text = ""
                 binding.tvSignupEmailHelper.setTextColor(defaultTextColor)
+                binding.ivSignupEmailError.visibility = View.GONE
+                binding.etSignupEmail.background = defaultBackground
                 true
             }
         }
@@ -55,10 +60,14 @@ class InfoInputFragment : Fragment() {
             isPasswordValid = if (!isValidPassword(password)) {  // 비밀번호 형식에 부합하지 않을 때
                 binding.tvSignupPasswordHelper.text = "사용 가능한 비밀번호 조합을 입력해 주세요"
                 binding.tvSignupPasswordHelper.setTextColor(ContextCompat.getColor(requireContext(), R.color.sub_01))
+                binding.ivSignupPasswordError.visibility = View.VISIBLE
+                binding.etSignupPassword.background = ContextCompat.getDrawable(requireContext(), R.drawable.bg_input_field_error)
                 false
             } else {  // 비밀번호 형식에 부합할 때
                 binding.tvSignupPasswordHelper.text = ""
                 binding.tvSignupPasswordHelper.setTextColor(defaultTextColor)
+                binding.ivSignupPasswordError.visibility = View.GONE
+                binding.etSignupPassword.background = defaultBackground
                 true
             }
         }
@@ -76,6 +85,8 @@ class InfoInputFragment : Fragment() {
                 // 조건 미충족 시 에러 메시지
                 if (!isPasswordMatch) {
                     binding.tvSignupConfirmHelper.visibility = View.VISIBLE
+                    binding.ivSignupConfirmError.visibility = View.VISIBLE
+                    binding.etSignupPasswordConfirm.background = ContextCompat.getDrawable(requireContext(), R.drawable.bg_input_field_error)
                 } else {
                     Toast.makeText(requireContext(), "입력 정보를 다시 확인해주세요.", Toast.LENGTH_SHORT).show()
                 }

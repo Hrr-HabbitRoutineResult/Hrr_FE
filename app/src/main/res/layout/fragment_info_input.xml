@@ -45,22 +45,39 @@
                 android:textColor="@color/sub_01"/>
         </LinearLayout>
 
-        <!-- 이메일 입력 필드 -->
-        <EditText
-            android:id="@+id/et_signup_email"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:hint="이메일을 입력해주세요"
-            android:background="@drawable/bg_input_field"
-            android:padding="14dp"
-            android:inputType="text"
-            android:textSize="15sp"
-            android:fontFamily="@font/noto_sans_kr_regular"
-            android:includeFontPadding="false"
-            android:textColorHint="@color/text_tertiary"
-            android:textColor="@color/text_primary"
-            android:textCursorDrawable="@drawable/cursor_custom"
-            android:layout_marginTop="9dp"/>
+            android:layout_marginTop="9dp">
+
+            <!-- 이메일 입력 필드 -->
+            <EditText
+                android:id="@+id/et_signup_email"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="이메일을 입력해주세요"
+                android:background="@drawable/bg_input_field"
+                android:paddingStart="14dp"
+                android:paddingEnd="40dp"
+                android:inputType="textEmailAddress"
+                android:textSize="14sp"
+                android:fontFamily="@font/noto_sans_kr_regular"
+                android:includeFontPadding="false"
+                android:textColorHint="@color/text_tertiary"
+                android:textColor="@color/text_primary"
+                android:textCursorDrawable="@drawable/cursor_custom" />
+
+            <!-- 이메일 유효성 검사 결과 에러 아이콘 -->
+            <ImageView
+                android:id="@+id/iv_signup_email_error"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginEnd="14dp"
+                android:src="@drawable/ic_signup_error"
+                android:visibility="gone" />
+        </FrameLayout>
+
 
         <!-- 이메일 안내 문구 -->
         <TextView
@@ -103,22 +120,39 @@
                 android:textColor="@color/sub_01"/>
         </LinearLayout>
 
-        <!-- 비밀번호 입력 필드 -->
-        <EditText
-            android:id="@+id/et_signup_password"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:hint="비밀번호를 입력해주세요"
-            android:background="@drawable/bg_input_field"
-            android:padding="14dp"
-            android:inputType="textPassword"
-            android:textSize="15sp"
-            android:fontFamily="@font/noto_sans_kr_regular"
-            android:includeFontPadding="false"
-            android:textColorHint="@color/text_tertiary"
-            android:textColor="@color/text_primary"
-            android:textCursorDrawable="@drawable/cursor_custom"
-            android:layout_marginTop="9dp"/>
+            android:layout_marginTop="9dp">
+
+            <!-- 비밀번호 입력 필드 -->
+            <EditText
+                android:id="@+id/et_signup_password"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="비밀번호를 입력해주세요"
+                android:background="@drawable/bg_input_field"
+                android:paddingStart="14dp"
+                android:paddingEnd="40dp"
+                android:inputType="textPassword"
+                android:textSize="14sp"
+                android:fontFamily="@font/noto_sans_kr_regular"
+                android:includeFontPadding="false"
+                android:textColorHint="@color/text_tertiary"
+                android:textColor="@color/text_primary"
+                android:textCursorDrawable="@drawable/cursor_custom" />
+
+            <!-- 비밀번호 유효성 검사 결과 에러 아이콘 -->
+            <ImageView
+                android:id="@+id/iv_signup_password_error"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginEnd="14dp"
+                android:src="@drawable/ic_signup_error"
+                android:visibility="gone" />
+        </FrameLayout>
+
 
         <!-- 비밀번호 안내 문구 -->
         <TextView
@@ -161,22 +195,39 @@
                 android:textColor="@color/sub_01"/>
         </LinearLayout>
 
-        <!-- 비밀번호 확인 입력 필드 -->
-        <EditText
-            android:id="@+id/et_signup_password_confirm"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:hint="비밀번호를 다시 입력해주세요"
-            android:background="@drawable/bg_input_field"
-            android:padding="14dp"
-            android:inputType="textPassword"
-            android:textSize="15sp"
-            android:fontFamily="@font/noto_sans_kr_regular"
-            android:includeFontPadding="false"
-            android:textColorHint="@color/text_tertiary"
-            android:textColor="@color/text_primary"
-            android:textCursorDrawable="@drawable/cursor_custom"
-            android:layout_marginTop="9dp"/>
+            android:layout_marginTop="9dp">
+
+            <!-- 비밀번호 확인 입력 필드 -->
+            <EditText
+                android:id="@+id/et_signup_password_confirm"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="비밀번호를 다시 입력해주세요"
+                android:background="@drawable/bg_input_field"
+                android:paddingStart="14dp"
+                android:paddingEnd="40dp"
+                android:inputType="textPassword"
+                android:textSize="14sp"
+                android:fontFamily="@font/noto_sans_kr_regular"
+                android:includeFontPadding="false"
+                android:textColorHint="@color/text_tertiary"
+                android:textColor="@color/text_primary"
+                android:textCursorDrawable="@drawable/cursor_custom" />
+
+            <!-- 비밀번호 확인 유효성 검사 아이콘 -->
+            <ImageView
+                android:id="@+id/iv_signup_confirm_error"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginEnd="14dp"
+                android:src="@drawable/ic_signup_error"
+                android:visibility="gone" />
+        </FrameLayout>
+
 
         <!-- 비밀번호 확인 에러 문구 -->
         <TextView
