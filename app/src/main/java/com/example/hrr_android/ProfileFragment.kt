@@ -22,9 +22,6 @@ class ProfileFragment : Fragment() {
         val profileVPAdapter = ProfileVPAdapter(this)
         binding.vpProfile.adapter = profileVPAdapter
 
-//        binding.nsProfile.requestDisallowInterceptTouchEvent(true)
-//        binding.vpProfile.requestDisallowInterceptTouchEvent(true)
-
         //탭 제목 설정
         TabLayoutMediator(binding.tlProfile, binding.vpProfile){
             tab, position ->tab.text = tabs[position]
