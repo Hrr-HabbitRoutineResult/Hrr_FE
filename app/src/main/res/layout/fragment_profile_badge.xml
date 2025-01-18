@@ -68,7 +68,7 @@
         android:layout_marginStart="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginEnd="16dp"
-        android:visibility="gone"
+        android:visibility="visible"
         android:paddingBottom="79dp">
 
         <ImageView
@@ -123,7 +123,7 @@
         android:layout_marginStart="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginEnd="16dp"
-        android:visibility="visible"
+        android:visibility="gone"
         android:paddingBottom="70dp">
 
         <TextView

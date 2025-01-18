@@ -51,12 +51,12 @@
         android:layout_marginStart="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginEnd="16dp"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <ImageView
             android:id="@+id/iv_profile_challenge_default_bg"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="120dp"
             android:src="@drawable/profile_challenge_default_bg"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -110,7 +110,7 @@
         app:layout_constraintBottom_toTopOf="@+id/tv_profile_completedChallenge_title"
         android:layout_marginBottom="45dp"
         tools:listitem="@layout/item_profile_participating_challenge"
-        android:visibility="visible"
+        android:visibility="gone"
         android:clipToPadding="false"/>
 
     <!-- 최근 완주한 챌린지 -->
@@ -174,7 +174,7 @@
         android:layout_marginStart="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginEnd="16dp"
-        android:visibility="gone"
+        android:visibility="visible"
         android:paddingBottom="77dp">
 
         <ImageView
@@ -232,7 +232,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginEnd="16dp"
         tools:listitem="@layout/item_profile_completed_challenge"
-        android:visibility="visible"
+        android:visibility="gone"
         android:clipToPadding="false"
         android:paddingBottom="62dp"/>
 

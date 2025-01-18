@@ -19,26 +19,39 @@ class ProfileBadgeFragment : Fragment() {
     ): View? {
         binding = FragmentProfileBadgeBinding.inflate(inflater, container, false)
 
-        typeBadgeList.apply {
-            add(Badge("오늘부터 챌린저", R.drawable.img_badge_challenge_01))
-            add(Badge("뱃지 이름이 이렇게 길어지면 어떻게 될까요", R.drawable.img_badge_challenge_01))
-        }
+//        typeBadgeList.apply {
+//            add(Badge("오늘부터 챌린저", R.drawable.img_badge_challenge_01))
+//            add(Badge("뱃지 이름이 이렇게 길어지면 어떻게 될까요", R.drawable.img_badge_challenge_01))
+//        }
 
         val typeBadgeRVAdapter = ProfileBadgeRVAdapter(typeBadgeList)
         binding.rvProfileBadgeType.adapter = typeBadgeRVAdapter
         binding.rvProfileBadgeType.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
-        categoryBadgeList.apply {
-            add(Badge("프로 운동러", R.drawable.img_badge_health_03))
-            add(Badge("뱃지 이름이 이렇게 길어지면 어떻게 될까요", R.drawable.img_badge_health_03))
-        }
+//        categoryBadgeList.apply {
+//            add(Badge("프로 운동러", R.drawable.img_badge_health_03))
+//            add(Badge("뱃지 이름이 이렇게 길어지면 어떻게 될까요", R.drawable.img_badge_health_03))
+//        }
 
         val categoryBadgeRVAdapter = ProfileBadgeRVAdapter(categoryBadgeList)
         binding.rvProfileBadgeCategory.adapter = categoryBadgeRVAdapter
         binding.rvProfileBadgeCategory.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
+        //데이터 유무 판단하여 뷰 전환
         if(typeBadgeList.size != 0 || categoryBadgeList.size != 0){
             binding.tvProfileBadgeTitle.text = "마이 뱃지"
+        }
+
+        if(typeBadgeList.size != 0){
+            binding.clProfileBadgeContentNo.visibility = View.GONE
+            binding.clProfileBadgeMy.visibility = View.VISIBLE
+            binding.rvProfileBadgeType.visibility = View.VISIBLE
+        }
+
+        if(categoryBadgeList.size != 0){
+            binding.clProfileBadgeContentNo.visibility = View.GONE
+            binding.clProfileBadgeMy.visibility = View.VISIBLE
+            binding.rvProfileBadgeCategory.visibility = View.VISIBLE
         }
 
         return binding.root

@@ -68,7 +68,7 @@
         android:layout_marginStart="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginEnd="16dp"
-        android:visibility="gone"
+        android:visibility="visible"
         android:paddingBottom="79dp">
 
         <ImageView
@@ -125,7 +125,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         tools:listitem="@layout/item_profile_certification_recored"
         android:clipToPadding="true"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         android:paddingBottom="44dp"/>
 
