@@ -95,7 +95,7 @@
 
         <TextView
             android:id="@+id/tv_profile_badge_no"
-            android:layout_width="137dp"
+            android:layout_width="wrap_content"
             android:layout_height="19dp"
             android:text="아직 획득한 뱃지가 없어요"
             android:textSize="13sp"

@@ -97,7 +97,7 @@
 
         <TextView
             android:id="@+id/tv_profile_certification_record_no"
-            android:layout_width="111dp"
+            android:layout_width="wrap_content"
             android:layout_height="19dp"
             android:text="인증한 기록이 없어요"
             android:textSize="13sp"
