@@ -16,7 +16,7 @@ class ProfileBadgeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentProfileBadgeBinding.inflate(inflater, container, false)
 
 //        typeBadgeList.apply {
@@ -39,19 +39,29 @@ class ProfileBadgeFragment : Fragment() {
 
         //데이터 유무 판단하여 뷰 전환
         if(typeBadgeList.size != 0 || categoryBadgeList.size != 0){
-            binding.tvProfileBadgeTitle.text = "마이 뱃지"
-        }
-
-        if(typeBadgeList.size != 0){
+            //뱃지 획득
             binding.clProfileBadgeContentNo.visibility = View.GONE
             binding.clProfileBadgeMy.visibility = View.VISIBLE
-            binding.rvProfileBadgeType.visibility = View.VISIBLE
-        }
 
-        if(categoryBadgeList.size != 0){
-            binding.clProfileBadgeContentNo.visibility = View.GONE
-            binding.clProfileBadgeMy.visibility = View.VISIBLE
-            binding.rvProfileBadgeCategory.visibility = View.VISIBLE
+            if(typeBadgeList.size != 0 && categoryBadgeList.size != 0){
+                //유형, 카테고리 뱃지 모두 획득
+                binding.rvProfileBadgeType.visibility = View.VISIBLE
+                binding.rvProfileBadgeCategory.visibility = View.VISIBLE
+                binding.clProfileBadgeTypeNo.visibility = View.GONE
+                binding.clProfileBadgeCategoryNo.visibility = View.GONE
+            }
+
+            else if(typeBadgeList.size != 0 && categoryBadgeList.size == 0){
+                //유형 뱃지 획득
+                binding.rvProfileBadgeType.visibility = View.VISIBLE
+                binding.clProfileBadgeTypeNo.visibility = View.GONE
+            }
+
+            else if(typeBadgeList.size == 0 && categoryBadgeList.size != 0){
+                //카테고리 뱃지 획득
+                binding.rvProfileBadgeCategory.visibility = View.VISIBLE
+                binding.clProfileBadgeCategoryNo.visibility = View.GONE
+            }
         }
 
         return binding.root

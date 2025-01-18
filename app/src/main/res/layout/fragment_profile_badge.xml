@@ -8,9 +8,9 @@
 
     <TextView
         android:id="@+id/tv_profile_badge_title"
-        android:layout_width="86dp"
+        android:layout_width="wrap_content"
         android:layout_height="26dp"
-        android:text="획득한 뱃지"
+        android:text="마이 뱃지"
         android:textColor="@color/text_primary"
         android:fontFamily="@font/font_style"
         android:textFontWeight="600"
@@ -18,10 +18,8 @@
         android:textSize="18sp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="38dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="258dp"/>
+        android:layout_marginStart="16dp" />
 
     <LinearLayout
         android:id="@+id/ll_profile_badge_more"
@@ -68,7 +66,7 @@
         android:layout_marginStart="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginEnd="16dp"
-        android:visibility="visible"
+        android:visibility="gone"
         android:paddingBottom="79dp">
 
         <ImageView
@@ -123,7 +121,7 @@
         android:layout_marginStart="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginEnd="16dp"
-        android:visibility="gone"
+        android:visibility="visible"
         android:paddingBottom="70dp">
 
         <TextView
@@ -139,6 +137,62 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_profile_badge_type_no"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/tv_profile_badge_content_type"
+            android:layout_marginTop="15dp"
+            app:layout_constraintBottom_toTopOf="@+id/tv_profile_badge_content_category"
+            android:layout_marginBottom="43dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="16dp"
+            android:visibility="visible">
+
+            <ImageView
+                android:id="@+id/iv_profile_challenge_default_bg"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:src="@drawable/profile_challenge_default_bg"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                />
+
+            <ImageView
+                android:id="@+id/iv_profile_participatingChallenge_no"
+                android:layout_width="50dp"
+                android:layout_height="63.11dp"
+                android:src="@drawable/ic_profile_no_data"
+                app:layout_constraintTop_toTopOf="@+id/iv_profile_challenge_default_bg"
+                app:layout_constraintStart_toStartOf="@+id/iv_profile_challenge_default_bg"
+                app:layout_constraintEnd_toEndOf="@+id/iv_profile_challenge_default_bg"
+                app:layout_constraintBottom_toBottomOf="@id/iv_profile_challenge_default_bg"
+                android:layout_marginTop="18.95dp"
+                android:layout_marginBottom="37.95dp"
+                android:layout_marginStart="139dp"
+                android:layout_marginEnd="139dp"/>
+
+            <TextView
+                android:id="@+id/tv_profile_participatingChallenge_no"
+                android:layout_width="wrap_content"
+                android:layout_height="19dp"
+                android:text="아직 획득한 뱃지가 없어요"
+                android:textSize="13sp"
+                android:fontFamily="@font/font_style"
+                android:textFontWeight="400"
+                android:includeFontPadding="false"
+                app:layout_constraintTop_toBottomOf="@+id/iv_profile_participatingChallenge_no"
+                app:layout_constraintStart_toStartOf="@+id/iv_profile_challenge_default_bg"
+                app:layout_constraintEnd_toEndOf="@+id/iv_profile_challenge_default_bg"
+                android:layout_marginTop="1dp"
+                android:layout_marginStart="97dp"
+                android:layout_marginEnd="97dp"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_profile_badge_type"
             android:layout_width="match_parent"
@@ -149,8 +203,10 @@
             android:layout_marginTop="15dp"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="2dp"
+            app:layout_constraintBottom_toTopOf="@+id/tv_profile_badge_content_category"
             tools:listitem="@layout/item_profile_badge"
-            android:clipToPadding="false"/>
+            android:clipToPadding="false"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/tv_profile_badge_content_category"
@@ -166,6 +222,61 @@
             android:layout_marginTop="45dp"
             app:layout_constraintStart_toStartOf="parent"/>
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_profile_badge_category_no"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/tv_profile_badge_content_category"
+            android:layout_marginTop="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="16dp"
+            android:visibility="visible"
+            android:paddingBottom="54dp">
+
+            <ImageView
+                android:id="@+id/iv_profile_completedChallenge_default_bg"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:src="@drawable/profile_challenge_default_bg"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <ImageView
+                android:id="@+id/iv_profile_completedChallenge_no"
+                android:layout_width="50dp"
+                android:layout_height="63.11dp"
+                android:src="@drawable/ic_profile_no_data"
+                app:layout_constraintTop_toTopOf="@+id/iv_profile_completedChallenge_default_bg"
+                app:layout_constraintStart_toStartOf="@+id/iv_profile_completedChallenge_default_bg"
+                app:layout_constraintEnd_toEndOf="@+id/iv_profile_completedChallenge_default_bg"
+                app:layout_constraintBottom_toBottomOf="@id/iv_profile_completedChallenge_default_bg"
+                android:layout_marginTop="18.95dp"
+                android:layout_marginBottom="37.95dp"
+                android:layout_marginStart="139dp"
+                android:layout_marginEnd="139dp"/>
+
+            <TextView
+                android:id="@+id/tv_profile_completedChallenge_no"
+                android:layout_width="wrap_content"
+                android:layout_height="19dp"
+                android:text="아직 획득한 뱃지가 없어요"
+                android:textSize="13sp"
+                android:fontFamily="@font/font_style"
+                android:textFontWeight="400"
+                android:includeFontPadding="false"
+                app:layout_constraintTop_toBottomOf="@+id/iv_profile_completedChallenge_no"
+                app:layout_constraintStart_toStartOf="@+id/iv_profile_completedChallenge_default_bg"
+                app:layout_constraintEnd_toEndOf="@+id/iv_profile_completedChallenge_default_bg"
+                android:layout_marginTop="1dp"
+                android:layout_marginStart="97dp"
+                android:layout_marginEnd="97dp" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_profile_badge_category"
             android:layout_width="match_parent"
@@ -177,7 +288,8 @@
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="2dp"
             tools:listitem="@layout/item_profile_badge"
-            android:clipToPadding="false"/>
+            android:clipToPadding="false"
+            android:visibility="gone"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
