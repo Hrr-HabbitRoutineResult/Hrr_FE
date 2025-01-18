@@ -23,7 +23,7 @@
 
     <TextView
         android:id="@+id/tv_profile_certification_record_content_title"
-        android:layout_width="wrap_content"
+        android:layout_width="62dp"
         android:layout_height="wrap_content"
         android:text="게시글 제목"
         android:textSize="13sp"
@@ -33,7 +33,9 @@
         android:includeFontPadding="false"
         app:layout_constraintTop_toBottomOf="@+id/tv_profile_certification_record_content_name"
         android:layout_marginTop="5dp"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        android:ellipsize="end"
+        android:maxLines="1"/>
 
     <ImageView
         android:layout_width="13dp"
@@ -60,13 +62,13 @@
 
     <ImageView
         android:id="@+id/iv_profile_certification_record_content_img"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:src="@drawable/img_running"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="2dp"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

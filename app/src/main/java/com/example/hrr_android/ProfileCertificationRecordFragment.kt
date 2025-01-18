@@ -19,6 +19,7 @@ class ProfileCertificationRecordFragment : Fragment() {
         binding = FragmentProfileCertificationRecordBinding.inflate(inflater, container, false)
 
         certificationList.apply {
+            add(Certification("챌린지명", "게시글 제목", "2024.12.31", R.drawable.img_running))
             add(Certification("Run To You", "마지막 인증합니다~^^", "2024.12.31", R.drawable.img_running))
             add(Certification("Run To You", "1년 만에 인증합니다~^^", "2025.01.01", R.drawable.img_running))
         }
