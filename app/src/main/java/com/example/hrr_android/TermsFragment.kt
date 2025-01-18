@@ -25,7 +25,6 @@ class TermsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnTermsNext.setOnClickListener {
-            (activity as? SignUpActivity)?.updateProgress(50, "본인인증")  // 진행상태 업데이트
             (activity as? SignUpActivity)?.changeFragment(VerificationFragment())  // 본인인증 프래그먼트로 이동
         }
     }

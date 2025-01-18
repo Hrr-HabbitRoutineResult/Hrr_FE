@@ -25,7 +25,6 @@ class VerificationFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnVerificationNext.setOnClickListener {
-            (activity as? SignUpActivity)?.updateProgress(75, "가입정보 입력")  // 진행상태 업데이트
             (activity as? SignUpActivity)?.changeFragment(InfoInputFragment())  // 가입정보 입력 프래그먼트로 이동
         }
 

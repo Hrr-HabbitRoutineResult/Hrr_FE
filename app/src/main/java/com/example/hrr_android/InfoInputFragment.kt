@@ -26,7 +26,6 @@ class InfoInputFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnInfoInputNext.setOnClickListener {
-            (activity as? SignUpActivity)?.updateProgress(100, "가입완료")  // 진행상태 업데이트
             (activity as? SignUpActivity)?.changeFragment(CompleteFragment())  //  가입완료 프래그먼트로 이동
         }
     }
