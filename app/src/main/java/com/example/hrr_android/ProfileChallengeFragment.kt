@@ -23,6 +23,7 @@ class ProfileChallengeFragment : Fragment() {
         participatingChallengeList.apply {
             add(Challenge("토익 800점", R.drawable.img_english_book, isCertified = false))
             add(Challenge("토익 900점 찍기. 쫄?", R.drawable.img_english_book, isCertified = true))
+            add(Challenge("열 자 제한 테스트", R.drawable.img_english_book, isCertified = true))
         }
         completedChallengeList.apply {
             add(Challenge("흑백 요리사 나가실 분", R.drawable.img_cook, "흑백요리사 시즌 4쯤에 나가는 걸 목표로"))
