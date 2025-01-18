@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.example.hrr_android.databinding.FragmentTermsBinding
 
 class TermsFragment : Fragment() {
@@ -24,8 +25,13 @@ class TermsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // 다음 버튼 클릭 시 유효성 검사
         binding.btnTermsNext.setOnClickListener {
-            (activity as? SignUpActivity)?.changeFragment(VerificationFragment())  // 본인인증 프래그먼트로 이동
+            if (isEssentialChecked()) {
+                (activity as? SignUpActivity)?.changeFragment(VerificationFragment())  // 본인인증 프래그먼트로 이동
+            } else {
+                Toast.makeText(context, "필수 약관에 모두 동의해 주세요.", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -33,5 +39,12 @@ class TermsFragment : Fragment() {
         binding.btnTermsNext.setOnClickListener(null)
         _binding = null
         super.onDestroyView()
+    }
+
+    // 필수 약관 동의 확인 함수
+    private fun isEssentialChecked(): Boolean {
+        return binding.cbServiceTerms.isChecked &&
+                binding.cbPrivacyTerms.isChecked &&
+                binding.cbAgeVerification.isChecked
     }
 }
