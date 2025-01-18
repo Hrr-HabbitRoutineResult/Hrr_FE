@@ -38,6 +38,7 @@
         android:maxLines="1"/>
 
     <ImageView
+        android:id="@+id/iv_profile_certification_record_link"
         android:layout_width="13dp"
         android:layout_height="13dp"
         android:src="@drawable/ic_with_link"

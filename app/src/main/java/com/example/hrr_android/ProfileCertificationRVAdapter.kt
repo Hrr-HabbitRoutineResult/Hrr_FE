@@ -1,6 +1,7 @@
 package com.example.hrr_android
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hrr_android.databinding.ItemProfileCertificationRecoredBinding
@@ -30,6 +31,9 @@ class ProfileCertificationRVAdapter (private val certificationList : ArrayList<C
             binding.tvProfileCertificationRecordContentTitle.text = certification.title
             binding.tvProfileCertificationRecordContentDate.text = certification.date
             binding.ivProfileCertificationRecordContentImg.setImageResource(certification.coverimg)
+            if(!certification.hasLink){
+                binding.ivProfileCertificationRecordLink.visibility = View.INVISIBLE
+            }
         }
     }
 }
