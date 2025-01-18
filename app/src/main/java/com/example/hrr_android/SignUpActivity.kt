@@ -47,7 +47,9 @@ class SignUpActivity : AppCompatActivity() {
     private fun handleBackPressed() {
         val currentFragment = supportFragmentManager.findFragmentById(binding.layoutSignupFragment.id) ?: return
         if (currentFragment is TermsFragment) {  // 약관동의 화면에서는 로그인 화면으로 이동
-            val intent = Intent(this@SignUpActivity, LoginActivity::class.java)
+            val intent = Intent(this@SignUpActivity, LoginActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+            }
             startActivity(intent)
             finish()
         } else {  // 그 외의 경우에는 프래그먼트로 뒤로가기
