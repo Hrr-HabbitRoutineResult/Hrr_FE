@@ -25,6 +25,28 @@ class TermsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // 전체 동의 체크박스 클릭 시 모든 체크박스 상태 변경
+        binding.cbAllAgree.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (buttonView.isPressed) {  // 사용자가 직접 클릭했을 때만 실행하도록 함
+                setAllChecked(isChecked)
+            }
+        }
+
+        // 개별 체크박스 상태 클릭 시 전체 동의 상태 변경
+        val checkBoxes = listOf(
+            binding.cbServiceTerms,
+            binding.cbPrivacyTerms,
+            binding.cbAgeVerification,
+            binding.cbThirdParty,
+            binding.cbMarketing
+        )
+
+        checkBoxes.forEach { checkBox ->
+            checkBox.setOnCheckedChangeListener { _, _ ->
+                updateAllChecked()
+            }
+        }
+
         // 다음 버튼 클릭 시 유효성 검사
         binding.btnTermsNext.setOnClickListener {
             if (isEssentialChecked()) {
@@ -39,6 +61,25 @@ class TermsFragment : Fragment() {
         binding.btnTermsNext.setOnClickListener(null)
         _binding = null
         super.onDestroyView()
+    }
+
+    // 전체 동의 체크박스 상태 동기화
+    private fun setAllChecked(isChecked: Boolean) {
+        binding.cbServiceTerms.isChecked = isChecked
+        binding.cbPrivacyTerms.isChecked = isChecked
+        binding.cbAgeVerification.isChecked = isChecked
+        binding.cbMarketing.isChecked = isChecked
+        binding.cbThirdParty.isChecked = isChecked
+    }
+
+    // 개별 체크박스 상태에 따라 전체동의 체크박스 상태 변동
+    private fun updateAllChecked() {
+        binding.cbAllAgree.isChecked =
+            binding.cbServiceTerms.isChecked &&
+                    binding.cbPrivacyTerms.isChecked &&
+                    binding.cbAgeVerification.isChecked &&
+                    binding.cbThirdParty.isChecked &&
+                    binding.cbMarketing.isChecked
     }
 
     // 필수 약관 동의 확인 함수
