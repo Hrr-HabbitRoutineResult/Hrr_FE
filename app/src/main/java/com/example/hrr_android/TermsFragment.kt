@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.hrr_android.databinding.FragmentTermsBinding
+import com.google.android.material.snackbar.Snackbar
 
 class TermsFragment : Fragment() {
     private var _binding: FragmentTermsBinding? = null
@@ -40,15 +41,10 @@ class TermsFragment : Fragment() {
             binding.cbMarketing
         )
 
-        // 체크박스 상태 변경 시 전체 동의 상태 업데이트 및 에러 메시지 숨김
+        // 체크박스 상태 변경 시 전체 동의 상태 업데이트
         checkBoxes.forEach { checkBox ->
             checkBox.setOnCheckedChangeListener { _, _ ->
                 updateAllChecked()
-
-                // 필수 항목이 모두 체크되었으면 에러 메시지 숨기기
-                if (isEssentialChecked()) {
-                    clearError()
-                }
             }
         }
 
@@ -57,7 +53,9 @@ class TermsFragment : Fragment() {
             if (isEssentialChecked()) {
                 (activity as? SignUpActivity)?.changeFragment(VerificationFragment())  // 본인인증 프래그먼트로 이동
             } else {
-                showError()
+                val snackbar = Snackbar.make(requireView(), "필수 약관에 모두 동의해 주세요.", Snackbar.LENGTH_SHORT)
+                snackbar.anchorView = binding.lineTerms  // 특정 버튼 위에 고정
+                snackbar.show()
             }
         }
     }
@@ -91,15 +89,5 @@ class TermsFragment : Fragment() {
         return binding.cbServiceTerms.isChecked &&
                 binding.cbPrivacyTerms.isChecked &&
                 binding.cbAgeVerification.isChecked
-    }
-
-    // 에러 메시지 출력 함수
-    private fun showError() {
-        binding.tvTermsError.visibility = View.VISIBLE
-    }
-
-    // 에러 메시지 숨김 함수
-    private fun clearError() {
-        binding.tvTermsError.visibility = View.GONE
     }
 }
