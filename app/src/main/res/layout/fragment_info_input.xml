@@ -220,8 +220,8 @@
             <!-- 비밀번호 확인 유효성 검사 아이콘 -->
             <ImageView
                 android:id="@+id/iv_signup_confirm_error"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="end|center_vertical"
                 android:layout_marginEnd="14dp"
                 android:src="@drawable/ic_signup_error"
