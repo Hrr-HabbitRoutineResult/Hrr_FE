@@ -5,10 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import com.example.hrr_android.databinding.FragmentInfoInputBinding
+import com.google.android.material.snackbar.Snackbar
 
 class InfoInputFragment : Fragment() {
 
@@ -91,7 +91,9 @@ class InfoInputFragment : Fragment() {
                     binding.tvSignupConfirmHelper.visibility = View.GONE
                     binding.ivSignupConfirmError.visibility = View.GONE
                     binding.etSignupPasswordConfirm.background = defaultBackground
-                    Toast.makeText(requireContext(), "입력 정보를 다시 확인해주세요.", Toast.LENGTH_SHORT).show()
+                    val snackbar = Snackbar.make(requireView(), "입력 정보를 다시 확인해주세요.", Snackbar.LENGTH_SHORT)
+                    snackbar.anchorView = binding.lineInfoInput  // 특정 버튼 위에 고정
+                    snackbar.show()
                 }
             }
         }

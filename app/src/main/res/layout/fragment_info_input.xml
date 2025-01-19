@@ -246,6 +246,7 @@
 
     <!-- 선 (구분선) -->
     <View
+        android:id="@+id/line_info_input"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginBottom="14dp"
