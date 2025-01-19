@@ -88,6 +88,9 @@ class InfoInputFragment : Fragment() {
                     binding.ivSignupConfirmError.visibility = View.VISIBLE
                     binding.etSignupPasswordConfirm.background = ContextCompat.getDrawable(requireContext(), R.drawable.bg_input_field_error)
                 } else {
+                    binding.tvSignupConfirmHelper.visibility = View.GONE
+                    binding.ivSignupConfirmError.visibility = View.GONE
+                    binding.etSignupPasswordConfirm.background = defaultBackground
                     Toast.makeText(requireContext(), "입력 정보를 다시 확인해주세요.", Toast.LENGTH_SHORT).show()
                 }
             }
