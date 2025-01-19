@@ -29,11 +29,11 @@ class ProfileFragment : Fragment() {
         }.attach()
 
         //뱃지 더미 데이터
-//        selectedBadges.apply {
-//            add(Badge("오늘부터 챌린저", R.drawable.img_badge_challenge_01))
-//            add(Badge("길어지면 어떻게 될까요", R.drawable.img_badge_challenge_01))
-//            add(Badge("테스트", R.drawable.img_badge_challenge_01))
-//        }
+        selectedBadges.apply {
+            add(Badge("프로 챌린저", R.drawable.img_badge_challenge_01))
+            add(Badge("수준급 스터디언", R.drawable.img_badge_challenge_01))
+            add(Badge("운동 스타터", R.drawable.img_badge_challenge_01))
+        }
 
         return binding.root
     }
