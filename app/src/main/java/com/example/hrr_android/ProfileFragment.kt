@@ -10,9 +10,9 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.mikhaellopez.circularprogressbar.CircularProgressBar
 
 class ProfileFragment : Fragment() {
-    private lateinit var binding: FragmentProfileBinding
-    private var tabs = arrayListOf("챌린지", "인증기록", "뱃지")
-    private var selectedBadges = ArrayList<Badge>()
+    private lateinit var binding: FragmentProfileBinding            //뷰 바인딩
+    private var tabs = arrayListOf("챌린지", "인증기록", "뱃지")        //탭 제목
+    private var selectedBadges = ArrayList<Badge>()                 //대표 뱃지 리스트
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -20,6 +20,7 @@ class ProfileFragment : Fragment() {
     ): View? {
         binding = FragmentProfileBinding.inflate(inflater, container, false)
 
+        //ViewPager2 Adapter 연결
         val profileVPAdapter = ProfileVPAdapter(this)
         binding.vpProfile.adapter = profileVPAdapter
 
@@ -28,7 +29,7 @@ class ProfileFragment : Fragment() {
             tab, position ->tab.text = tabs[position]
         }.attach()
 
-        //뱃지 더미 데이터
+        //뱃지 더미 데이터 - 테스트 시 주석 해제 or 설정
         selectedBadges.apply {
             add(Badge("프로 챌린저", R.drawable.img_badge_challenge_01))
             add(Badge("수준급 스터디언", R.drawable.img_badge_challenge_01))
@@ -41,6 +42,7 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // 레벨 달성률 반원 게이지 바
         val circularProgressBar = binding.cpbProfileLevelGauge
 
         // 레벨 달성률 수치
@@ -48,7 +50,7 @@ class ProfileFragment : Fragment() {
         val earnedPoint = 76
 
         // 퍼센트 계산
-        val progressPercentage = (earnedPoint / requiredPoint.toFloat()) * 50
+        val progressPercentage = (earnedPoint / requiredPoint.toFloat()) * 50       //반원이라 백분율의 절반만 사용
 
         // CircularProgressBar 설정 ; 그라데이션, 시간
         circularProgressBar.apply {
@@ -57,6 +59,7 @@ class ProfileFragment : Fragment() {
             setProgressWithAnimation(progressPercentage, 1000) // 1초 동안
         }
 
+        //설정한 대표 뱃지 개수에 따라 visibility 조정
         when(selectedBadges.size){
             0 -> {}
             1 -> {

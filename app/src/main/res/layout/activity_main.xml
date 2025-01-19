@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <!-- Fragment 띄울 뷰 -->
     <FrameLayout
         android:id="@+id/main_frame"
         android:layout_width="match_parent"
@@ -14,6 +15,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/main_bottom_navi">
 
+        <!-- 구분선 -->
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -21,6 +23,7 @@
             android:layout_gravity="bottom" />
     </FrameLayout>
 
+    <!-- 네비게이션 바 -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/main_bottom_navi"
         android:layout_width="match_parent"

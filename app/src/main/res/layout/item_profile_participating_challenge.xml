@@ -4,7 +4,8 @@
     android:layout_height="wrap_content"
     android:layout_marginStart="15dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    
+
+    <!-- 챌린지 대표 이미지 -->
     <androidx.cardview.widget.CardView
         android:id="@+id/cv_profile_participatingChallenge_item_bg"
         android:layout_width="250dp"
@@ -27,6 +28,7 @@
 
     </androidx.cardview.widget.CardView>
 
+    <!-- 챌린지명 -->
     <TextView
         android:id="@+id/tv_profile_participatingChallenge_title"
         android:layout_width="wrap_content"
@@ -44,7 +46,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/cv_profile_participatingChallenge_item_bg"
         android:layout_marginBottom="21dp"
         android:elevation="2dp"/>
-    
+
+    <!-- 미인증 상태 -->
     <ImageView
         android:id="@+id/iv_profile_participatingChallenge_unchecked"
         android:layout_width="40dp"
@@ -58,6 +61,7 @@
         android:layout_marginBottom="10dp"
         android:elevation="2dp" />
 
+    <!-- 인증 상태 -->
     <ImageView
         android:id="@+id/iv_profile_participatingChallenge_checked"
         android:layout_width="40dp"

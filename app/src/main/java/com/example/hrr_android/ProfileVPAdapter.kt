@@ -8,6 +8,7 @@ class ProfileVPAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 
     override fun createFragment(position: Int): Fragment {
         return when(position){
+            //ViewPager2 화면 전환
             0 -> ProfileChallengeFragment()
             1 -> ProfileCertificationRecordFragment()
             else -> ProfileBadgeFragment()

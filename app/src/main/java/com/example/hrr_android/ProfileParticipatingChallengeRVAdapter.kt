@@ -29,6 +29,8 @@ class ProfileParticipatingChallengeRVAdapter(private val challengeList : ArrayLi
         fun bind(challenge: Challenge){
             binding.ivProfileParticipatingChallenge.setImageResource(challenge.coverimg)
             binding.tvProfileParticipatingChallengeTitle.text = challenge.title
+
+            //인증 여부에 따라 체크 아이콘 변경
             if(challenge.isCertified){
                 binding.ivProfileParticipatingChallengeUnchecked.visibility = View.INVISIBLE
                 binding.ivProfileParticipatingChallengeChecked.visibility = View.VISIBLE

@@ -15,7 +15,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- Profile Frame -->
+    <!-- Profile Frame -->
+
+        <!-- 상단 배너 -->
         <FrameLayout
             android:id="@+id/fl_topBanner_profile"
             android:layout_width="match_parent"
@@ -25,6 +27,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <!-- 좌상단 로고 -->
         <ImageView
             android:id="@+id/iv_profile_logo"
             android:layout_width="25dp"
@@ -35,6 +38,7 @@
             app:layout_constraintStart_toStartOf="@+id/fl_topBanner_profile"
             app:layout_constraintTop_toTopOf="@+id/fl_topBanner_profile" />
 
+        <!-- 프로필 더보기 메뉴 -->
         <ImageView
             android:id="@+id/iv_profile_menu"
             android:layout_width="26dp"
@@ -45,6 +49,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <!-- 레벨 달성률 게이지 바 -->
         <com.mikhaellopez.circularprogressbar.CircularProgressBar
             android:id="@+id/cpb_profile_levelGauge"
             android:layout_width="124dp"
@@ -59,6 +64,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/fl_topBanner_profile" />
 
+        <!-- 유저 이미지 배경 -->
         <ImageView
             android:id="@+id/iv_profile_userBgImage"
             android:layout_width="102dp"
@@ -69,6 +75,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/fl_topBanner_profile" />
 
+        <!-- 유저 이미지 -->
         <ImageView
             android:id="@+id/iv_profile_userImage"
             android:layout_width="80dp"
@@ -79,6 +86,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/fl_topBanner_profile" />
 
+        <!-- 프로필 수정 -->
         <TextView
             android:id="@+id/tv_profile_edit"
             android:layout_width="92dp"
@@ -95,6 +103,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fl_topBanner_profile" />
 
+        <!-- 유저 닉네임 -->
         <TextView
             android:id="@+id/tv_profile_username"
             android:layout_width="wrap_content"
@@ -112,6 +121,7 @@
             android:textFontWeight="600"
             android:includeFontPadding="false"/>
 
+        <!-- 등급 버튼 -->
         <LinearLayout
             android:id="@+id/ll_profile_rank"
             android:layout_width="wrap_content"
@@ -139,6 +149,7 @@
                 android:src="@drawable/btn_rank_more" />
         </LinearLayout>
 
+        <!-- 팔로우 표기 -->
         <LinearLayout
             android:id="@+id/ll_profile_follow"
             android:layout_width="wrap_content"
@@ -185,6 +196,7 @@
 
         </LinearLayout>
 
+        <!-- 대표 뱃지 -->
         <LinearLayout
             android:id="@+id/ll_profile_badge"
             android:layout_width="wrap_content"
@@ -291,7 +303,8 @@
 
         </LinearLayout>
 
-        <!--Content Frame-->
+    <!--Content Frame-->
+        <!-- 챌린지, 인증기록, 뱃지 탭 -->
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tl_profile"
             android:layout_width="match_parent"

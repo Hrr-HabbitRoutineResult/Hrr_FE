@@ -13,6 +13,7 @@
         android:paddingStart="16dp"
         android:paddingEnd="16dp">
 
+        <!-- 왼쪽 텍스트 부분 -->
         <LinearLayout
             android:id="@+id/ll_profile_certification_content_text"
             android:layout_width="wrap_content"
@@ -22,6 +23,7 @@
             android:orientation="vertical"
             android:gravity="center_vertical">
 
+            <!-- 챌린지명, 제목, 링크 -->
             <LinearLayout
                 android:id="@+id/ll_profile_certification_name_title_and_link"
                 android:layout_width="wrap_content"
@@ -40,6 +42,7 @@
                     android:includeFontPadding="false"
                     android:layout_marginBottom="5dp"/>
 
+                <!-- 게시글 제목, 링크 -->
                 <LinearLayout
                     android:id="@+id/ll_profile_certification_title_and_link"
                     android:layout_width="wrap_content"
@@ -71,6 +74,7 @@
 
             </LinearLayout>
 
+            <!-- 인증 일자 -->
             <TextView
                 android:id="@+id/tv_profile_certification_record_content_date"
                 android:layout_width="wrap_content"
@@ -84,6 +88,7 @@
                 android:layout_marginTop="11dp"/>
         </LinearLayout>
 
+        <!-- 커버 이미지 -->
         <ImageView
             android:id="@+id/iv_profile_certification_record_content_img"
             android:layout_width="70dp"
@@ -95,6 +100,7 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <!-- 인증기록 RecyclerView 구분선 -->
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"

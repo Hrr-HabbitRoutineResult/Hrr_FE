@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.hrr_android.databinding.FragmentProfileCertificationRecordBinding
 
 class ProfileCertificationRecordFragment : Fragment() {
-    private lateinit var binding: FragmentProfileCertificationRecordBinding
-    private var certificationList = ArrayList<Certification>()
+    private lateinit var binding: FragmentProfileCertificationRecordBinding     //뷰 바인딩
+    private var certificationList = ArrayList<Certification>()                  //인증 기록
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -18,6 +18,7 @@ class ProfileCertificationRecordFragment : Fragment() {
     ): View? {
         binding = FragmentProfileCertificationRecordBinding.inflate(inflater, container, false)
 
+        // 인증 기록 더미 데이터 - 테스트 시 주석 해제 or 설정
         certificationList.apply {
             add(Certification("챌린지명", "게시글 제목", "2024.12.31", R.drawable.img_running, true))
             add(Certification("Run To You", "마지막 인증합니다~^^", "2024.12.31", R.drawable.img_running, true))
@@ -28,10 +29,12 @@ class ProfileCertificationRecordFragment : Fragment() {
 
         //데이터 유무 판단하여 뷰 전환
         if(certificationList.size != 0){
+            //인증 기록 존재
             binding.clProfileCertificationRecordContentNo.visibility = View.GONE
             binding.rvProfileCertificationRecored.visibility = View.VISIBLE
         }
 
+        //인증 기록 RecyclerView 연결
         val profileCertificationRVAdapter = ProfileCertificationRVAdapter(certificationList)
         binding.rvProfileCertificationRecored.adapter = profileCertificationRVAdapter
         binding.rvProfileCertificationRecored.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)

@@ -30,16 +30,23 @@ class ProfileCertificationRVAdapter (private val certificationList : ArrayList<C
             binding.tvProfileCertificationRecordContentName.text = certification.challengeName
             binding.tvProfileCertificationRecordContentTitle.text = certification.title
             binding.tvProfileCertificationRecordContentDate.text = certification.date
+
             if(certification.coverimg == null){
+                //커버 이미지 없을 때
                 binding.ivProfileCertificationRecordContentImg.visibility = View.INVISIBLE
             }
             else{
+                //커버 이미지 있을 때
                 binding.ivProfileCertificationRecordContentImg.setImageResource(certification.coverimg!!)
             }
+
             if(!certification.hasLink){
+                //링크 없을 때
                 binding.ivProfileCertificationRecordLink.visibility = View.INVISIBLE
             }
+
             if(certification.title==""){
+                //게시글 제목 없을 때
                 binding.llProfileCertificationTitleAndLink.visibility = View.GONE
             }
         }

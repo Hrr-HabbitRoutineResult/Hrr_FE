@@ -6,6 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ProfileCertificationRecordFragment">
 
+    <!-- 인증기록 제목 -->
     <TextView
         android:id="@+id/tv_profile_certification_record_title"
         android:layout_width="102dp"
@@ -23,6 +24,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="242dp"/>
 
+    <!-- 인증기록 더보기 -->
     <LinearLayout
         android:id="@+id/ll_profile_certification_record_more"
         android:layout_width="50dp"
@@ -58,6 +60,7 @@
 
     </LinearLayout>
 
+    <!-- 인증기록 없을 때 -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_profile_certification_record_content_no"
         android:layout_width="match_parent"
@@ -113,6 +116,7 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <!-- 인증기록 있을 때 -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_profile_certification_recored"
         android:layout_width="match_parent"

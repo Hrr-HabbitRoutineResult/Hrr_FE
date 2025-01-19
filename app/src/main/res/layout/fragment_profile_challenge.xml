@@ -24,6 +24,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="226dp"/>
 
+    <!-- 참가중인 챌린지 중 인증 완료한 챌린지 수 -->
     <TextView
         android:id="@+id/tv_profile_participatingChallenge_count"
         android:layout_width="wrap_content"
@@ -38,7 +39,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="45dp"
         android:layout_marginEnd="200dp"/>
-    
+
+    <!-- 참가 중인 챌린지 없을 때 -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_profile_participatingChallenge_content_no"
         android:layout_width="match_parent"
@@ -95,6 +97,7 @@
             android:layout_marginEnd="97dp"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <!-- 참가중인 챌린지 있을 때 -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_profile_participatingChallenge_content"
         android:layout_width="match_parent"
@@ -128,7 +131,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="206dp"/>
-    
+
+    <!-- 최근 완주한 챌린지 더보기 -->
     <LinearLayout
         android:id="@+id/ll_profile_completedChallenge_more"
         android:layout_width="50dp"
@@ -164,6 +168,7 @@
 
     </LinearLayout>
 
+    <!-- 최근 완주한 챌린지 없을 때 -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_profile_completedChallenge_content_no"
         android:layout_width="match_parent"
@@ -219,6 +224,7 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <!-- 최근 완주한 챌린지 있을 때 -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_profile_completedChallenge_content"
         android:layout_width="match_parent"

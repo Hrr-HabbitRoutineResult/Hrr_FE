@@ -6,12 +6,14 @@
     android:layout_marginStart="14dp"
     android:layout_marginEnd="14dp">
 
+    <!-- 뱃지 아이콘 -->
     <ImageView
         android:id="@+id/iv_profile_badge_icon"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:src="@drawable/img_badge_challenge_01"/>
-    
+
+    <!-- 뱃지명 -->
     <TextView
         android:id="@+id/tv_profile_badge_name"
         android:layout_width="80dp"
