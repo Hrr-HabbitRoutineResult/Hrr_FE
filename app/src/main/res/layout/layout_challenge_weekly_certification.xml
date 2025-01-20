@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <!-- 타이틀 -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="이번 주 인증 완료"
+        android:textSize="18sp"
+        android:fontFamily="@font/font_style"
+        android:textFontWeight="600"
+        android:textColor="@color/text_primary"
+        android:includeFontPadding="false"
+        android:layout_marginTop="28dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginStart="16dp"/>
+
+    <!-- 요일별 인증 현황 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <!-- 인증 완료된 요일 -->
+        <TextView
+            android:id="@+id/btn_monday"
+            android:layout_width="40dp"
+            android:layout_height="80dp"
+            android:text="월"
+            android:textSize="15sp"
+            android:fontFamily="@font/font_style"
+            android:textFontWeight="400"
+            android:textColor="@color/white"
+            android:includeFontPadding="false"
+            android:gravity="center"
+            android:background="@drawable/bg_button_weekly_completed"
+            android:layout_marginEnd="8dp"/>
+
+        <!-- 인증 불필요 요일 -->
+        <TextView
+            android:id="@+id/btn_tuesday"
+            android:layout_width="40dp"
+            android:layout_height="80dp"
+            android:text="화"
+            android:textSize="15sp"
+            android:fontFamily="@font/font_style"
+            android:textFontWeight="400"
+            android:textColor="@color/grey_500"
+            android:includeFontPadding="false"
+            android:gravity="center"
+            android:background="@drawable/bg_button_weekly_default"
+            android:layout_marginEnd="8dp"/>
+
+        <TextView
+            android:id="@+id/btn_wednesday"
+            android:layout_width="40dp"
+            android:layout_height="80dp"
+            android:text="수"
+            android:textSize="15sp"
+            android:fontFamily="@font/font_style"
+            android:textFontWeight="400"
+            android:textColor="@color/grey_500"
+            android:includeFontPadding="false"
+            android:gravity="center"
+            android:background="@drawable/bg_button_weekly_default"
+            android:layout_marginEnd="8dp"/>
+
+        <!-- 인증 필요 요일 -->
+        <TextView
+            android:id="@+id/btn_thursday"
+            android:layout_width="40dp"
+            android:layout_height="80dp"
+            android:text="목"
+            android:textSize="15sp"
+            android:fontFamily="@font/font_style"
+            android:textFontWeight="400"
+            android:textColor="@color/sub_01"
+            android:includeFontPadding="false"
+            android:gravity="center"
+            android:background="@drawable/bg_button_weekly_required"
+            android:layout_marginEnd="8dp"/>
+
+        <TextView
+            android:id="@+id/btn_friday"
+            android:layout_width="40dp"
+            android:layout_height="80dp"
+            android:text="금"
+            android:textSize="15sp"
+            android:fontFamily="@font/font_style"
+            android:textFontWeight="400"
+            android:textColor="@color/grey_500"
+            android:includeFontPadding="false"
+            android:gravity="center"
+            android:background="@drawable/bg_button_weekly_default"
+            android:layout_marginEnd="8dp"/>
+
+        <TextView
+            android:id="@+id/btn_saturday"
+            android:layout_width="40dp"
+            android:layout_height="80dp"
+            android:text="토"
+            android:textSize="15sp"
+            android:fontFamily="@font/font_style"
+            android:textFontWeight="400"
+            android:textColor="@color/grey_500"
+            android:includeFontPadding="false"
+            android:gravity="center"
+            android:background="@drawable/bg_button_weekly_default"
+            android:layout_marginEnd="8dp"/>
+
+        <TextView
+            android:id="@+id/btn_sunday"
+            android:layout_width="40dp"
+            android:layout_height="80dp"
+            android:text="일"
+            android:textSize="15sp"
+            android:fontFamily="@font/font_style"
+            android:textFontWeight="400"
+            android:textColor="@color/grey_500"
+            android:includeFontPadding="false"
+            android:gravity="center"
+            android:background="@drawable/bg_button_weekly_default"/>
+
+    </LinearLayout>
+
+</LinearLayout>
