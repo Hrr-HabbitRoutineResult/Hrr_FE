@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="50dp"/>
+        android:layout_marginTop="55dp"/>
 
     <!-- 단계 Progress Bar -->
     <ProgressBar
