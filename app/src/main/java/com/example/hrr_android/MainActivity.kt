@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.hrr_android.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+    //뷰 바인딩
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -13,11 +14,13 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        //바텀 네비게이션 세팅
         initBottomNavigation()
 
     }
 
     private fun initBottomNavigation(){
+        //화면 전환
         supportFragmentManager.beginTransaction()
             .replace(R.id.main_frame, HomeFragment())
             .commitAllowingStateLoss()

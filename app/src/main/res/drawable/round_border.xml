@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@android:color/transparent" /> <!-- 배경색 -->
+    <stroke
+        android:width="1dp"
+    android:color="@color/text_line" />
+    <corners android:radius="30dp" /> <!-- 테두리 둥글기 -->
+    <padding
+        android:left="15dp"
+        android:top="4dp"
+        android:right="15dp"
+        android:bottom="5dp" /> <!-- 내부 여백 -->
+</shape>
