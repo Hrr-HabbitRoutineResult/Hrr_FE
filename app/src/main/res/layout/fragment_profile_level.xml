@@ -125,134 +125,149 @@
                 app:layout_constraintEnd_toEndOf="parent"/>
 
             <!-- 브론즈 -->
-            <ImageView
-                android:id="@+id/iv_level_b_shape"
+            <FrameLayout
                 android:layout_width="53dp"
                 android:layout_height="53dp"
-                android:src="@drawable/bg_level_map_default"
                 app:layout_constraintTop_toTopOf="@+id/iv_level_road"
                 android:layout_marginTop="324dp"
                 app:layout_constraintStart_toStartOf="@id/iv_level_road"
-                android:layout_marginStart="41dp"
-                android:padding="4dp"/>
+                android:layout_marginStart="41dp">
 
-            <TextView
-                android:id="@+id/tv_level_b"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="B"
-                android:fontFamily="@font/font_style"
-                android:textFontWeight="600"
-                android:includeFontPadding="false"
-                android:textSize="20sp"
-                android:textColor="@color/sub_04"
-                app:layout_constraintTop_toTopOf="@+id/iv_level_road"
-                android:layout_marginTop="336dp"
-                app:layout_constraintStart_toStartOf="@id/iv_level_road"
-                android:layout_marginStart="60dp"/>
+                <ImageView
+                    android:id="@+id/iv_level_b_shape"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/bg_level_map_default"
+                    android:layout_gravity="center"/>
+
+                <TextView
+                    android:id="@+id/tv_level_b"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="B"
+                    android:fontFamily="@font/font_style"
+                    android:textFontWeight="600"
+                    android:includeFontPadding="false"
+                    android:textSize="20sp"
+                    android:textColor="@color/sub_04"
+                    android:layout_gravity="center"/>
+            </FrameLayout>
 
             <!-- 실버 -->
-            <ImageView
-                android:id="@+id/iv_level_s_shape"
+            <FrameLayout
                 android:layout_width="53dp"
                 android:layout_height="53dp"
-                android:src="@drawable/bg_level_map_default"
                 app:layout_constraintTop_toTopOf="@+id/iv_level_road"
                 android:layout_marginTop="283dp"
                 app:layout_constraintStart_toStartOf="@id/iv_level_road"
-                android:layout_marginStart="157dp"
-                android:padding="4dp"/>
+                android:layout_marginStart="157dp">
 
-            <TextView
-                android:id="@+id/tv_level_s"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="S"
-                android:fontFamily="@font/font_style"
-                android:textFontWeight="600"
-                android:includeFontPadding="false"
-                android:textSize="20sp"
-                android:textColor="@color/sub_04"
-                app:layout_constraintTop_toTopOf="@+id/iv_level_road"
-                android:layout_marginTop="295dp"
-                app:layout_constraintStart_toStartOf="@id/iv_level_road"
-                android:layout_marginStart="177dp"/>
+                <ImageView
+                    android:id="@+id/iv_level_s_shape"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/bg_level_map_default"
+                    android:layout_gravity="center"/>
+
+                <TextView
+                    android:id="@+id/tv_level_s"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="S"
+                    android:fontFamily="@font/font_style"
+                    android:textFontWeight="600"
+                    android:includeFontPadding="false"
+                    android:textSize="20sp"
+                    android:textColor="@color/sub_04"
+                    android:layout_gravity="center"/>
+
+            </FrameLayout>
 
             <!-- 골드 -->
-            <ImageView
-                android:id="@+id/iv_level_g_shape"
+            <FrameLayout
                 android:layout_width="53dp"
                 android:layout_height="53dp"
-                android:src="@drawable/bg_level_map_default"
                 app:layout_constraintTop_toTopOf="@+id/iv_level_road"
                 android:layout_marginTop="187dp"
                 app:layout_constraintStart_toStartOf="@id/iv_level_road"
-                android:layout_marginStart="216dp"
-                android:padding="4dp"/>
+                android:layout_marginStart="216dp">
 
-            <TextView
-                android:id="@+id/tv_level_g"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="G"
-                android:fontFamily="@font/font_style"
-                android:textFontWeight="600"
-                android:includeFontPadding="false"
-                android:textSize="20sp"
-                android:textColor="@color/sub_04"
-                app:layout_constraintTop_toTopOf="@+id/iv_level_road"
-                android:layout_marginTop="199dp"
-                app:layout_constraintStart_toStartOf="@id/iv_level_road"
-                android:layout_marginStart="235dp"/>
+                <ImageView
+                    android:id="@+id/iv_level_g_shape"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/bg_level_map_default"
+                    android:layout_gravity="center"/>
+
+                <TextView
+                    android:id="@+id/tv_level_g"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="G"
+                    android:fontFamily="@font/font_style"
+                    android:textFontWeight="600"
+                    android:includeFontPadding="false"
+                    android:textSize="20sp"
+                    android:textColor="@color/sub_04"
+                    android:layout_gravity="center"/>
+            </FrameLayout>
+
 
             <!-- 마스터 -->
-            <ImageView
-                android:id="@+id/iv_level_m_shape"
+            <FrameLayout
                 android:layout_width="53dp"
                 android:layout_height="53dp"
-                android:src="@drawable/bg_level_map_default"
                 app:layout_constraintTop_toTopOf="@+id/iv_level_road"
                 android:layout_marginTop="84dp"
                 app:layout_constraintStart_toStartOf="@id/iv_level_road"
-                android:layout_marginStart="118dp"
-                android:padding="4dp"/>
+                android:layout_marginStart="118dp">
 
-            <TextView
-                android:id="@+id/tv_level_m"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="M"
-                android:fontFamily="@font/font_style"
-                android:textFontWeight="600"
-                android:includeFontPadding="false"
-                android:textSize="20sp"
-                android:textColor="@color/sub_04"
-                app:layout_constraintTop_toTopOf="@+id/iv_level_road"
-                android:layout_marginTop="96dp"
-                app:layout_constraintStart_toStartOf="@id/iv_level_road"
-                android:layout_marginStart="136dp"/>
+                <ImageView
+                    android:id="@+id/iv_level_m_shape"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/bg_level_map_default"
+                    android:layout_gravity="center"/>
+
+                <TextView
+                    android:id="@+id/tv_level_m"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="M"
+                    android:fontFamily="@font/font_style"
+                    android:textFontWeight="600"
+                    android:includeFontPadding="false"
+                    android:textSize="20sp"
+                    android:textColor="@color/sub_04"
+                    android:layout_gravity="center"/>
+
+            </FrameLayout>
+
 
             <!-- 챌린지 -->
-            <ImageView
-                android:id="@+id/iv_level_final_shape"
+            <FrameLayout
                 android:layout_width="53dp"
                 android:layout_height="53dp"
-                android:src="@drawable/bg_level_map_default"
                 app:layout_constraintTop_toTopOf="@+id/iv_level_road"
                 android:layout_marginTop="22dp"
                 app:layout_constraintStart_toStartOf="@id/iv_level_road"
-                android:layout_marginStart="265dp"
-                android:padding="4dp"/>
+                android:layout_marginStart="265dp">
 
-            <ImageView
-                android:id="@+id/iv_level_final"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_level_challenge"
-                app:layout_constraintTop_toTopOf="@+id/iv_level_road"
-                android:layout_marginTop="37dp"
-                app:layout_constraintStart_toStartOf="@id/iv_level_road"
-                android:layout_marginStart="286dp"/>
+                <ImageView
+                    android:id="@+id/iv_level_final_shape"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/bg_level_map_default"
+                    android:layout_gravity="center"/>
+
+                <ImageView
+                    android:id="@+id/iv_level_final"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_level_challenge"
+                    android:layout_gravity="center"/>
+            </FrameLayout>
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
