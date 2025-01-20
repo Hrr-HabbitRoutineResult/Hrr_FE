@@ -50,7 +50,7 @@ class TermsFragment : Fragment() {
         // 다음 버튼 클릭 시 유효성 검사
         binding.btnTermsNext.setOnClickListener {
             if (isEssentialChecked()) {
-                (activity as? SignUpActivity)?.changeFragment(VerificationFragment())  // 본인인증 프래그먼트로 이동
+                (activity as? SignUpActivity)?.changeFragment(InfoInputFragment())  // 가입정보 입력 프래그먼트로 이동
             } else {
                 val snackbar = Snackbar.make(requireView(), "필수 약관에 모두 동의해 주세요.", Snackbar.LENGTH_SHORT)
                 snackbar.anchorView = binding.lineTerms  // 특정 버튼 위에 고정

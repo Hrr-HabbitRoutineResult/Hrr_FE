@@ -77,9 +77,8 @@ class SignUpActivity : AppCompatActivity() {
         val currentFragment = supportFragmentManager.findFragmentById(binding.layoutSignupFragment.id)
 
         when (currentFragment) {
-            is TermsFragment -> updateProgress(25, "약관동의")
-            is VerificationFragment -> updateProgress(50, "본인인증")
-            is InfoInputFragment -> updateProgress(75, "가입정보 입력")
+            is TermsFragment -> updateProgress(33, "약관동의")
+            is InfoInputFragment -> updateProgress(66, "가입정보 입력")
             is CompleteFragment -> updateProgress(100, "가입완료")
         }
     }
