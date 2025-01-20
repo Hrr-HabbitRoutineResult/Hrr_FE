@@ -1,0 +1,118 @@
+package com.example.hrr_android.challenge.ui.detail
+
+import android.os.Bundle
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.hrr_android.R
+import com.example.hrr_android.challenge.ui.detail.adapter.CertificationListAdapter
+import com.example.hrr_android.databinding.FragmentChallengeBinding
+import com.example.hrr_android.databinding.LayoutChallengeButtonBinding
+
+
+class ChallengeFragment : Fragment(), ChallengeDialogInterface {
+    // 뷰 바인딩 정의
+    private var _binding: FragmentChallengeBinding? = null
+    private val binding get() = _binding!!
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentChallengeBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val buttonBinding = LayoutChallengeButtonBinding.bind(binding.llChallengeButtons.root)
+        buttonBinding.btnChallengeJoin.setOnClickListener {
+            val dialog = ChallengeDialog(this)
+            dialog.isCancelable = false
+            dialog.show(parentFragmentManager, "ChallengeDialog")
+        }
+    }
+
+    override fun onJoinButtonClick() {
+        addCertificationViews()
+        updateButtonLayout(ChallengeState.JOINED)  // 상태 변경
+    }
+
+    private fun addCertificationViews() {
+        val container = binding.llChallengeContainer
+        val ruleView = container.findViewById<View>(R.id.layout_challenge_rule)
+        val ruleIndex = container.indexOfChild(ruleView)
+
+        // 이번 주 인증 완료 뷰 추가
+        val weeklyView = layoutInflater.inflate(
+            R.layout.layout_challenge_weekly_certification,
+            container,
+            false
+        )
+        container.addView(weeklyView, ruleIndex)
+
+        // 챌린지 인증 현황 뷰 추가
+        val certificationListView = layoutInflater.inflate(
+            R.layout.layout_challenge_certification_list,
+            container,
+            false
+        )
+        container.addView(certificationListView, ruleIndex + 1)
+
+        // RecyclerView 설정
+        certificationListView.findViewById<RecyclerView>(R.id.rv_certification_list).apply {
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            adapter = CertificationListAdapter()
+        }
+    }
+
+    private fun updateButtonLayout(state: ChallengeState) {
+        val layoutResId = when(state) {
+            ChallengeState.INITIAL -> R.layout.layout_challenge_button
+            ChallengeState.JOINED -> R.layout.layout_challenge_button_certification
+            ChallengeState.CERTIFIED -> R.layout.layout_challenge_button_countdown
+        }
+
+        // 현재 버튼 레이아웃
+        val currentButtonLayout = binding.root.findViewById<View>(R.id.ll_challenge_buttons)
+
+        // 새로운 버튼 레이아웃 생성
+        val newButtonLayout = layoutInflater.inflate(layoutResId, binding.root as ViewGroup, false).apply {
+            id = R.id.ll_challenge_buttons
+            layoutParams = currentButtonLayout.layoutParams
+        }
+
+        // ConstraintLayout에서 뷰 교체
+        val parentLayout = binding.root as ViewGroup
+        parentLayout.removeView(currentButtonLayout)
+        parentLayout.addView(newButtonLayout)
+
+        // 상태별 클릭 리스너 설정
+        when(state) {
+            ChallengeState.JOINED -> {
+                newButtonLayout.findViewById<Button>(R.id.btn_challenge_certification)?.setOnClickListener {
+                    updateButtonLayout(ChallengeState.CERTIFIED)
+                }
+            }
+            else -> {}
+        }
+    }
+
+    // 상태를 나타내는 enum class
+    enum class ChallengeState {
+        INITIAL,    // 챌린지 참가 전, 초기 상태
+        JOINED,     // 챌린지 참가 후, 인증 전
+        CERTIFIED   // 인증 완료
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+}
