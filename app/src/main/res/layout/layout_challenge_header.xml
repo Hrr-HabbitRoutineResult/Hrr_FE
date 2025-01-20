@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="250dp"
+    android:background="@drawable/bg_challenge_header">
+
+    <!-- 닫기 버튼 -->
+    <ImageButton
+        android:id="@+id/btn_challenge_header_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/btn_challenge_close"
+        android:background="@null"
+        android:layout_marginTop="35dp"
+        android:layout_marginRight="14dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- 챌린지 이름 및 소개 영역 -->
+    <TextView
+        android:id="@+id/tv_challenge_header_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="코딩 스터디"
+        android:textSize="24sp"
+        android:fontFamily="@font/font_style"
+        android:textFontWeight="700"
+        android:textColor="@color/white"
+        android:includeFontPadding="false"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="97dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_challenge_header_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="코딩 공부를 진행하고 공유합니다."
+        android:textSize="13sp"
+        android:fontFamily="@font/font_style"
+        android:textFontWeight="400"
+        android:textColor="@color/white"
+        android:includeFontPadding="false"
+        android:layout_marginTop="4dp"
+        app:layout_constraintStart_toStartOf="@id/tv_challenge_header_title"
+        app:layout_constraintTop_toBottomOf="@id/tv_challenge_header_title" />
+
+    <!-- 참여 인원 영역 -->
+    <ImageView
+        android:id="@+id/iv_challenge_header_participants_icon"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:src="@drawable/ic_challenge_person"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/tv_challenge_header_participants"
+        android:layout_marginStart="22dp"
+        app:tint="@color/white"
+        tools:ignore="UseAppTint" />
+
+    <TextView
+        android:id="@+id/tv_challenge_header_participants"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="26/30"
+        android:textSize="13sp"
+        android:fontFamily="@font/font_style"
+        android:textFontWeight="400"
+        android:textColor="@color/white"
+        android:includeFontPadding="false"
+        android:layout_marginStart="12dp"
+        android:layout_marginBottom="4dp"
+        app:layout_constraintStart_toEndOf="@id/iv_challenge_header_participants_icon"
+        app:layout_constraintBottom_toTopOf="@id/tv_challenge_header_period" />
+
+    <!-- 인증 요일 및 챌린지 기간 정보 영역 -->
+    <ImageView
+        android:id="@+id/iv_challenge_header_period_icon"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:src="@drawable/ic_challenge_calendar"
+        android:layout_marginStart="22dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/tv_challenge_header_period"
+        app:layout_constraintTop_toTopOf="@id/tv_challenge_header_period" />
+
+    <TextView
+        android:id="@+id/tv_challenge_header_period"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="월/목 | 3개월"
+        android:textSize="13sp"
+        android:fontFamily="@font/font_style"
+        android:textFontWeight="400"
+        android:textColor="@color/white"
+        android:includeFontPadding="false"
+        android:layout_marginStart="12dp"
+        android:layout_marginBottom="26dp"
+        app:layout_constraintStart_toEndOf="@id/iv_challenge_header_period_icon"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
