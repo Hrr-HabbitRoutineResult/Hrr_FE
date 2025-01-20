@@ -36,7 +36,6 @@ class TermsFragment : Fragment() {
         val checkBoxes = listOf(
             binding.cbServiceTerms,
             binding.cbPrivacyTerms,
-            binding.cbAgeVerification,
             binding.cbThirdParty,
             binding.cbMarketing
         )
@@ -69,7 +68,6 @@ class TermsFragment : Fragment() {
     private fun setAllChecked(isChecked: Boolean) {
         binding.cbServiceTerms.isChecked = isChecked
         binding.cbPrivacyTerms.isChecked = isChecked
-        binding.cbAgeVerification.isChecked = isChecked
         binding.cbMarketing.isChecked = isChecked
         binding.cbThirdParty.isChecked = isChecked
     }
@@ -79,7 +77,6 @@ class TermsFragment : Fragment() {
         binding.cbAllAgree.isChecked =
             binding.cbServiceTerms.isChecked &&
                     binding.cbPrivacyTerms.isChecked &&
-                    binding.cbAgeVerification.isChecked &&
                     binding.cbThirdParty.isChecked &&
                     binding.cbMarketing.isChecked
     }
@@ -87,7 +84,6 @@ class TermsFragment : Fragment() {
     // 필수 약관 동의 확인 함수
     private fun isEssentialChecked(): Boolean {
         return binding.cbServiceTerms.isChecked &&
-                binding.cbPrivacyTerms.isChecked &&
-                binding.cbAgeVerification.isChecked
+                binding.cbPrivacyTerms.isChecked
     }
 }
