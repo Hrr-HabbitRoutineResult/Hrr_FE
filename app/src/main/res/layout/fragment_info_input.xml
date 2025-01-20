@@ -67,30 +67,74 @@
                 android:textColor="@color/text_primary"
                 android:textCursorDrawable="@drawable/cursor_custom" />
 
-            <!-- 이메일 유효성 검사 결과 에러 아이콘 -->
-            <ImageView
-                android:id="@+id/iv_signup_email_error"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|center_vertical"
+            <!-- 전송 버튼 -->
+            <FrameLayout
+                android:id="@+id/btn_signup_send"
+                android:layout_width="50dp"
+                android:layout_height="28dp"
                 android:layout_marginEnd="14dp"
-                android:src="@drawable/ic_signup_error"
-                android:visibility="gone" />
+                android:layout_gravity="end|center_vertical"
+                android:background="@drawable/btn_grey_30">
+
+                <!-- 버튼 텍스트 -->
+                <TextView
+                    android:id="@+id/tv_signup_send"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="전송"
+                    android:textColor="#AEB2B8"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/noto_sans_kr_regular"
+                    android:includeFontPadding="false"
+                    android:gravity="center"/>
+            </FrameLayout>
+
         </FrameLayout>
 
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="12dp">
 
-        <!-- 이메일 안내 문구 -->
-        <TextView
-            android:id="@+id/tv_signup_email_helper"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="5dp"
-            android:text="이메일 형식으로 입력해주세요. (예: example@domain.com)"
-            android:textSize="12sp"
-            android:fontFamily="@font/noto_sans_kr_regular"
-            android:includeFontPadding="false"
-            android:textColor="@color/text_tertiary"
-            android:layout_marginTop="7dp"/>
+            <!-- 이메일 입력 필드 -->
+            <EditText
+                android:id="@+id/et_signup_verification"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="인증번호를 입력해주세요"
+                android:background="@drawable/bg_input_field"
+                android:paddingStart="14dp"
+                android:paddingEnd="40dp"
+                android:textSize="14sp"
+                android:fontFamily="@font/noto_sans_kr_regular"
+                android:includeFontPadding="false"
+                android:textColorHint="@color/text_tertiary"
+                android:textColor="@color/text_primary"
+                android:textCursorDrawable="@drawable/cursor_custom" />
+
+            <!-- 인증 버튼 -->
+            <FrameLayout
+                android:id="@+id/btn_signup_verification"
+                android:layout_width="50dp"
+                android:layout_height="28dp"
+                android:layout_marginEnd="14dp"
+                android:layout_gravity="end|center_vertical"
+                android:background="@drawable/btn_grey_30">
+
+                <!-- 버튼 텍스트 -->
+                <TextView
+                    android:id="@+id/tv_signup_verification"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="인증"
+                    android:textColor="#AEB2B8"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/noto_sans_kr_regular"
+                    android:includeFontPadding="false"
+                    android:gravity="center"/>
+            </FrameLayout>
+
+        </FrameLayout>
 
         <!-- 비밀번호 레이블 -->
         <LinearLayout
