@@ -133,6 +133,14 @@ class InfoInputFragment : Fragment() {
                 binding.tvSignupPasswordHelper.setTextColor(defaultTextColor)
                 binding.ivSignupPasswordError.visibility = View.GONE
                 binding.etSignupPassword.background = defaultBackground
+            } else {
+                val password = binding.etSignupPassword.text.toString()
+                if (!isValidPassword(password)) {
+                    binding.tvSignupPasswordHelper.text = "사용 가능한 비밀번호 조합을 입력해 주세요"
+                    binding.tvSignupPasswordHelper.setTextColor(ContextCompat.getColor(requireContext(), R.color.sub_01))
+                    binding.ivSignupPasswordError.visibility = View.VISIBLE
+                    binding.etSignupPassword.background = ContextCompat.getDrawable(requireContext(), R.drawable.bg_input_field_error)
+                }
             }
         }
 
