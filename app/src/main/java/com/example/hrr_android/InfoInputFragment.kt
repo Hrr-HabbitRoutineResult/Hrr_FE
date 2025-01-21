@@ -122,6 +122,16 @@ class InfoInputFragment : Fragment() {
             }
         }
 
+        // EditText 포커스 변경 리스너 추가
+        binding.etSignupPassword.setOnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {  // 포커스를 잃었을 때
+                binding.tvSignupPasswordHelper.text = "8자~20자 이하, 영대소문자, 숫자, 특수기호 2가지 이상 조합"
+                binding.tvSignupPasswordHelper.setTextColor(defaultTextColor)
+                binding.ivSignupPasswordError.visibility = View.GONE
+                binding.etSignupPassword.background = defaultBackground
+            }
+        }
+
         // 다음 버튼 클릭 시 유효성 검사 및 화면 전환
         binding.btnInfoInputNext.setOnClickListener {
             val password = binding.etSignupPassword.text.toString()
