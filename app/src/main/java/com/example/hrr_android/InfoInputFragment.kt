@@ -40,6 +40,10 @@ class InfoInputFragment : Fragment() {
         val defaultTextColor = ContextCompat.getColor(requireContext(), R.color.text_tertiary)
         val defaultBackground = ContextCompat.getDrawable(requireContext(), R.drawable.bg_input_field)
 
+        // 초기 상태 설정
+        binding.etSignupVerification.isEnabled = false
+        binding.btnSignupVerification.isEnabled = false
+
         // 이메일 유효성 검사
         binding.etSignupEmail.addTextChangedListener {
             val email = it.toString()
