@@ -16,7 +16,7 @@
         <ImageView
             android:id="@+id/iv_home_background"
             android:layout_width="match_parent"
-            android:layout_height="490dp"
+            android:layout_height="510dp"
             android:src="@drawable/bg_home_rounded"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
@@ -90,14 +90,14 @@
             app:layout_constraintTop_toBottomOf="@id/tv_home_sub_title"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="32dp">
+            android:layout_marginTop="25dp">
 
             <include
                 android:id="@+id/item_home_challenge_card_new"
                 layout="@layout/item_challenge_card_new"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="gone"/>
+                android:visibility="visible"/>
 
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/vp_home_challenge"
@@ -105,6 +105,17 @@
                 android:layout_height="match_parent"
                 android:visibility="visible"/>
         </FrameLayout>
+
+        <!-- 인디케이터 추가 -->
+        <LinearLayout
+            android:id="@+id/indicator_home_challenge_card"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="45dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_home_background"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <!-- 챌린지 보러가기 텍스트 -->
         <TextView
