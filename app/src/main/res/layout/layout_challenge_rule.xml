@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_marginTop="20dp"
+    android:layout_marginBottom="63dp">
+
+    <!-- 타이틀 -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="챌린지 규칙"
+        android:textSize="18sp"
+        android:fontFamily="@font/font_style"
+        android:textFontWeight="600"
+        android:textColor="@color/text_primary"
+        android:includeFontPadding="false"
+        android:layout_marginStart="16dp"/>
+
+    <!-- 규칙 상세 내용 -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_challenge_rule"
+        android:text="프로그래머스 / 백준 / 리트코드 등 코딩테스트를 풀이할 사이트 한 곳을 정해서 매일 한 문제 이상 풀고 밤 10시 전까지 인증을 완료해주세요."
+        android:textSize="13sp"
+        android:fontFamily="@font/font_style"
+        android:textFontWeight="400"
+        android:textColor="@color/text_primary"
+        android:paddingHorizontal="14dp"
+        android:paddingVertical="10dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"/>
+
+</LinearLayout>
