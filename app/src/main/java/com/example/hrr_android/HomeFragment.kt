@@ -14,6 +14,7 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var categoryAdapter: CategoryRVAdapter
+    private lateinit var challengeAdapter: ChallengeCardVPAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,6 +49,21 @@ class HomeFragment : Fragment() {
 
         // 홈 화면에서만 사용하는 인기 챌린지 아이콘
         binding.itemHomeChallengeSummary.ivChallengePopular.visibility = View.VISIBLE
+
+        val challengeCardList = listOf(
+            Challenge("공부합시당", R.drawable.img_study, "", true, true),
+            Challenge("달리기 하실 분", R.drawable.img_running,"", false, true),
+            Challenge("열 자가 최대라길래", R.drawable.img_cook,"", true, false),
+        )
+
+        // Adapter 초기화
+        challengeAdapter = ChallengeCardVPAdapter(challengeCardList)
+
+        // ViewPager2 연결
+        binding.vpHomeChallenge.apply {
+            adapter = challengeAdapter
+        }
+
     }
 
     override fun onDestroyView() {
