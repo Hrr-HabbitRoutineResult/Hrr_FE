@@ -87,14 +87,15 @@ class HomeFragment : Fragment() {
 
     // 챌린지 데이터 로드 함수
     private fun loadChallengeData(): List<Challenge> {
-/*        // 참여한 챌린지가 있을 때
+        // 참여한 챌린지가 있을 때
         return listOf(
             Challenge("공부합시당", R.drawable.img_study, "", true, true),
             Challenge("달리기 하실 분", R.drawable.img_running, "", false, true),
             Challenge("열 자가 최대라길래", R.drawable.img_cook, "", true, false)
-        )*/
+        )
 
-        return emptyList()
+        // 참여한 챌린지가 없을 때
+        // return emptyList()
     }
 
     private fun setupDynamicIndicator(challengeList: List<Challenge>) {

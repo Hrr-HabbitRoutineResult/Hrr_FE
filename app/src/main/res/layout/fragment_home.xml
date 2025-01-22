@@ -16,7 +16,7 @@
         <ImageView
             android:id="@+id/iv_home_background"
             android:layout_width="match_parent"
-            android:layout_height="510dp"
+            android:layout_height="505dp"
             android:src="@drawable/bg_home_rounded"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
@@ -90,7 +90,7 @@
             app:layout_constraintTop_toBottomOf="@id/tv_home_sub_title"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="25dp">
+            android:layout_marginTop="30dp">
 
             <include
                 android:id="@+id/item_home_challenge_card_new"
@@ -111,7 +111,7 @@
             android:id="@+id/indicator_home_challenge_card"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="45dp"
+            android:layout_marginBottom="35dp"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="@+id/iv_home_background"
             app:layout_constraintEnd_toEndOf="parent"
