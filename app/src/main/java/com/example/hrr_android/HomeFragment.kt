@@ -5,7 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.viewpager2.widget.ViewPager2
 import com.example.hrr_android.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
@@ -56,6 +58,9 @@ class HomeFragment : Fragment() {
         // Adapter 초기화
         challengeAdapter = ChallengeCardVPAdapter(challengeCardList)
 
+        // 동적 인디케이터 설정
+        setupDynamicIndicator(challengeCardList)
+
         // ViewPager2 연결
         binding.vpHomeChallenge.apply {
             adapter = challengeAdapter
@@ -64,11 +69,13 @@ class HomeFragment : Fragment() {
             visibility = if (challengeCardList.isEmpty()) View.GONE else View.VISIBLE
         }
 
-        // 데이터가 있을 때 include 한 레이아웃 숨기기
+        // 데이터가 있을 때 include 한 레이아웃 숨기고 인디케이터 표시
         if (challengeCardList.isEmpty()) {
             binding.itemHomeChallengeCardNew.root.visibility = View.VISIBLE
+            binding.indicatorHomeChallengeCard.visibility = View.GONE
         } else {
             binding.itemHomeChallengeCardNew.root.visibility = View.GONE
+            binding.indicatorHomeChallengeCard.visibility = View.VISIBLE
         }
 
     }
@@ -80,14 +87,54 @@ class HomeFragment : Fragment() {
 
     // 챌린지 데이터 로드 함수
     private fun loadChallengeData(): List<Challenge> {
-        // 참여한 챌린지가 있을 때
+/*        // 참여한 챌린지가 있을 때
         return listOf(
             Challenge("공부합시당", R.drawable.img_study, "", true, true),
             Challenge("달리기 하실 분", R.drawable.img_running, "", false, true),
-            Challenge("열 자가 최대라길래", R.drawable.img_cook, "", true, false),
-        )
+            Challenge("열 자가 최대라길래", R.drawable.img_cook, "", true, false)
+        )*/
 
-        // 사용자가 챌린지에 참여하지 않았을 때
-        // return emptyList()
+        return emptyList()
+    }
+
+    private fun setupDynamicIndicator(challengeList: List<Challenge>) {
+        val indicatorContainer = binding.indicatorHomeChallengeCard
+        indicatorContainer.removeAllViews() // 초기화
+
+        // 실제 어댑터에 표시될 총 아이템 수 계산 (None 뷰 포함)
+        val totalItems = if (challengeList.size < 5) challengeList.size + 1 else 5
+
+        // 동적으로 인디케이터 추가
+        for (i in 0 until totalItems) {
+            val dot = View(requireContext()).apply {
+                layoutParams = LinearLayout.LayoutParams(
+                    if (i == 0) 80 else 16, 16 // 첫 번째 아이템은 Active 상태로 시작
+                ).apply {
+                    marginEnd = 16 // 점 간격
+                }
+                setBackgroundResource(if (i == 0) R.drawable.indicator_active else R.drawable.indicator_inactive)
+            }
+            indicatorContainer.addView(dot)
+        }
+
+        // ViewPager2 페이지 변경 시 인디케이터 상태 업데이트
+        binding.vpHomeChallenge.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                for (i in 0 until indicatorContainer.childCount) {
+                    val dot = indicatorContainer.getChildAt(i)
+                    val layoutParams = dot.layoutParams as LinearLayout.LayoutParams
+                    if (i == position) {
+                        dot.setBackgroundResource(R.drawable.indicator_active)
+                        layoutParams.width = 80 // Active 크기
+                        layoutParams.height = 16
+                    } else {
+                        dot.setBackgroundResource(R.drawable.indicator_inactive)
+                        layoutParams.width = 16 // Inactive 크기
+                        layoutParams.height = 16
+                    }
+                    dot.layoutParams = layoutParams
+                }
+            }
+        })
     }
 }
