@@ -61,6 +61,9 @@ class HomeFragment : Fragment() {
         // 동적 인디케이터 설정
         setupDynamicIndicator(challengeCardList)
 
+        // 뷰 페이저 미리보기 설정
+        setupViewPagerPreview()
+
         // ViewPager2 연결
         binding.vpHomeChallenge.apply {
             adapter = challengeAdapter
@@ -137,5 +140,22 @@ class HomeFragment : Fragment() {
                 }
             }
         })
+    }
+
+    private fun setupViewPagerPreview() {
+        val pageMarginPx = resources.getDimensionPixelOffset(R.dimen.pageMargin)
+        val pagerWidth = resources.getDimensionPixelOffset(R.dimen.pageWidth)
+        val screenWidth = resources.displayMetrics.widthPixels  // 스마트폰 너비 길이
+        val offsetPx = screenWidth - pageMarginPx - pagerWidth
+
+        binding.vpHomeChallenge.setPageTransformer { page, position ->
+            val scaleFactor = 0.70f + (1 - Math.abs(position)) * 0.30f // 중앙 아이템은 크게, 양옆은 작게
+            page.scaleY = scaleFactor
+            page.scaleX = scaleFactor
+            page.translationX = position * -offsetPx
+            page.alpha = 0.7f + (1 - Math.abs(position)) * 0.3f // 양옆 아이템 투명도 조절
+        }
+
+        binding.vpHomeChallenge.offscreenPageLimit = 1  // 미리 로드할 페이지 수 설정
     }
 }
