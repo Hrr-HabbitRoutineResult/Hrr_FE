@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginStart="16dp"
+    tools:context=".GoalFragment">
+
+    <!-- 제목 -->
+    <TextView
+        android:id="@+id/tv_goal_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="목표"
+        android:textSize="16sp"
+        android:textColor="@color/text_primary"
+        android:fontFamily="@font/noto_sans_kr_medium"
+        android:includeFontPadding="false"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- 라디오 그룹 -->
+    <RadioGroup
+        android:id="@+id/radio_group_goals"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/tv_goal_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="12dp">
+
+        <!-- 첫 번째 행 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/btn_goal_health"
+                android:layout_width="94dp"
+                android:layout_height="33dp"
+                android:text="건강"
+                android:background="@drawable/btn_onboarding"
+                android:textColor="@drawable/btn_onboarding_text"
+                android:fontFamily="@font/noto_sans_kr_regular"
+                android:includeFontPadding="false"
+                android:button="@null"
+                android:stateListAnimator="@null"
+                android:gravity="center"/>
+
+            <RadioButton
+                android:id="@+id/btn_goal_diet"
+                android:layout_width="117dp"
+                android:layout_height="33dp"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/btn_onboarding"
+                android:text="다이어트"
+                android:textColor="@drawable/btn_onboarding_text"
+                android:fontFamily="@font/noto_sans_kr_regular"
+                android:includeFontPadding="false"
+                android:button="@null"
+                android:stateListAnimator="@null"
+                android:gravity="center"/>
+        </LinearLayout>
+
+        <!-- 두 번째 행 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
+
+            <RadioButton
+                android:id="@+id/btn_goal_food_control"
+                android:layout_width="120dp"
+                android:layout_height="33dp"
+                android:text="식단 조절"
+                android:background="@drawable/btn_onboarding"
+                android:textColor="@drawable/btn_onboarding_text"
+                android:fontFamily="@font/noto_sans_kr_regular"
+                android:includeFontPadding="false"
+                android:button="@null"
+                android:stateListAnimator="@null"
+                android:gravity="center"/>
+
+            <RadioButton
+                android:id="@+id/btn_goal_small_target"
+                android:layout_width="158dp"
+                android:layout_height="33dp"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/btn_onboarding"
+                android:text="소소한 목표 달성"
+                android:textColor="@drawable/btn_onboarding_text"
+                android:fontFamily="@font/noto_sans_kr_regular"
+                android:includeFontPadding="false"
+                android:button="@null"
+                android:stateListAnimator="@null"
+                android:gravity="center"/>
+        </LinearLayout>
+
+        <!-- 세 번째 행 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
+
+            <RadioButton
+                android:id="@+id/btn_goal_study"
+                android:layout_width="155dp"
+                android:layout_height="33dp"
+                android:text="여럿이 공부하기"
+                android:background="@drawable/btn_onboarding"
+                android:textColor="@drawable/btn_onboarding_text"
+                android:fontFamily="@font/noto_sans_kr_regular"
+                android:includeFontPadding="false"
+                android:button="@null"
+                android:stateListAnimator="@null"
+                android:gravity="center"/>
+
+            <RadioButton
+                android:id="@+id/btn_goal_habit"
+                android:layout_width="120dp"
+                android:layout_height="33dp"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/btn_onboarding"
+                android:text="습관 형성"
+                android:textColor="@drawable/btn_onboarding_text"
+                android:fontFamily="@font/noto_sans_kr_regular"
+                android:includeFontPadding="false"
+                android:button="@null"
+                android:stateListAnimator="@null"
+                android:gravity="center"/>
+        </LinearLayout>
+
+        <!-- 네 번째 행 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
+
+            <RadioButton
+                android:id="@+id/btn_goal_routine"
+                android:layout_width="146dp"
+                android:layout_height="33dp"
+                android:text="공부 루틴 형성"
+                android:background="@drawable/btn_onboarding"
+                android:textColor="@drawable/btn_onboarding_text"
+                android:fontFamily="@font/noto_sans_kr_regular"
+                android:includeFontPadding="false"
+                android:button="@null"
+                android:stateListAnimator="@null"
+                android:gravity="center"/>
+
+            <RadioButton
+                android:id="@+id/btn_goal_skill"
+                android:layout_width="120dp"
+                android:layout_height="33dp"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/btn_onboarding"
+                android:text="역량 강화"
+                android:textColor="@drawable/btn_onboarding_text"
+                android:fontFamily="@font/noto_sans_kr_regular"
+                android:includeFontPadding="false"
+                android:button="@null"
+                android:stateListAnimator="@null"
+                android:gravity="center"/>
+        </LinearLayout>
+
+        <!-- 다섯 번째 행 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
+
+            <RadioButton
+                android:id="@+id/btn_goal_confidence"
+                android:layout_width="143dp"
+                android:layout_height="33dp"
+                android:text="작심삼일 탈출"
+                android:background="@drawable/btn_onboarding"
+                android:textColor="@drawable/btn_onboarding_text"
+                android:fontFamily="@font/noto_sans_kr_regular"
+                android:includeFontPadding="false"
+                android:button="@null"
+                android:stateListAnimator="@null"
+                android:gravity="center"/>
+
+            <RadioButton
+                android:id="@+id/btn_goal_certificate"
+                android:layout_width="132dp"
+                android:layout_height="33dp"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/btn_onboarding"
+                android:text="자격증 취득"
+                android:textColor="@drawable/btn_onboarding_text"
+                android:fontFamily="@font/noto_sans_kr_regular"
+                android:includeFontPadding="false"
+                android:button="@null"
+                android:stateListAnimator="@null"
+                android:gravity="center"/>
+        </LinearLayout>
+    </RadioGroup>
+</androidx.constraintlayout.widget.ConstraintLayout>
