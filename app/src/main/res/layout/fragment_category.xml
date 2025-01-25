@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".CategoryFragment">
+    tools:context=".onboarding.ui.fragment.CategoryFragment">
 
     <!-- 카테고리 텍스트 -->
     <TextView

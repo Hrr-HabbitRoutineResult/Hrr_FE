@@ -1,8 +1,12 @@
-package com.example.hrr_android
+package com.example.hrr_android.onboarding.ui
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.example.hrr_android.Challenge
+import com.example.hrr_android.MainActivity
+import com.example.hrr_android.onboarding.adapter.OnboardingVPAdapter
+import com.example.hrr_android.R
 import com.example.hrr_android.databinding.ActivityResultBinding
 
 class ResultActivity : AppCompatActivity() {

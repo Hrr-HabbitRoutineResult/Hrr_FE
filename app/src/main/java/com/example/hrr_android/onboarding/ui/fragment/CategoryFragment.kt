@@ -1,14 +1,15 @@
-package com.example.hrr_android
+package com.example.hrr_android.onboarding.ui.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.hrr_android.databinding.FragmentGoalBinding
+import com.example.hrr_android.onboarding.utils.RadioGroupUtils
+import com.example.hrr_android.databinding.FragmentCategoryBinding
 
-class GoalFragment : Fragment() {
-    private var _binding: FragmentGoalBinding? = null
+class CategoryFragment : Fragment() {
+    private var _binding: FragmentCategoryBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -16,15 +17,15 @@ class GoalFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentGoalBinding.inflate(inflater, container, false)
+        _binding = FragmentCategoryBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // 목표 버튼 선택 상태 관리
-        RadioGroupUtils.setupRadioGroupWithMax(binding.radioGroupGoals, 3)
+        // 카테고리 버튼 선택 상태 관리
+        RadioGroupUtils.setupRadioGroup(binding.radioGroupCategory)
     }
 
     override fun onDestroyView() {
@@ -34,7 +35,7 @@ class GoalFragment : Fragment() {
 
     // 라디오 그룹이 선택되었는지 판단하는 함수
     fun isValidSelection(): Boolean {
-        val isGoalValid = RadioGroupUtils.hasSelectedButtons(binding.radioGroupGoals)
-        return isGoalValid
+        val isCategoryValid = RadioGroupUtils.isRadioGroupValid(binding.radioGroupCategory)
+        return isCategoryValid
     }
 }

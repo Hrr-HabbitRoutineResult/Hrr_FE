@@ -1,4 +1,4 @@
-package com.example.hrr_android
+package com.example.hrr_android.onboarding.utils
 
 import android.widget.LinearLayout
 import android.widget.RadioButton

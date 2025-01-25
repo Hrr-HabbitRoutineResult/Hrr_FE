@@ -1,8 +1,9 @@
-package com.example.hrr_android
+package com.example.hrr_android.onboarding.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.hrr_android.Challenge
 import com.example.hrr_android.databinding.ItemChallengeOnboardingBinding
 
 class OnboardingVPAdapter(private val items: List<Challenge>) :

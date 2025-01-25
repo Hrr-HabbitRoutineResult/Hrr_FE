@@ -16,7 +16,7 @@
             android:name=".LoadingActivity"
             android:exported="false" />
         <activity
-            android:name=".IntroActivity"
+            android:name=".onboarding.ui.IntroActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
@@ -31,10 +31,10 @@
             android:name=".LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".ResultActivity"
+            android:name=".onboarding.ui.ResultActivity"
             android:exported="false" />
         <activity
-            android:name=".OnboardingActivity"
+            android:name=".onboarding.ui.OnboardingActivity"
             android:exported="false" />
         <activity
             android:name=".SplashActivity"

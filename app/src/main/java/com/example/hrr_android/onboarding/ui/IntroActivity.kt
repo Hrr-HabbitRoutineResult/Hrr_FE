@@ -1,8 +1,9 @@
-package com.example.hrr_android
+package com.example.hrr_android.onboarding.ui
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.example.hrr_android.MainActivity
 import com.example.hrr_android.databinding.ActivityIntroBinding
 
 class IntroActivity : AppCompatActivity() {

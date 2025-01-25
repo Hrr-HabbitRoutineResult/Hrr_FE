@@ -7,7 +7,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:background="#F7F7F7"
-    tools:context=".ResultActivity">
+    tools:context=".onboarding.ui.ResultActivity">
 
     <!-- 배경 이미지 -->
     <ImageView

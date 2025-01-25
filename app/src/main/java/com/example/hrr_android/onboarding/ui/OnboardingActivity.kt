@@ -1,10 +1,14 @@
-package com.example.hrr_android
+package com.example.hrr_android.onboarding.ui
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.example.hrr_android.onboarding.ui.fragment.CategoryFragment
+import com.example.hrr_android.onboarding.ui.fragment.GoalFragment
+import com.example.hrr_android.onboarding.ui.fragment.InfoSelectFragment
+import com.example.hrr_android.LoadingActivity
 import com.example.hrr_android.databinding.ActivityOnboardingBinding
 import com.google.android.material.snackbar.Snackbar
 
