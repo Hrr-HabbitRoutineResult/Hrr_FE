@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.navi_message -> {
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.main_frame, MessageFragment())
+                        .replace(R.id.main_frame, ProfileLevelFragment())
                         .commit()
                     return@setOnItemSelectedListener true
                 }
