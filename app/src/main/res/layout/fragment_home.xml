@@ -16,7 +16,7 @@
         <ImageView
             android:id="@+id/iv_home_background"
             android:layout_width="match_parent"
-            android:layout_height="490dp"
+            android:layout_height="520dp"
             android:src="@drawable/bg_home_rounded"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
@@ -82,75 +82,44 @@
             android:layout_marginTop="5dp"
             android:layout_marginStart="16dp"/>
 
-        <!-- 챌린지 참가 프레임 레이아웃 -->
+        <!-- 챌린지 참가 및 인증 프레임 레이아웃 -->
         <FrameLayout
-            android:id="@+id/layout_home_challenge_participate"
-            android:layout_width="250dp"
+            android:id="@+id/layout_home_challenge"
+            android:layout_width="match_parent"
             android:layout_height="250dp"
             app:layout_constraintTop_toBottomOf="@id/tv_home_sub_title"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="32dp">
+            android:clipToPadding="false"
+            android:clipChildren="false"
+            android:layout_marginTop="35dp">
 
-            <!-- 그라데이션 배경 -->
-            <ImageView
+            <include
+                android:id="@+id/item_home_challenge_card_new"
+                layout="@layout/item_challenge_card_new"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/bg_home_gradation" />
+                android:visibility="visible"/>
 
-            <!-- 중앙의 남색배경 -->
-            <ImageView
-                android:layout_width="230dp"
-                android:layout_height="230dp"
-                android:layout_gravity="center"
-                android:src="@drawable/bg_circle_navy" />
-
-            <!-- 캐릭터 이미지 -->
-            <ImageView
-                android:id="@+id/iv_home_character"
-                android:layout_width="230dp"
-                android:layout_height="230dp"
-                android:src="@drawable/img_home_character"
-                android:layout_gravity="center"/>
-
-            <!-- 이미지의 테두리 -->
-            <ImageView
-                android:id="@+id/iv_home_ring"
-                android:layout_width="230dp"
-                android:layout_height="230dp"
-                android:layout_gravity="center"
-                android:src="@drawable/img_home_ring"/>
-
-            <!-- 버튼 FrameLayout -->
-            <FrameLayout
-                android:id="@+id/layout_home_challenge_button"
-                android:layout_width="120dp"
-                android:layout_height="35dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="160dp">
-
-                <!-- 버튼 배경 이미지 -->
-                <ImageView
-                    android:id="@+id/iv_home_challenge_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/bg_circle_orange"/>
-
-                <!-- 버튼 위의 텍스트 -->
-                <TextView
-                    android:id="@+id/tv_home_challenge_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="챌린지 참가하기"
-                    android:textColor="@android:color/white"
-                    android:textSize="13sp"
-                    android:fontFamily="@font/noto_sans_kr_medium"
-                    android:includeFontPadding="false"
-                    android:gravity="center"
-                    android:layout_gravity="center"/>
-            </FrameLayout>
-
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/vp_home_challenge"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:clipChildren="false"
+                android:visibility="visible"/>
         </FrameLayout>
+
+        <!-- 인디케이터 추가 -->
+        <LinearLayout
+            android:id="@+id/indicator_home_challenge_card"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="35dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_home_background"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <!-- 챌린지 보러가기 텍스트 -->
         <TextView
