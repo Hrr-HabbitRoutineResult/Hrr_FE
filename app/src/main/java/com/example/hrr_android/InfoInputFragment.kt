@@ -2,6 +2,8 @@ package com.example.hrr_android
 
 import android.content.Context
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -43,6 +45,24 @@ class InfoInputFragment : Fragment() {
         // 초기 상태 설정
         binding.etSignupVerification.isEnabled = false
         binding.btnSignupVerification.isEnabled = false
+
+        // 닉네임 실시간 유효성 검사
+        binding.etSignupNickname.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val nickname = s.toString()
+                if (isValidNickname(nickname)) {
+                    // 유효한 닉네임일 때 상태 초기화
+                    binding.tvSignupNicknameHelper.text = "한글, 영어, 숫자의 조합으로 최대 10자까지 입력 가능합니다."
+                    binding.tvSignupNicknameHelper.setTextColor(defaultTextColor)
+                    binding.ivSignupNicknameError.visibility = View.GONE
+                    binding.etSignupNickname.background = defaultBackground
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
 
         // 이메일 유효성 검사
         binding.etSignupEmail.addTextChangedListener {
@@ -146,13 +166,19 @@ class InfoInputFragment : Fragment() {
 
         // 다음 버튼 클릭 시 유효성 검사 및 화면 전환
         binding.btnInfoInputNext.setOnClickListener {
+            val nickname = binding.etSignupNickname.text.toString()
             val password = binding.etSignupPassword.text.toString()
             val confirmPassword = binding.etSignupPasswordConfirm.text.toString()
             isPasswordMatch = password == confirmPassword
 
-            if (isEmailValid && isPasswordValid && isPasswordMatch && isVerificationValid) {
+            if (isValidNickname(nickname) && isPasswordValid && isPasswordMatch && isVerificationValid) {
                 // 모든 조건 충족 시 다음 화면으로 이동
                 (activity as? SignUpActivity)?.changeFragment(CompleteFragment())
+            } else if (!isValidNickname(nickname)){
+                binding.tvSignupNicknameHelper.text = "사용할 수 없는 닉네임입니다."
+                binding.tvSignupNicknameHelper.setTextColor(ContextCompat.getColor(requireContext(), R.color.sub_01))
+                binding.ivSignupNicknameError.visibility = View.VISIBLE
+                binding.etSignupNickname.background = ContextCompat.getDrawable(requireContext(), R.drawable.bg_input_field_error)
             } else if (!isVerificationValid) {
                 // 이메일 인증을 진행하지 않았을 때
                 showSnackbar("이메일 인증을 진행해 주세요.")
@@ -170,6 +196,13 @@ class InfoInputFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    // 닉네임 유효성 검사 함수
+    private fun isValidNickname(nickname: String): Boolean {
+        // 한글, 영어, 숫자의 조합으로 최대 10자
+        val nicknamePattern = "^[가-힣a-zA-Z0-9]{1,10}$"
+        return Regex(nicknamePattern).matches(nickname)
     }
 
     // 이메일 유효성 검사 함수
