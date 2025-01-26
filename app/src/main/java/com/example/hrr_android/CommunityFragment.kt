@@ -95,11 +95,8 @@ class CommunityFragment : Fragment() {
             return
         }
 
-    // Pin 된 데이터 정렬
-        val sortedData = data.sortedByDescending { it.isPinned }.toMutableList()
-
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        recyclerView.adapter = CommunityRVAdapter(sortedData)
+        recyclerView.adapter = CommunityRVAdapter(data)
         recyclerView.visibility = View.GONE // 초기 상태는 GONE
 
         recyclerView.isNestedScrollingEnabled = false
