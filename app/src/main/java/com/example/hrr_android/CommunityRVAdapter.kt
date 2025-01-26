@@ -26,20 +26,20 @@ class CommunityRVAdapter(
 
         with(holder.binding) {
             tvItemCommunityTitle.text = item.title
-            tvItemCommunityDescribe.text = item.describe
+            tvItemCommunityDescribe.text = item.description
 
             // 핀 여부에 따라 아이콘 설정
-            ivCommunityItemPinSelected.visibility = if (item.pin) View.VISIBLE else View.GONE
-            ivCommunityItemPinUnselected.visibility = if (item.pin) View.GONE else View.VISIBLE
+            ivCommunityItemPinSelected.visibility = if (item.isPinned) View.VISIBLE else View.GONE
+            ivCommunityItemPinUnselected.visibility = if (item.isPinned) View.GONE else View.VISIBLE
 
             // 핀 아이콘 클릭 이벤트
             ivCommunityItemPinSelected.setOnClickListener {
-                items[position] = item.copy(pin = false) // 새 객체로 교체
+                items[position] = item.copy(isPinned = false) // 새 객체로 교체
                 notifyItemChanged(position) // UI 업데이트
             }
 
             ivCommunityItemPinUnselected.setOnClickListener {
-                items[position] = item.copy(pin = true) // 새 객체로 교체
+                items[position] = item.copy(isPinned = true) // 새 객체로 교체
                 notifyItemChanged(position) // UI 업데이트
             }
         }
