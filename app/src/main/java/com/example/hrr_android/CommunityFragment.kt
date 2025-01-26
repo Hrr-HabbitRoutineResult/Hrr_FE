@@ -65,9 +65,7 @@ class CommunityFragment : Fragment() {
             binding.rvCommunityRoutine,
             binding.layoutCommunityDropdownRoutine,
             binding.btnCommunityDropdownRoutine,
-            mutableListOf(
-
-            )
+            mutableListOf()
         )
 
         setupRecyclerView(
@@ -91,6 +89,12 @@ class CommunityFragment : Fragment() {
         dropdownButton: ImageView,
         data: MutableList<Community>
     ) {
+        if (data.isEmpty()) {
+            dropdownLayout.setOnClickListener(null)
+            dropdownButton.setImageResource(R.drawable.ic_community_arrow_down)
+            return
+        }
+
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = CommunityRVAdapter(data)
         recyclerView.visibility = View.GONE // 초기 상태는 GONE
