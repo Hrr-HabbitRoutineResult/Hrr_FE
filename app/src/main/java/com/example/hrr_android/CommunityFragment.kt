@@ -60,6 +60,24 @@ class CommunityFragment : Fragment() {
                 Community(true, "IT 기업 입사하기", "IT 기업 정보 공유하고 함께 준비해요!")
             )
         )
+
+        setupRecyclerView(
+            binding.rvCommunityRoutine,
+            binding.layoutCommunityDropdownRoutine,
+            binding.btnCommunityDropdownRoutine,
+            mutableListOf(
+
+            )
+        )
+
+        setupRecyclerView(
+            binding.rvCommunityHobby,
+            binding.layoutCommunityDropdownHobby,
+            binding.btnCommunityDropdownHobby,
+            mutableListOf(
+                Community(true, "뜨개질 게시판", "뜨개질 도안 및 결과물 공유해요")
+            )
+        )
     }
 
     override fun onDestroyView() {
@@ -76,6 +94,8 @@ class CommunityFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = CommunityRVAdapter(data)
         recyclerView.visibility = View.GONE // 초기 상태는 GONE
+
+        recyclerView.isNestedScrollingEnabled = false
 
         // 동적 높이 계산
         recyclerView.post {
