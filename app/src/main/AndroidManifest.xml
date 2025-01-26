@@ -20,6 +20,7 @@
             android:exported="false" />
         <activity
             android:name=".SignUpActivity"
+            android:windowSoftInputMode="adjustPan"
             android:exported="false" />
         <activity
             android:name=".LoginActivity"
