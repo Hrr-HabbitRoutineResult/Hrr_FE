@@ -320,7 +320,7 @@
             <LinearLayout
                 android:id="@+id/ll_level_achieve_bar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:background="@drawable/bg_radius_30_grey_50"
                 android:orientation="horizontal"
                 app:layout_constraintTop_toBottomOf="@+id/ll_level_point"
@@ -332,8 +332,8 @@
 
                 <ImageView
                     android:id="@+id/iv_level_check"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:src="@drawable/ic_level_default"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
@@ -341,8 +341,9 @@
                     android:padding="3.75dp"/>
 
                 <TextView
+                    android:id="@+id/tv_level_achieved_datail"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:text="포인트 150P 달성 : Gold 획득!"
                     android:fontFamily="@font/font_style"
                     android:textFontWeight="500"
@@ -352,8 +353,6 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="11dp"
                     android:layout_marginStart="7dp"/>
-
-
 
             </LinearLayout>
 
