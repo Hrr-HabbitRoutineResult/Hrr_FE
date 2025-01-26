@@ -77,6 +77,21 @@ class CommunityFragment : Fragment() {
         recyclerView.adapter = CommunityRVAdapter(data)
         recyclerView.visibility = View.GONE // 초기 상태는 GONE
 
+        // 동적 높이 계산
+        recyclerView.post {
+            val totalHeight = recyclerView.adapter?.itemCount?.let { count ->
+                val viewHolder = recyclerView.adapter?.createViewHolder(
+                    recyclerView,
+                    recyclerView.adapter!!.getItemViewType(0)
+                )
+                viewHolder?.itemView?.measure(0, 0)
+                val itemHeight = viewHolder?.itemView?.measuredHeight ?: 0
+                itemHeight * count
+            }
+            recyclerView.layoutParams.height = totalHeight ?: recyclerView.layoutParams.height
+            recyclerView.requestLayout()
+        }
+
         dropdownLayout.setOnClickListener {
             toggleRecyclerViewVisibility(recyclerView, dropdownButton)
         }
