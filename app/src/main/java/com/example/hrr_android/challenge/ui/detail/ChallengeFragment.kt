@@ -32,18 +32,29 @@ class ChallengeFragment : Fragment(), ChallengeDialogInterface {
         super.onViewCreated(view, savedInstanceState)
 
         val buttonBinding = LayoutChallengeButtonBinding.bind(binding.llChallengeButtons.root)
+
+        // '참가하기' 버튼 클릭 시 JOIN 다이얼로그 표시
         buttonBinding.btnChallengeJoin.setOnClickListener {
-            val dialog = ChallengeDialog(this)
+            val dialog = ChallengeDialog(this, ChallengeDialog.DialogType.JOIN)
             dialog.isCancelable = false
             dialog.show(parentFragmentManager, "ChallengeDialog")
         }
+        // TODO: 개발용 CREATE 다이얼로그 표시 테스트, 추후 삭제
+//        buttonBinding.btnChallengeJoin.setOnLongClickListener {
+//            val dialog = ChallengeDialog(this, ChallengeDialog.DialogType.CREATE)
+//            dialog.isCancelable = false
+//            dialog.show(parentFragmentManager, "ChallengeDialog")
+//            true
+//        }
     }
 
+    // JOIN 다이얼로그에서 '네' 버튼 클릭 시 호출
     override fun onJoinButtonClick() {
         addCertificationViews()
         updateButtonLayout(ChallengeState.JOINED)  // 상태 변경
     }
 
+    // 인증 관련 뷰 동적으로 추가
     private fun addCertificationViews() {
         val container = binding.llChallengeContainer
         val ruleView = container.findViewById<View>(R.id.layout_challenge_rule)
@@ -72,6 +83,7 @@ class ChallengeFragment : Fragment(), ChallengeDialogInterface {
         }
     }
 
+    // 챌린지 상태에 따른 하단 버튼 영역 업데이트
     private fun updateButtonLayout(state: ChallengeState) {
         val layoutResId = when(state) {
             ChallengeState.INITIAL -> R.layout.layout_challenge_button
