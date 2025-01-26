@@ -88,7 +88,10 @@ class ProfileLevelFragment : Fragment() {
                     //그라데이션 배경
                     changeIcon(bg, inner, requireContext(), R.drawable.bg_level_map_achieved_first, R.color.sub_03)
                     Log.d("levelDebug", "8")
+
                     //레벨 달성 바 변경
+                    binding.llLevelAchieveBar.setBackgroundResource(R.drawable.bg_radius30_sub06)
+                    binding.ivLevelCheck.setImageResource(R.drawable.ic_level_achieved)
 
                     //다이얼로그 띄우기
                 }

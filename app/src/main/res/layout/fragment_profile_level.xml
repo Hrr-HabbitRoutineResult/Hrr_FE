@@ -331,6 +331,7 @@
                 android:layout_marginEnd="16dp">
 
                 <ImageView
+                    android:id="@+id/iv_level_check"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_level_default"
