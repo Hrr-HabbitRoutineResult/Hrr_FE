@@ -31,6 +31,9 @@ class ProfileLevelFragment : Fragment() {
 
         //레벨에 따라 아이콘 상태(텍스트, 배경)를 설정
         initLevelIcon()
+
+        //레벨 아이콘 클릭리스너
+
     }
 
     override fun onDestroyView() {
@@ -93,14 +96,31 @@ class ProfileLevelFragment : Fragment() {
                     binding.llLevelAchieveBar.setBackgroundResource(R.drawable.bg_radius30_sub06)
                     binding.ivLevelCheck.setImageResource(R.drawable.ic_level_achieved)
                     binding.tvLevelAchievedDatail.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_primary))
-
-                    //다이얼로그 띄우기
                 }
                 else{
                     changeIcon(bg, inner, requireContext(), R.drawable.bg_level_map_achieved, R.color.white)
                 }
+            }
 
-                break
+            ////다이얼로그 띄우기
+            //아이콘 배경의 리소스 id를 전달하여 각각 다르게 구현
+            bg.setOnClickListener {
+                val bgDrawableResId = bg.tag as? Int ?: R.drawable.bg_level_map_default
+//                Log.d("levelDebug", "Drawable ResId: $bgDrawableResId")
+//                when (bgDrawableResId) {
+//                    R.drawable.bg_level_map_default -> Log.d("levelDebug", "Default Action")
+//                    R.drawable.bg_level_map_achieved_first -> Log.d("levelDebug", "Achieved First Action")
+//                    R.drawable.bg_level_map_achieved -> Log.d("levelDebug", "Achieved Action")
+//                }
+
+                //다이얼로그 호출
+                val dialog = LevelDialog.newInstance(bgDrawableResId)
+                dialog.setListener(object : LevelDialogInterface {
+                    override fun onGetButtonClick() {
+                        //Todo: "획득" 버튼 눌렀을 때 처리 - 최초 달성 시에만
+                    }
+                })
+                dialog.show(parentFragmentManager, "LevelDialog")
             }
 
         }
@@ -111,6 +131,7 @@ class ProfileLevelFragment : Fragment() {
     private fun changeIcon(bg: ImageView, inner: View, context: Context, backgroundRes: Int, innerColorRes: Int){
         // 배경 색상 변경
         bg.setImageResource(backgroundRes)
+        bg.tag = backgroundRes
 
         // 텍스트 색상 변경
         when (inner) {

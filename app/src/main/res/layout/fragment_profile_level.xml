@@ -150,7 +150,9 @@
                     android:includeFontPadding="false"
                     android:textSize="20sp"
                     android:textColor="@color/sub_04"
-                    android:layout_gravity="center"/>
+                    android:layout_gravity="center"
+                    android:clickable="false"
+                    android:focusable="false"/>
             </FrameLayout>
 
             <!-- 실버 -->
