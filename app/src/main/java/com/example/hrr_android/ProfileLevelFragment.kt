@@ -17,7 +17,7 @@ import com.example.hrr_android.databinding.FragmentProfileLevelBinding
 class ProfileLevelFragment : Fragment() {
     private var _binding: FragmentProfileLevelBinding? = null
     private val binding get() = _binding!!
-    private var myPoint: Int = 150        //현재 획득한 포인트
+    private var myPoint: Int = 0        //현재 획득한 포인트
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

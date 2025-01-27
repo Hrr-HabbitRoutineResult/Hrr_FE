@@ -349,7 +349,7 @@
                     android:id="@+id/tv_level_achieved_datail"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="포인트 150P 달성 : Gold 획득!"
+                    android:text="포인트 30P 달성 : Bronze 획득!"
                     android:fontFamily="@font/font_style"
                     android:textFontWeight="500"
                     android:includeFontPadding="false"
