@@ -17,7 +17,7 @@ import com.example.hrr_android.databinding.FragmentProfileLevelBinding
 class ProfileLevelFragment : Fragment() {
     private var _binding: FragmentProfileLevelBinding? = null
     private val binding get() = _binding!!
-    private var myPoint: Int = 0        //현재 획득한 포인트
+    private var myPoint: Int = 150        //현재 획득한 포인트
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -97,9 +97,6 @@ class ProfileLevelFragment : Fragment() {
                     binding.ivLevelCheck.setImageResource(R.drawable.ic_level_achieved)
                     binding.tvLevelAchievedDatail.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_primary))
                     binding.tvLevelAchievedDatail.text = "포인트 ${levelPoint}P 달성 : $levelName 획득!"
-
-                    //최초 달성 여부를 내부 데이터에 저장
-                    prefs.edit().putBoolean("Level_$levelName", false).apply()
                 }
                 else{
                     //달성 완료 상태로 설정
@@ -151,6 +148,9 @@ class ProfileLevelFragment : Fragment() {
                         }
 
                         //Todo: "최초 여부" 상태 업데이트(api)
+                        //최초 달성 여부를 내부 데이터에 저장
+                        val prefs = requireContext().getSharedPreferences("Level_first", Context.MODE_PRIVATE)
+                        prefs.edit().putBoolean("Level_$levelName", false).apply()
 
                     }
                 })
