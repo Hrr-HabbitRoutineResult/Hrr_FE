@@ -7,7 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.hrr_android.databinding.ItemCommunityBinding
 
 class CommunityRVAdapter(
-    private val items: MutableList<Community> // MutableList로 선언
+    private val items: MutableList<Community>, // MutableList로 선언
+    private val onItemClick: (Community) -> Unit // 클릭 리스너 추가
 ) : RecyclerView.Adapter<CommunityRVAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding: ItemCommunityBinding) : RecyclerView.ViewHolder(binding.root)
@@ -44,6 +45,11 @@ class CommunityRVAdapter(
             ivCommunityItemPinUnselected.setOnClickListener {
                 items[position] = item.copy(isPinned = true) // 새 객체로 교체
                 notifyItemChanged(position) // UI 업데이트
+            }
+
+            // 아이템 클릭 이벤트
+            root.setOnClickListener {
+                onItemClick(item) // 클릭된 아이템을 전달
             }
         }
     }
