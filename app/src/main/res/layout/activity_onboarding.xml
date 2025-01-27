@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context=".onboarding.ui.OnboardingActivity">
+
+    <!-- 뒤로가기 버튼 -->
+    <ImageView
+        android:id="@+id/btn_onboarding_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_arrow_back"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="55dp"/>
+
+    <!-- 단계 Progress Bar -->
+    <ProgressBar
+        android:id="@+id/pb_onboarding_step"
+        style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:max="100"
+        android:progress="25"
+        android:progressDrawable="@drawable/pb_custom"
+        app:layout_constraintTop_toBottomOf="@id/btn_onboarding_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="36dp"
+        android:layout_marginHorizontal="16dp"/>
+
+    <!-- 단계별 제목 -->
+    <TextView
+        android:id="@+id/tv_onboarding_step_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:text="안녕하세요!"
+        android:textColor="@android:color/black"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:fontFamily="@font/noto_sans_kr_bold"
+        android:includeFontPadding="false"
+        app:layout_constraintStart_toStartOf="@+id/pb_onboarding_step"
+        app:layout_constraintTop_toBottomOf="@+id/pb_onboarding_step" />
+
+    <!-- 단계별 설명 -->
+    <TextView
+        android:id="@+id/tv_onboarding_step_describe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/noto_sans_kr_regular"
+        android:includeFontPadding="false"
+        android:text="아래에서 본인의 특성을 선택해주세요."
+        android:textColor="@color/text_secondary"
+        android:textSize="12sp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="@+id/pb_onboarding_step"
+        app:layout_constraintTop_toBottomOf="@+id/tv_onboarding_step_title" />
+
+    <!-- 프래그먼트 컨테이너 -->
+    <FrameLayout
+        android:id="@+id/layout_onboarding_fragment_container"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="70dp"
+        app:layout_constraintBottom_toTopOf="@+id/view_onboarding_line"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_onboarding_step_describe" />
+
+    <!-- 선 (구분선) -->
+    <View
+        android:id="@+id/view_onboarding_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="14dp"
+        android:background="@color/text_line"
+        app:layout_constraintBottom_toTopOf="@id/btn_onboarding_next"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- 다음 버튼 -->
+    <FrameLayout
+        android:id="@+id/btn_onboarding_next"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- 배경 이미지 -->
+        <ImageView
+            android:id="@+id/iv_onboarding_next"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/btn_navy" />
+
+        <!-- 버튼 텍스트 -->
+        <TextView
+            android:id="@+id/tv_onboarding_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="다음"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:fontFamily="@font/noto_sans_kr_semi_bold"
+            android:layout_gravity="center"/>
+    </FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
