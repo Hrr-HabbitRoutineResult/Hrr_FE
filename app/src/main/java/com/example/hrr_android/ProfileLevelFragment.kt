@@ -17,7 +17,7 @@ import com.example.hrr_android.databinding.FragmentProfileLevelBinding
 class ProfileLevelFragment : Fragment() {
     private var _binding: FragmentProfileLevelBinding? = null
     private val binding get() = _binding!!
-    private var myPoint: Int = 400
+    private var myPoint: Int = 150        //현재 획득한 포인트
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,7 +33,7 @@ class ProfileLevelFragment : Fragment() {
         //레벨에 따라 아이콘 상태(텍스트, 배경)를 설정
         initLevelIcon()
 
-        //포인트 바인딩
+        //내 포인트 바인딩
         binding.tvLevelMypoint.text = "${myPoint}P"
 
     }
@@ -53,13 +53,12 @@ class ProfileLevelFragment : Fragment() {
             myPoint < 400 -> "Master"
             else -> "Challenger"
         }
-        Log.d("levelDebug", "2")
 
-        // 레벨 순서 정의
+        // 레벨 순서 정의 - 추후 매칭을 위함
         val levels = listOf("Normal","Bronze", "Silver", "Gold", "Master", "Challenger")
         val currentLevelIndex = levels.indexOf(level)
 
-        //레벨에 따른 아이콘과 텍스트 매칭("일반"은 아이콘 없으므로 제외, "챌린저"는 별도 로직으로 처리)
+        //레벨에 따른 아이콘과 텍스트 매칭("일반"은 아이콘 없으므로 제외)
         val iconAndText = mapOf(
             "Bronze" to Triple(binding.ivLevelBShape, binding.tvLevelB, 30),
             "Silver" to Triple(binding.ivLevelSShape, binding.tvLevelS, 80),
@@ -68,34 +67,30 @@ class ProfileLevelFragment : Fragment() {
             "Challenger" to Triple(binding.ivLevelFinalShape, binding.ivLevelFinal, 400)
         )
 
-        Log.d("levelDebug", "3")
-        // 달성된 레벨까지만 아이콘 상태 업데이트
-        //var levelIndex: Int = 0
         var nextLevel = Pair(0, "")     //달성할 다음 레벨 정보를 저장하기 위한 "세미 전역변수"
         var isFirstAchieved = true      //최초 달성 여부를 사용하기 위한 "세미 전역변수"
-        for ((levelName, triple) in iconAndText) {
-            Log.d("levelDebug", levelName)
-            val bg = triple.first
-            val inner = triple.second
-            val levelPoint = triple.third
 
-            var levelIndex = levels.indexOf(levelName)  //브론즈~챌린저(1~5)
+        // 달성된 레벨까지만 아이콘 상태 업데이트
+        for ((levelName, triple) in iconAndText) {
+            val bg = triple.first           //아이콘 배경
+            val inner = triple.second       //아이콘 내부(텍스트 or 로고)
+            val levelPoint = triple.third   //해당 레벨 달성 위한 기준 포인트
+
+            val levelIndex = levels.indexOf(levelName)  //브론즈~챌린저(1~5)
 
             // 현재 레벨 전까지는 달성 상태로 변경
             if (levelIndex < currentLevelIndex) {
-                Log.d("levelDebug", "5")
                 changeIcon(bg, inner, requireContext(), R.drawable.bg_level_map_achieved, R.color.white)
-            }else if(levelIndex == currentLevelIndex){
+            }
+            else if(levelIndex == currentLevelIndex){
                 // 현재 레벨은 최초 달성 여부 판단 후 변경
                 val prefs = requireContext().getSharedPreferences("Level_first", Context.MODE_PRIVATE)
                 isFirstAchieved = prefs.getBoolean("Level_$levelName", true)
-                Log.d("levelDebug", "6")
 
+                //최초 달성 시
                 if(isFirstAchieved){
-                    Log.d("levelDebug", "7")
-                    //그라데이션 배경
+                    //그라데이션 배경으로 설정
                     changeIcon(bg, inner, requireContext(), R.drawable.bg_level_map_achieved_first, R.color.sub_03)
-                    Log.d("levelDebug", "8")
 
                     //레벨 달성 바 변경
                     binding.llLevelAchieveBar.setBackgroundResource(R.drawable.bg_radius30_sub06)
@@ -107,25 +102,24 @@ class ProfileLevelFragment : Fragment() {
                     prefs.edit().putBoolean("Level_$levelName", false).apply()
                 }
                 else{
+                    //달성 완료 상태로 설정
                     changeIcon(bg, inner, requireContext(), R.drawable.bg_level_map_achieved, R.color.white)
                 }
             }else if(levelIndex == currentLevelIndex + 1){
                 //다음 단계 달성 전의 텍스트 설정을 위한 if문
-                if(!isFirstAchieved)
-                binding.tvLevelAchievedDatail.text = "포인트 ${levelPoint}P 달성 : $levelName 획득!"
                 nextLevel = Pair(levelPoint, levelName)
+
+                if(!isFirstAchieved){
+                    //최초 달성 시 다음 단계 달성 멘트로 오버되는 거 방지
+                   binding.tvLevelAchievedDatail.text = "포인트 ${levelPoint}P 달성 : $levelName 획득!"
+                }
+
             }
 
             ////다이얼로그 띄우기
             //아이콘 배경의 리소스 id를 전달하여 각각 다르게 구현
             bg.setOnClickListener {
                 val bgDrawableResId = bg.tag as? Int ?: R.drawable.bg_level_map_default
-//                Log.d("levelDebug", "Drawable ResId: $bgDrawableResId")
-//                when (bgDrawableResId) {
-//                    R.drawable.bg_level_map_default -> Log.d("levelDebug", "Default Action")
-//                    R.drawable.bg_level_map_achieved_first -> Log.d("levelDebug", "Achieved First Action")
-//                    R.drawable.bg_level_map_achieved -> Log.d("levelDebug", "Achieved Action")
-//                }
 
                 // 뷰의 id 이름 가져오기
                 val viewIdName = resources.getResourceEntryName(inner.id) // e,g, "tv_level_s"
@@ -156,8 +150,6 @@ class ProfileLevelFragment : Fragment() {
                             binding.tvLevelSubTitle.text = "이제 어떤 자기개발이든 모두 해내실 수 있을 거예요"
                         }
 
-
-
                         //Todo: "최초 여부" 상태 업데이트(api)
 
                     }
@@ -166,7 +158,6 @@ class ProfileLevelFragment : Fragment() {
             }
 
         }
-        Log.d("levelDebug", "4")
 
     }
 

@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import com.example.hrr_android.databinding.DialogLevelGetBinding
 
+//획득 버튼 클릭 시 다이얼로그 호출한 곳에서의 처리를 담당
 interface LevelDialogInterface {
     fun onGetButtonClick()
 }
@@ -23,7 +24,7 @@ class LevelDialog() : DialogFragment() {
     private var _binding: DialogLevelGetBinding? = null
     private val binding get() = _binding!!
 
-    //interface 전달 받기
+    //interface 구현 전달 받아 저장
     private var dialogInterface: LevelDialogInterface? = null
 
     fun setListener(dialogInterface: LevelDialogInterface) {
@@ -39,7 +40,6 @@ class LevelDialog() : DialogFragment() {
 
         // 전달받은 리소스 ID로 다이얼로그 뷰 세팅
         val drawableResId = arguments?.getInt("drawableResId") ?: R.drawable.bg_level_map_default
-
         setupDialogActions(drawableResId)
 
         // 전달받은 레벨 문자로 다이얼로그 배경 세팅
@@ -100,6 +100,7 @@ class LevelDialog() : DialogFragment() {
         imageView.colorFilter = filter
     }
 
+    //레벨에 따라 다이얼로그 배경 이미지 다르게 설정
     private fun setDialogBg(levelName: String){
         when (levelName) {
             "b" -> binding.ivLevelDialogBg.setImageResource(R.drawable.bg_level_bronze)
@@ -111,6 +112,7 @@ class LevelDialog() : DialogFragment() {
     }
 
     companion object{
+        //아이콘의 배경과, 레벨에 따라 처리 로직을 다르게 구현
         fun newInstance(drawableResId: Int, levelName: String): LevelDialog{
             val dialog = LevelDialog()
             val args = Bundle()
