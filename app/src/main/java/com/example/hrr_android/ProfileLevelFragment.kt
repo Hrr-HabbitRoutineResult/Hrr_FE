@@ -144,11 +144,19 @@ class ProfileLevelFragment : Fragment() {
                         //레벨 아이콘 "달성 완료" 상태로 변경
                         changeIcon(bg, inner, requireContext(), R.drawable.bg_level_map_achieved, R.color.white)
 
-                        //레벨 달성 바 기본 상태로 되돌리기
-                        binding.llLevelAchieveBar.setBackgroundResource(R.drawable.bg_radius_30_grey_50)
-                        binding.ivLevelCheck.setImageResource(R.drawable.ic_level_default)
-                        binding.tvLevelAchievedDatail.setTextColor(ContextCompat.getColor(requireContext(), R.color.grey_500))
-                        binding.tvLevelAchievedDatail.text = "포인트 ${nextLevel.first}P 달성 : ${nextLevel.second} 획득!"     //nextLevel = Pair(levelPoint, levelName)
+                        //레벨 달성 바 기본 상태로 되돌리기 - 챌린저 도달 시에는 변화 없음
+                        if(levelChar != "final"){
+                            binding.llLevelAchieveBar.setBackgroundResource(R.drawable.bg_radius_30_grey_50)
+                            binding.ivLevelCheck.setImageResource(R.drawable.ic_level_default)
+                            binding.tvLevelAchievedDatail.setTextColor(ContextCompat.getColor(requireContext(), R.color.grey_500))
+                            binding.tvLevelAchievedDatail.text = "포인트 ${nextLevel.first}P 달성 : ${nextLevel.second} 획득!"     //nextLevel = Pair(levelPoint, levelName)
+                        }else{
+                            //챌린저 도달 시 뷰 수정
+                            binding.tvLevelMainTitle.text = "모든 레벨을 완주했어요!"
+                            binding.tvLevelSubTitle.text = "이제 어떤 자기개발이든 모두 해내실 수 있을 거예요"
+                        }
+
+
 
                         //Todo: "최초 여부" 상태 업데이트(api)
 
@@ -175,7 +183,7 @@ class ProfileLevelFragment : Fragment() {
             }
             is ImageView -> {
                 // 내부 이미지 색상 변경
-                inner.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.sub_03))
+                inner.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(context, innerColorRes))
             }
             else -> {
                 // 처리하지 않음
