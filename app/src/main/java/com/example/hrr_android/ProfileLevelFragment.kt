@@ -98,6 +98,9 @@ class ProfileLevelFragment : Fragment() {
                     binding.llLevelAchieveBar.setBackgroundResource(R.drawable.bg_radius30_sub06)
                     binding.ivLevelCheck.setImageResource(R.drawable.ic_level_achieved)
                     binding.tvLevelAchievedDatail.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_primary))
+
+                    //
+                    prefs.edit().putBoolean("Level_$levelName", false).apply()
                 }
                 else{
                     changeIcon(bg, inner, requireContext(), R.drawable.bg_level_map_achieved, R.color.white)
