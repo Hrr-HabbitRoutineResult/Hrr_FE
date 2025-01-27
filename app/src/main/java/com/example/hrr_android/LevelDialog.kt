@@ -73,11 +73,13 @@ class LevelDialog() : DialogFragment() {
             }
             //최초 달성 레벨
             R.drawable.bg_level_map_achieved_first -> {
-                //"획득" 버튼 클릭 처
+                //"획득" 버튼 클릭 처리
                 binding.btnLevelGet.setOnClickListener {
                     dialogInterface?.onGetButtonClick()
                     dismiss()
                 }
+                //"X" 버튼 숨김 처리
+                binding.ivLevelClose.visibility = View.GONE
             }
             //달성 완료 레벨
             R.drawable.bg_level_map_achieved -> {
