@@ -62,7 +62,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginHorizontal="16dp">
+            android:layout_marginHorizontal="16dp"
+            android:paddingBottom="90dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -184,215 +185,10 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
 
-            <!-- 운동게시판 -->
-            <LinearLayout
-                android:id="@+id/layout_community_health"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:paddingVertical="15dp">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_community_pin_selected"
-                    android:layout_marginStart="10dp"
-                    android:visibility="visible"/>
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_community_pin_unselected"
-                    android:layout_marginStart="8dp"
-                    android:visibility="gone"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginStart="20dp"
-                    android:text="운동게시판"
-                    android:textColor="@color/text_primary"
-                    android:textSize="15sp"
-                    android:fontFamily="@font/noto_sans_kr_medium"
-                    android:includeFontPadding="false"/>
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_community_new"
-                    android:layout_marginStart="10dp"
-                    android:visibility="visible"/>
-            </LinearLayout>
-
-            <!-- 학업게시판 -->
-            <LinearLayout
-                android:id="@+id/layout_community_learn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:paddingVertical="15dp">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_community_pin_selected"
-                    android:layout_marginStart="10dp"
-                    android:visibility="visible"/>
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_community_pin_unselected"
-                    android:layout_marginStart="8dp"
-                    android:visibility="gone"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginStart="20dp"
-                    android:text="학업게시판"
-                    android:textColor="@color/text_primary"
-                    android:textSize="15sp"
-                    android:fontFamily="@font/noto_sans_kr_medium"
-                    android:includeFontPadding="false"/>
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_community_new"
-                    android:layout_marginStart="10dp"
-                    android:visibility="visible"/>
-            </LinearLayout>
-
-            <!-- 취업준비게시판 -->
-            <LinearLayout
-                android:id="@+id/layout_community_company"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:paddingVertical="15dp">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_community_pin_selected"
-                    android:layout_marginStart="10dp"
-                    android:visibility="visible"/>
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_community_pin_unselected"
-                    android:layout_marginStart="8dp"
-                    android:visibility="gone"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginStart="20dp"
-                    android:text="취업준비게시판"
-                    android:textColor="@color/text_primary"
-                    android:textSize="15sp"
-                    android:fontFamily="@font/noto_sans_kr_medium"
-                    android:includeFontPadding="false"/>
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_community_new"
-                    android:layout_marginStart="10dp"
-                    android:visibility="visible"/>
-            </LinearLayout>
-
-            <!-- 생활습관게시판 -->
-            <LinearLayout
-                android:id="@+id/layout_community_routine"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:paddingVertical="15dp">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_community_pin_selected"
-                    android:layout_marginStart="10dp"
-                    android:visibility="visible"/>
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_community_pin_unselected"
-                    android:layout_marginStart="8dp"
-                    android:visibility="gone"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginStart="20dp"
-                    android:text="생활습관게시판"
-                    android:textColor="@color/text_primary"
-                    android:textSize="15sp"
-                    android:fontFamily="@font/noto_sans_kr_medium"
-                    android:includeFontPadding="false"/>
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_community_new"
-                    android:layout_marginStart="10dp"
-                    android:visibility="visible"/>
-            </LinearLayout>
-
-            <!-- 취미게시판 -->
-            <LinearLayout
-                android:id="@+id/layout_community_hobby"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:paddingVertical="15dp">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_community_pin_selected"
-                    android:layout_marginStart="10dp"
-                    android:visibility="visible"/>
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_community_pin_unselected"
-                    android:layout_marginStart="8dp"
-                    android:visibility="gone"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginStart="20dp"
-                    android:text="취미게시판"
-                    android:textColor="@color/text_primary"
-                    android:textSize="15sp"
-                    android:fontFamily="@font/noto_sans_kr_medium"
-                    android:includeFontPadding="false"/>
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_community_new"
-                    android:layout_marginStart="10dp"
-                    android:visibility="visible"/>
-            </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_community_category"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
             <!-- 선 (구분선) -->
             <View
@@ -655,4 +451,16 @@
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
+
+    <ImageView
+        android:id="@+id/btn_community_floating"
+        android:layout_width="68dp"
+        android:layout_height="68dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="35dp"
+        android:src="@drawable/btn_floating_more"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
