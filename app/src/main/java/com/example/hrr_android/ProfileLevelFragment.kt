@@ -33,7 +33,8 @@ class ProfileLevelFragment : Fragment() {
         //레벨에 따라 아이콘 상태(텍스트, 배경)를 설정
         initLevelIcon()
 
-        //레벨 아이콘 클릭리스너
+        //포인트 바인딩
+        binding.tvLevelMypoint.text = "${myPoint}P"
 
     }
 
@@ -118,7 +119,6 @@ class ProfileLevelFragment : Fragment() {
                 val dialog = LevelDialog.newInstance(bgDrawableResId)
                 dialog.setListener(object : LevelDialogInterface {
                     override fun onGetButtonClick() {
-                        //Todo: "획득" 버튼 눌렀을 때 처리 - 최초 달성 시에만
                         //메시지 출력
                         Toast.makeText(requireContext(), "$levelName 레벨을 달성하였습니다. 축하합니다!", Toast.LENGTH_SHORT).show()
 
@@ -129,6 +129,8 @@ class ProfileLevelFragment : Fragment() {
                         binding.llLevelAchieveBar.setBackgroundResource(R.drawable.bg_radius_30_grey_50)
                         binding.ivLevelCheck.setImageResource(R.drawable.ic_level_default)
                         binding.tvLevelAchievedDatail.setTextColor(ContextCompat.getColor(requireContext(), R.color.grey_500))
+
+                        //Todo: "최초 여부" 상태 업데이트
 
                     }
                 })
