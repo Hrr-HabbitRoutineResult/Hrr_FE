@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.example.hrr_android.databinding.FragmentProfileLevelBinding
 
@@ -118,6 +119,17 @@ class ProfileLevelFragment : Fragment() {
                 dialog.setListener(object : LevelDialogInterface {
                     override fun onGetButtonClick() {
                         //Todo: "획득" 버튼 눌렀을 때 처리 - 최초 달성 시에만
+                        //메시지 출력
+                        Toast.makeText(requireContext(), "$levelName 레벨을 달성하였습니다. 축하합니다!", Toast.LENGTH_SHORT).show()
+
+                        //레벨 아이콘 "달성 완료" 상태로 변경
+                        changeIcon(bg, inner, requireContext(), R.drawable.bg_level_map_achieved, R.color.white)
+
+                        //레벨 달성 바 기본 상태로 되돌리기
+                        binding.llLevelAchieveBar.setBackgroundResource(R.drawable.bg_radius_30_grey_50)
+                        binding.ivLevelCheck.setImageResource(R.drawable.ic_level_default)
+                        binding.tvLevelAchievedDatail.setTextColor(ContextCompat.getColor(requireContext(), R.color.grey_500))
+
                     }
                 })
                 dialog.show(parentFragmentManager, "LevelDialog")
