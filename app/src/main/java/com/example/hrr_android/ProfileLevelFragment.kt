@@ -99,7 +99,7 @@ class ProfileLevelFragment : Fragment() {
                     binding.ivLevelCheck.setImageResource(R.drawable.ic_level_achieved)
                     binding.tvLevelAchievedDatail.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_primary))
 
-                    //
+                    //최초 달성 여부를 내부 데이터에 저장
                     prefs.edit().putBoolean("Level_$levelName", false).apply()
                 }
                 else{
@@ -118,8 +118,15 @@ class ProfileLevelFragment : Fragment() {
 //                    R.drawable.bg_level_map_achieved -> Log.d("levelDebug", "Achieved Action")
 //                }
 
+                // 뷰의 id 이름 가져오기
+                val viewIdName = resources.getResourceEntryName(inner.id) // e,g, "tv_level_s"
+                // 핵심 부분 추출
+                val levelChar = viewIdName.substringAfterLast("_") // "_" 뒤의 문자 추출 e.g. "s"
+
+
+
                 //다이얼로그 호출
-                val dialog = LevelDialog.newInstance(bgDrawableResId)
+                val dialog = LevelDialog.newInstance(bgDrawableResId, levelChar)
                 dialog.setListener(object : LevelDialogInterface {
                     override fun onGetButtonClick() {
                         //메시지 출력

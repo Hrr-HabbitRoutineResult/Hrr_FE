@@ -42,6 +42,10 @@ class LevelDialog() : DialogFragment() {
 
         setupDialogActions(drawableResId)
 
+        // 전달받은 레벨 문자로 다이얼로그 배경 세팅
+        val levelName = arguments?.getString("levelName") ?: ""
+        setDialogBg(levelName)
+
         // 다이얼로그 배경 투명하게 설정
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
@@ -96,11 +100,22 @@ class LevelDialog() : DialogFragment() {
         imageView.colorFilter = filter
     }
 
+    private fun setDialogBg(levelName: String){
+        when (levelName) {
+            "b" -> binding.ivLevelDialogBg.setImageResource(R.drawable.bg_level_bronze)
+            "s" -> binding.ivLevelDialogBg.setImageResource(R.drawable.bg_level_silver)
+            "g" -> binding.ivLevelDialogBg.setImageResource(R.drawable.bg_level_gold)
+            "m" -> binding.ivLevelDialogBg.setImageResource(R.drawable.bg_level_master)
+            "final" -> binding.ivLevelDialogBg.setImageResource(R.drawable.bg_level_challenger)
+        }
+    }
+
     companion object{
-        fun newInstance(drawableResId: Int): LevelDialog{
+        fun newInstance(drawableResId: Int, levelName: String): LevelDialog{
             val dialog = LevelDialog()
             val args = Bundle()
             args.putInt("drawableResId", drawableResId)
+            args.putString("levelName", levelName)
             dialog.arguments = args
             return dialog
         }
