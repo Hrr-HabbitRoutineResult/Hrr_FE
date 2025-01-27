@@ -88,30 +88,13 @@
         </FrameLayout>
 
 
-        <!-- 계정 찾기, 비밀번호 찾기, 회원가입 -->
+        <!-- 비밀번호 찾기, 회원가입 -->
         <LinearLayout
             android:id="@+id/layout_login_helper"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="20dp">
-
-            <TextView
-                android:id="@+id/tv_login_find_account"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="계정 찾기"
-                android:textSize="12sp"
-                android:textColor="@color/text_secondary"
-                android:fontFamily="@font/noto_sans_kr_regular"
-                android:includeFontPadding="false"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="  |  "
-                android:textSize="12sp"
-                android:textColor="@color/text_line"/>
 
             <TextView
                 android:id="@+id/tv_login_find_password"

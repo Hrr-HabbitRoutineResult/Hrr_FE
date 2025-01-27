@@ -38,12 +38,6 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        // 계정 찾기 클릭 시 FindInfoActivity로 이동
-        binding.tvLoginFindAccount.setOnClickListener {
-            val intent = Intent(this, FindInfoActivity::class.java)
-            startActivity(intent)
-        }
-
         // 비밀번호 찾기 클릭 시 FindInfoActivity로 이동
         binding.tvLoginFindPassword.setOnClickListener {
             val intent = Intent(this, FindInfoActivity::class.java)
