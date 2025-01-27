@@ -1,8 +1,11 @@
-package com.example.hrr_android
+package com.example.hrr_android.community.ui
 
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.example.hrr_android.community.ui.fragment.CommunityContentFragment
+import com.example.hrr_android.community.ui.fragment.CommunityTabContentFragment
+import com.example.hrr_android.R
 import com.example.hrr_android.databinding.ActivityBoardBinding
 
 class BoardActivity : AppCompatActivity() {

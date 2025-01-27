@@ -1,4 +1,4 @@
-package com.example.hrr_android
+package com.example.hrr_android.community.ui.fragment
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,6 +10,11 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.hrr_android.community.model.BaseCommunity
+import com.example.hrr_android.community.model.Community
+import com.example.hrr_android.community.adapter.CommunityRVAdapter
+import com.example.hrr_android.R
+import com.example.hrr_android.community.ui.BoardActivity
 import com.example.hrr_android.databinding.FragmentCommunityBinding
 
 class CommunityFragment : Fragment() {

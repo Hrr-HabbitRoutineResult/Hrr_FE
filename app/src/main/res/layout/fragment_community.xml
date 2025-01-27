@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".CommunityFragment">
+    tools:context=".community.ui.fragment.CommunityFragment">
 
     <LinearLayout
         android:id="@+id/layout_community_header"

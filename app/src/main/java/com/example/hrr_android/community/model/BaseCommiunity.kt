@@ -1,4 +1,4 @@
-package com.example.hrr_android
+package com.example.hrr_android.community.model
 
 enum class BaseCommunity(val title: String) {
     HEALTH("운동"),

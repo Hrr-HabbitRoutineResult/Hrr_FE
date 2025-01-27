@@ -1,4 +1,4 @@
-package com.example.hrr_android
+package com.example.hrr_android.community.model
 
 data class Post(
     var title: String,

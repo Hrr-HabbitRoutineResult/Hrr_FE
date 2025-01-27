@@ -6,7 +6,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".BoardActivity">
+    tools:context=".community.ui.BoardActivity">
 
     <!-- 상단 헤더 레이아웃 -->
     <androidx.constraintlayout.widget.ConstraintLayout

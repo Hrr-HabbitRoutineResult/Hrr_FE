@@ -1,4 +1,4 @@
-package com.example.hrr_android
+package com.example.hrr_android.community.model
 
 data class Community(
     val isPinned: Boolean, // 핀 여부

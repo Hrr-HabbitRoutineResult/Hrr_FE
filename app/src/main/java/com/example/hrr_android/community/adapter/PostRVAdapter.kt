@@ -1,9 +1,10 @@
-package com.example.hrr_android
+package com.example.hrr_android.community.adapter
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.hrr_android.community.model.Post
 import com.example.hrr_android.databinding.ItemPostListBinding
 
 class PostRVAdapter(
