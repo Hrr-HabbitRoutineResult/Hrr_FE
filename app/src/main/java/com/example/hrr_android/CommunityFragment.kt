@@ -27,6 +27,20 @@ class CommunityFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // 더미데이터
+        val community = mutableListOf(
+            Community(true, "운동게시판", ""),
+            Community(false, "학업게시판", ""),
+            Community(false, "취업준비게시판", ""),
+            Community(false, "생활습관게시판", ""),
+            Community(false, "취미게시판", "")
+        )
+
+        // 리사이클러뷰 설정
+        val adapter = CommunityRVAdapter(community)
+        binding.rvCommunityCategory.adapter = adapter
+        binding.rvCommunityCategory.layoutManager = LinearLayoutManager(requireContext())
+
         // 데이터 초기화 및 RecyclerView 설정
         setupRecyclerView(
             binding.rvCommunityHealth,

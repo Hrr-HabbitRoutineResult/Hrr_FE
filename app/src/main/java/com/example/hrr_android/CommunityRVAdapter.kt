@@ -28,6 +28,9 @@ class CommunityRVAdapter(
             tvItemCommunityTitle.text = item.title
             tvItemCommunityDescribe.text = item.description
 
+            // 설명이 없을 경우 TextView를 GONE 처리
+            tvItemCommunityDescribe.visibility = if (item.description.isEmpty()) View.GONE else View.VISIBLE
+
             // 핀 여부에 따라 아이콘 설정
             ivCommunityItemPinSelected.visibility = if (item.isPinned) View.VISIBLE else View.GONE
             ivCommunityItemPinUnselected.visibility = if (item.isPinned) View.GONE else View.VISIBLE
