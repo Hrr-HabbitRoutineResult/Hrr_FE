@@ -30,6 +30,11 @@ class ProfileLevelFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //X 버튼 클릭 리스너
+        binding.ivLevelClose.setOnClickListener {
+            parentFragmentManager.popBackStack()     // 이전 상태로 복원
+        }
+
         //레벨에 따라 아이콘 상태(텍스트, 배경)를 설정
         initLevelIcon()
 

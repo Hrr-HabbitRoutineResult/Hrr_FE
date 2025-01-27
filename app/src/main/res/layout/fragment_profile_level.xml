@@ -43,6 +43,7 @@
 
             <!-- x 버튼 -->
             <ImageView
+                android:id="@+id/iv_level_close"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/btn_x"
