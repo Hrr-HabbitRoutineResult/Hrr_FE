@@ -40,7 +40,7 @@ class LoginActivity : AppCompatActivity() {
 
         // 비밀번호 찾기 클릭 시 FindInfoActivity로 이동
         binding.tvLoginFindPassword.setOnClickListener {
-            val intent = Intent(this, FindInfoActivity::class.java)
+            val intent = Intent(this, PasswordActivity::class.java)
             startActivity(intent)
         }
     }
