@@ -4,6 +4,9 @@ import android.content.Context
 import android.util.Patterns
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.FrameLayout
+import android.widget.ImageView
+import android.widget.TextView
 import com.google.android.material.snackbar.Snackbar
 
 object ValidUtils {
@@ -23,6 +26,21 @@ object ValidUtils {
     fun isValidNickname(nickname: String): Boolean {
         return Regex("^[가-힣a-zA-Z0-9]{1,10}").matches(nickname)
     }
+
+    fun updateButtonState(
+        frameLayout: FrameLayout,
+        textView: TextView,
+        imageView: ImageView,
+        isEnabled: Boolean
+    ) {
+        // FrameLayout 활성화/비활성화
+        frameLayout.isEnabled = isEnabled
+
+        // TextView와 ImageView의 상태가 isEnabled에 따라 drawable 자동 적용
+        textView.isEnabled = isEnabled
+        imageView.isEnabled = isEnabled
+    }
+
 
     // 키보드 숨기기 함수
     fun hideKeyboard(context: Context, view: View) {
