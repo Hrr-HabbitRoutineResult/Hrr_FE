@@ -1,4 +1,4 @@
-package com.example.hrr_android
+package com.example.hrr_android.access.ui.fragment
 
 import android.os.Bundle
 import android.text.Editable
@@ -9,6 +9,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
+import com.example.hrr_android.R
+import com.example.hrr_android.access.ui.SignUpActivity
+import com.example.hrr_android.access.ValidUtils
 import com.example.hrr_android.databinding.FragmentInfoInputBinding
 
 class InfoInputFragment : Fragment() {
@@ -81,9 +84,13 @@ class InfoInputFragment : Fragment() {
             binding.etSignupNickname.background = defaultBackground
         } else {
             binding.tvSignupNicknameHelper.text = "사용할 수 없는 닉네임입니다."
-            binding.tvSignupNicknameHelper.setTextColor(ContextCompat.getColor(requireContext(), R.color.sub_01))
+            binding.tvSignupNicknameHelper.setTextColor(ContextCompat.getColor(requireContext(),
+                R.color.sub_01
+            ))
             binding.ivSignupNicknameError.visibility = View.VISIBLE
-            binding.etSignupNickname.background = ContextCompat.getDrawable(requireContext(), R.drawable.bg_input_field_error)
+            binding.etSignupNickname.background = ContextCompat.getDrawable(requireContext(),
+                R.drawable.bg_input_field_error
+            )
         }
     }
 
@@ -100,11 +107,17 @@ class InfoInputFragment : Fragment() {
         // 이메일 유효성 검사 결과에 따라 UI 업데이트
         if (isEmailValid) {
             binding.btnSignupSend.isEnabled = true
-            binding.btnSignupSend.background = ContextCompat.getDrawable(requireContext(), R.drawable.btn_orange_white_30)
-            binding.tvSignupSend.setTextColor(ContextCompat.getColor(requireContext(), R.color.sub_01))
+            binding.btnSignupSend.background = ContextCompat.getDrawable(requireContext(),
+                R.drawable.btn_orange_white_30
+            )
+            binding.tvSignupSend.setTextColor(ContextCompat.getColor(requireContext(),
+                R.color.sub_01
+            ))
         } else {
             binding.btnSignupSend.isEnabled = false
-            binding.btnSignupSend.background = ContextCompat.getDrawable(requireContext(), R.drawable.btn_grey_30)
+            binding.btnSignupSend.background = ContextCompat.getDrawable(requireContext(),
+                R.drawable.btn_grey_30
+            )
             binding.tvSignupSend.setTextColor(defaultTextColor)
         }
     }
@@ -122,14 +135,20 @@ class InfoInputFragment : Fragment() {
             binding.etSignupEmail.isEnabled = false
             binding.etSignupEmail.setTextColor(defaultTextColor)
             binding.btnSignupSend.isEnabled = false
-            binding.btnSignupSend.background = ContextCompat.getDrawable(requireContext(), R.drawable.btn_grey_30)
+            binding.btnSignupSend.background = ContextCompat.getDrawable(requireContext(),
+                R.drawable.btn_grey_30
+            )
             binding.tvSignupSend.setTextColor(defaultTextColor)
             binding.etSignupVerification.isEnabled = true
             binding.btnSignupVerification.isEnabled = true
-            binding.btnSignupVerification.background = ContextCompat.getDrawable(requireContext(), R.drawable.btn_orange_white_30)
-            binding.tvSignupVerification.setTextColor(ContextCompat.getColor(requireContext(), R.color.sub_01))
+            binding.btnSignupVerification.background = ContextCompat.getDrawable(requireContext(),
+                R.drawable.btn_orange_white_30
+            )
+            binding.tvSignupVerification.setTextColor(ContextCompat.getColor(requireContext(),
+                R.color.sub_01
+            ))
             ValidUtils.hideKeyboard(requireContext(), requireView())
-            ValidUtils.showSnackbar(requireView(),"인증 코드가 전송 되었습니다.", binding.lineInfoInput)
+            ValidUtils.showSnackbar(requireView(), "인증 코드가 전송 되었습니다.", binding.lineInfoInput)
         }
     }
 
@@ -142,11 +161,13 @@ class InfoInputFragment : Fragment() {
             binding.etSignupVerification.isEnabled = false
             binding.etSignupVerification.setTextColor(defaultTextColor)
             binding.btnSignupVerification.isEnabled = false
-            binding.btnSignupVerification.background = ContextCompat.getDrawable(requireContext(), R.drawable.btn_grey_30)
+            binding.btnSignupVerification.background = ContextCompat.getDrawable(requireContext(),
+                R.drawable.btn_grey_30
+            )
             binding.tvSignupVerification.setTextColor(defaultTextColor)
-            ValidUtils.showSnackbar(requireView(),"이메일 인증이 완료 되었습니다.", binding.lineInfoInput)
+            ValidUtils.showSnackbar(requireView(), "이메일 인증이 완료 되었습니다.", binding.lineInfoInput)
         } else {
-            ValidUtils.showSnackbar(requireView(),"올바른 인증 코드를 입력해 주세요.", binding.lineInfoInput)
+            ValidUtils.showSnackbar(requireView(), "올바른 인증 코드를 입력해 주세요.", binding.lineInfoInput)
         }
     }
 
@@ -173,9 +194,13 @@ class InfoInputFragment : Fragment() {
             binding.etSignupPassword.background = defaultBackground
         } else {
             binding.tvSignupPasswordHelper.text = "사용 가능한 비밀번호 조합을 입력해 주세요"
-            binding.tvSignupPasswordHelper.setTextColor(ContextCompat.getColor(requireContext(), R.color.sub_01))
+            binding.tvSignupPasswordHelper.setTextColor(ContextCompat.getColor(requireContext(),
+                R.color.sub_01
+            ))
             binding.ivSignupPasswordError.visibility = View.VISIBLE
-            binding.etSignupPassword.background = ContextCompat.getDrawable(requireContext(), R.drawable.bg_input_field_error)
+            binding.etSignupPassword.background = ContextCompat.getDrawable(requireContext(),
+                R.drawable.bg_input_field_error
+            )
         }
     }
 
@@ -213,7 +238,9 @@ class InfoInputFragment : Fragment() {
         } else {
             binding.tvSignupConfirmHelper.visibility = View.VISIBLE
             binding.ivSignupConfirmError.visibility = View.VISIBLE
-            binding.etSignupPasswordConfirm.background = ContextCompat.getDrawable(requireContext(), R.drawable.bg_input_field_error)
+            binding.etSignupPasswordConfirm.background = ContextCompat.getDrawable(requireContext(),
+                R.drawable.bg_input_field_error
+            )
         }
     }
 
@@ -226,9 +253,21 @@ class InfoInputFragment : Fragment() {
                 (activity as? SignUpActivity)?.changeFragment(CompleteFragment())
             }
             !ValidUtils.isValidNickname(nickname) -> updateNicknameUI(valid = false)
-            !isVerificationValid -> ValidUtils.showSnackbar(requireView(),"이메일 인증을 진행해 주세요.", binding.lineInfoInput)
-            !isPasswordMatch -> ValidUtils.showSnackbar(requireView(),"비밀번호가 일치하지 않습니다.", binding.lineInfoInput)
-            else -> ValidUtils.showSnackbar(requireView(),"입력 정보를 다시 확인해 주세요.", binding.lineInfoInput)
+            !isVerificationValid -> ValidUtils.showSnackbar(
+                requireView(),
+                "이메일 인증을 진행해 주세요.",
+                binding.lineInfoInput
+            )
+            !isPasswordMatch -> ValidUtils.showSnackbar(
+                requireView(),
+                "비밀번호가 일치하지 않습니다.",
+                binding.lineInfoInput
+            )
+            else -> ValidUtils.showSnackbar(
+                requireView(),
+                "입력 정보를 다시 확인해 주세요.",
+                binding.lineInfoInput
+            )
         }
     }
 

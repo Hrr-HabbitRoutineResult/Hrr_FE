@@ -1,4 +1,4 @@
-package com.example.hrr_android
+package com.example.hrr_android.access.ui.fragment
 
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.hrr_android.access.ui.LoginActivity
 import com.example.hrr_android.databinding.FragmentTemporaryPasswordBinding
 import com.google.android.material.snackbar.Snackbar
 

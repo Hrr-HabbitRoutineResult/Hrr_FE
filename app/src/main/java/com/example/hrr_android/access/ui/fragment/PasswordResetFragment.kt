@@ -1,4 +1,4 @@
-package com.example.hrr_android
+package com.example.hrr_android.access.ui.fragment
 
 import android.os.Bundle
 import android.text.Editable
@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import com.example.hrr_android.R
+import com.example.hrr_android.access.ValidUtils
 import com.example.hrr_android.databinding.FragmentPasswordResetBinding
 
 class PasswordResetFragment : Fragment() {
@@ -66,9 +68,13 @@ class PasswordResetFragment : Fragment() {
             binding.etResetPassword.background = defaultBackground
         } else {
             binding.tvResetPasswordHelper.text = "사용 가능한 비밀번호 조합을 입력해 주세요"
-            binding.tvResetPasswordHelper.setTextColor(ContextCompat.getColor(requireContext(), R.color.sub_01))
+            binding.tvResetPasswordHelper.setTextColor(ContextCompat.getColor(requireContext(),
+                R.color.sub_01
+            ))
             binding.ivResetPasswordError.visibility = View.VISIBLE
-            binding.etResetPassword.background = ContextCompat.getDrawable(requireContext(), R.drawable.bg_input_field_error)
+            binding.etResetPassword.background = ContextCompat.getDrawable(requireContext(),
+                R.drawable.bg_input_field_error
+            )
         }
     }
 
@@ -118,7 +124,9 @@ class PasswordResetFragment : Fragment() {
         } else {
             binding.tvResetPasswordConfirmHelper.visibility = View.VISIBLE
             binding.ivResetPasswordConfirmError.visibility = View.VISIBLE
-            binding.etResetPasswordConfirm.background = ContextCompat.getDrawable(requireContext(), R.drawable.bg_input_field_error)
+            binding.etResetPasswordConfirm.background = ContextCompat.getDrawable(requireContext(),
+                R.drawable.bg_input_field_error
+            )
         }
     }
 
@@ -132,7 +140,7 @@ class PasswordResetFragment : Fragment() {
 
         // 비밀번호 입력 여부 확인
         if (password.isEmpty()) {
-            ValidUtils.showSnackbar(requireView(),"비밀번호를 입력해 주세요.", binding.lineResetSecond)
+            ValidUtils.showSnackbar(requireView(), "비밀번호를 입력해 주세요.", binding.lineResetSecond)
             binding.etResetPassword.background =
                 ContextCompat.getDrawable(requireContext(), R.drawable.bg_input_field_error)
             return
@@ -140,7 +148,7 @@ class PasswordResetFragment : Fragment() {
 
         // 비밀번호 확인 입력 여부 확인
         if (confirmPassword.isEmpty()) {
-            ValidUtils.showSnackbar(requireView(),"비밀번호 확인란을 입력해 주세요.", binding.lineResetSecond)
+            ValidUtils.showSnackbar(requireView(), "비밀번호 확인란을 입력해 주세요.", binding.lineResetSecond)
             binding.etResetPasswordConfirm.background =
                 ContextCompat.getDrawable(requireContext(), R.drawable.bg_input_field_error)
             return
@@ -149,7 +157,7 @@ class PasswordResetFragment : Fragment() {
         if (isPasswordValid && isPasswordMatch) {
             loadNextFragment(PasswordResetCompleteFragment())
         } else if (!isPasswordValid) {
-            ValidUtils.showSnackbar(requireView(),"비밀번호가 일치하지 않습니다.", binding.lineResetSecond)
+            ValidUtils.showSnackbar(requireView(), "비밀번호가 일치하지 않습니다.", binding.lineResetSecond)
         }
             binding.tvResetPasswordConfirmHelper.visibility = View.VISIBLE
             binding.ivResetPasswordConfirmError.visibility = View.VISIBLE

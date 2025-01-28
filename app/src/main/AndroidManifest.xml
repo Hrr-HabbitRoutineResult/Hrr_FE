@@ -16,14 +16,14 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".PasswordActivity"
+            android:name=".access.ui.PasswordActivity"
             android:exported="false" />
         <activity
-            android:name=".SignUpActivity"
+            android:name=".access.ui.SignUpActivity"
             android:windowSoftInputMode="adjustPan"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".access.ui.LoginActivity"
             android:exported="false" />
         <activity
             android:name=".SplashActivity"

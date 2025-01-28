@@ -1,7 +1,11 @@
-package com.example.hrr_android
+package com.example.hrr_android.access.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.example.hrr_android.access.NavigatePasswordFragment
+import com.example.hrr_android.access.ui.fragment.PasswordResetFragment
+import com.example.hrr_android.R
+import com.example.hrr_android.access.ui.fragment.VerificationFragment
 import com.example.hrr_android.databinding.ActivityPasswordBinding
 
 class PasswordActivity : AppCompatActivity() {

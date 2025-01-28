@@ -1,4 +1,4 @@
-package com.example.hrr_android
+package com.example.hrr_android.access.ui.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
+import com.example.hrr_android.R
+import com.example.hrr_android.access.ValidUtils
 import com.example.hrr_android.databinding.FragmentVerificationBinding
 
 class VerificationFragment : Fragment() {
@@ -58,11 +60,17 @@ class VerificationFragment : Fragment() {
         // 이메일 유효성 검사 결과에 따라 UI 업데이트
         if (isEmailValid) {
             binding.btnVerificationSend.isEnabled = true
-            binding.btnVerificationSend.background = ContextCompat.getDrawable(requireContext(), R.drawable.btn_orange_white_30)
-            binding.tvVerificationSend.setTextColor(ContextCompat.getColor(requireContext(), R.color.sub_01))
+            binding.btnVerificationSend.background = ContextCompat.getDrawable(requireContext(),
+                R.drawable.btn_orange_white_30
+            )
+            binding.tvVerificationSend.setTextColor(ContextCompat.getColor(requireContext(),
+                R.color.sub_01
+            ))
         } else {
             binding.btnVerificationSend.isEnabled = false
-            binding.btnVerificationSend.background = ContextCompat.getDrawable(requireContext(), R.drawable.btn_grey_30)
+            binding.btnVerificationSend.background = ContextCompat.getDrawable(requireContext(),
+                R.drawable.btn_grey_30
+            )
             binding.tvVerificationSend.setTextColor(defaultTextColor)
         }
     }
@@ -79,14 +87,20 @@ class VerificationFragment : Fragment() {
             binding.etVerificationEmail.isEnabled = false
             binding.etVerificationEmail.setTextColor(defaultTextColor)
             binding.btnVerificationSend.isEnabled = false
-            binding.btnVerificationSend.background = ContextCompat.getDrawable(requireContext(), R.drawable.btn_grey_30)
+            binding.btnVerificationSend.background = ContextCompat.getDrawable(requireContext(),
+                R.drawable.btn_grey_30
+            )
             binding.tvVerificationSend.setTextColor(defaultTextColor)
             binding.etVerification.isEnabled = true
             binding.btnVerification.isEnabled = true
-            binding.btnVerification.background = ContextCompat.getDrawable(requireContext(), R.drawable.btn_orange_white_30)
-            binding.tvVerification.setTextColor(ContextCompat.getColor(requireContext(), R.color.sub_01))
+            binding.btnVerification.background = ContextCompat.getDrawable(requireContext(),
+                R.drawable.btn_orange_white_30
+            )
+            binding.tvVerification.setTextColor(ContextCompat.getColor(requireContext(),
+                R.color.sub_01
+            ))
             ValidUtils.hideKeyboard(requireContext(), requireView())
-            ValidUtils.showSnackbar(requireView(),"인증 코드가 전송 되었습니다.", binding.lineVerification)
+            ValidUtils.showSnackbar(requireView(), "인증 코드가 전송 되었습니다.", binding.lineVerification)
         }
     }
 
@@ -99,11 +113,13 @@ class VerificationFragment : Fragment() {
             binding.etVerification.isEnabled = false
             binding.etVerification.setTextColor(defaultTextColor)
             binding.btnVerification.isEnabled = false
-            binding.btnVerification.background = ContextCompat.getDrawable(requireContext(), R.drawable.btn_grey_30)
+            binding.btnVerification.background = ContextCompat.getDrawable(requireContext(),
+                R.drawable.btn_grey_30
+            )
             binding.tvVerification.setTextColor(defaultTextColor)
-            ValidUtils.showSnackbar(requireView(),"이메일 인증이 완료 되었습니다.", binding.lineVerification)
+            ValidUtils.showSnackbar(requireView(), "이메일 인증이 완료 되었습니다.", binding.lineVerification)
         } else {
-            ValidUtils.showSnackbar(requireView(),"올바른 인증 코드를 입력해 주세요.", binding.lineVerification)
+            ValidUtils.showSnackbar(requireView(), "올바른 인증 코드를 입력해 주세요.", binding.lineVerification)
         }
     }
 

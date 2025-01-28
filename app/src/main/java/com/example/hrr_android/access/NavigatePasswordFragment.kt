@@ -1,4 +1,4 @@
-package com.example.hrr_android
+package com.example.hrr_android.access
 
 enum class NavigatePasswordFragment(val fragmentName: String, val title: String) {
     VERIFICATION("VerificationFragment", "비밀번호 찾기"),

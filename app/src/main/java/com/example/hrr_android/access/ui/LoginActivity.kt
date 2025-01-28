@@ -1,10 +1,12 @@
-package com.example.hrr_android
+package com.example.hrr_android.access.ui
 
 import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.hrr_android.MainActivity
+import com.example.hrr_android.access.NavigatePasswordFragment
 import com.example.hrr_android.databinding.ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity() {
