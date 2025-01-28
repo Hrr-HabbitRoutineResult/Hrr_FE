@@ -41,11 +41,13 @@ class VerificationFragment : Fragment() {
         setupEmailValidation()
         setupVerificationProcess()
         setupNextButton()
+        updateNextButtonState() // 초기 상태 설정
     }
 
     private fun initializeViews() {
         binding.etVerification.isEnabled = false
         binding.btnVerification.isEnabled = false
+        binding.btnVerificationNext.isEnabled = false // 초기 상태 비활성화
     }
 
     private fun setupEmailValidation() {
@@ -108,7 +110,7 @@ class VerificationFragment : Fragment() {
         // 인증 코드 검증 처리
         val verificationCode = binding.etVerification.text.toString()
         ValidUtils.hideKeyboard(requireContext(), requireView())
-        if (isEmailSent && verificationCode == "0202") {
+        if (isEmailSent && verificationCode == "0202") { // 인증 코드 "0202"로 확인
             isVerificationValid = true
             binding.etVerification.isEnabled = false
             binding.etVerification.setTextColor(defaultTextColor)
@@ -118,6 +120,7 @@ class VerificationFragment : Fragment() {
             )
             binding.tvVerification.setTextColor(defaultTextColor)
             ValidUtils.showSnackbar(requireView(), "이메일 인증이 완료 되었습니다.", binding.lineVerification)
+            updateNextButtonState() // 인증 완료 시 버튼 상태 업데이트
         } else {
             ValidUtils.showSnackbar(requireView(), "올바른 인증 코드를 입력해 주세요.", binding.lineVerification)
         }
@@ -132,6 +135,17 @@ class VerificationFragment : Fragment() {
                 loadNextFragment(TemporaryPasswordFragment())
             }
         }
+    }
+
+    private fun updateNextButtonState() {
+        val isEnabled = isVerificationValid
+
+        ValidUtils.updateButtonState(
+            binding.btnVerificationNext,
+            binding.tvVerificationNext,
+            binding.ivVerificationNext,
+            isEnabled
+        )
     }
 
     private fun loadNextFragment(fragment: Fragment) {
