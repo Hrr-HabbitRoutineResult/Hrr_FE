@@ -57,7 +57,7 @@ class ProfileChallengeFragment : Fragment() {
         binding.rvProfileCompletedChallengeContent.adapter = profileCompletedChallengeRVAdapter
         binding.rvProfileCompletedChallengeContent.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
-        //더보기 버튼 클릭 리스터
+        //더보기 버튼 클릭 처리
         binding.llProfileCompletedChallengeMore.setOnClickListener {
             val intent = Intent(requireContext(), ProfileMoreActivity::class.java)
             intent.putExtra("type", "challenge")

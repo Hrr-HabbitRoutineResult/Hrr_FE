@@ -20,8 +20,17 @@ class ProfileMoreActivity : AppCompatActivity() {
 
         //클릭이 인식된 부분에 따라 뷰를 다르게 구성
         if (savedInstanceState == null) {
+            //제목 변경
+            binding.tvProfileMoreTitle.text = when(type){
+                "challenge" -> "완주 챌린지"
+                "certification" -> "전체 인증기록"
+
+                else -> "완주 챌린지"        //기본적으로 챌린지 화면 사용
+            }
+
             val fragment = when (type) {
                 "challenge" -> ProfileChallengeMoreFragment()
+                "certification" -> ProfileRecordMoreFragment()
                 else -> ProfileChallengeMoreFragment() // 기본적으로 ProfileChallengeMoreFragment 사용
             }
 
@@ -31,7 +40,7 @@ class ProfileMoreActivity : AppCompatActivity() {
         }
 
         //뒤로가기 버튼 클릭 처리
-        binding.tvChallengeMoreBack.setOnClickListener{
+        binding.ivProfileMoreBack.setOnClickListener{
             finish()
         }
 
