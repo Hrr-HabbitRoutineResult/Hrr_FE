@@ -38,10 +38,14 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        // 비밀번호 찾기 클릭 시 FindInfoActivity로 이동
+        // 비밀번호 찾기 클릭 시
         binding.tvLoginFindPassword.setOnClickListener {
-            val intent = Intent(this, PasswordActivity::class.java)
-            startActivity(intent)
+            navigateToPasswordActivity(NavigatePasswordFragment.VERIFICATION)
+        }
+
+        // 네이버 로고 클릭 시
+        binding.ivLoginNaver.setOnClickListener {
+            navigateToPasswordActivity(NavigatePasswordFragment.RESET)
         }
     }
 
@@ -63,5 +67,11 @@ class LoginActivity : AppCompatActivity() {
         }
 
         return true
+    }
+
+    private fun navigateToPasswordActivity(fragment: NavigatePasswordFragment) {
+        val intent = Intent(this, PasswordActivity::class.java)
+        intent.putExtra("fragment_to_load", fragment.fragmentName) // Enum에서 fragmentName 사용
+        startActivity(intent)
     }
 }

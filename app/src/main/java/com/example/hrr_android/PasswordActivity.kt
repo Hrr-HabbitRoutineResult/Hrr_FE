@@ -1,20 +1,35 @@
 package com.example.hrr_android
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import com.example.hrr_android.databinding.ActivityPasswordBinding
 
 class PasswordActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityPasswordBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_password)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+
+        binding = ActivityPasswordBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        // Intent로부터 전달받은 fragmentName을 기반으로 PasswordFragment를 가져옴
+        val fragmentName = intent.getStringExtra("fragment_to_load")
+        val selectedFragment = NavigatePasswordFragment.fromFragmentName(fragmentName)
+
+        // 제목 설정
+        binding.tvPasswordRecoveryTitle.text = selectedFragment.title
+
+        // Fragment 로드
+        val fragment = when (selectedFragment) {
+            NavigatePasswordFragment.VERIFICATION -> VerificationFragment()
+            NavigatePasswordFragment.RESET -> PasswordResetFragment()
         }
+
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.layout_password_fragment, fragment)
+            .commit()
     }
 }
+
