@@ -16,6 +16,12 @@
             android:name=".community.ui.BoardActivity"
             android:exported="false" />
         <activity
+            android:name=".LoadingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".onboarding.ui.IntroActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="false" />
         <activity
@@ -23,9 +29,16 @@
             android:exported="false" />
         <activity
             android:name=".SignUpActivity"
+            android:windowSoftInputMode="adjustPan"
             android:exported="false" />
         <activity
             android:name=".LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".onboarding.ui.ResultActivity"
+            android:exported="false" />
+        <activity
+            android:name=".onboarding.ui.OnboardingActivity"
             android:exported="false" />
         <activity
             android:name=".SplashActivity"
