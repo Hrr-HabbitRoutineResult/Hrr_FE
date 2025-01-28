@@ -56,6 +56,14 @@ class ProfileChallengeFragment : Fragment() {
         binding.rvProfileCompletedChallengeContent.adapter = profileCompletedChallengeRVAdapter
         binding.rvProfileCompletedChallengeContent.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
+        //더보기 버튼 클릭 리스터
+        binding.llProfileCompletedChallengeMore.setOnClickListener{
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.main_frame, ProfileChallengeMoreFragment())
+                .addToBackStack(null)
+                .commit()
+        }
+
         return binding.root
     }
 
