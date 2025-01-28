@@ -19,9 +19,6 @@ class TemporaryPasswordFragment : Fragment() {
     private var _binding: FragmentTemporaryPasswordBinding? = null
     private val binding get() = _binding!!
 
-    // 복사가 완료되었는지 상태를 저장하는 변수
-    private var isCopied = false
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -43,20 +40,14 @@ class TemporaryPasswordFragment : Fragment() {
         binding.btnTemporaryPasswordCopy.setOnClickListener {
             val textToCopy = binding.tvTemporaryPassword.text.toString()
             copyToClipboard(textToCopy)
-            isCopied = true // 복사가 완료되었음을 기록
         }
     }
 
     private fun setupNextButton() {
         binding.btnTemporaryPasswordNext.setOnClickListener {
-            if (isCopied) {
-                // 복사가 완료된 경우 LoginActivity로 이동
-                val intent = Intent(requireContext(), LoginActivity::class.java)
-                startActivity(intent)
-                requireActivity().finish() // 현재 액티비티 종료
-            } else {
-                ValidUtils.showSnackbar(requireView(), "임시 비밀번호를 복사해주세요.", binding.lineTemporaryPassword)
-            }
+            val intent = Intent(requireContext(), LoginActivity::class.java)
+            startActivity(intent)
+            requireActivity().finish() // 현재 액티비티 종료
         }
     }
 
