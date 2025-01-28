@@ -188,7 +188,7 @@
             android:id="@+id/iv_verification_next"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/btn_navy" />
+            android:src="@drawable/btn_access_color" />
 
         <!-- 버튼 텍스트 -->
         <TextView
@@ -196,7 +196,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="확인"
-            android:textColor="@color/white"
+            android:textColor="@drawable/btn_access_text_color"
             android:textSize="16sp"
             android:fontFamily="@font/noto_sans_kr_semi_bold"
             android:layout_gravity="center"/>
