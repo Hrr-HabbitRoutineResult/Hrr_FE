@@ -27,10 +27,13 @@ class TermsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        updateNextButtonState()
+
         // 전체 동의 체크박스 클릭 시 모든 체크박스 상태 변경
         binding.cbAllAgree.setOnCheckedChangeListener { buttonView, isChecked ->
             if (buttonView.isPressed) {  // 사용자가 직접 클릭했을 때만 실행하도록 함
                 setAllChecked(isChecked)
+                updateNextButtonState() // 버튼 상태 업데이트
             }
         }
 
@@ -46,16 +49,13 @@ class TermsFragment : Fragment() {
         checkBoxes.forEach { checkBox ->
             checkBox.setOnCheckedChangeListener { _, _ ->
                 updateAllChecked()
+                updateNextButtonState() // 버튼 상태 업데이트
             }
         }
 
         // 다음 버튼 클릭 시 유효성 검사
         binding.btnTermsNext.setOnClickListener {
-            if (isEssentialChecked()) {
-                (activity as? SignUpActivity)?.changeFragment(InfoInputFragment())  // 가입정보 입력 프래그먼트로 이동
-            } else {
-                ValidUtils.showSnackbar(requireView(), "필수 약관에 모두 동의해주세요.", binding.lineTerms)
-            }
+            (activity as? SignUpActivity)?.changeFragment(InfoInputFragment())  // 가입정보 입력 프래그먼트로 이동
         }
     }
 
@@ -70,6 +70,7 @@ class TermsFragment : Fragment() {
         binding.cbPrivacyTerms.isChecked = isChecked
         binding.cbMarketing.isChecked = isChecked
         binding.cbThirdParty.isChecked = isChecked
+        updateNextButtonState() // 버튼 상태 업데이트
     }
 
     // 개별 체크박스 상태에 따라 전체동의 체크박스 상태 변동
@@ -79,11 +80,23 @@ class TermsFragment : Fragment() {
                     binding.cbPrivacyTerms.isChecked &&
                     binding.cbThirdParty.isChecked &&
                     binding.cbMarketing.isChecked
+        updateNextButtonState() // 버튼 상태 업데이트
     }
 
     // 필수 약관 동의 확인 함수
     private fun isEssentialChecked(): Boolean {
         return binding.cbServiceTerms.isChecked &&
                 binding.cbPrivacyTerms.isChecked
+    }
+
+    private fun updateNextButtonState() {
+        val isEnabled = isEssentialChecked()
+
+        ValidUtils.updateButtonState(
+            binding.btnTermsNext,
+            binding.tvTermsNext,
+            binding.ivTermsNext,
+            isEnabled
+        )
     }
 }
