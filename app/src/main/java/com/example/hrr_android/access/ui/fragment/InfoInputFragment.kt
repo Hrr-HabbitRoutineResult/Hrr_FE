@@ -46,53 +46,76 @@ class InfoInputFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initializeViews() // 초기 상태 설정
-        setupNicknameValidation() // 닉네임 유효성 검사 설정
-        setupEmailValidation() // 이메일 유효성 검사 설정
-        setupVerificationProcess() // 인증 처리 설정
-        setupPasswordValidation() // 비밀번호 유효성 검사 설정
-        setupPasswordMatchValidation() // 비밀번호 일치 여부 확인 설정
-        setupNextButton() // "다음" 버튼 동작 설정
+        // 초기화
+        initializeViews()
+
+        // 설정
+        setupNicknameValidation()
+        setupEmailValidation()
+        setupVerificationProcess()
+        setupPasswordValidation()
+        setupPasswordMatchValidation()
+
+        // 버튼 클릭 리스너
+        binding.btnInfoInputNext.setOnClickListener {
+            if (binding.btnInfoInputNext.isEnabled) {
+                // 버튼이 활성화된 경우만 동작
+                (activity as? SignUpActivity)?.changeFragment(CompleteFragment())
+            }
+        }
     }
 
     private fun initializeViews() {
-        // 초기 상태에서 인증 입력란 및 버튼 비활성화
+        // 초기 상태 설정
         binding.etSignupVerification.isEnabled = false
         binding.btnSignupVerification.isEnabled = false
+        validateAndProceed() // 초기 상태에서 버튼 상태 업데이트
     }
 
     private fun setupNicknameValidation() {
-        // 닉네임 입력 시 유효성 검사를 수행
+        // 닉네임 입력 시 유효성 검사 수행
         binding.etSignupNickname.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val nickname = s.toString()
-                if (ValidUtils.isValidNickname(nickname)) {
-                    updateNicknameUI(valid = true)
-                }
+                val isValid = ValidUtils.isValidNickname(nickname)
+                updateNicknameUI(isValid, hasFocus = true) // 닉네임 입력 중 유효성 업데이트
+                validateAndProceed() // 전체 버튼 상태 업데이트
             }
+
             override fun afterTextChanged(s: Editable?) {}
         })
+
+        // 포커스 상태 변경 시 기본 상태로 복원
+        binding.etSignupNickname.setOnFocusChangeListener { _, hasFocus ->
+            val nickname = binding.etSignupNickname.text.toString()
+            val isValid = ValidUtils.isValidNickname(nickname)
+            updateNicknameUI(isValid, hasFocus) // 포커스 변경 시 상태 업데이트
+        }
     }
 
-    private fun updateNicknameUI(valid: Boolean) {
-        // 닉네임 유효성 검사 결과에 따라 UI 업데이트
-        if (valid) {
+
+    private fun updateNicknameUI(valid: Boolean, hasFocus: Boolean) {
+        // 닉네임 유효성 검사 결과와 포커스 여부에 따라 UI 업데이트
+        if (valid || !hasFocus) {
             binding.tvSignupNicknameHelper.text = "한글, 영어, 숫자의 조합으로 최대 10자까지 입력 가능합니다."
             binding.tvSignupNicknameHelper.setTextColor(defaultTextColor)
             binding.ivSignupNicknameError.visibility = View.GONE
             binding.etSignupNickname.background = defaultBackground
         } else {
             binding.tvSignupNicknameHelper.text = "사용할 수 없는 닉네임입니다."
-            binding.tvSignupNicknameHelper.setTextColor(ContextCompat.getColor(requireContext(),
-                R.color.sub_01
-            ))
+            binding.tvSignupNicknameHelper.setTextColor(
+                ContextCompat.getColor(requireContext(), R.color.sub_01)
+            )
             binding.ivSignupNicknameError.visibility = View.VISIBLE
-            binding.etSignupNickname.background = ContextCompat.getDrawable(requireContext(),
+            binding.etSignupNickname.background = ContextCompat.getDrawable(
+                requireContext(),
                 R.drawable.bg_input_field_error
             )
         }
     }
+
 
     private fun setupEmailValidation() {
         // 이메일 입력 시 유효성 검사 수행
@@ -100,6 +123,7 @@ class InfoInputFragment : Fragment() {
             val email = it.toString()
             isEmailValid = ValidUtils.isValidEmail(email)
             updateEmailUI()
+            validateAndProceed() // 상태 업데이트
         }
     }
 
@@ -149,6 +173,7 @@ class InfoInputFragment : Fragment() {
             ))
             ValidUtils.hideKeyboard(requireContext(), requireView())
             ValidUtils.showSnackbar(requireView(), "인증 코드가 전송 되었습니다.", binding.lineInfoInput)
+            validateAndProceed() // 상태 업데이트
         }
     }
 
@@ -166,6 +191,7 @@ class InfoInputFragment : Fragment() {
             )
             binding.tvSignupVerification.setTextColor(defaultTextColor)
             ValidUtils.showSnackbar(requireView(), "이메일 인증이 완료 되었습니다.", binding.lineInfoInput)
+            validateAndProceed() // 상태 업데이트
         } else {
             ValidUtils.showSnackbar(requireView(), "올바른 인증 코드를 입력해 주세요.", binding.lineInfoInput)
         }
@@ -177,6 +203,7 @@ class InfoInputFragment : Fragment() {
             val password = it.toString()
             isPasswordValid = ValidUtils.isValidPassword(password)
             updatePasswordUI(hasFocus = true) // 입력 중일 때는 항상 유효성만 갱신
+            validateAndProceed() // 상태 업데이트
         }
 
         // 포커스 이동 시 UI 업데이트
@@ -204,23 +231,17 @@ class InfoInputFragment : Fragment() {
         }
     }
 
-    private fun setupNextButton() {
-        // "다음" 버튼 클릭 시 동작 설정
-        binding.btnInfoInputNext.setOnClickListener { validateAndProceed() }
-    }
-
     private fun setupPasswordMatchValidation() {
         // 비밀번호와 확인 입력란의 일치 여부 확인
         val passwordWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val password = binding.etSignupPassword.text.toString()
                 val confirmPassword = binding.etSignupPasswordConfirm.text.toString()
                 isPasswordMatch = password == confirmPassword
                 updatePasswordMatchUI()
+                validateAndProceed() // 상태 업데이트
             }
-
             override fun afterTextChanged(s: Editable?) {}
         }
 
@@ -245,30 +266,23 @@ class InfoInputFragment : Fragment() {
     }
 
     private fun validateAndProceed() {
-        // 모든 입력 값 검증 후 다음 단계로 진행
         val nickname = binding.etSignupNickname.text.toString()
+        val isNicknameValid = ValidUtils.isValidNickname(nickname)
 
-        when {
-            ValidUtils.isValidNickname(nickname) && isPasswordValid && isPasswordMatch && isVerificationValid -> {
-                (activity as? SignUpActivity)?.changeFragment(CompleteFragment())
-            }
-            !ValidUtils.isValidNickname(nickname) -> updateNicknameUI(valid = false)
-            !isVerificationValid -> ValidUtils.showSnackbar(
-                requireView(),
-                "이메일 인증을 진행해 주세요.",
-                binding.lineInfoInput
-            )
-            !isPasswordMatch -> ValidUtils.showSnackbar(
-                requireView(),
-                "비밀번호가 일치하지 않습니다.",
-                binding.lineInfoInput
-            )
-            else -> ValidUtils.showSnackbar(
-                requireView(),
-                "입력 정보를 다시 확인해 주세요.",
-                binding.lineInfoInput
-            )
-        }
+        // 입력값 상태를 기반으로 버튼 활성화/비활성화
+        val isButtonEnabled = isNicknameValid && isPasswordValid && isPasswordMatch && isVerificationValid
+
+        updateNextButtonState(isButtonEnabled)
+    }
+
+    // 버튼 활성화/비활성화 상태를 업데이트하는 함수
+    private fun updateNextButtonState(isEnabled: Boolean) {
+        ValidUtils.updateButtonState(
+            binding.btnInfoInputNext,
+            binding.tvInfoInputNext,
+            binding.ivInfoInputNext,
+            isEnabled
+        )
     }
 
     override fun onDestroyView() {
