@@ -30,5 +30,10 @@ class ProfileMoreActivity : AppCompatActivity() {
                 .commit()
         }
 
+        //뒤로가기 버튼 클릭 처리
+        binding.tvChallengeMoreBack.setOnClickListener{
+            finish()
+        }
+
     }
 }
