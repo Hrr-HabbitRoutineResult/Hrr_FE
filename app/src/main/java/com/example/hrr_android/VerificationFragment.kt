@@ -1,0 +1,132 @@
+package com.example.hrr_android
+
+import android.os.Bundle
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.core.widget.addTextChangedListener
+import com.example.hrr_android.databinding.FragmentVerificationBinding
+
+class VerificationFragment : Fragment() {
+
+    private var _binding: FragmentVerificationBinding? = null
+    private val binding get() = _binding!!
+
+    // 유효성 상태 변수 선언
+    private var isEmailValid = false
+    private var isEmailSent = false
+    private var isVerificationValid = false
+
+    private val defaultTextColor by lazy {
+        ContextCompat.getColor(requireContext(), R.color.text_tertiary)
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // 뷰 바인딩 초기화
+        _binding = FragmentVerificationBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initializeViews()
+        setupEmailValidation()
+        setupVerificationProcess()
+        setupNextButton()
+    }
+
+    private fun initializeViews() {
+        binding.etVerification.isEnabled = false
+        binding.btnVerification.isEnabled = false
+    }
+
+    private fun setupEmailValidation() {
+        binding.etVerificationEmail.addTextChangedListener {
+            val email = it.toString()
+            isEmailValid = ValidUtils.isValidEmail(email)
+            updateEmailUI()
+        }
+    }
+
+    private fun updateEmailUI() {
+        // 이메일 유효성 검사 결과에 따라 UI 업데이트
+        if (isEmailValid) {
+            binding.btnVerificationSend.isEnabled = true
+            binding.btnVerificationSend.background = ContextCompat.getDrawable(requireContext(), R.drawable.btn_orange_white_30)
+            binding.tvVerificationSend.setTextColor(ContextCompat.getColor(requireContext(), R.color.sub_01))
+        } else {
+            binding.btnVerificationSend.isEnabled = false
+            binding.btnVerificationSend.background = ContextCompat.getDrawable(requireContext(), R.drawable.btn_grey_30)
+            binding.tvVerificationSend.setTextColor(defaultTextColor)
+        }
+    }
+
+    private fun setupVerificationProcess() {
+        binding.btnVerificationSend.setOnClickListener { handleEmailSend() }
+        binding.btnVerification.setOnClickListener { handleVerification() }
+    }
+
+    private fun handleEmailSend() {
+        // 이메일 전송 처리
+        if (isEmailValid) {
+            isEmailSent = true
+            binding.etVerificationEmail.isEnabled = false
+            binding.etVerificationEmail.setTextColor(defaultTextColor)
+            binding.btnVerificationSend.isEnabled = false
+            binding.btnVerificationSend.background = ContextCompat.getDrawable(requireContext(), R.drawable.btn_grey_30)
+            binding.tvVerificationSend.setTextColor(defaultTextColor)
+            binding.etVerification.isEnabled = true
+            binding.btnVerification.isEnabled = true
+            binding.btnVerification.background = ContextCompat.getDrawable(requireContext(), R.drawable.btn_orange_white_30)
+            binding.tvVerification.setTextColor(ContextCompat.getColor(requireContext(), R.color.sub_01))
+            ValidUtils.hideKeyboard(requireContext(), requireView())
+            ValidUtils.showSnackbar(requireView(),"인증 코드가 전송 되었습니다.", binding.lineVerification)
+        }
+    }
+
+    private fun handleVerification() {
+        // 인증 코드 검증 처리
+        val verificationCode = binding.etVerification.text.toString()
+        ValidUtils.hideKeyboard(requireContext(), requireView())
+        if (isEmailSent && verificationCode == "0202") {
+            isVerificationValid = true
+            binding.etVerification.isEnabled = false
+            binding.etVerification.setTextColor(defaultTextColor)
+            binding.btnVerification.isEnabled = false
+            binding.btnVerification.background = ContextCompat.getDrawable(requireContext(), R.drawable.btn_grey_30)
+            binding.tvVerification.setTextColor(defaultTextColor)
+            ValidUtils.showSnackbar(requireView(),"이메일 인증이 완료 되었습니다.", binding.lineVerification)
+        } else {
+            ValidUtils.showSnackbar(requireView(),"올바른 인증 코드를 입력해 주세요.", binding.lineVerification)
+        }
+    }
+
+    private fun setupNextButton() {
+        binding.btnVerificationNext.setOnClickListener {
+            if (!isVerificationValid) {
+                ValidUtils.showSnackbar(requireView(), "이메일 인증을 진행해 주세요.", binding.lineVerification)
+            } else {
+                // 이메일 인증 완료 시 다른 프래그먼트로 이동
+                loadNextFragment(TemporaryPasswordFragment())
+            }
+        }
+    }
+
+    private fun loadNextFragment(fragment: Fragment) {
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.layout_password_fragment, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+}
