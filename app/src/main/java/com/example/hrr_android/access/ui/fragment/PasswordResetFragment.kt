@@ -138,32 +138,26 @@ class PasswordResetFragment : Fragment() {
         val password = binding.etResetPassword.text.toString()
         val confirmPassword = binding.etResetPasswordConfirm.text.toString()
 
-        // 비밀번호 입력 여부 확인
-        if (password.isEmpty()) {
-            ValidUtils.showSnackbar(requireView(), "비밀번호를 입력해 주세요.", binding.lineResetSecond)
-            binding.etResetPassword.background =
-                ContextCompat.getDrawable(requireContext(), R.drawable.bg_input_field_error)
-            return
-        }
+        // 비밀번호 입력 여부 및 에러 처리
+        if (!validateField(password, "비밀번호를 입력해주세요.", binding.etResetPassword)) return
+        if (!validateField(confirmPassword, "비밀번호 한 번 더 입력해주세요.", binding.etResetPasswordConfirm)) return
 
-        // 비밀번호 확인 입력 여부 확인
-        if (confirmPassword.isEmpty()) {
-            ValidUtils.showSnackbar(requireView(), "비밀번호 확인란을 입력해 주세요.", binding.lineResetSecond)
-            binding.etResetPasswordConfirm.background =
-                ContextCompat.getDrawable(requireContext(), R.drawable.bg_input_field_error)
-            return
-        }
-
+        // 비밀번호 유효성 및 일치 여부 확인
         if (isPasswordValid && isPasswordMatch) {
             loadNextFragment(PasswordResetCompleteFragment())
-        } else if (!isPasswordValid) {
-            ValidUtils.showSnackbar(requireView(), "비밀번호가 일치하지 않습니다.", binding.lineResetSecond)
         }
-            binding.tvResetPasswordConfirmHelper.visibility = View.VISIBLE
-            binding.ivResetPasswordConfirmError.visibility = View.VISIBLE
-            binding.etResetPasswordConfirm.background =
-                ContextCompat.getDrawable(requireContext(), R.drawable.bg_input_field_error)
     }
+
+    private fun validateField(input: String, errorMessage: String, targetField: View): Boolean {
+        return if (input.isEmpty()) {
+            ValidUtils.showSnackbar(requireView(), errorMessage, binding.lineResetSecond)
+            targetField.background = ContextCompat.getDrawable(requireContext(), R.drawable.bg_input_field_error)
+            false
+        } else {
+            true
+        }
+    }
+
 
     // 프래그먼트 교체 함수
     private fun loadNextFragment(fragment: Fragment) {
