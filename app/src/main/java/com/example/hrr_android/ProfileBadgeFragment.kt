@@ -1,5 +1,6 @@
 package com.example.hrr_android
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -72,6 +73,13 @@ class ProfileBadgeFragment : Fragment() {
                 binding.rvProfileBadgeCategory.visibility = View.VISIBLE
                 binding.clProfileBadgeCategoryNo.visibility = View.GONE
             }
+        }
+
+        //더보기 클릭 처리 구현
+        binding.llProfileBadgeMore.setOnClickListener{
+            val intent = Intent(requireContext(), ProfileMoreActivity::class.java)
+            intent.putExtra("type", "badge")
+            startActivity(intent)
         }
 
         return binding.root

@@ -24,13 +24,14 @@ class ProfileMoreActivity : AppCompatActivity() {
             binding.tvProfileMoreTitle.text = when(type){
                 "challenge" -> "완주 챌린지"
                 "certification" -> "전체 인증기록"
-
+                "badge" -> "마이 뱃지"
                 else -> "완주 챌린지"        //기본적으로 챌린지 화면 사용
             }
 
             val fragment = when (type) {
                 "challenge" -> ProfileChallengeMoreFragment()
                 "certification" -> ProfileRecordMoreFragment()
+                "badge" -> ProfileBadgeMoreFragment()
                 else -> ProfileChallengeMoreFragment() // 기본적으로 ProfileChallengeMoreFragment 사용
             }
 
