@@ -22,13 +22,6 @@ class PasswordResetFragment : Fragment() {
     private var isPasswordValid = false
     private var isPasswordMatch = false
 
-    private val defaultTextColor by lazy {
-        ContextCompat.getColor(requireContext(), R.color.text_tertiary)
-    }
-    private val defaultBackground by lazy {
-        ContextCompat.getDrawable(requireContext(), R.drawable.bg_input_field)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -43,34 +36,34 @@ class PasswordResetFragment : Fragment() {
         setupPasswordValidation()
         setupPasswordMatchValidation()
         setupNextButton()
+        updateNextButtonState() // 초기 상태 설정
     }
 
     private fun setupPasswordValidation() {
-        // 비밀번호 입력 시 유효성 검사 수행
         binding.etResetPassword.addTextChangedListener {
             val password = it.toString()
             isPasswordValid = ValidUtils.isValidPassword(password)
-            updatePasswordUI(hasFocus = true) // 입력 중일 때는 항상 유효성만 갱신
+            updatePasswordUI(hasFocus = true)
+            updateNextButtonState() // 상태 갱신
         }
 
-        // 포커스 이동 시 UI 업데이트
         binding.etResetPassword.setOnFocusChangeListener { _, hasFocus ->
-            updatePasswordUI(hasFocus = hasFocus)
+            updatePasswordUI(hasFocus)
+            updateNextButtonState() // 상태 갱신
         }
     }
 
     private fun updatePasswordUI(hasFocus: Boolean) {
-        // 비밀번호 유효성 검사 결과에 따라 UI 업데이트
         if (isPasswordValid || !hasFocus) {
             binding.tvResetPasswordHelper.text = "8자~20자 이하, 영대소문자, 숫자, 특수기호 2가지 이상 조합"
-            binding.tvResetPasswordHelper.setTextColor(defaultTextColor)
+            binding.tvResetPasswordHelper.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_tertiary))
             binding.ivResetPasswordError.visibility = View.GONE
-            binding.etResetPassword.background = defaultBackground
+            binding.etResetPassword.background = ContextCompat.getDrawable(requireContext(),
+                R.drawable.bg_input_field
+            )
         } else {
             binding.tvResetPasswordHelper.text = "사용 가능한 비밀번호 조합을 입력해 주세요"
-            binding.tvResetPasswordHelper.setTextColor(ContextCompat.getColor(requireContext(),
-                R.color.sub_01
-            ))
+            binding.tvResetPasswordHelper.setTextColor(ContextCompat.getColor(requireContext(), R.color.sub_01))
             binding.ivResetPasswordError.visibility = View.VISIBLE
             binding.etResetPassword.background = ContextCompat.getDrawable(requireContext(),
                 R.drawable.bg_input_field_error
@@ -79,7 +72,6 @@ class PasswordResetFragment : Fragment() {
     }
 
     private fun setupPasswordMatchValidation() {
-        // 비밀번호와 확인 입력란의 일치 여부 확인
         val passwordWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
@@ -87,9 +79,10 @@ class PasswordResetFragment : Fragment() {
                 val password = binding.etResetPassword.text.toString()
                 val confirmPassword = binding.etResetPasswordConfirm.text.toString()
                 isPasswordMatch = password == confirmPassword
-                if (binding.etResetPasswordConfirm.hasFocus()) { // 비밀번호 확인 필드가 포커스를 가질 때만 UI 업데이트
+                if (binding.etResetPasswordConfirm.hasFocus()) {
                     updatePasswordMatchUI()
                 }
+                updateNextButtonState() // 상태 갱신
             }
 
             override fun afterTextChanged(s: Editable?) {}
@@ -97,30 +90,15 @@ class PasswordResetFragment : Fragment() {
 
         binding.etResetPassword.addTextChangedListener(passwordWatcher)
         binding.etResetPasswordConfirm.addTextChangedListener(passwordWatcher)
-
-        // 비밀번호 확인 필드 포커스 상태 변경 리스너 설정
-        binding.etResetPasswordConfirm.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) {
-                // 포커스를 가졌을 때만 일치 여부를 확인하고 UI 업데이트
-                val password = binding.etResetPassword.text.toString()
-                val confirmPassword = binding.etResetPasswordConfirm.text.toString()
-                isPasswordMatch = password == confirmPassword
-                updatePasswordMatchUI()
-            } else {
-                // 포커스를 잃으면 UI를 기본 상태로 되돌리기
-                binding.tvResetPasswordConfirmHelper.visibility = View.GONE
-                binding.ivResetPasswordConfirmError.visibility = View.GONE
-                binding.etResetPasswordConfirm.background = defaultBackground
-            }
-        }
     }
 
     private fun updatePasswordMatchUI() {
-        // 비밀번호 일치 여부에 따라 UI 업데이트
         if (isPasswordMatch) {
             binding.tvResetPasswordConfirmHelper.visibility = View.GONE
             binding.ivResetPasswordConfirmError.visibility = View.GONE
-            binding.etResetPasswordConfirm.background = defaultBackground
+            binding.etResetPasswordConfirm.background = ContextCompat.getDrawable(requireContext(),
+                R.drawable.bg_input_field
+            )
         } else {
             binding.tvResetPasswordConfirmHelper.visibility = View.VISIBLE
             binding.ivResetPasswordConfirmError.visibility = View.VISIBLE
@@ -130,36 +108,26 @@ class PasswordResetFragment : Fragment() {
         }
     }
 
+    private fun updateNextButtonState() {
+        val isEnabled = isPasswordValid && isPasswordMatch
+
+        ValidUtils.updateButtonState(
+            binding.btnResetPasswordNext,
+            binding.tvResetPasswordNext,
+            binding.ivResetPasswordNext,
+            isEnabled
+        )
+    }
+
+
     private fun setupNextButton() {
-        binding.btnResetPasswordNext.setOnClickListener { validateAndProceed() }
-    }
-
-    private fun validateAndProceed() {
-        val password = binding.etResetPassword.text.toString()
-        val confirmPassword = binding.etResetPasswordConfirm.text.toString()
-
-        // 비밀번호 입력 여부 및 에러 처리
-        if (!validateField(password, "비밀번호를 입력해주세요.", binding.etResetPassword)) return
-        if (!validateField(confirmPassword, "비밀번호 한 번 더 입력해주세요.", binding.etResetPasswordConfirm)) return
-
-        // 비밀번호 유효성 및 일치 여부 확인
-        if (isPasswordValid && isPasswordMatch) {
-            loadNextFragment(PasswordResetCompleteFragment())
+        binding.btnResetPasswordNext.setOnClickListener {
+            if (isPasswordValid && isPasswordMatch) {
+                loadNextFragment(PasswordResetCompleteFragment())
+            }
         }
     }
 
-    private fun validateField(input: String, errorMessage: String, targetField: View): Boolean {
-        return if (input.isEmpty()) {
-            ValidUtils.showSnackbar(requireView(), errorMessage, binding.lineResetSecond)
-            targetField.background = ContextCompat.getDrawable(requireContext(), R.drawable.bg_input_field_error)
-            false
-        } else {
-            true
-        }
-    }
-
-
-    // 프래그먼트 교체 함수
     private fun loadNextFragment(fragment: Fragment) {
         requireActivity().supportFragmentManager.beginTransaction()
             .replace(R.id.layout_password_fragment, fragment)
