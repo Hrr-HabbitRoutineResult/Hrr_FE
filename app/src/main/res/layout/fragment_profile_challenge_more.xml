@@ -6,44 +6,54 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ProfileChallengeMoreFragment">
-
-    <LinearLayout
-        android:id="@+id/ll_challenge_more_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
+    
+    <FrameLayout
+        android:id="@+id/fl_challenge_more_top"
+        android:layout_width="match_parent"
+        android:layout_height="85dp"
+        android:background="@drawable/bg_border1_grey50"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="35dp"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="4dp">
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <ImageView
-            android:id="@+id/tv_challenge_more_back"
+        <LinearLayout
+            android:id="@+id/ll_challenge_more_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/btn_arrow_left"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="16dp"/>
+            android:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="35dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="4dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="완주 챌린지"
-            android:textSize="20sp"
-            android:fontFamily="@font/font_style"
-            android:textFontWeight="600"
-            android:includeFontPadding="false"
-            android:layout_marginTop="4dp"
-            android:layout_marginStart="20dp"/>
+            <ImageView
+                android:id="@+id/tv_challenge_more_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/btn_arrow_left"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="16dp"/>
 
-    </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="완주 챌린지"
+                android:textSize="20sp"
+                android:fontFamily="@font/font_style"
+                android:textFontWeight="600"
+                android:includeFontPadding="false"
+                android:layout_marginTop="4dp"
+                android:layout_marginStart="20dp"/>
+
+        </LinearLayout>
+
+    </FrameLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_challenge_more"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/ll_challenge_more_title"
-        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/fl_challenge_more_top"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
