@@ -18,6 +18,11 @@ class PasswordActivity : AppCompatActivity() {
         binding = ActivityPasswordBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // 뒤로 가기
+        binding.btnPasswordBack.setOnClickListener {
+            finish()
+        }
+
         // Intent로부터 전달받은 fragmentName을 기반으로 PasswordFragment를 가져옴
         val fragmentName = intent.getStringExtra("fragment_to_load")
         val selectedFragment = NavigatePasswordFragment.fromFragmentName(fragmentName)
