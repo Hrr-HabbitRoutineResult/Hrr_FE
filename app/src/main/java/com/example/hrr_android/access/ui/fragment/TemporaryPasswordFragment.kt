@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.hrr_android.access.ValidUtils
 import com.example.hrr_android.access.ui.LoginActivity
 import com.example.hrr_android.databinding.FragmentTemporaryPasswordBinding
 import com.google.android.material.snackbar.Snackbar
@@ -54,10 +55,7 @@ class TemporaryPasswordFragment : Fragment() {
                 startActivity(intent)
                 requireActivity().finish() // 현재 액티비티 종료
             } else {
-                // 복사하지 않은 경우 Snackbar 표시
-                Snackbar.make(binding.lineTemporaryPassword, "임시 비밀번호를 복사해 주세요.", Snackbar.LENGTH_SHORT).apply {
-                    anchorView = binding.btnTemporaryPasswordNext // 스낵바를 버튼 위에 고정
-                }.show()
+                ValidUtils.showSnackbar(requireView(), "임시 비밀번호를 복사해주세요.", binding.lineTemporaryPassword)
             }
         }
     }

@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.hrr_android.access.ValidUtils
 import com.example.hrr_android.access.ui.SignUpActivity
 import com.example.hrr_android.databinding.FragmentTermsBinding
 import com.google.android.material.snackbar.Snackbar
@@ -53,9 +54,7 @@ class TermsFragment : Fragment() {
             if (isEssentialChecked()) {
                 (activity as? SignUpActivity)?.changeFragment(InfoInputFragment())  // 가입정보 입력 프래그먼트로 이동
             } else {
-                val snackbar = Snackbar.make(requireView(), "필수 약관에 모두 동의해 주세요.", Snackbar.LENGTH_SHORT)
-                snackbar.anchorView = binding.lineTerms  // 특정 버튼 위에 고정
-                snackbar.show()
+                ValidUtils.showSnackbar(requireView(), "필수 약관에 모두 동의해주세요.", binding.lineTerms)
             }
         }
     }
