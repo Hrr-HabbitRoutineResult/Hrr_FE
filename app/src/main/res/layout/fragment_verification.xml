@@ -131,6 +131,7 @@
             android:background="@drawable/bg_input_field"
             android:paddingStart="14dp"
             android:paddingEnd="40dp"
+            android:inputType="number"
             android:textSize="14sp"
             android:fontFamily="@font/noto_sans_kr_regular"
             android:includeFontPadding="false"
