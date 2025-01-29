@@ -42,7 +42,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/badge_type_exercise_master"
+                android:src="@drawable/badge_category_exercise_master"
                 android:layout_marginTop="40dp"/>
 
             <TextView
