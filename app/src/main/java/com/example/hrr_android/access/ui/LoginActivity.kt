@@ -6,7 +6,7 @@ import android.util.Patterns
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.hrr_android.MainActivity
-import com.example.hrr_android.access.NavigatePasswordFragment
+import com.example.hrr_android.access.PasswordNavigator
 import com.example.hrr_android.databinding.ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity() {
@@ -42,12 +42,12 @@ class LoginActivity : AppCompatActivity() {
 
         // 비밀번호 찾기 클릭 시
         binding.tvLoginFindPassword.setOnClickListener {
-            navigateToPasswordActivity(NavigatePasswordFragment.VERIFICATION)
+            navigateToPasswordActivity(PasswordNavigator.VERIFICATION)
         }
 
         // 네이버 로고 클릭 시
         binding.ivLoginNaver.setOnClickListener {
-            navigateToPasswordActivity(NavigatePasswordFragment.RESET)
+            navigateToPasswordActivity(PasswordNavigator.RESET)
         }
     }
 
@@ -71,7 +71,7 @@ class LoginActivity : AppCompatActivity() {
         return true
     }
 
-    private fun navigateToPasswordActivity(fragment: NavigatePasswordFragment) {
+    private fun navigateToPasswordActivity(fragment: PasswordNavigator) {
         val intent = Intent(this, PasswordActivity::class.java)
         intent.putExtra("fragment_to_load", fragment.fragmentName) // Enum에서 fragmentName 사용
         startActivity(intent)
