@@ -51,7 +51,7 @@ object ValidUtils {
 
     // 닉네임 유효성 검사 함수
     fun isValidNickname(nickname: String): Boolean {
-        return Regex("^[가-힣a-zA-Z0-9]{1,10}").matches(nickname)
+        return Regex("^[가-힣ㄱ-ㅎㅏ-ㅣa-zA-Z0-9]{1,10}$").matches(nickname)
     }
 
     fun updateButtonState(
