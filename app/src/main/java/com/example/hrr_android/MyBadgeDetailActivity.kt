@@ -3,9 +3,12 @@ package com.example.hrr_android
 import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.hrr_android.databinding.ActivityMyBadgeDetailBinding
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 
 class MyBadgeDetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMyBadgeDetailBinding
@@ -17,23 +20,55 @@ class MyBadgeDetailActivity : AppCompatActivity() {
         binding = ActivityMyBadgeDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        //데이터 전달 받기
+        val gson = Gson()
+        val badgeJson = intent.getStringExtra("badgeJson")
+
+        val badge: Badge? = if (badgeJson != null) {
+            gson.fromJson(badgeJson, Badge::class.java)
+        } else {
+            null
+        }
+
         //뷰 세팅
-        binding.ivObtainedBadge.setImageResource(intent.getIntExtra("icon", R.drawable.badge_category_exercise_master)) //뱃지 아이콘
-        binding.tvObtainedBadgeName.text = intent.getStringExtra("name")    //뱃지 이름
+        if (badge != null) {
+            binding.ivObtainedBadge.setImageResource(badge.icon)    //뱃지 아이콘
+            binding.tvObtainedBadgeName.text = badge.name   //뱃지 이름
+            if(!badge.isObtained){
+                applyBlackWhiteFilter(binding.ivObtainedBadge)  //미획득 시 흑백 처리
+            }
+            // 종류 지정
+            binding.tvObtainedBadgeType.text = when(badge.type){
+                "type" -> "유형"
+                "category" -> "카테고리"
+                else -> "유형"
+            }
 
-        if(!intent.getBooleanExtra("isObtained", false)){
-            applyBlackWhiteFilter(binding.ivObtainedBadge)  //미획득 시 흑백 처리
+            //// 획득 조건 바인딩
+            val conditionTvs = listOf(binding.tvBadgeCondition01, binding.tvBadgeCondition02, binding.tvBadgeCondition03)
+            val conditionCheckIcons = listOf(binding.ivBadgeConditionObtained01, binding.ivBadgeConditionObtained02, binding.ivBadgeConditionObtained03)
+            val conditionCls = listOf(binding.clBadgeCondition01, binding.clBadgeCondition02, binding.clBadgeCondition03)
+
+            // 조건에 따라 UI 업데이트
+            badge.obtainCondition.let{obtainCondition ->
+                obtainCondition.forEachIndexed { index, condition ->
+                    if (index < conditionTvs.size) {
+                        conditionTvs[index].text = condition.description
+                        conditionTvs[index].visibility = View.VISIBLE
+
+                        conditionCheckIcons[index].setImageResource(
+                            if (condition.isObtained) R.drawable.ic_check_certified_ else R.drawable.ic_check_uncertified_
+                        )
+                        conditionCheckIcons[index].visibility = View.VISIBLE
+                    } }
+            }
+
+            // 남는 뷰는 숨김
+            for (i in badge.obtainCondition.size until conditionTvs.size) {
+                conditionCls[i].visibility = View.GONE
+            }
+
         }
-
-        //종류 지정
-        binding.tvObtainedBadgeType.text = when(intent.getStringExtra("type")){
-            "type" -> "유형"
-            "category" -> "카테고리"
-            else -> "유형"
-        }
-
-
-        //TODO: 획득 조건 바인딩
 
     }
 
