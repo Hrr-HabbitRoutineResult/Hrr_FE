@@ -9,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.hrr_android.databinding.ActivityMyBadgeDetailBinding
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class MyBadgeDetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMyBadgeDetailBinding
@@ -32,19 +34,19 @@ class MyBadgeDetailActivity : AppCompatActivity() {
 
         //뷰 세팅
         if (badge != null) {
-            binding.ivObtainedBadge.setImageResource(badge.icon)    //뱃지 아이콘
-            binding.tvObtainedBadgeName.text = badge.name   //뱃지 이름
+            binding.ivObtainedBadge.setImageResource(badge.icon)    // 1. 뱃지 아이콘
+            binding.tvObtainedBadgeName.text = badge.name   // 2. 뱃지 이름
             if(!badge.isObtained){
                 applyBlackWhiteFilter(binding.ivObtainedBadge)  //미획득 시 흑백 처리
             }
-            // 종류 지정
+            // 3. 종류 지정
             binding.tvObtainedBadgeType.text = when(badge.type){
                 "type" -> "유형"
                 "category" -> "카테고리"
                 else -> "유형"
             }
 
-            //// 획득 조건 바인딩
+            // 4. 획득 조건 바인딩
             val conditionTvs = listOf(binding.tvBadgeCondition01, binding.tvBadgeCondition02, binding.tvBadgeCondition03)
             val conditionCheckIcons = listOf(binding.ivBadgeConditionObtained01, binding.ivBadgeConditionObtained02, binding.ivBadgeConditionObtained03)
             val conditionCls = listOf(binding.clBadgeCondition01, binding.clBadgeCondition02, binding.clBadgeCondition03)
@@ -67,6 +69,10 @@ class MyBadgeDetailActivity : AppCompatActivity() {
             for (i in badge.obtainCondition.size until conditionTvs.size) {
                 conditionCls[i].visibility = View.GONE
             }
+
+            // 5. 현재 날짜 바인딩
+            val today: String = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd"))
+            binding.tvBadgeDetailDate.text = "$today 기준"
 
         }
 

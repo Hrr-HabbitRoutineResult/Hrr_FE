@@ -79,6 +79,7 @@
                 android:layout_marginEnd="3dp"/>
 
             <TextView
+                android:id="@+id/tv_badge_detail_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="25.01.10 기준"
