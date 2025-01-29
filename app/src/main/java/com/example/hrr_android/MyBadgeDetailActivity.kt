@@ -8,7 +8,6 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.hrr_android.databinding.ActivityMyBadgeDetailBinding
 import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -21,6 +20,12 @@ class MyBadgeDetailActivity : AppCompatActivity() {
         //뷰 바인딩 초기화
         binding = ActivityMyBadgeDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        //뒤로 가기 버튼 클릭 처리
+        binding.ivBadgeDetailBack.setOnClickListener{
+            finish()
+        }
+
 
         //데이터 전달 받기
         val gson = Gson()
