@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import com.example.hrr_android.LoadingActivity
 import com.example.hrr_android.access.ValidUtils
 import com.example.hrr_android.databinding.ActivityOnboardingBinding
+import com.example.hrr_android.onboarding.OnboardingStep
 import com.example.hrr_android.onboarding.ui.fragment.CategoryFragment
 import com.example.hrr_android.onboarding.ui.fragment.GoalFragment
 import com.example.hrr_android.onboarding.ui.fragment.InfoSelectFragment
@@ -111,19 +112,18 @@ class OnboardingActivity : AppCompatActivity() {
     }
 
     // 진행도 및 단계 업데이트
-    private fun updateProgress(progress: Int, title: String, describe: String) {
-        binding.pbOnboardingStep.progress = progress
-        binding.tvOnboardingStepTitle.text = title
-        binding.tvOnboardingStepDescribe.text = describe
+    private fun updateProgress(step: OnboardingStep) {
+        binding.pbOnboardingStep.progress = step.progress
+        binding.tvOnboardingStepTitle.text = step.title
+        binding.tvOnboardingStepDescribe.text = step.description
     }
 
     // 현재 프래그먼트에 맞게 UI 업데이트
     private fun updateCurrentFragment() {
         val currentFragment = supportFragmentManager.findFragmentById(binding.layoutOnboardingFragmentContainer.id)
-        when (currentFragment) {
-            is InfoSelectFragment -> updateProgress(33, "안녕하세요!", "아래에서 본인의 특성을 선택해주세요.")
-            is CategoryFragment -> updateProgress(66, "관심 있는 분야가 무엇인가요?", "아래의 카테고리에서 가장 관심있는 분야를 선택해주세요.")
-            is GoalFragment -> updateProgress(100, "나의 목표는...", "아래에서 챌린지를 통해 이루고 싶은 목표를 선택해주세요. (최대 3개)")
-        }
+        if (currentFragment == null) return
+
+        val step = OnboardingStep.fromFragment(currentFragment) ?: return
+        updateProgress(step)
     }
 }
