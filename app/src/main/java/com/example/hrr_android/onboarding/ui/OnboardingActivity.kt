@@ -65,6 +65,7 @@ class OnboardingActivity : AppCompatActivity() {
         } else { // 이전 단계로 이동
             supportFragmentManager.popBackStack()
             updateCurrentFragment()
+            updateNextButtonState(null)
         }
     }
 
