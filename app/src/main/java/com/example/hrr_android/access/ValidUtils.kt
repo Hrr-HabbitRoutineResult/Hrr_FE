@@ -1,15 +1,42 @@
 package com.example.hrr_android.access
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.util.Patterns
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
+import com.example.hrr_android.R
 import com.google.android.material.snackbar.Snackbar
 
 object ValidUtils {
+
+    fun getTextColorDefault(context: Context): Int {
+        return ContextCompat.getColor(context, R.color.text_tertiary)
+    }
+
+    fun getTextColorError(context: Context): Int {
+        return ContextCompat.getColor(context, R.color.sub_01)
+    }
+
+    fun getBackgroundDefault(context: Context): Drawable? {
+        return ContextCompat.getDrawable(context, R.drawable.bg_input_field)
+    }
+
+    fun getBackgroundError(context: Context): Drawable? {
+        return ContextCompat.getDrawable(context, R.drawable.bg_input_field_error)
+    }
+
+    fun getButtonActiveBackground(context: Context): Drawable? {
+        return ContextCompat.getDrawable(context, R.drawable.btn_orange_white_30)
+    }
+
+    fun getButtonInactiveBackground(context: Context): Drawable? {
+        return ContextCompat.getDrawable(context, R.drawable.btn_grey_30)
+    }
 
     // 이메일 유효성 검사 함수
     fun isValidEmail(email: String): Boolean {

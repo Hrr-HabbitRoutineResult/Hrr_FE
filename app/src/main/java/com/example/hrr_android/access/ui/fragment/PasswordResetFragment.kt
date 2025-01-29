@@ -56,18 +56,14 @@ class PasswordResetFragment : Fragment() {
     private fun updatePasswordUI(hasFocus: Boolean) {
         if (isPasswordValid || !hasFocus) {
             binding.tvResetPasswordHelper.text = "8자~20자 이하, 영대소문자, 숫자, 특수기호 2가지 이상 조합"
-            binding.tvResetPasswordHelper.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_tertiary))
+            binding.tvResetPasswordHelper.setTextColor(ValidUtils.getTextColorDefault(requireContext()))
             binding.ivResetPasswordError.visibility = View.GONE
-            binding.etResetPassword.background = ContextCompat.getDrawable(requireContext(),
-                R.drawable.bg_input_field
-            )
+            binding.etResetPassword.background = ValidUtils.getBackgroundDefault(requireContext())
         } else {
             binding.tvResetPasswordHelper.text = "사용 가능한 비밀번호 조합을 입력해 주세요"
-            binding.tvResetPasswordHelper.setTextColor(ContextCompat.getColor(requireContext(), R.color.sub_01))
+            binding.tvResetPasswordHelper.setTextColor(ValidUtils.getTextColorError(requireContext()))
             binding.ivResetPasswordError.visibility = View.VISIBLE
-            binding.etResetPassword.background = ContextCompat.getDrawable(requireContext(),
-                R.drawable.bg_input_field_error
-            )
+            binding.etResetPassword.background = ValidUtils.getBackgroundError(requireContext())
         }
     }
 
@@ -96,15 +92,11 @@ class PasswordResetFragment : Fragment() {
         if (isPasswordMatch) {
             binding.tvResetPasswordConfirmHelper.visibility = View.GONE
             binding.ivResetPasswordConfirmError.visibility = View.GONE
-            binding.etResetPasswordConfirm.background = ContextCompat.getDrawable(requireContext(),
-                R.drawable.bg_input_field
-            )
+            binding.etResetPasswordConfirm.background = ValidUtils.getBackgroundDefault(requireContext())
         } else {
             binding.tvResetPasswordConfirmHelper.visibility = View.VISIBLE
             binding.ivResetPasswordConfirmError.visibility = View.VISIBLE
-            binding.etResetPasswordConfirm.background = ContextCompat.getDrawable(requireContext(),
-                R.drawable.bg_input_field_error
-            )
+            binding.etResetPasswordConfirm.background = ValidUtils.getBackgroundError(requireContext())
         }
     }
 
