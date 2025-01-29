@@ -3,10 +3,12 @@ package com.example.hrr_android.onboarding.utils
 import android.widget.LinearLayout
 import android.widget.RadioButton
 import android.widget.RadioGroup
+import androidx.fragment.app.Fragment
+import com.example.hrr_android.onboarding.ui.OnboardingActivity
 
 object RadioGroupUtils {
 
-    fun setupRadioGroup(radioGroup: RadioGroup) {
+    fun setupRadioGroup(radioGroup: RadioGroup, fragment: Fragment) {
         for (i in 0 until radioGroup.childCount) {
             val child = radioGroup.getChildAt(i)
             if (child is LinearLayout) {
@@ -17,6 +19,7 @@ object RadioGroupUtils {
                         button.setOnClickListener {
                             // 선택된 버튼만 활성화, 나머지는 비활성화
                             updateRadioGroupSelection(radioGroup, button)
+                            updateNextButtonState(fragment)
                         }
                     }
                 }
@@ -24,6 +27,7 @@ object RadioGroupUtils {
                 child.setOnClickListener {
                     // 선택된 버튼만 활성화, 나머지는 비활성화
                     updateRadioGroupSelection(radioGroup, child)
+                    updateNextButtonState(fragment)
                 }
             }
         }
@@ -67,8 +71,12 @@ object RadioGroupUtils {
         return false
     }
 
+    private fun updateNextButtonState(fragment: Fragment) {
+        (fragment.activity as? OnboardingActivity)?.updateNextButtonState(fragment)
+    }
+
     // 최대 n개의 RadioButton만 선택 가능하도록 설정
-    fun setupRadioGroupWithMax(radioGroup: RadioGroup, maxSelection: Int) {
+    fun setupRadioGroupWithMax(radioGroup: RadioGroup, maxSelection: Int, fragment: Fragment) {
         for (i in 0 until radioGroup.childCount) {
             val child = radioGroup.getChildAt(i)
             if (child is LinearLayout) {
@@ -77,12 +85,14 @@ object RadioGroupUtils {
                     if (button is RadioButton) {
                         button.setOnClickListener {
                             handleMaxSelection(radioGroup, button, maxSelection)
+                            updateNextButtonState(fragment)
                         }
                     }
                 }
             } else if (child is RadioButton) {
                 child.setOnClickListener {
                     handleMaxSelection(radioGroup, child, maxSelection)
+                    updateNextButtonState(fragment)
                 }
             }
         }
