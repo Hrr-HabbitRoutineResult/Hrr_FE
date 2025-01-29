@@ -24,7 +24,7 @@ class ProfileBadgeFragment : Fragment() {
         typeBadgeList.apply {
             add(Badge("뱃지명", R.drawable.img_badge_challenge_01))
             add(Badge("오늘부터 챌린저", R.drawable.img_badge_challenge_01))
-            add(Badge("뱃지 이름이 이렇게 길어지면 어떻게 될까요", R.drawable.img_badge_challenge_01))
+            add(Badge("뱃지 이름 테스트", R.drawable.img_badge_challenge_01))
             add(Badge("뱃지명", R.drawable.img_badge_challenge_01))
             add(Badge("뱃지명", R.drawable.img_badge_challenge_01))
         }
@@ -38,7 +38,7 @@ class ProfileBadgeFragment : Fragment() {
         categoryBadgeList.apply {
             add(Badge("뱃지명", R.drawable.img_badge_health_03))
             add(Badge("프로 운동러", R.drawable.img_badge_health_03))
-            add(Badge("뱃지 이름이 이렇게 길어지면 어떻게 될까요", R.drawable.img_badge_health_03))
+            add(Badge("뱃지 이름 테스트", R.drawable.img_badge_health_03))
             add(Badge("뱃지명", R.drawable.img_badge_health_03))
             add(Badge("뱃지명", R.drawable.img_badge_health_03))
         }
