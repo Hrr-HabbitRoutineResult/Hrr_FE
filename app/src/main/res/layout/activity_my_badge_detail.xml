@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- 획득한 마이 뱃지 각각을 클릭하면 나오는 뱃지 상세 페이지 -->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,6 +9,7 @@
     android:background="@color/main_active"
     android:paddingHorizontal="16dp">
 
+    <!-- 뒤로 가기 버튼 -->
     <ImageView
         android:id="@+id/iv_badge_detail_back"
         android:layout_width="wrap_content"
@@ -29,6 +31,7 @@
         android:orientation="vertical"
         android:gravity="center_horizontal">
 
+        <!-- 뱃지 아이콘 -->
         <ImageView
             android:id="@+id/iv_obtained_badge"
             android:layout_width="wrap_content"
@@ -36,6 +39,7 @@
             android:src="@drawable/badge_category_exercise_master"
             android:layout_marginTop="40dp"/>
 
+        <!-- 뱃지 이름 -->
         <TextView
             android:id="@+id/tv_obtained_badge_name"
             android:layout_width="wrap_content"
@@ -48,6 +52,7 @@
             android:textColor="@color/white"
             android:layout_marginTop="20dp"/>
 
+        <!-- 뱃지 종류 -->
         <TextView
             android:id="@+id/tv_obtained_badge_type"
             android:layout_width="wrap_content"
@@ -60,12 +65,14 @@
             android:textColor="@color/white"
             android:layout_marginTop="5dp"/>
 
+        <!-- 구분선 -->
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/white"
             android:layout_marginTop="32dp"/>
 
+        <!-- 기준 날짜 -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -91,6 +98,7 @@
 
         </LinearLayout>
 
+        <!-- 해당 뱃지 획득 인원수 -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -113,6 +121,7 @@
             android:textColor="@color/white"
             android:layout_marginTop="2dp"/>
 
+        <!-- 획득 조건 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

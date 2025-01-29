@@ -26,6 +26,7 @@ class MyBadgeDetailActivity : AppCompatActivity() {
         val gson = Gson()
         val badgeJson = intent.getStringExtra("badgeJson")
 
+        //Badge로 변환
         val badge: Badge? = if (badgeJson != null) {
             gson.fromJson(badgeJson, Badge::class.java)
         } else {
@@ -78,6 +79,7 @@ class MyBadgeDetailActivity : AppCompatActivity() {
 
     }
 
+    //ImageView를 흑백으로 변환
     private fun applyBlackWhiteFilter(imageView: ImageView) {
         val colorMatrix = ColorMatrix()
 
