@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.example.hrr_android.LoadingActivity
 import com.example.hrr_android.access.ValidUtils
 import com.example.hrr_android.databinding.ActivityOnboardingBinding
@@ -64,8 +65,15 @@ class OnboardingActivity : AppCompatActivity() {
             finish()
         } else { // 이전 단계로 이동
             supportFragmentManager.popBackStack()
-            updateCurrentFragment()
-            updateNextButtonState(null)
+
+            // 백스택 변경을 감지한 후 업데이트 실행
+            supportFragmentManager.addOnBackStackChangedListener(object : FragmentManager.OnBackStackChangedListener {
+                override fun onBackStackChanged() {
+                    supportFragmentManager.removeOnBackStackChangedListener(this) // 리스너 제거
+                    updateCurrentFragment()
+                    updateNextButtonState(null)
+                }
+            })
         }
     }
 
