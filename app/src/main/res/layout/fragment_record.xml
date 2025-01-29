@@ -28,8 +28,15 @@
             <!-- 프로필 영역 -->
             <include layout="@layout/layout_record_profile"/>
 
+            <!-- 간격 추가 -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="37dp" />
+
             <!-- 인증 목록 영역 -->
-            <!-- TODO: 레이아웃 추가 -->
+            <include
+                android:id="@+id/layout_record_list"
+                layout="@layout/layout_record_list"/>
 
         </LinearLayout>
 
