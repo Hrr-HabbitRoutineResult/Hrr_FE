@@ -61,7 +61,7 @@ class MyBadgeDetailActivity : AppCompatActivity() {
             badge.obtainCondition.let{obtainCondition ->
                 obtainCondition.forEachIndexed { index, condition ->
                     if (index < conditionTvs.size) {
-                        conditionTvs[index].text = condition.description
+                        conditionTvs[index].text = "•  ${condition.description}"
                         conditionTvs[index].visibility = View.VISIBLE
 
                         conditionCheckIcons[index].setImageResource(
