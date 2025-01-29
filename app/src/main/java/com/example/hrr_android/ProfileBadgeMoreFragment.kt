@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.hrr_android.databinding.FragmentProfileBadgeMoreBinding
 
 class ProfileBadgeMoreFragment : Fragment() {
@@ -37,7 +38,11 @@ class ProfileBadgeMoreFragment : Fragment() {
         }
 
         //유형 뱃지 RecyclerView 연결
-
+        val typeBadgeMoreRVAdapter = ProfileBadgeMoreRVAdapter(typeBadgeList)
+        binding.rvBadgeMoreType.apply {
+            adapter = typeBadgeMoreRVAdapter
+            layoutManager = GridLayoutManager(requireContext(), 3)
+        }
 
         //카테고리 뱃지 더미 데이터
         categoryBadgeList.apply {
@@ -49,13 +54,11 @@ class ProfileBadgeMoreFragment : Fragment() {
         }
 
         //카테고리 뱃지 RecyclerView 연결
-
-
-//        val profileChallengerMoreRVAdapter = ProfileChallengerMoreRVAdapter(completedChallenges)
-//        binding.rvChallengeMore.apply {
-//            adapter = profileChallengerMoreRVAdapter
-//            layoutManager = GridLayoutManager(requireContext(), 2)
-//        }
+        val categoryBadgeMoreRVAdapter = ProfileBadgeMoreRVAdapter(categoryBadgeList)
+        binding.rvBadgeMoreCategory.apply {
+            adapter = categoryBadgeMoreRVAdapter
+            layoutManager = GridLayoutManager(requireContext(), 3)
+        }
 
     }
 
@@ -63,6 +66,5 @@ class ProfileBadgeMoreFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
 
 }
