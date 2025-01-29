@@ -22,11 +22,11 @@ class ProfileBadgeFragment : Fragment() {
 
         //유형 뱃지 더미 데이터 - 테스트 시 주석 해제 or 설정
         typeBadgeList.apply {
-            add(Badge("뱃지명", R.drawable.img_badge_challenge_01))
-            add(Badge("오늘부터 챌린저", R.drawable.img_badge_challenge_01))
-            add(Badge("뱃지 이름 테스트", R.drawable.img_badge_challenge_01))
-            add(Badge("뱃지명", R.drawable.img_badge_challenge_01))
-            add(Badge("뱃지명", R.drawable.img_badge_challenge_01))
+            add(Badge("뱃지명", R.drawable.img_badge_challenge_01, type = "category"))
+            add(Badge("오늘부터 챌린저", R.drawable.img_badge_challenge_01, type = "category"))
+            add(Badge("뱃지 이름 테스트", R.drawable.img_badge_challenge_01, type = "category"))
+            add(Badge("뱃지명", R.drawable.img_badge_challenge_01, type = "category"))
+            add(Badge("뱃지명", R.drawable.img_badge_challenge_01, type = "category"))
         }
 
         //유형 뱃지 RecyclerView 연결
@@ -36,11 +36,11 @@ class ProfileBadgeFragment : Fragment() {
 
         //카테고리 뱃지 더미 데이터 - 테스트 시 주석 해제 or 설정
         categoryBadgeList.apply {
-            add(Badge("뱃지명", R.drawable.img_badge_health_03))
-            add(Badge("프로 운동러", R.drawable.img_badge_health_03))
-            add(Badge("뱃지 이름 테스트", R.drawable.img_badge_health_03))
-            add(Badge("뱃지명", R.drawable.img_badge_health_03))
-            add(Badge("뱃지명", R.drawable.img_badge_health_03))
+            add(Badge("뱃지명", R.drawable.img_badge_health_03, type = "category"))
+            add(Badge("프로 운동러", R.drawable.img_badge_health_03, type = "category"))
+            add(Badge("뱃지 이름 테스트", R.drawable.img_badge_health_03, type = "category"))
+            add(Badge("뱃지명", R.drawable.img_badge_health_03, type = "category"))
+            add(Badge("뱃지명", R.drawable.img_badge_health_03, type = "category"))
         }
 
         //카테고리 뱃지 RecyclerView 연결

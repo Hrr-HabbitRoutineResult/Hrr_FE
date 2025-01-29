@@ -24,7 +24,14 @@ class MyBadgeDetailActivity : AppCompatActivity() {
         if(!intent.getBooleanExtra("isObtained", false)){
             applyBlackWhiteFilter(binding.ivObtainedBadge)  //미획득 시 흑백 처리
         }
-        //TODO: 유형 바인딩
+
+        //종류 지정
+        binding.tvObtainedBadgeType.text = when(intent.getStringExtra("type")){
+            "type" -> "유형"
+            "category" -> "카테고리"
+            else -> "유형"
+        }
+
 
         //TODO: 획득 조건 바인딩
 
