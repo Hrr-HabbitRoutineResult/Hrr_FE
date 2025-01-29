@@ -205,20 +205,22 @@ class InfoInputFragment : Fragment() {
     }
 
     private fun setupPasswordMatchValidation() {
-        // 비밀번호와 확인 입력란의 일치 여부 확인
         val passwordWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val password = binding.etSignupPassword.text.toString()
                 val confirmPassword = binding.etSignupPasswordConfirm.text.toString()
                 isPasswordMatch = password == confirmPassword
-                updatePasswordMatchUI()
-                validateAndProceed() // 상태 업데이트
+                if (binding.etSignupPasswordConfirm.hasFocus()) {
+                    updatePasswordMatchUI()
+                }
+                validateAndProceed() // 상태 갱신
             }
+
             override fun afterTextChanged(s: Editable?) {}
         }
 
-        // TextWatcher 설정
         binding.etSignupPassword.addTextChangedListener(passwordWatcher)
         binding.etSignupPasswordConfirm.addTextChangedListener(passwordWatcher)
     }
