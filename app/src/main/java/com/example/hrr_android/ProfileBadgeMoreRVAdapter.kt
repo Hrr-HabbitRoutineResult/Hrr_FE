@@ -8,7 +8,14 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hrr_android.databinding.ItemProfileBadgeMoreBinding
 
-class ProfileBadgeMoreRVAdapter(private val badgeList : ArrayList<Badge>) : RecyclerView.Adapter<ProfileBadgeMoreRVAdapter.ViewHolder>() {
+interface OnBadgeClickListener{
+    fun onBadgeClick(badge: Badge)
+}
+
+class ProfileBadgeMoreRVAdapter(
+    private val badgeList : ArrayList<Badge>,
+    private val listener: OnBadgeClickListener)
+    : RecyclerView.Adapter<ProfileBadgeMoreRVAdapter.ViewHolder>() {
     override fun onCreateViewHolder(
         viewGroup: ViewGroup,
         viewType: Int
@@ -38,6 +45,9 @@ class ProfileBadgeMoreRVAdapter(private val badgeList : ArrayList<Badge>) : Recy
                 applyBlackWhiteFilter(binding.includeItemProfileBadge.ivProfileBadgeIcon)
             }
 
+            binding.root.setOnClickListener{
+                listener.onBadgeClick(badge)
+            }
         }
     }
 

@@ -1,5 +1,6 @@
 package com.example.hrr_android
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,7 +9,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.hrr_android.databinding.FragmentProfileBadgeMoreBinding
 
-class ProfileBadgeMoreFragment : Fragment() {
+class ProfileBadgeMoreFragment : Fragment(), OnBadgeClickListener {
     //뷰 바인딩
     private var _binding: FragmentProfileBadgeMoreBinding? = null
     private val binding get() = _binding!!
@@ -46,7 +47,7 @@ class ProfileBadgeMoreFragment : Fragment() {
         }
 
         //유형 뱃지 RecyclerView 연결
-        val typeBadgeMoreRVAdapter = ProfileBadgeMoreRVAdapter(typeBadgeList)
+        val typeBadgeMoreRVAdapter = ProfileBadgeMoreRVAdapter(typeBadgeList, this)
         binding.rvBadgeMoreType.apply {
             adapter = typeBadgeMoreRVAdapter
             layoutManager = GridLayoutManager(requireContext(), 3)
@@ -77,7 +78,7 @@ class ProfileBadgeMoreFragment : Fragment() {
         }
 
         //카테고리 뱃지 RecyclerView 연결
-        val categoryBadgeMoreRVAdapter = ProfileBadgeMoreRVAdapter(categoryBadgeList)
+        val categoryBadgeMoreRVAdapter = ProfileBadgeMoreRVAdapter(categoryBadgeList, this)
         binding.rvBadgeMoreCategory.apply {
             adapter = categoryBadgeMoreRVAdapter
             layoutManager = GridLayoutManager(requireContext(), 3)
@@ -88,6 +89,16 @@ class ProfileBadgeMoreFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onBadgeClick(badge: Badge) {
+        // 새로운 Activity로 데이터 전달
+        val intent = Intent(requireContext(), MyBadgeDetailActivity::class.java).apply {
+            putExtra("name", badge.name)
+            putExtra("icon", badge.icon)
+            putExtra("isObtained", badge.isObtained)
+        }
+        startActivity(intent)
     }
 
 }
