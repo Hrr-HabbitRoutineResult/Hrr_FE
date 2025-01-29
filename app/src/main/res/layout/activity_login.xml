@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity"
+    tools:context=".access.ui.LoginActivity"
     android:background="@color/white">
 
     <ImageView
@@ -88,30 +88,13 @@
         </FrameLayout>
 
 
-        <!-- 계정 찾기, 비밀번호 찾기, 회원가입 -->
+        <!-- 비밀번호 찾기, 회원가입 -->
         <LinearLayout
             android:id="@+id/layout_login_helper"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="20dp">
-
-            <TextView
-                android:id="@+id/tv_login_find_account"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="계정 찾기"
-                android:textSize="12sp"
-                android:textColor="@color/text_secondary"
-                android:fontFamily="@font/noto_sans_kr_regular"
-                android:includeFontPadding="false"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="  |  "
-                android:textSize="12sp"
-                android:textColor="@color/text_line"/>
+            android:layout_marginTop="15dp">
 
             <TextView
                 android:id="@+id/tv_login_find_password"
@@ -120,8 +103,7 @@
                 android:text="비밀번호 찾기"
                 android:textSize="12sp"
                 android:textColor="@color/text_secondary"
-                android:fontFamily="@font/noto_sans_kr_regular"
-                android:includeFontPadding="false"/>
+                android:fontFamily="@font/noto_sans_kr_regular"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -137,8 +119,7 @@
                 android:text="회원가입"
                 android:textSize="12sp"
                 android:textColor="@color/text_secondary"
-                android:fontFamily="@font/noto_sans_kr_regular"
-                android:includeFontPadding="false"/>
+                android:fontFamily="@font/noto_sans_kr_regular"/>
         </LinearLayout>
 
         <!-- SNS 로그인 구분선 및 텍스트 -->

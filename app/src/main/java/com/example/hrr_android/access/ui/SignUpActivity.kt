@@ -1,10 +1,13 @@
-package com.example.hrr_android
+package com.example.hrr_android.access.ui
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.example.hrr_android.access.ui.fragment.CompleteFragment
+import com.example.hrr_android.access.ui.fragment.InfoInputFragment
+import com.example.hrr_android.access.ui.fragment.TermsFragment
 import com.example.hrr_android.databinding.ActivitySignUpBinding
 
 
