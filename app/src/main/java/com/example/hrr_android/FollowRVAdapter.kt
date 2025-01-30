@@ -6,7 +6,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hrr_android.databinding.ItemProfileFollowBinding
 
-class FollowRVAdapter (private val followList : ArrayList<Follow>) : RecyclerView.Adapter<FollowRVAdapter.ViewHolder>() {
+interface OnFollowClickListener{
+    fun onFollowClicked(follow: Follow)
+    fun onFollowingClicked(follow: Follow)
+}
+
+class FollowRVAdapter (
+    private val followList : ArrayList<Follow>,
+    private val listener: OnFollowClickListener)
+    : RecyclerView.Adapter<FollowRVAdapter.ViewHolder>() {
     override fun onCreateViewHolder(
         viewGroup: ViewGroup,
         viewType: Int
@@ -41,6 +49,23 @@ class FollowRVAdapter (private val followList : ArrayList<Follow>) : RecyclerVie
                     binding.ivFollowerBtn.visibility = View.VISIBLE
                     binding.ivFollowingBtn.visibility = View.GONE
                 }
+            }
+
+            //클릭 이벤트 처리
+            binding.llFollowInfo.setOnClickListener {
+                // 다른 사람 프로필로 이동
+            }
+            binding.ivFollowerBtn.setOnClickListener {
+                //"팔로우" 상태 아이콘 클릭 시
+                binding.ivFollowerBtn.visibility = View.GONE
+                binding.ivFollowingBtn.visibility = View.VISIBLE    //팔로우 시작
+                listener.onFollowClicked(follow)     //팔로우 정보 제외 처리
+            }
+            binding.ivFollowingBtn.setOnClickListener {
+                //"팔로잉" 상태 아이콘 클릭 시
+                binding.ivFollowerBtn.visibility = View.VISIBLE
+                binding.ivFollowingBtn.visibility = View.GONE    //팔로우 해제
+                listener.onFollowingClicked(follow)     //팔로우 정보 처리
             }
 
         }

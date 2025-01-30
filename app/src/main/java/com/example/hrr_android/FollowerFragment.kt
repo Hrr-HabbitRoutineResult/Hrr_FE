@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.hrr_android.databinding.FragmentFollowerBinding
 
-class FollowerFragment : Fragment() {
+class FollowerFragment : Fragment(), OnFollowClickListener {
     private var _binding: FragmentFollowerBinding? = null
     private val binding get() = _binding!!
     private var followerList = ArrayList<Follow>()
@@ -35,7 +35,7 @@ class FollowerFragment : Fragment() {
         }
 
         //팔로워 RecyclerView 연결
-        val followRVAdapter = FollowRVAdapter(followerList)
+        val followRVAdapter = FollowRVAdapter(followerList, this)
         binding.rvFollower.apply {
             adapter = followRVAdapter
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
@@ -47,6 +47,14 @@ class FollowerFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onFollowClicked(follow: Follow) {
+        // 해당 유저 팔로우 시작 처리
+    }
+
+    override fun onFollowingClicked(follow: Follow) {
+        // 해당 유저 팔로우 해제 처리
     }
 
 }
