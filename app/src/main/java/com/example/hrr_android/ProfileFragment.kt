@@ -49,22 +49,24 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // 레벨 달성률 반원 게이지 바
-        val circularProgressBar = binding.cpbProfileLevelGauge
-
-        // 레벨 달성률 수치
-        val requiredPoint = 100
-        val earnedPoint = 76
-
-        // 퍼센트 계산
-        val progressPercentage = (earnedPoint / requiredPoint.toFloat()) * 50       //반원이라 백분율의 절반만 사용
-
-        // CircularProgressBar 설정 ; 그라데이션, 시간
-        circularProgressBar.apply {
-            progressBarColorDirection =
-                CircularProgressBar.GradientDirection.RIGHT_TO_LEFT
-            setProgressWithAnimation(progressPercentage, 1000) // 1초 동안
-        }
+//        // 레벨 달성률 반원 게이지 바
+//        val circularProgressBar = binding.cpbProfileLevelGauge
+//
+//        // 레벨 달성률 수치
+//        val requiredPoint = 100
+//        val earnedPoint = 76
+//
+//        // 퍼센트 계산
+//        val progressPercentage = (earnedPoint / requiredPoint.toFloat()) * 50       //반원이라 백분율의 절반만 사용
+//
+//        // CircularProgressBar 설정 ; 그라데이션, 시간
+//        circularProgressBar.apply {
+//            progressBarColorDirection =
+//                CircularProgressBar.GradientDirection.RIGHT_TO_LEFT
+//            setProgressWithAnimation(progressPercentage, 1000) // 1초 동안
+//        }
+        //레벨 달성률 게이지 바 구현
+        profileCommon.setupCircularProgressBar(binding, 76, 100)
 
         //설정한 대표 뱃지 개수에 따라 visibility 조정
         when(selectedBadges.size){
