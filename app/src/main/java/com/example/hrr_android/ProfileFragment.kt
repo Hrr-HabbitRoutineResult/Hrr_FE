@@ -36,6 +36,10 @@ class ProfileFragment : Fragment() {
             add(Badge("운동 스타터", R.drawable.img_badge_challenge_01))
         }
 
+        //팔로우 클릭 처리
+        onFollowClicked(binding.llProfileFollower, "follower")
+        onFollowClicked(binding.llProfileFollowing, "following")
+
         return binding.root
     }
 
@@ -88,6 +92,24 @@ class ProfileFragment : Fragment() {
                 binding.ivProfileBadge03.setImageResource(selectedBadges[2].icon)
                 binding.tvProfileBadge03.text = selectedBadges[2].name
             }
+        }
+
+
+    }
+
+    private fun onFollowClicked(view: View, type: String){
+        view.setOnClickListener {
+            val profileFollowFragment = ProfileFollowFragment().apply {
+                arguments = Bundle().apply {
+                    putString("selected_tab", type)
+                }
+            }
+
+            // Fragment 전환
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.main_frame, profileFollowFragment)
+                .addToBackStack(null)
+                .commit()
         }
     }
 
