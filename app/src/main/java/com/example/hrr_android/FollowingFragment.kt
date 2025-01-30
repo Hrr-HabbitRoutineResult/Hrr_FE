@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hrr_android.databinding.FragmentFollowingBinding
+import com.example.hrr_android.databinding.ItemProfileFollowBinding
 
 class FollowingFragment : Fragment(), OnFollowClickListener {
     private var _binding: FragmentFollowingBinding? = null
@@ -42,6 +43,11 @@ class FollowingFragment : Fragment(), OnFollowClickListener {
         binding.rvFollowing.apply {
             adapter = followRVAdapter
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        }
+
+        // 언팔로우 메시지 클릭 처리
+        binding.flUnfollowView.setOnClickListener {
+            doUnfollow()
         }
 
         // 스크롤 리스너 추가
@@ -113,5 +119,25 @@ class FollowingFragment : Fragment(), OnFollowClickListener {
         } else {
             binding.flUnfollowView.visibility = View.GONE
         }
+    }
+
+    // 언팔로우 메시지를 숨기고 팔로우-팔로잉 아이콘을 교체
+    private fun doUnfollow() {
+        if (currentOverlayPosition == RecyclerView.NO_POSITION) return
+
+        val layoutManager = binding.rvFollowing.layoutManager as LinearLayoutManager
+
+        val itemView = layoutManager.findViewByPosition(currentOverlayPosition)
+
+        if (itemView != null) {
+            // 버튼을 GONE으로 변경 (ViewBinding 활용)
+            val binding = ItemProfileFollowBinding.bind(itemView)
+            binding.ivFollowingBtn.visibility = View.GONE
+            binding.ivFollowerBtn.visibility = View.VISIBLE
+        }
+
+        // Overlay 숨기기
+        binding.flUnfollowView.visibility = View.GONE
+        currentOverlayPosition = RecyclerView.NO_POSITION
     }
 }

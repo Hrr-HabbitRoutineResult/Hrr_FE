@@ -36,7 +36,7 @@ class ProfileFollowFragment : Fragment() {
         }
 
         // 해당 탭으로 이동
-        binding.vpFollow.setCurrentItem(selectedTab, true)
+        binding.vpFollow.setCurrentItem(selectedTab, false)
 
         return binding.root
     }
