@@ -75,7 +75,7 @@ class ProfileCommon {
     }
 
     //팔로우 클릭 처리
-    fun onFollowClicked(fragment: Fragment, view: View, type: String){
+    fun onFollowClicked(activity: FragmentActivity, view: View, type: String){
         view.setOnClickListener {
             val profileFollowFragment = ProfileFollowFragment().apply {
                 arguments = Bundle().apply {
@@ -84,7 +84,7 @@ class ProfileCommon {
             }
 
             // Fragment 전환
-            fragment.parentFragmentManager.beginTransaction()
+            activity.supportFragmentManager.beginTransaction()
                 .replace(R.id.main_frame, profileFollowFragment)
                 .addToBackStack(null)
                 .commit()

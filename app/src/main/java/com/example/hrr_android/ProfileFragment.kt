@@ -42,8 +42,8 @@ class ProfileFragment : Fragment() {
         //팔로우 클릭 처리
 //        onFollowClicked(binding.llProfileFollower, "follower")
 //        onFollowClicked(binding.llProfileFollowing, "following")
-        profileCommon.onFollowClicked(this, binding.llProfileFollower, "follower")
-        profileCommon.onFollowClicked(this, binding.llProfileFollowing, "following")
+        profileCommon.onFollowClicked(requireActivity(), binding.llProfileFollower, "follower")
+        profileCommon.onFollowClicked(requireActivity(), binding.llProfileFollowing, "following")
 
         return binding.root
     }
