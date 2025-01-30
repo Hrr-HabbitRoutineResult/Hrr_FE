@@ -1,6 +1,8 @@
 package com.example.hrr_android
 
+import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.example.hrr_android.databinding.FragmentProfileBinding
 import com.google.android.material.tabs.TabLayoutMediator
@@ -69,6 +71,23 @@ class ProfileCommon {
                 binding.ivProfileBadge03.setImageResource(selectedBadges[2].icon)
                 binding.tvProfileBadge03.text = selectedBadges[2].name
             }
+        }
+    }
+
+    //팔로우 클릭 처리
+    fun onFollowClicked(fragment: Fragment, view: View, type: String){
+        view.setOnClickListener {
+            val profileFollowFragment = ProfileFollowFragment().apply {
+                arguments = Bundle().apply {
+                    putString("selected_tab", type)
+                }
+            }
+
+            // Fragment 전환
+            fragment.parentFragmentManager.beginTransaction()
+                .replace(R.id.main_frame, profileFollowFragment)
+                .addToBackStack(null)
+                .commit()
         }
     }
 }

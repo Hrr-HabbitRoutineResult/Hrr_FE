@@ -40,8 +40,10 @@ class ProfileFragment : Fragment() {
         }
 
         //팔로우 클릭 처리
-        onFollowClicked(binding.llProfileFollower, "follower")
-        onFollowClicked(binding.llProfileFollowing, "following")
+//        onFollowClicked(binding.llProfileFollower, "follower")
+//        onFollowClicked(binding.llProfileFollowing, "following")
+        profileCommon.onFollowClicked(this, binding.llProfileFollower, "follower")
+        profileCommon.onFollowClicked(this, binding.llProfileFollowing, "following")
 
         return binding.root
     }
@@ -102,22 +104,6 @@ class ProfileFragment : Fragment() {
         profileCommon.setupBadges(binding, selectedBadges)
 
 
-    }
-
-    private fun onFollowClicked(view: View, type: String){
-        view.setOnClickListener {
-            val profileFollowFragment = ProfileFollowFragment().apply {
-                arguments = Bundle().apply {
-                    putString("selected_tab", type)
-                }
-            }
-
-            // Fragment 전환
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.main_frame, profileFollowFragment)
-                .addToBackStack(null)
-                .commit()
-        }
     }
 
 }
