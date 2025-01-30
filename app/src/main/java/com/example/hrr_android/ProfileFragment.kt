@@ -69,35 +69,37 @@ class ProfileFragment : Fragment() {
         profileCommon.setupCircularProgressBar(binding, 76, 100)
 
         //설정한 대표 뱃지 개수에 따라 visibility 조정
-        when(selectedBadges.size){
-            0 -> {}
-            1 -> {
-                binding.ivProfileBadge01.setImageResource(selectedBadges[0].icon)
-                binding.tvProfileBadge01.text = selectedBadges[0].name
-            }
-            2 -> {
-                binding.llProfileBadge02.visibility = View.VISIBLE
+//        when(selectedBadges.size){
+//            0 -> {}
+//            1 -> {
+//                binding.ivProfileBadge01.setImageResource(selectedBadges[0].icon)
+//                binding.tvProfileBadge01.text = selectedBadges[0].name
+//            }
+//            2 -> {
+//                binding.llProfileBadge02.visibility = View.VISIBLE
+//
+//                binding.ivProfileBadge01.setImageResource(selectedBadges[0].icon)
+//                binding.tvProfileBadge01.text = selectedBadges[0].name
+//
+//                binding.ivProfileBadge02.setImageResource(selectedBadges[1].icon)
+//                binding.tvProfileBadge02.text = selectedBadges[1].name
+//            }
+//            3 -> {
+//                binding.llProfileBadge02.visibility = View.VISIBLE
+//                binding.llProfileBadge03.visibility = View.VISIBLE
+//
+//                binding.ivProfileBadge01.setImageResource(selectedBadges[0].icon)
+//                binding.tvProfileBadge01.text = selectedBadges[0].name
+//
+//                binding.ivProfileBadge02.setImageResource(selectedBadges[1].icon)
+//                binding.tvProfileBadge02.text = selectedBadges[1].name
+//
+//                binding.ivProfileBadge03.setImageResource(selectedBadges[2].icon)
+//                binding.tvProfileBadge03.text = selectedBadges[2].name
+//            }
+//        }
 
-                binding.ivProfileBadge01.setImageResource(selectedBadges[0].icon)
-                binding.tvProfileBadge01.text = selectedBadges[0].name
-
-                binding.ivProfileBadge02.setImageResource(selectedBadges[1].icon)
-                binding.tvProfileBadge02.text = selectedBadges[1].name
-            }
-            3 -> {
-                binding.llProfileBadge02.visibility = View.VISIBLE
-                binding.llProfileBadge03.visibility = View.VISIBLE
-
-                binding.ivProfileBadge01.setImageResource(selectedBadges[0].icon)
-                binding.tvProfileBadge01.text = selectedBadges[0].name
-
-                binding.ivProfileBadge02.setImageResource(selectedBadges[1].icon)
-                binding.tvProfileBadge02.text = selectedBadges[1].name
-
-                binding.ivProfileBadge03.setImageResource(selectedBadges[2].icon)
-                binding.tvProfileBadge03.text = selectedBadges[2].name
-            }
-        }
+        profileCommon.setupBadges(binding, selectedBadges)
 
 
     }

@@ -1,5 +1,6 @@
 package com.example.hrr_android
 
+import android.view.View
 import androidx.fragment.app.FragmentActivity
 import com.example.hrr_android.databinding.FragmentProfileBinding
 import com.google.android.material.tabs.TabLayoutMediator
@@ -19,6 +20,7 @@ class ProfileCommon {
         }.attach()
     }
 
+    //레벨 달성률 바인딩
     fun setupCircularProgressBar(binding: FragmentProfileBinding, earnedPoint: Int, requiredPoint: Int) {
         // 레벨 달성률 반원 게이지 바
         val circularProgressBar = binding.cpbProfileLevelGauge
@@ -32,5 +34,41 @@ class ProfileCommon {
             setProgressWithAnimation(progressPercentage, 1000) // 1초 동안 애니메이션 적용
         }
 
+    }
+
+    //대표 뱃지 바인딩
+    fun setupBadges(binding: FragmentProfileBinding, selectedBadges: List<Badge>) {
+        when (selectedBadges.size) {
+            0 -> {  }
+
+            1 -> {
+                binding.ivProfileBadge01.setImageResource(selectedBadges[0].icon)
+                binding.tvProfileBadge01.text = selectedBadges[0].name
+            }
+
+            2 -> {
+                binding.llProfileBadge02.visibility = View.VISIBLE
+
+                binding.ivProfileBadge01.setImageResource(selectedBadges[0].icon)
+                binding.tvProfileBadge01.text = selectedBadges[0].name
+
+                binding.ivProfileBadge02.setImageResource(selectedBadges[1].icon)
+                binding.tvProfileBadge02.text = selectedBadges[1].name
+            }
+
+            3 -> {
+                binding.llProfileBadge02.visibility = View.VISIBLE
+                binding.llProfileBadge03.visibility = View.VISIBLE
+
+                binding.ivProfileBadge01.setImageResource(selectedBadges[0].icon)
+                binding.tvProfileBadge01.text = selectedBadges[0].name
+
+                binding.ivProfileBadge02.setImageResource(selectedBadges[1].icon)
+                binding.tvProfileBadge02.text = selectedBadges[1].name
+
+                binding.ivProfileBadge03.setImageResource(selectedBadges[2].icon)
+                binding.tvProfileBadge03.text = selectedBadges[2].name
+            }
+        }
     }
 }
