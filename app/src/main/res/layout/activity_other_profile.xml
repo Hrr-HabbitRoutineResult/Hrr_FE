@@ -15,6 +15,7 @@
 
         <!-- 프로필 레이아웃 클론  -->
         <include
+            android:id="@+id/include_profile_fragment"
             layout="@layout/fragment_profile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>

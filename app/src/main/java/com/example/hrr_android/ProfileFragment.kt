@@ -11,23 +11,26 @@ import com.mikhaellopez.circularprogressbar.CircularProgressBar
 
 class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding            //뷰 바인딩
-    private var tabs = arrayListOf("챌린지", "인증기록", "뱃지")        //탭 제목
+    //private var tabs = arrayListOf("챌린지", "인증기록", "뱃지")        //탭 제목
     private var selectedBadges = ArrayList<Badge>()                 //대표 뱃지 리스트
+    private val profileCommon = ProfileCommon()     //공통 로직 인스턴스 생성
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentProfileBinding.inflate(inflater, container, false)
 
         //ViewPager2 Adapter 연결
-        val profileVPAdapter = ProfileVPAdapter(this)
-        binding.vpProfile.adapter = profileVPAdapter
+//        val profileVPAdapter = ProfileVPAdapter(this)
+//        binding.vpProfile.adapter = profileVPAdapter
+//
+//        //탭 제목 설정
+//        TabLayoutMediator(binding.tlProfile, binding.vpProfile){
+//            tab, position ->tab.text = tabs[position]
+//        }.attach()
 
-        //탭 제목 설정
-        TabLayoutMediator(binding.tlProfile, binding.vpProfile){
-            tab, position ->tab.text = tabs[position]
-        }.attach()
+        profileCommon.setupViewPager(binding, requireActivity(), true)
 
         //뱃지 더미 데이터 - 테스트 시 주석 해제 or 설정
         selectedBadges.apply {
