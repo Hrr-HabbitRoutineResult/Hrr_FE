@@ -1,7 +1,11 @@
-package com.example.hrr_android
+package com.example.hrr_android.access.repository
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.example.hrr_android.access.network.AuthService
+import com.example.hrr_android.NetworkClient
+import com.example.hrr_android.access.model.LoginRequest
+import com.example.hrr_android.access.model.LoginResponse
 
 class AuthRepository(context: Context) {
     private val authService: AuthService = NetworkClient.authService

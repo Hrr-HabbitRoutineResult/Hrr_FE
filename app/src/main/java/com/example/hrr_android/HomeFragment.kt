@@ -12,6 +12,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.hrr_android.access.ui.LoginActivity
 import com.example.hrr_android.databinding.FragmentHomeBinding
 import androidx.lifecycle.ViewModelProvider
+import com.example.hrr_android.access.AuthViewModel
 
 class HomeFragment : Fragment() {
 

@@ -12,7 +12,7 @@ import com.example.hrr_android.MainActivity
 import com.example.hrr_android.access.PasswordNavigator
 import com.example.hrr_android.databinding.ActivityLoginBinding
 import androidx.activity.viewModels
-import com.example.hrr_android.AuthViewModel
+import com.example.hrr_android.access.AuthViewModel
 import com.example.hrr_android.access.ValidUtils
 import com.example.hrr_android.databinding.CustomSnackbarBinding
 import com.google.android.material.snackbar.Snackbar

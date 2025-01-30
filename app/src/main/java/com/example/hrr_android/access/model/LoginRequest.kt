@@ -1,4 +1,4 @@
-package com.example.hrr_android
+package com.example.hrr_android.access.model
 
 data class LoginRequest(
     val email: String,

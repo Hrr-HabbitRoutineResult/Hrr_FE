@@ -1,6 +1,7 @@
 package com.example.hrr_android
 
 import android.util.Log
+import com.example.hrr_android.access.network.AuthService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit

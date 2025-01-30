@@ -1,10 +1,12 @@
-package com.example.hrr_android
+package com.example.hrr_android.access
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.hrr_android.access.model.LoginResponse
+import com.example.hrr_android.access.repository.AuthRepository
 import kotlinx.coroutines.launch
 
 class AuthViewModel(application: Application) : AndroidViewModel(application) {

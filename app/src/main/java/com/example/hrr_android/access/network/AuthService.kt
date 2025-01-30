@@ -1,5 +1,7 @@
-package com.example.hrr_android
+package com.example.hrr_android.access.network
 
+import com.example.hrr_android.access.model.LoginRequest
+import com.example.hrr_android.access.model.LoginResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST

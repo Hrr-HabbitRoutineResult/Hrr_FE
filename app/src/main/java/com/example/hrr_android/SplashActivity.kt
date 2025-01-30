@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.example.hrr_android.access.AuthViewModel
 import com.example.hrr_android.access.ui.LoginActivity
 import kotlinx.coroutines.*
 
