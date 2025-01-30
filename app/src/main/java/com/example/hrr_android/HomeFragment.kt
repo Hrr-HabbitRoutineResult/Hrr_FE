@@ -1,5 +1,6 @@
 package com.example.hrr_android
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,7 +9,9 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
+import com.example.hrr_android.access.ui.LoginActivity
 import com.example.hrr_android.databinding.FragmentHomeBinding
+import androidx.lifecycle.ViewModelProvider
 
 class HomeFragment : Fragment() {
 
@@ -17,6 +20,8 @@ class HomeFragment : Fragment() {
 
     private lateinit var categoryAdapter: CategoryRVAdapter
     private lateinit var challengeAdapter: ChallengeCardVPAdapter
+
+    private lateinit var authViewModel: AuthViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -79,6 +84,13 @@ class HomeFragment : Fragment() {
         } else {
             binding.itemHomeChallengeCardNew.root.visibility = View.GONE
             binding.indicatorHomeChallengeCard.visibility = View.VISIBLE
+        }
+
+        // 뷰 모델 연결
+        authViewModel = ViewModelProvider(requireActivity()).get(AuthViewModel::class.java)
+
+        binding.ivHomePopularPost.setOnClickListener {
+            logout()
         }
 
     }
@@ -157,5 +169,16 @@ class HomeFragment : Fragment() {
         }
 
         binding.vpHomeChallenge.offscreenPageLimit = 1  // 미리 로드할 페이지 수 설정
+    }
+
+    private fun logout() {
+        authViewModel.logout() // ViewModel에서 로그아웃 처리
+        moveToLoginActivity() // 로그인 화면으로 이동
+    }
+
+    private fun moveToLoginActivity() {
+        val intent = Intent(requireContext(), LoginActivity::class.java)
+        startActivity(intent)
+        requireActivity().finish() // 현재 액티비티 종료
     }
 }
