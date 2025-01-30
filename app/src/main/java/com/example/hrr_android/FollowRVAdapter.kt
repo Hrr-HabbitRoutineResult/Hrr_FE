@@ -9,6 +9,7 @@ import com.example.hrr_android.databinding.ItemProfileFollowBinding
 interface OnFollowClickListener{
     fun onFollowClicked(follow: Follow)
     fun onFollowingClicked(position: Int, follow: Follow)
+    fun onUserClicked(follow: Follow)
 }
 
 class FollowRVAdapter (
@@ -54,6 +55,7 @@ class FollowRVAdapter (
             //클릭 이벤트 처리
             binding.llFollowInfo.setOnClickListener {
                 // 다른 사람 프로필로 이동
+                listener.onUserClicked(follow)
             }
             binding.ivFollowerBtn.setOnClickListener {
                 //"팔로우" 상태 아이콘 클릭 시

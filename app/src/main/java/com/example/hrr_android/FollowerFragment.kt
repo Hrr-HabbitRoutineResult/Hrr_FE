@@ -1,5 +1,6 @@
 package com.example.hrr_android
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -66,6 +67,13 @@ class FollowerFragment : Fragment(), OnFollowClickListener {
         showOverlayAt(position)     //언팔로우 메시지 뷰 이동
 
 
+    }
+
+    override fun onUserClicked(follow: Follow) {
+        val intent = Intent(requireContext(), OtherProfileActivity::class.java).apply {
+            putExtra("name", follow.name)   //추후 API 연결 시 이름으로 사용자의 정보를 받아와 바인딩 예정
+        }
+        startActivity(intent)
     }
 
     private fun showOverlayAt(position: Int) {
