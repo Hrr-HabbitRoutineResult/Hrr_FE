@@ -1,10 +1,12 @@
-package com.example.hrr_android
+package com.example.hrr_android.access.ui
 
 import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.hrr_android.MainActivity
+import com.example.hrr_android.access.PasswordNavigator
 import com.example.hrr_android.databinding.ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity() {
@@ -38,16 +40,14 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        // 계정 찾기 클릭 시 FindInfoActivity로 이동
-        binding.tvLoginFindAccount.setOnClickListener {
-            val intent = Intent(this, FindInfoActivity::class.java)
-            startActivity(intent)
+        // 비밀번호 찾기 클릭 시
+        binding.tvLoginFindPassword.setOnClickListener {
+            navigateToPasswordActivity(PasswordNavigator.VERIFICATION)
         }
 
-        // 비밀번호 찾기 클릭 시 FindInfoActivity로 이동
-        binding.tvLoginFindPassword.setOnClickListener {
-            val intent = Intent(this, FindInfoActivity::class.java)
-            startActivity(intent)
+        // 네이버 로고 클릭 시
+        binding.ivLoginNaver.setOnClickListener {
+            navigateToPasswordActivity(PasswordNavigator.RESET)
         }
     }
 
@@ -69,5 +69,11 @@ class LoginActivity : AppCompatActivity() {
         }
 
         return true
+    }
+
+    private fun navigateToPasswordActivity(fragment: PasswordNavigator) {
+        val intent = Intent(this, PasswordActivity::class.java)
+        intent.putExtra("fragment_to_load", fragment.fragmentName) // Enum에서 fragmentName 사용
+        startActivity(intent)
     }
 }

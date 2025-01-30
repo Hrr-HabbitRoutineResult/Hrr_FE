@@ -28,14 +28,14 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".FindInfoActivity"
+            android:name=".access.ui.PasswordActivity"
             android:exported="false" />
         <activity
-            android:name=".SignUpActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustPan" />
+            android:name=".access.ui.SignUpActivity"
+            android:windowSoftInputMode="adjustPan"
+            android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".access.ui.LoginActivity"
             android:exported="false" />
         <activity
             android:name=".onboarding.ui.ResultActivity"
