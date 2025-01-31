@@ -89,6 +89,7 @@ class ProfileFragment : Fragment() {
                 binding.tvProfileBadge03.text = selectedBadges[2].name
             }
         }
+
     }
 
 }
