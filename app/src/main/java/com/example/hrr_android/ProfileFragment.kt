@@ -90,6 +90,15 @@ class ProfileFragment : Fragment() {
             }
         }
 
+        // 설정 버튼 클릭 처리
+        binding.ivProfileMenu.setOnClickListener {
+            // Fragment 전환
+            this.parentFragmentManager.beginTransaction()
+                .replace(R.id.main_frame, SettingFragment())
+                .addToBackStack(null)
+                .commit()
+        }
+
     }
 
 }
