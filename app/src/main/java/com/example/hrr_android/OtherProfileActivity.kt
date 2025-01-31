@@ -2,9 +2,12 @@ package com.example.hrr_android
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.hrr_android.databinding.ActivityOtherProfileBinding
+import com.example.hrr_android.databinding.DialogBottomSheetBinding
 import com.example.hrr_android.databinding.FragmentProfileBinding
+import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class OtherProfileActivity : AppCompatActivity() {
     //뷰 바인딩
@@ -72,6 +75,32 @@ class OtherProfileActivity : AppCompatActivity() {
         // 뒤로 가기 버튼 클릭 처리
         binding.ivOtherProfileBack.setOnClickListener {
             finish()
+        }
+
+        // 차단, 신고 버튼 클릭 처리
+        binding.ivOtherProfileMore.setOnClickListener {
+            val dialog = BottomSheetDialog(this, R.style.BottomSheetDialog)
+            val dialogBinding = DialogBottomSheetBinding.inflate(layoutInflater) // 뷰 바인딩 객체 생성
+
+            dialog.setContentView(dialogBinding.root)
+
+            // 버튼 클릭 리스너 설정
+            dialogBinding.tvBlock.setOnClickListener {
+                Toast.makeText(this, "차단하기 선택됨", Toast.LENGTH_SHORT).show()
+                dialog.dismiss()
+            }
+
+            dialogBinding.tvReport.setOnClickListener {
+                Toast.makeText(this, "신고하기 선택됨", Toast.LENGTH_SHORT).show()
+                dialog.dismiss()
+            }
+
+            dialogBinding.tvCancel.setOnClickListener {
+                Toast.makeText(this, "취소 선택됨", Toast.LENGTH_SHORT).show()
+                dialog.dismiss()
+            }
+
+            dialog.show()
         }
 
 

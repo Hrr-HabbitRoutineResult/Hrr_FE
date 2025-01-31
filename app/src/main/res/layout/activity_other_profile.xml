@@ -34,6 +34,7 @@
 
         <!--  더보기 버튼  -->
         <ImageView
+            android:id="@+id/iv_other_profile_more"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="@drawable/btn_more_dot"

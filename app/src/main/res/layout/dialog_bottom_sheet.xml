@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@android:color/transparent"
-    android:paddingHorizontal="16dp"
     android:paddingBottom="61dp">
 
     <LinearLayout
@@ -12,10 +11,12 @@
         android:layout_height="110dp"
         android:background="@drawable/bg_radius10_white_border1_grey500"
         android:orientation="vertical"
-        android:gravity="center_horizontal">
+        android:gravity="center_horizontal"
+        android:layout_marginHorizontal="16dp">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_block"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="차단하기"
             android:fontFamily="@font/font_style"
@@ -23,7 +24,8 @@
             android:includeFontPadding="false"
             android:textSize="16sp"
             android:textColor="@color/sub_01"
-            android:layout_marginTop="18dp"/>
+            android:layout_marginTop="18dp"
+            android:gravity="center"/>
         
         <View
             android:layout_width="match_parent"
@@ -32,7 +34,8 @@
             android:layout_marginTop="14dp"/>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_report"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="신고하기"
             android:fontFamily="@font/font_style"
@@ -40,7 +43,8 @@
             android:includeFontPadding="false"
             android:textSize="16sp"
             android:textColor="@color/sub_01"
-            android:layout_marginTop="14dp"/>
+            android:layout_marginTop="14dp"
+            android:gravity="center"/>
 
     </LinearLayout>
 
@@ -50,17 +54,20 @@
         android:background="@drawable/bg_radius10_white_border1_grey500"
         android:orientation="vertical"
         android:gravity="center"
-        android:layout_marginTop="14dp">
+        android:layout_marginTop="14dp"
+        android:layout_marginHorizontal="16dp">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_cancel"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="취소"
             android:fontFamily="@font/font_style"
             android:textFontWeight="600"
             android:includeFontPadding="false"
             android:textSize="16sp"
-            android:textColor="@color/text_tertiary"/>
+            android:textColor="@color/text_tertiary"
+            android:gravity="center"/>
 
     </LinearLayout>
 
