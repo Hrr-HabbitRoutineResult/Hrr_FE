@@ -69,6 +69,11 @@ class OtherProfileActivity : AppCompatActivity() {
 
         }
 
+        // 뒤로 가기 버튼 클릭 처리
+        binding.ivOtherProfileBack.setOnClickListener {
+            finish()
+        }
+
 
     }
 }
