@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:background="@color/white"
     tools:context=".HomeFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -241,18 +240,59 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/layout_home_popular_challenge" />
 
-        <!-- 인기글 섹션 -->
-        <ImageView
-            android:id="@+id/iv_home_popular_post"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_home_hot_post"
             android:layout_width="match_parent"
-            android:layout_height="230dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_square_grey_15"
+            android:paddingVertical="12dp"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="15dp"
-            android:layout_marginBottom="30dp"
-            android:src="@drawable/bg_square_grey_15"
+            android:layout_marginBottom="50dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_home_popular_post" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_home_popular_post"/>
+
+        <!-- 인기글 섹션 -->
+        <FrameLayout
+            android:id="@+id/layout_home_popular_post"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="50dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_home_popular_post"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/bg_home_hot_post_none"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/bg_square_grey_filled_15" />
+
+            <ImageView
+                android:id="@+id/iv_home_hot_post_none"
+                android:layout_width="wrap_content"
+                android:layout_height="80dp"
+                android:layout_marginBottom="16dp"
+                android:layout_gravity="center"
+                android:src="@drawable/img_character_grey" />
+
+            <TextView
+                android:id="@+id/tv_home_hot_post_none"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="60dp"
+                android:text="고정된 게시판이 없어요"
+                android:textColor="@color/text_tertiary"
+                android:textSize="13sp"
+                android:fontFamily="@font/noto_sans_kr_medium"
+                android:layout_gravity="center"
+                android:layout_marginBottom="16dp" />
+        </FrameLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
