@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@android:color/transparent"
+    android:paddingHorizontal="16dp"
+    android:paddingBottom="61dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        android:background="@drawable/bg_radius10_white_border1_grey500"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="차단하기"
+            android:fontFamily="@font/font_style"
+            android:textFontWeight="600"
+            android:includeFontPadding="false"
+            android:textSize="16sp"
+            android:textColor="@color/sub_01"
+            android:layout_marginTop="18dp"/>
+        
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/text_line"
+            android:layout_marginTop="14dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="신고하기"
+            android:fontFamily="@font/font_style"
+            android:textFontWeight="600"
+            android:includeFontPadding="false"
+            android:textSize="16sp"
+            android:textColor="@color/sub_01"
+            android:layout_marginTop="14dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@drawable/bg_radius10_white_border1_grey500"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_marginTop="14dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="취소"
+            android:fontFamily="@font/font_style"
+            android:textFontWeight="600"
+            android:includeFontPadding="false"
+            android:textSize="16sp"
+            android:textColor="@color/text_tertiary"/>
+
+    </LinearLayout>
+
+
+
+</LinearLayout>
