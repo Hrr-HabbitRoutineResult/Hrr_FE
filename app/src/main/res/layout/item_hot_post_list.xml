@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tv_hot_post_list_community"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/noto_sans_kr_medium"
+        android:text="운동게시판"
+        android:textColor="@color/text_primary"
+        android:textSize="13sp"
+        android:paddingStart="20dp"
+        android:paddingEnd="6dp"
+        android:paddingVertical="7dp"
+        android:includeFontPadding="false"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_hot_post_list_content"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:paddingStart="6dp"
+        android:paddingEnd="20dp"
+        android:paddingVertical="7dp"
+        android:text="우리 챌린지 방 스터디가 잘 운영이 안되는 것 같아서 고민인데"
+        android:textColor="@color/text_primary"
+        android:textSize="13sp"
+        android:fontFamily="@font/noto_sans_kr_regular"
+        android:includeFontPadding="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv_hot_post_list_community"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
