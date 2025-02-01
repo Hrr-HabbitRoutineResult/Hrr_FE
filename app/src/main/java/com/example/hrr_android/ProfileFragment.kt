@@ -1,5 +1,6 @@
 package com.example.hrr_android
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -88,6 +89,12 @@ class ProfileFragment : Fragment() {
                 binding.ivProfileBadge03.setImageResource(selectedBadges[2].icon)
                 binding.tvProfileBadge03.text = selectedBadges[2].name
             }
+        }
+
+        // 프로필 수정 모드
+        binding.tvProfileEdit.setOnClickListener {
+            val intent = Intent(requireContext(), EditProfileActivity::class.java)
+            startActivity(intent)
         }
     }
 
