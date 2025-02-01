@@ -70,37 +70,37 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/fl_topBanner_edit" />
 
-        <!-- 유저 이미지 -->
-        <ImageView
-            android:id="@+id/iv_edit_userImage"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_marginTop="110dp"
-            android:src="@drawable/ic_profile_default"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/fl_topBanner_edit" />
-
-        <!-- 검정색 오버레이 -->
-        <View
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:background="@drawable/bg_circle_overlay"
-            android:layout_marginTop="110dp"
-            android:src="@drawable/ic_profile_default"
+        <FrameLayout
+            android:id="@+id/fl_edit_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/fl_topBanner_edit"
-            />
+            android:layout_marginTop="110dp">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/btn_edit_camera"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="134dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            <!-- 유저 이미지 -->
+            <ImageView
+                android:id="@+id/iv_edit_userImage"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/ic_profile_default"
+                 />
+
+            <!-- 검정색 오버레이 -->
+            <View
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:background="@drawable/bg_circle_overlay"
+                android:src="@drawable/ic_profile_default"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/btn_edit_camera"
+                android:layout_gravity="center"/>
+
+        </FrameLayout>
 
         <!-- 유저 닉네임 수정 -->
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -109,7 +109,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_edit_userImage"
+            app:layout_constraintTop_toBottomOf="@+id/fl_edit_img"
             android:layout_marginTop="5dp">
 
             <TextView

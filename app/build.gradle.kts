@@ -3,6 +3,7 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("kotlin-kapt")
 }
 
 android {
@@ -76,4 +77,8 @@ dependencies {
 
     // LiveData KTX (LiveData 사용 최적화)
     implementation(libs.androidx.lifecycle.livedata.ktx)
+
+    // Glide
+    implementation(libs.glide)
+    kapt(libs.glideCompiler)
 }
