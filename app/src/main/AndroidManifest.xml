@@ -20,6 +20,9 @@
             android:name=".NotificationActivity"
             android:exported="false" />
         <activity
+            android:name=".community.ui.BoardActivity"
+            android:exported="false" />
+        <activity
             android:name=".LoadingActivity"
             android:exported="false" />
         <activity
