@@ -2,6 +2,7 @@ package com.example.hrr_android
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.example.hrr_android.community.ui.fragment.CommunityFragment
 import com.example.hrr_android.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
