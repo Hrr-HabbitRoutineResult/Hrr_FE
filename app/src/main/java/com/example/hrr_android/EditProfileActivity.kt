@@ -22,6 +22,18 @@ class EditProfileActivity : AppCompatActivity() {
         binding = ActivityEditProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // 취소 클릭 처리
+        binding.ivEditCancel.setOnClickListener {
+            finish()
+        }
+
+        // 완료 클릭 처리
+        binding.ivEditComplete.setOnClickListener {
+            // TODO: 사용자 정보 서버에 업데이트
+            finish()
+        }
+
+
         //닉네임 바인딩
         user = User("닉네임 테스트")
 
