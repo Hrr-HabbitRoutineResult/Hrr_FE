@@ -1,21 +1,18 @@
 package com.example.hrr_android.challenge.ui.record
 
-import android.content.res.Resources
-import android.graphics.Canvas
-import android.graphics.Rect
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
-import androidx.core.content.res.ResourcesCompat
-import androidx.recyclerview.widget.RecyclerView
 import com.example.hrr_android.R
 import com.example.hrr_android.challenge.model.ChallengeType
 import com.example.hrr_android.challenge.ui.record.adapter.RecordPhotoAdapter
 import com.example.hrr_android.challenge.ui.record.adapter.RecordTextAdapter
 import com.example.hrr_android.databinding.FragmentRecordBinding
+import com.example.hrr_android.challenge.ui.common.decoration.GridSpaceItemDecoration
+import com.example.hrr_android.challenge.ui.common.decoration.DividerItemDecoration
 
 
 class RecordFragment : Fragment() {
@@ -26,55 +23,6 @@ class RecordFragment : Fragment() {
     // 어댑터 인스턴스 생성
     private val recordPhotoAdapter = RecordPhotoAdapter()
     private val recordTextAdapter = RecordTextAdapter()
-
-    // 사진 인증 목록의 아이템 간격을 설정하는 데코레이션
-    private class GridSpaceItemDecoration(
-        private val spanCount: Int, // Grid의 column 수
-        private val spacing: Int // 아이템 간 간격
-    ) : RecyclerView.ItemDecoration() {
-        override fun getItemOffsets(
-            outRect: Rect,
-            view: View,
-            parent: RecyclerView,
-            state: RecyclerView.State
-        ) {
-            val position: Int = parent.getChildAdapterPosition(view)
-            val column = position % spanCount
-
-            // 가로 간격 설정 -> 마지막 열을 제외한 모든 아이템의 오른쪽에 간격 추가
-            if (column != spanCount - 1) {
-                outRect.right = spacing
-            }
-
-            // 세로 간격 설정 -> 마지막 행을 제외한 모든 아이템의 아래쪽에 간격 추가
-            if (position < state.itemCount - spanCount) {
-                outRect.bottom = spacing
-            }
-        }
-    }
-
-    // 글 인증 목록의 구분선을 설정하는 데코레이션
-    private class DividerItemDecoration(
-        private val resources: Resources
-    ) : RecyclerView.ItemDecoration() {
-        override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
-            val divider = ResourcesCompat.getDrawable(resources, R.drawable.divider_line_1dp, null)
-
-            // 마지막 아이템을 제외한 모든 아이템 사이에 구분선 추가
-            for (i in 0 until parent.childCount - 1) {
-                val child = parent.getChildAt(i)
-                val params = child.layoutParams as RecyclerView.LayoutParams
-
-                val top = child.bottom + params.bottomMargin
-                val bottom = top + (divider?.intrinsicHeight ?: 0)
-                val left = parent.paddingLeft
-                val right = parent.width - parent.paddingRight
-
-                divider?.setBounds(left, top, right, bottom)
-                divider?.draw(c)
-            }
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
