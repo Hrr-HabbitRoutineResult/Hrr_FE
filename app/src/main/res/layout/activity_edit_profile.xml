@@ -158,7 +158,7 @@
 
         <!-- 대표 뱃지 -->
         <LinearLayout
-            android:id="@+id/ll_profile_badge"
+            android:id="@+id/ll_edit_badge"
             android:layout_width="wrap_content"
             android:layout_height="61dp"
             android:orientation="horizontal"
@@ -344,8 +344,16 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-
         </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_edit_badge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:listitem="@layout/item_profile_badge"
+            app:layout_constraintTop_toBottomOf="@+id/ll_edit_badge"
+            android:layout_marginTop="50dp"
+            android:paddingHorizontal="35dp"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
