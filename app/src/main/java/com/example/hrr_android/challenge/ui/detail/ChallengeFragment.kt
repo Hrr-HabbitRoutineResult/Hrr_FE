@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hrr_android.R
 import com.example.hrr_android.challenge.ui.detail.adapter.CertificationListAdapter
+import com.example.hrr_android.challenge.ui.record.ProgressFragment
+import com.example.hrr_android.challenge.ui.record.RecordFragment
 import com.example.hrr_android.databinding.FragmentChallengeBinding
 import com.example.hrr_android.databinding.LayoutChallengeButtonBinding
 
@@ -82,6 +84,14 @@ class ChallengeFragment : Fragment(), ChallengeDialogInterface {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             adapter = CertificationListAdapter()
         }
+
+        // 챌린지 인증 현황 더보기 버튼 클릭 시 ProgressFragment로 이동
+        certificationListView.findViewById<View>(R.id.ll_more)?.setOnClickListener {
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.main_frame, ProgressFragment())
+                .addToBackStack(null)
+                .commit()
+        }
     }
 
     // 챌린지 완주 시
@@ -143,7 +153,7 @@ class ChallengeFragment : Fragment(), ChallengeDialogInterface {
         when(state) {
             ChallengeState.JOINED -> {
                 newButtonLayout.findViewById<Button>(R.id.btn_challenge_certification)?.setOnClickListener {
-                    updateButtonLayout(ChallengeState.CERTIFIED)
+                    updateButtonLayout(ChallengeState.COMPLETED)
                 }
             }
             // TODO: 개발용 완주 화면 테스트, 추후 삭제
@@ -152,6 +162,15 @@ class ChallengeFragment : Fragment(), ChallengeDialogInterface {
 //                    showCompleteLayout()
 //                }
 //            }
+            // TODO: 개발용 인증 기록 화면 이동 테스트, 추후 수정 필요
+            ChallengeState.COMPLETED -> {
+                newButtonLayout.findViewById<Button>(R.id.btn_challenge_complete)?.setOnClickListener {
+                    requireActivity().supportFragmentManager.beginTransaction()
+                        .replace(R.id.main_frame, RecordFragment())
+                        .addToBackStack(null)
+                        .commit()
+                }
+            }
             else -> {}
         }
     }
