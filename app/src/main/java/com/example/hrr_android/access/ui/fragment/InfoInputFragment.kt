@@ -112,12 +112,6 @@ class InfoInputFragment : Fragment() {
             putString("user_nickname", user.nickname)
             apply()
         }
-
-        // 저장된 값을 읽어와 로그로 출력하여 저장 여부 확인
-        val savedUserId = sharedPreferences.getInt("user_id", -1)
-        val savedEmail = sharedPreferences.getString("user_email", "none")
-        val savedNickname = sharedPreferences.getString("user_nickname", "none")
-        Log.d("UserInfo", "Saved user info: id=$savedUserId, email=$savedEmail, nickname=$savedNickname")
     }
 
     private fun initializeViews() {
