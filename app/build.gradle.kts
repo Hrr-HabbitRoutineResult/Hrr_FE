@@ -55,6 +55,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.security.crypto.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -76,4 +77,7 @@ dependencies {
 
     // LiveData KTX (LiveData 사용 최적화)
     implementation(libs.androidx.lifecycle.livedata.ktx)
+
+    // EncryptedSharedPreferences 및 MasterKey 사용을 위한 AndroidX Security Crypto 의존성 추가
+    implementation (libs.androidx.security.crypto.ktx.v110alpha06)
 }
