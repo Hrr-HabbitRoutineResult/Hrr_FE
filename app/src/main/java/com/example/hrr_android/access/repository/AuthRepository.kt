@@ -8,6 +8,8 @@ import com.example.hrr_android.access.model.EmailConfirmRequest
 import com.example.hrr_android.access.model.EmailVerificationRequest
 import com.example.hrr_android.access.model.LoginRequest
 import com.example.hrr_android.access.model.LoginResponse
+import com.example.hrr_android.access.model.RegisterRequest
+import com.example.hrr_android.access.model.RegisterResponse
 
 class AuthRepository(context: Context) {
     private val authService: AuthService = NetworkClient.authService
@@ -72,6 +74,25 @@ class AuthRepository(context: Context) {
             } else {
                 val errorBody = response.errorBody()?.string() ?: "Unknown error"
                 Result.failure(Exception("이메일 인증 실패: $errorBody"))
+            }
+        } catch (e: Exception) {
+            Result.failure(Exception("네트워크 오류: ${e.message}"))
+        }
+    }
+
+    suspend fun registerUser(request: RegisterRequest): Result<RegisterResponse> {
+        return try {
+            val response = authService.registerUser(request)
+            if (response.isSuccessful) {
+                val responseBody = response.body()
+                if (responseBody != null) {
+                    Result.success(responseBody)
+                } else {
+                    Result.failure(Exception("응답 본문이 비어있음"))
+                }
+            } else {
+                val errorBody = response.errorBody()?.string() ?: "Unknown error"
+                Result.failure(Exception("회원가입 실패: $errorBody"))
             }
         } catch (e: Exception) {
             Result.failure(Exception("네트워크 오류: ${e.message}"))
