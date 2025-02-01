@@ -171,56 +171,48 @@
             android:textFontWeight="400"
             android:includeFontPadding="false">
 
-            <LinearLayout
-                android:id="@+id/ll_profile_badge_01"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/ll_edit_badge_01"
                 android:layout_width="62dp"
                 android:layout_height="61dp"
-                android:orientation="vertical"
                 android:gravity="center_horizontal"
                 android:layout_gravity="center_horizontal">
 
                 <ImageView
-                    android:id="@+id/iv_profile_badge_01"
+                    android:id="@+id/iv_edit_badge_01"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/btn_badge_default"/>
+                    android:src="@drawable/ic_profile_default"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
 
-                <TextView
-                    android:id="@+id/tv_profile_badge_01"
-                    android:layout_width="match_parent"
-                    android:layout_height="17dp"
-                    android:text="추가"
-                    android:textSize="12sp"
-                    android:textColor="@color/text_primary"
-                    android:fontFamily="@font/font_style"
-                    android:textFontWeight="400"
-                    android:includeFontPadding="false"
-                    android:gravity="center"
-                    android:ellipsize="end"
-                    android:maxLines="1"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_profile_badge_02"
-                android:layout_width="62dp"
-                android:layout_height="61dp"
-                android:orientation="vertical"
-                android:gravity="center_horizontal"
-                android:visibility="gone"
-                android:layout_marginStart="10dp">
+                <!-- 검정색 오버레이 -->
+                <View
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/bg_circle_overlay"
+                    android:src="@drawable/ic_profile_default"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
 
                 <ImageView
-                    android:id="@+id/iv_profile_badge_02"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/btn_badge_default"/>
+                    android:id="@+id/iv_edit_badge_pen_01"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/btn_pen_edit"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@+id/iv_edit_badge_01"
+                    app:tint="@color/white"/>
 
                 <TextView
-                    android:id="@+id/tv_profile_badge_02"
+                    android:id="@+id/tv_edit_badge_01"
                     android:layout_width="match_parent"
                     android:layout_height="17dp"
-                    android:text="추가"
+                    android:text="뱃지명"
                     android:textSize="12sp"
                     android:textColor="@color/text_primary"
                     android:fontFamily="@font/font_style"
@@ -228,29 +220,57 @@
                     android:includeFontPadding="false"
                     android:gravity="center"
                     android:ellipsize="end"
-                    android:maxLines="1"/>
-            </LinearLayout>
+                    android:maxLines="1"
+                    app:layout_constraintTop_toBottomOf="@+id/iv_edit_badge_01"
+                    android:layout_marginTop="5dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
 
-            <LinearLayout
-                android:id="@+id/ll_profile_badge_03"
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/ll_edit_badge_02"
                 android:layout_width="62dp"
                 android:layout_height="61dp"
-                android:orientation="vertical"
                 android:gravity="center_horizontal"
-                android:visibility="gone"
-                android:layout_marginStart="10dp">
+                android:layout_gravity="center_horizontal"
+                android:visibility="gone">
 
                 <ImageView
-                    android:id="@+id/iv_profile_badge_03"
+                    android:id="@+id/iv_edit_badge_02"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/btn_badge_default"/>
+                    android:src="@drawable/ic_profile_default"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <!-- 검정색 오버레이 -->
+                <View
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/bg_circle_overlay"
+                    android:src="@drawable/ic_profile_default"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <ImageView
+                    android:id="@+id/iv_edit_badge_pen_02"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/btn_pen_edit"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@+id/iv_edit_badge_02"
+                    app:tint="@color/white"/>
 
                 <TextView
-                    android:id="@+id/tv_profile_badge_03"
+                    android:id="@+id/tv_edit_badge_02"
                     android:layout_width="match_parent"
                     android:layout_height="17dp"
-                    android:text="추가"
+                    android:text="뱃지명"
                     android:textSize="12sp"
                     android:textColor="@color/text_primary"
                     android:fontFamily="@font/font_style"
@@ -258,8 +278,72 @@
                     android:includeFontPadding="false"
                     android:gravity="center"
                     android:ellipsize="end"
-                    android:maxLines="1"/>
-            </LinearLayout>
+                    android:maxLines="1"
+                    app:layout_constraintTop_toBottomOf="@+id/iv_edit_badge_02"
+                    android:layout_marginTop="5dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/ll_edit_badge_03"
+                android:layout_width="62dp"
+                android:layout_height="61dp"
+                android:gravity="center_horizontal"
+                android:layout_gravity="center_horizontal"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/iv_edit_badge_03"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_profile_default"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <!-- 검정색 오버레이 -->
+                <View
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/bg_circle_overlay"
+                    android:src="@drawable/ic_profile_default"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <ImageView
+                    android:id="@+id/iv_edit_badge_pen_03"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/btn_pen_edit"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@+id/iv_edit_badge_03"
+                    app:tint="@color/white"/>
+
+                <TextView
+                    android:id="@+id/tv_edit_badge_03"
+                    android:layout_width="match_parent"
+                    android:layout_height="17dp"
+                    android:text="뱃지명"
+                    android:textSize="12sp"
+                    android:textColor="@color/text_primary"
+                    android:fontFamily="@font/font_style"
+                    android:textFontWeight="400"
+                    android:includeFontPadding="false"
+                    android:gravity="center"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    app:layout_constraintTop_toBottomOf="@+id/iv_edit_badge_03"
+                    android:layout_marginTop="5dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         </LinearLayout>
 
