@@ -70,4 +70,10 @@ dependencies {
     implementation(libs.logging.interceptor) // 네트워크 로그 확인용
 
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
+
+    // Fragment KTX (activityViewModels() 사용 가능)
+    implementation(libs.androidx.fragment.ktx)
+
+    // LiveData KTX (LiveData 사용 최적화)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
 }
