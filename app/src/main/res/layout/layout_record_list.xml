@@ -16,4 +16,14 @@
         app:spanCount="3"
         android:visibility="visible" />
 
+    <!-- 글 인증 목록 -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_record_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        android:orientation="vertical"
+        android:visibility="gone" />
+
 </FrameLayout>

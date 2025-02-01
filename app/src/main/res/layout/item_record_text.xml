@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="95dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_record_text_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:layout_marginBottom="17dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <!-- 날짜 -->
+        <TextView
+            android:id="@+id/tv_record_text_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2024.12.31"
+            android:textSize="12sp"
+            android:fontFamily="@font/font_style"
+            android:textFontWeight="400"
+            android:textColor="@color/text_primary"
+            android:includeFontPadding="false"
+            android:layout_marginTop="11dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- 글 제목 -->
+        <TextView
+            android:id="@+id/tv_record_text_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="해피뉴이어~! 올해 마지막 인증합니다."
+            android:textSize="13sp"
+            android:fontFamily="@font/font_style"
+            android:textFontWeight="500"
+            android:textColor="@color/text_primary"
+            android:includeFontPadding="false"
+            android:layout_marginTop="5dp"
+            app:layout_constraintStart_toStartOf="@id/tv_record_text_date"
+            app:layout_constraintTop_toBottomOf="@id/tv_record_text_date" />
+
+        <!-- 링크 아이콘 -->
+        <ImageView
+            android:id="@+id/iv_record_text_link"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_record_link"
+            android:layout_marginStart="5dp"
+            app:layout_constraintStart_toEndOf="@id/tv_record_text_title"
+            app:layout_constraintTop_toTopOf="@id/tv_record_text_title"
+            app:layout_constraintBottom_toBottomOf="@id/tv_record_text_title" />
+
+        <!-- 첨부한 이미지 -->
+        <ImageView
+            android:id="@+id/iv_record_text_thumbnail"
+            android:layout_width="85dp"
+            android:layout_height="60dp"
+            android:src="@drawable/img_running"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
