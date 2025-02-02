@@ -135,7 +135,8 @@ class EditProfileActivity : AppCompatActivity(), OnBadgeClickListener {
             }
 
             dialogBinding.tvEditDelete.setOnClickListener {
-                Toast.makeText(this, "삭제", Toast.LENGTH_SHORT).show()
+                binding.ivEditUserImage.setImageResource(R.drawable.ic_profile_default)
+                Toast.makeText(this, "기본 이미지로 변경되었습니다", Toast.LENGTH_SHORT).show()
                 dialog.dismiss()
             }
 
