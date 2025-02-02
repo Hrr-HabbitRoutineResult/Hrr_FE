@@ -20,7 +20,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.example.hrr_android.access.ValidUtils
 import com.example.hrr_android.databinding.ActivityEditProfileBinding
-import com.example.hrr_android.databinding.BgDialogProfileEditBinding
+import com.example.hrr_android.databinding.DialogProfileEditBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class EditProfileActivity : AppCompatActivity(), OnBadgeClickListener {
@@ -118,7 +118,7 @@ class EditProfileActivity : AppCompatActivity(), OnBadgeClickListener {
         // 사진 편집 모드
         binding.flEditImg.setOnClickListener {
             val dialog = BottomSheetDialog(this, R.style.BottomSheetDialog)
-            val dialogBinding = BgDialogProfileEditBinding.inflate(layoutInflater) // 뷰 바인딩 객체 생성
+            val dialogBinding = DialogProfileEditBinding.inflate(layoutInflater) // 뷰 바인딩 객체 생성
 
             dialog.setContentView(dialogBinding.root)
 
@@ -140,7 +140,7 @@ class EditProfileActivity : AppCompatActivity(), OnBadgeClickListener {
                 dialog.dismiss()
             }
 
-            dialogBinding.tvCancel.setOnClickListener {
+            dialogBinding.tvEditCancel.setOnClickListener {
                 Toast.makeText(this, "취소 선택됨", Toast.LENGTH_SHORT).show()
                 dialog.dismiss()
             }
