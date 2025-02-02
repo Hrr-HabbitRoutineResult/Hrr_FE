@@ -1,59 +1,53 @@
 package com.example.hrr_android
 
+import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.hrr_android.databinding.FragmentMessageBinding
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [MessageFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class MessageFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private var _binding: FragmentMessageBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_message, container, false)
+    ): View {
+        _binding = FragmentMessageBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment MessageFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            MessageFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // 더미 데이터 리스트 생성
+        val messageList = listOf(
+            MessageList(R.drawable.ic_message_profile_default, "kimheureu", "안녕하세요, 게시물 보고 연락드렸어요.", "50분 전"),
+            MessageList(R.drawable.ic_message_profile_default, "김흐르르르", "스터디 챌린지 혹시 개설하셨을까요??", "1시간 전"),
+            MessageList(R.drawable.ic_message_profile_default, "최흐르", "챌린지 이름 좀 알려주실 수 있을까요", "6시간 전"),
+            MessageList(R.drawable.ic_message_profile_default, "챌린저명", "Text", "1일 전"),
+            MessageList(R.drawable.ic_message_profile_default, "챌린저명", "Text", "2일 전"),
+            MessageList(R.drawable.ic_message_profile_default, "챌린저명", "Text", "3일 전"),
+            MessageList(R.drawable.ic_message_profile_default, "챌린저명", "Text", "5일 전"),
+            MessageList(R.drawable.ic_message_profile_default, "챌린저명", "Text", "6일 전"),
+        )
+
+        // RecyclerView 설정 & 아이템 클릭 리스너 추가
+        binding.rvMessageList.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvMessageList.adapter = MessageListRVAdapter(messageList) {
+            // 클릭 시 MessageChatActivity로 이동
+            val intent = Intent(requireContext(), MessageChatroomActivity::class.java)
+            startActivity(intent)
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null // 메모리 누수 방지
     }
 }
