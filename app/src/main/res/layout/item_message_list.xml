@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="80dp"
+    android:padding="20dp"
+    android:id="@+id/layout_message_list">
+
+    <ImageView
+        android:id="@+id/iv_item_message_list_profile"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/layout_rounded_image"
+        android:clipToOutline="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_message_profile_default"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_item_message_list_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:fontFamily="@font/noto_sans_kr_medium"
+        android:includeFontPadding="false"
+        android:text="챌린저명"
+        android:textColor="@color/text_primary"
+        android:textSize="13sp"
+        app:layout_constraintStart_toEndOf="@+id/iv_item_message_list_profile"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_item_message_list_content"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="75dp"
+        android:ellipsize="end"
+        android:fontFamily="@font/noto_sans_kr_regular"
+        android:includeFontPadding="false"
+        android:maxLines="1"
+        android:text="안녕하세요 아까 게시글 보고 연락드렸어요!"
+        android:textColor="@color/text_secondary"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/iv_item_message_list_profile"
+        app:layout_constraintTop_toBottomOf="@+id/tv_item_message_list_name" />
+
+    <TextView
+        android:id="@+id/tv_item_message_list_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/noto_sans_kr_regular"
+        android:includeFontPadding="false"
+        android:text="5분 전"
+        android:textColor="@color/text_secondary"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_item_message_list_notification"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:src="@drawable/ic_message_notification"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_item_message_list_content"
+        app:layout_constraintEnd_toEndOf="@+id/tv_item_message_list_time"
+        app:layout_constraintTop_toTopOf="@+id/tv_item_message_list_content" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
