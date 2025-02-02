@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:minWidth="255dp"
+    android:background="@android:color/white"
+    android:padding="16dp">
+
+    <ImageView
+        android:id="@+id/btn_message_bottom_close"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="25dp"
+        android:src="@drawable/btn_close_black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- 챌린지 아이콘 -->
+    <ImageView
+        android:id="@+id/iv_message_bottom_profile"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="95dp"
+        android:src="@drawable/ic_message_profile_default"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- 챌린지 제목 -->
+    <TextView
+        android:id="@+id/tv_message_bottom_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="NCS 공부 인증 챌린지"
+        android:textSize="18sp"
+        android:fontFamily="@font/noto_sans_kr_semi_bold"
+        android:includeFontPadding="false"
+        app:layout_constraintTop_toBottomOf="@id/iv_message_bottom_profile"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"/>
+
+    <!-- 챌린지 설명 -->
+    <TextView
+        android:id="@+id/tv_message_bottom_challenge_subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="공공기관/공무원/정회원 취준생"
+        android:textSize="14sp"
+        android:textColor="@color/text_tertiary"
+        android:fontFamily="@font/noto_sans_kr_regular"
+        android:includeFontPadding="false"
+        app:layout_constraintTop_toBottomOf="@id/tv_message_bottom_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="4dp"/>
+
+    <FrameLayout
+        android:id="@+id/btn_go_to_post"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="5dp"
+        android:background="@drawable/btn_message_bottom_30"
+        app:layout_constraintTop_toBottomOf="@id/tv_message_bottom_challenge_subtitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="12dp">
+
+        <!-- 텍스트 (오른쪽) -->
+        <TextView
+            android:id="@+id/tv_go_to_post"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="게시물 바로가기"
+            android:textColor="@color/text_primary"
+            android:textSize="14sp"
+            android:fontFamily="@font/noto_sans_kr_regular"
+            android:includeFontPadding="false"
+            android:layout_gravity="center"/>
+    </FrameLayout>
+
+    <!-- 참여자 제목 -->
+    <TextView
+        android:id="@+id/tv_participants"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="참여자"
+        android:textSize="13sp"
+        android:fontFamily="@font/noto_sans_kr_medium"
+        android:includeFontPadding="false"
+        app:layout_constraintTop_toBottomOf="@id/btn_go_to_post"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp"
+        android:paddingVertical="16dp"/>
+
+    <!-- 참여자 목록 -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_message_participant_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tv_participants">
+
+        <ImageView
+            android:id="@+id/iv_message_participant_1"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_message_profile_default"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/tv_message_participant_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="김흐르"
+            android:textSize="13sp"
+            android:fontFamily="@font/noto_sans_kr_medium"
+            android:includeFontPadding="false"
+            android:layout_marginStart="8dp"
+            app:layout_constraintStart_toEndOf="@id/iv_message_participant_1"
+            app:layout_constraintTop_toTopOf="@id/iv_message_participant_1"
+            app:layout_constraintBottom_toBottomOf="@id/iv_message_participant_1"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- 참여자 목록 -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_message_participant_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/layout_message_participant_1"
+        android:layout_marginTop="8dp">
+
+        <ImageView
+            android:id="@+id/iv_message_participant_2"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_message_profile_default"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/tv_message_participant_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="챌린저명"
+            android:textSize="13sp"
+            android:fontFamily="@font/noto_sans_kr_medium"
+            android:includeFontPadding="false"
+            android:layout_marginStart="8dp"
+            app:layout_constraintStart_toEndOf="@id/iv_message_participant_2"
+            app:layout_constraintTop_toTopOf="@id/iv_message_participant_2"
+            app:layout_constraintBottom_toBottomOf="@id/iv_message_participant_2"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/iv_message_bottom_exit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_message_bottom_exit"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="55dp"/>
+
+    <TextView
+        android:id="@+id/tv_message_bottom_exit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/noto_sans_kr_medium"
+        android:includeFontPadding="false"
+        android:text="나가기"
+        android:textSize="13sp"
+        android:layout_marginStart="5dp"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_message_bottom_exit"
+        app:layout_constraintStart_toEndOf="@+id/iv_message_bottom_exit"
+        app:layout_constraintTop_toTopOf="@+id/iv_message_bottom_exit" />
+
+    <ImageView
+        android:id="@+id/iv_message_bottom_block"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_message_bottom_block"
+        android:layout_marginStart="15dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_message_bottom_exit"
+        app:layout_constraintStart_toEndOf="@+id/tv_message_bottom_exit"
+        app:layout_constraintTop_toTopOf="@+id/tv_message_bottom_exit" />
+
+    <TextView
+        android:id="@+id/tv_message_bottom_block"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/noto_sans_kr_medium"
+        android:includeFontPadding="false"
+        android:text="차단"
+        android:textSize="13sp"
+        android:layout_marginStart="5dp"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_message_bottom_block"
+        app:layout_constraintStart_toEndOf="@+id/iv_message_bottom_block"
+        app:layout_constraintTop_toTopOf="@+id/iv_message_bottom_block" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_message_alarm"
+        android:layout_marginEnd="5dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_message_bottom_block"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_message_bottom_block" />
+</androidx.constraintlayout.widget.ConstraintLayout>
