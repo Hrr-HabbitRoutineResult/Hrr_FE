@@ -353,7 +353,8 @@
             tools:listitem="@layout/item_profile_badge"
             app:layout_constraintTop_toBottomOf="@+id/ll_edit_badge"
             android:layout_marginTop="50dp"
-            android:paddingHorizontal="35dp"/>
+            android:paddingHorizontal="35dp"
+            android:visibility="gone"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
