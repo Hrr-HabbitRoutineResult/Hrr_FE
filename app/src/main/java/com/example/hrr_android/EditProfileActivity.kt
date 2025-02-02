@@ -20,6 +20,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.example.hrr_android.access.ValidUtils
 import com.example.hrr_android.databinding.ActivityEditProfileBinding
+import com.example.hrr_android.databinding.BgDialogProfileEditBinding
+import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class EditProfileActivity : AppCompatActivity(), OnBadgeClickListener {
     private lateinit var binding: ActivityEditProfileBinding
@@ -113,10 +115,36 @@ class EditProfileActivity : AppCompatActivity(), OnBadgeClickListener {
             }
         }
 
-        // 사진 편집 - 갤러리에서 불러오기
+        // 사진 편집 모드
         binding.flEditImg.setOnClickListener {
-            openGallery()
-            //TODO: 사진 정보 업데이트
+            val dialog = BottomSheetDialog(this, R.style.BottomSheetDialog)
+            val dialogBinding = BgDialogProfileEditBinding.inflate(layoutInflater) // 뷰 바인딩 객체 생성
+
+            dialog.setContentView(dialogBinding.root)
+
+            // 버튼 클릭 리스너 설정
+            dialogBinding.tvEditCamera.setOnClickListener {
+                Toast.makeText(this, "카메라에서 촬영", Toast.LENGTH_SHORT).show()
+                dialog.dismiss()
+            }
+
+            dialogBinding.tvEditGallery.setOnClickListener {
+                openGallery()
+                //TODO: 사진 정보 업데이트
+                dialog.dismiss()
+            }
+
+            dialogBinding.tvEditDelete.setOnClickListener {
+                Toast.makeText(this, "삭제", Toast.LENGTH_SHORT).show()
+                dialog.dismiss()
+            }
+
+            dialogBinding.tvCancel.setOnClickListener {
+                Toast.makeText(this, "취소 선택됨", Toast.LENGTH_SHORT).show()
+                dialog.dismiss()
+            }
+
+            dialog.show()
         }
 
         // 뱃지 편집
