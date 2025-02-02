@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- 카드 컨테이너 -->
+    <FrameLayout
+        android:id="@+id/layout_challenge_card"
+        android:layout_width="250dp"
+        android:layout_height="350dp"
+        android:layout_gravity="center"
+        android:background="@drawable/bg_square_white_10">
+
+        <!-- 커버 이미지 -->
+        <ImageView
+            android:id="@+id/iv_challenge_onboarding_cover"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/img_running"
+            android:background="@drawable/bg_square_grey_10"
+            android:clipToOutline="true" />
+
+        <!-- 그라디언트 오버레이 -->
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:src="@drawable/gradient_onboarding_challenge" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_square_grey_10"/>
+
+        <!-- 상단 태그 -->
+        <FrameLayout
+            android:id="@+id/layout_challenge_onboarding_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="15dp">
+
+            <ImageView
+                android:id="@+id/iv_challenge_onboarding_type"
+                android:layout_width="53dp"
+                android:layout_height="18dp"
+                android:src="@drawable/bg_circle_orange" />
+
+            <TextView
+                android:id="@+id/tv_challenge_onboarding_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="베이직"
+                android:textSize="10sp"
+                android:textColor="@color/white"
+                android:fontFamily="@font/noto_sans_kr_regular"
+                android:includeFontPadding="false"
+                android:layout_gravity="center" />
+        </FrameLayout>
+
+        <!-- 텍스트 영역 -->
+        <LinearLayout
+            android:id="@+id/layout_challenge_onboarding_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="bottom"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginBottom="24dp">
+
+            <!-- 제목 텍스트 -->
+            <TextView
+                android:id="@+id/tv_challenge_onboarding_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="자잘자잘"
+                android:textColor="@color/text_primary"
+                android:textSize="18sp"
+                android:fontFamily="@font/noto_sans_kr_bold"
+                android:includeFontPadding="false" />
+
+            <!-- 설명 텍스트 -->
+            <TextView
+                android:id="@+id/tv_challenge_onboarding_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:text="챌린지 설명을 최대 한 줄로 표기하고, 말줄임표 설정을 해둡니다"
+                android:textColor="@color/text_tertiary"
+                android:textSize="12sp"
+                android:layout_marginTop="3dp"
+                android:fontFamily="@font/noto_sans_kr_regular"
+                android:includeFontPadding="false" />
+        </LinearLayout>
+    </FrameLayout>
+</FrameLayout>

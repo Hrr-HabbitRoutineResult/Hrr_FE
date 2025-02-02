@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources
     <!-- 인증 현황 탭 레이아웃 텍스트 스타일 -->
     <style name="TabTextAppearance" parent="TextAppearance.Design.Tab">
         <item name="android:textSize">15sp</item>
@@ -19,4 +19,10 @@
         <item name="android:includeFontPadding">false</item>
         <item name="android:padding">8dp</item>
     </style>
+
+    <style name="custom_toggle" parent="Widget.AppCompat.CompoundButton.Switch">
+        <item name="android:thumb">@drawable/toggle_thumb</item>
+        <item name="android:track">@drawable/toggle_bg</item>
+    </style>
+
 </resources>

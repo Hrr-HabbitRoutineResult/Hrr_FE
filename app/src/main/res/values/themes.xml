@@ -21,6 +21,10 @@
 
         <!-- Letter Spacing -->
         <item name="android:letterSpacing">-0.03</item>
+
+        <!-- switchStyle -->
+        <item name="switchStyle">@style/custom_toggle</item>
+
     </style>
 
     <style name="SplashTheme" parent="Base.Theme.HrrAndroid">
