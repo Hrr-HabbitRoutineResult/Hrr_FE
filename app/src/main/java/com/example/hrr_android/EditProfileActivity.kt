@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
@@ -16,21 +17,27 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.example.hrr_android.access.ValidUtils
 import com.example.hrr_android.databinding.ActivityEditProfileBinding
 import com.example.hrr_android.databinding.DialogProfileEditBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class EditProfileActivity : AppCompatActivity(), OnBadgeClickListener {
     private lateinit var binding: ActivityEditProfileBinding
     private lateinit var user: User
-    private lateinit var imageView: ImageView
+    private lateinit var userImg: ImageView
     private var selectedBadgeList = mutableListOf<Pair<String, Int>>()
     private var obtainedBadgeList = ArrayList<Badge>()
     private var addPossible = true
     private lateinit var editBadgeRVAdapter: EditBadgeRVAdapter
+    private var cameraPhotoUri: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +45,7 @@ class EditProfileActivity : AppCompatActivity(), OnBadgeClickListener {
         // 변수 초기화
         binding = ActivityEditProfileBinding.inflate(layoutInflater)
         user = User("닉네임 테스트")
-        imageView = binding.ivEditUserImage
+        userImg = binding.ivEditUserImage
         obtainedBadgeList.apply {
             add(Badge("오늘부터 챌린저1", R.drawable.img_badge_challenge_01))
             add(Badge("오늘부터 챌린저2", R.drawable.img_badge_challenge_01))
@@ -124,7 +131,7 @@ class EditProfileActivity : AppCompatActivity(), OnBadgeClickListener {
 
             // 버튼 클릭 리스너 설정
             dialogBinding.tvEditCamera.setOnClickListener {
-                Toast.makeText(this, "카메라에서 촬영", Toast.LENGTH_SHORT).show()
+                openCamera()
                 dialog.dismiss()
             }
 
@@ -199,6 +206,51 @@ class EditProfileActivity : AppCompatActivity(), OnBadgeClickListener {
         }
     }
 
+    // 카메라 촬영 결과를 받는 ActivityResultLauncher (TakePicture 방식: Boolean 반환)
+    private val cameraResultLauncher = registerForActivityResult(
+        ActivityResultContracts.TakePicture()
+    ) { success: Boolean ->
+        if (success && cameraPhotoUri != null) {
+            // 촬영에 성공하면 Glide를 사용해 저장된 이미지 URI를 로드 (원형 처리 적용)
+            Glide.with(this)
+                .load(cameraPhotoUri)
+                .circleCrop()
+                .into(userImg)
+            Log.d("CameraDebug", "촬영한 사진 로드 성공: $cameraPhotoUri")
+            // 나중에 서버 업로드 기능을 추가할 수 있도록 설계 고려
+        } else {
+            Log.e("CameraDebug", "사진 촬영 실패 또는 취소됨")
+            Toast.makeText(this, "사진 촬영에 실패했습니다.", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    // 카메라 촬영 실행 (TakePicture 방식 사용 - URI 방식)
+    private fun openCamera() {
+        try {
+            // 임시 파일 생성 및 URI 획득
+            val photoFile = createImageFile()
+            cameraPhotoUri = FileProvider.getUriForFile(
+                this,
+                "com.example.hrr_android.fileprovider", // AndroidManifest.xml에 설정한 authority
+                photoFile
+            )
+            cameraPhotoUri?.let{uri ->
+                cameraResultLauncher.launch(uri)
+            }
+
+        } catch (e: Exception) {
+            Log.e("CameraDebug", "카메라 열기 중 예외 발생: ${e.message}", e)
+            Toast.makeText(this, "카메라를 열 수 없습니다.", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    // 임시 이미지 파일 생성 (파일명에 타임스탬프 적용)
+    private fun createImageFile(): File {
+        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+        val storageDir: File? = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        return File.createTempFile("JPEG_${timeStamp}_", ".jpg", storageDir)
+    }
+
     // 갤러리 열기
     private fun openGallery() {
         try {
@@ -237,7 +289,7 @@ class EditProfileActivity : AppCompatActivity(), OnBadgeClickListener {
             Glide.with(this)
                 .load(uri)
                 .circleCrop()  // 원형 변환 적용
-                .into(imageView)
+                .into(userImg)
             Log.d("GalleryDebug", "이미지 로드 성공: $uri")
         } catch (e: Exception) {
             Log.e("GalleryDebug", "이미지 로드 중 예외 발생: ${e.message}", e)
