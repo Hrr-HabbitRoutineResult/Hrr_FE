@@ -1,8 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- 인증 현황 탭 레이아웃 텍스트 스타일 -->
     <style name="TabTextAppearance" parent="TextAppearance.Design.Tab">
         <item name="android:textSize">15sp</item>
         <item name="fontFamily">@font/noto_sans_kr_medium</item>
         <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <!-- 커스텀 캘린더 요일 텍스트 스타일 -->
+    <style name="CalendarWeekdayText">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="fontFamily">@font/noto_sans_kr_medium</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:padding">8dp</item>
     </style>
 </resources>
