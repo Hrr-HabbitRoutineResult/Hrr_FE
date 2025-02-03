@@ -43,6 +43,7 @@ class EditProfileActivity : AppCompatActivity(), OnBadgeClickListener {
     private var addPossible = true          // 대표 뱃지를 추가로 설정 가능한지 = 현재 대표 뱃지가 3개 미만인지
     private lateinit var editBadgeRVAdapter: EditBadgeRVAdapter
     private var cameraPhotoUri: Uri? = null     // 이미지 uri
+    private var onCalled: (() -> Unit)? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -144,6 +145,7 @@ class EditProfileActivity : AppCompatActivity(), OnBadgeClickListener {
 
             // 버튼 클릭 리스너 설정
             dialogBinding.tvEditCamera.setOnClickListener {
+                onCalled = ::openCamera
                 // 카메라 촬영
                 requestPermissions{
                     openCamera()
@@ -152,6 +154,7 @@ class EditProfileActivity : AppCompatActivity(), OnBadgeClickListener {
             }
 
             dialogBinding.tvEditGallery.setOnClickListener {
+                onCalled = ::openGallery
                 // 갤러리에서 불러오기
                 requestPermissions {
                     openGallery()
@@ -251,12 +254,39 @@ class EditProfileActivity : AppCompatActivity(), OnBadgeClickListener {
             onCalled()     // 호출한 함수 실행
         } else {
             // 최초 요청이거나, 이전에 거부되었더라도 일단 권한 요청 실행
-            val requestPermissionsLauncher = createPermissionsLauncher(onCalled)
             requestPermissionsLauncher.launch(deniedPermissions.toTypedArray())
         }
     }
 
-    private fun createPermissionsLauncher(onCalled: () -> Unit) =
+//    private fun createPermissionsLauncher(onCalled: () -> Unit) =
+//        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+//            // 모든 권한이 허용되었는지 확인
+//            val deniedPermissions = permissions.filter { !it.value }.keys
+//            val allGranted = deniedPermissions.isEmpty()
+//
+//            if (allGranted) {
+//                Log.d("PermissionDebug", "모든 권한 요청 성공")
+//                onCalled() // 전달된 콜백 실행
+//            } else {
+//                // 각 권한이 완전히 거부되었는지 확인
+//                var permanentlyDenied = false
+//                deniedPermissions.forEach { permission ->
+//                    if (!ActivityCompat.shouldShowRequestPermissionRationale(this, permission)) {
+//                        permanentlyDenied = true
+//                        Log.e("PermissionDebug", "권한 요청이 완전히 거부됨: $permission")
+//                    }
+//                }
+//                if (permanentlyDenied) {
+//                    Toast.makeText(this, "권한이 필요합니다. 설정에서 변경해주세요.", Toast.LENGTH_SHORT).show()
+//                    navigateToAppSettings()
+//                } else {
+//                    Toast.makeText(this, "권한이 필요합니다.", Toast.LENGTH_SHORT).show()
+//                    // 필요 시 다시 요청 가능
+//                }
+//            }
+//        }
+
+    private val requestPermissionsLauncher =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
             // 모든 권한이 허용되었는지 확인
             val deniedPermissions = permissions.filter { !it.value }.keys
@@ -264,7 +294,7 @@ class EditProfileActivity : AppCompatActivity(), OnBadgeClickListener {
 
             if (allGranted) {
                 Log.d("PermissionDebug", "모든 권한 요청 성공")
-                onCalled() // 전달된 콜백 실행
+                onCalled?.invoke() // 호출된 함수 콜백 실행
             } else {
                 // 각 권한이 완전히 거부되었는지 확인
                 var permanentlyDenied = false
