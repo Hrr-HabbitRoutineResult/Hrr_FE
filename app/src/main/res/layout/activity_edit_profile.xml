@@ -189,6 +189,7 @@
 
                 <!-- 검정색 오버레이 -->
                 <View
+                    android:id="@+id/view_overlay_01"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:background="@drawable/bg_circle_overlay"
@@ -247,6 +248,7 @@
 
                 <!-- 검정색 오버레이 -->
                 <View
+                    android:id="@+id/view_overlay_02"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:background="@drawable/bg_circle_overlay"
@@ -305,6 +307,7 @@
 
                 <!-- 검정색 오버레이 -->
                 <View
+                    android:id="@+id/view_overlay_03"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:background="@drawable/bg_circle_overlay"

@@ -3,9 +3,12 @@ package com.example.hrr_android
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
+import android.provider.Settings
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
@@ -17,6 +20,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
@@ -30,14 +35,14 @@ import java.util.Date
 import java.util.Locale
 
 class EditProfileActivity : AppCompatActivity(), OnBadgeClickListener {
-    private lateinit var binding: ActivityEditProfileBinding
-    private lateinit var user: User
-    private lateinit var userImg: ImageView
-    private var selectedBadgeList = mutableListOf<Pair<String, Int>>()
-    private var obtainedBadgeList = ArrayList<Badge>()
-    private var addPossible = true
+    private lateinit var binding: ActivityEditProfileBinding        // 뷰 바인딩
+    private lateinit var user: User     // 유저 데이터 - 수정된 정보로 업데이트하여 서버에 전달
+    private lateinit var userImg: ImageView     // 유저 프로필 사진
+    private var selectedBadgeList = mutableListOf<Pair<String, Int>>()      // 대표 뱃지 리스트
+    private var obtainedBadgeList = ArrayList<Badge>()      // 획득한 전체 뱃지 리스트
+    private var addPossible = true          // 대표 뱃지를 추가로 설정 가능한지 = 현재 대표 뱃지가 3개 미만인지
     private lateinit var editBadgeRVAdapter: EditBadgeRVAdapter
-    private var cameraPhotoUri: Uri? = null
+    private var cameraPhotoUri: Uri? = null     // 이미지 uri
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -131,23 +136,32 @@ class EditProfileActivity : AppCompatActivity(), OnBadgeClickListener {
 
             // 버튼 클릭 리스너 설정
             dialogBinding.tvEditCamera.setOnClickListener {
-                openCamera()
+                // 카메라 촬영
+                requestPermissions{
+                    openCamera()
+                }
                 dialog.dismiss()
             }
 
             dialogBinding.tvEditGallery.setOnClickListener {
-                openGallery()
+                // 갤러리에서 불러오기
+                requestPermissions {
+                    openGallery()
+                }
                 //TODO: 사진 정보 업데이트
                 dialog.dismiss()
             }
 
             dialogBinding.tvEditDelete.setOnClickListener {
+                // 기본 이미지로 변경(삭제)
                 binding.ivEditUserImage.setImageResource(R.drawable.ic_profile_default)
+                // Todo:유저 정보에서 프로필 사진 정보 삭제 요청
                 Toast.makeText(this, "기본 이미지로 변경되었습니다", Toast.LENGTH_SHORT).show()
                 dialog.dismiss()
             }
 
             dialogBinding.tvEditCancel.setOnClickListener {
+                // 취소
                 Toast.makeText(this, "취소 선택됨", Toast.LENGTH_SHORT).show()
                 dialog.dismiss()
             }
@@ -159,10 +173,10 @@ class EditProfileActivity : AppCompatActivity(), OnBadgeClickListener {
         binding.llEditBadge.setOnClickListener {
             // 획득한 뱃지 리스트 보이게
             binding.rvEditBadge.visibility = View.VISIBLE
-            // 현재 뱃지 보이게 위로 띄우기
-            binding.ivEditBadge01.elevation = 1f
-            binding.ivEditBadge02.elevation = 1f
-            binding.ivEditBadge03.elevation = 1f
+            // 현재 뱃지 보이게 흑백 오버레이 숨기기
+            binding.viewOverlay01.visibility = View.GONE
+            binding.viewOverlay02.visibility = View.GONE
+            binding.viewOverlay03.visibility = View.GONE
         }
         //카테고리 뱃지 RecyclerView 연결
         editBadgeRVAdapter = EditBadgeRVAdapter(obtainedBadgeList, this, addPossible)
@@ -206,18 +220,82 @@ class EditProfileActivity : AppCompatActivity(), OnBadgeClickListener {
         }
     }
 
-    // 카메라 촬영 결과를 받는 ActivityResultLauncher (TakePicture 방식: Boolean 반환)
+    private fun requestPermissions(onCalled: () -> Unit) {
+        val permissions = mutableListOf<String>()
+        // 카메라 권한 추가
+        permissions.add(android.Manifest.permission.CAMERA)
+
+        // Android 13(API 33) 이상에서는 READ_MEDIA_IMAGES 권한 추가
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            permissions.add(android.Manifest.permission.READ_MEDIA_IMAGES)
+        } else {
+            // Android 13 미만에서는 READ_EXTERNAL_STORAGE 권한 추가
+            permissions.add(android.Manifest.permission.READ_EXTERNAL_STORAGE)
+        }
+
+        // 허용되지 않은 권한 필터링
+        val deniedPermissions = permissions.filter {
+            ContextCompat.checkSelfPermission(this, it) != PackageManager.PERMISSION_GRANTED
+        }
+
+        if (deniedPermissions.isEmpty()) {
+            // 모든 권한이 이미 허용된 경우
+            onCalled()     // 호출한 함수 실행
+        } else {
+            // 최초 요청이거나, 이전에 거부되었더라도 일단 권한 요청 실행
+            val requestPermissionsLauncher = createPermissionsLauncher(onCalled)
+            requestPermissionsLauncher.launch(deniedPermissions.toTypedArray())
+        }
+    }
+
+    private fun createPermissionsLauncher(onCalled: () -> Unit) =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+            // 모든 권한이 허용되었는지 확인
+            val deniedPermissions = permissions.filter { !it.value }.keys
+            val allGranted = deniedPermissions.isEmpty()
+
+            if (allGranted) {
+                Log.d("PermissionDebug", "모든 권한 요청 성공")
+                onCalled() // 전달된 콜백 실행
+            } else {
+                // 각 권한이 완전히 거부되었는지 확인
+                var permanentlyDenied = false
+                deniedPermissions.forEach { permission ->
+                    if (!ActivityCompat.shouldShowRequestPermissionRationale(this, permission)) {
+                        permanentlyDenied = true
+                        Log.e("PermissionDebug", "권한 요청이 완전히 거부됨: $permission")
+                    }
+                }
+                if (permanentlyDenied) {
+                    Toast.makeText(this, "권한이 필요합니다. 설정에서 변경해주세요.", Toast.LENGTH_SHORT).show()
+                    navigateToAppSettings()
+                } else {
+                    Toast.makeText(this, "권한이 필요합니다.", Toast.LENGTH_SHORT).show()
+                    // 필요 시 다시 요청 가능
+                }
+            }
+        }
+
+    // 설정으로 이동해 권한 허용을 유도
+    private fun navigateToAppSettings() {
+        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+            data = Uri.fromParts("package", packageName, null)
+        }
+        startActivity(intent)
+    }
+
+
+    // 카메라 촬영 결과를 받는 ActivityResultLauncher (TakePicture - Boolean 반환)
     private val cameraResultLauncher = registerForActivityResult(
         ActivityResultContracts.TakePicture()
     ) { success: Boolean ->
         if (success && cameraPhotoUri != null) {
-            // 촬영에 성공하면 Glide를 사용해 저장된 이미지 URI를 로드 (원형 처리 적용)
+            // 촬영에 성공하면 Glide를 사용해 저장된 이미지 URI를 로드, 원형 처리 적용
             Glide.with(this)
                 .load(cameraPhotoUri)
                 .circleCrop()
                 .into(userImg)
             Log.d("CameraDebug", "촬영한 사진 로드 성공: $cameraPhotoUri")
-            // 나중에 서버 업로드 기능을 추가할 수 있도록 설계 고려
         } else {
             Log.e("CameraDebug", "사진 촬영 실패 또는 취소됨")
             Toast.makeText(this, "사진 촬영에 실패했습니다.", Toast.LENGTH_SHORT).show()
@@ -231,7 +309,7 @@ class EditProfileActivity : AppCompatActivity(), OnBadgeClickListener {
             val photoFile = createImageFile()
             cameraPhotoUri = FileProvider.getUriForFile(
                 this,
-                "com.example.hrr_android.fileprovider", // AndroidManifest.xml에 설정한 authority
+                "com.example.hrr_android.fileprovider", // Manifest에 설정한 authority
                 photoFile
             )
             cameraPhotoUri?.let{uri ->
@@ -244,11 +322,11 @@ class EditProfileActivity : AppCompatActivity(), OnBadgeClickListener {
         }
     }
 
-    // 임시 이미지 파일 생성 (파일명에 타임스탬프 적용)
+    // 임시 이미지 파일 생성
     private fun createImageFile(): File {
         val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
         val storageDir: File? = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        return File.createTempFile("JPEG_${timeStamp}_", ".jpg", storageDir)
+        return File.createTempFile("JPEG_${timeStamp}_", ".jpg", storageDir)     // 파일명에 타임스탬프 적용
     }
 
     // 갤러리 열기
