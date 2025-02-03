@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -15,6 +17,12 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        val properties = Properties().apply {
+            load(project.rootProject.file("local.properties").inputStream())
+        }
+        val baseUrl = properties.getProperty("BASE_URL") ?: ""
+        buildConfigField("String", "BASE_URL", "\"$baseUrl\"")
     }
 
     buildTypes {
@@ -53,4 +61,20 @@ dependencies {
     implementation(libs.circularprogressbar)
     implementation(libs.androidx.viewpager2)
     implementation(libs.gson)
+
+    // Retrofit2 의존성
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson) // JSON 변환용
+
+    // OkHttp3 의존성
+    implementation(libs.okhttp)
+    implementation(libs.logging.interceptor) // 네트워크 로그 확인용
+
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+
+    // Fragment KTX (activityViewModels() 사용 가능)
+    implementation(libs.androidx.fragment.ktx)
+
+    // LiveData KTX (LiveData 사용 최적화)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
 }
