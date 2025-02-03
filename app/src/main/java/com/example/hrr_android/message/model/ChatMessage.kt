@@ -1,4 +1,4 @@
-package com.example.hrr_android
+package com.example.hrr_android.message.model
 
 data class ChatMessage(
     val senderName: String, // 보낸 사람 이름

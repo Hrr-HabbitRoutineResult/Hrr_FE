@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.hrr_android.community.ui.fragment.CommunityFragment
 import com.example.hrr_android.databinding.ActivityMainBinding
+import com.example.hrr_android.message.ui.MessageFragment
 
 class MainActivity : AppCompatActivity() {
     //뷰 바인딩

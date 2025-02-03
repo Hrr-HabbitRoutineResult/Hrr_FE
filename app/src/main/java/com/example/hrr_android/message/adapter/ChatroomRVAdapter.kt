@@ -1,9 +1,10 @@
-package com.example.hrr_android
+package com.example.hrr_android.message.adapter
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.hrr_android.message.model.ChatMessage
 import com.example.hrr_android.databinding.ItemMessageBinding
 import com.example.hrr_android.databinding.ItemMessageOtherBinding
 

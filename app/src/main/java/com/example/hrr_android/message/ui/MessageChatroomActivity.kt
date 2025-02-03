@@ -1,4 +1,4 @@
-package com.example.hrr_android
+package com.example.hrr_android.message.ui
 
 import android.graphics.Rect
 import android.os.Bundle
@@ -11,6 +11,9 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.hrr_android.message.model.ChatMessage
+import com.example.hrr_android.message.adapter.ChatroomRVAdapter
+import com.example.hrr_android.DefaultDialog
 import com.example.hrr_android.databinding.ActivityMessageChatroomBinding
 import java.text.SimpleDateFormat
 import java.util.Date
