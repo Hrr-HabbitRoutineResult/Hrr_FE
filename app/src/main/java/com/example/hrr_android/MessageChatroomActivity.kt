@@ -91,7 +91,7 @@ class MessageChatroomActivity : AppCompatActivity() {
         }
 
         // 전송 버튼 클릭 시 메시지 추가
-        binding.btnMessageChat.setOnClickListener {
+        binding.btnMessageChatSend.setOnClickListener {
             sendMessage()
         }
 

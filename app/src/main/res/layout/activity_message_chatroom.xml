@@ -15,23 +15,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="45dp"
             android:src="@drawable/ic_arrow_back"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@id/tv_message_chat_title"
+            app:layout_constraintBottom_toBottomOf="@id/tv_message_chat_title"/>
 
         <TextView
+            android:id="@+id/tv_message_chat_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
+            android:layout_marginTop="45dp"
+            android:fontFamily="@font/noto_sans_kr_semi_bold"
+            android:includeFontPadding="false"
             android:text="쪽지"
             android:textColor="@color/text_primary"
             android:textSize="20sp"
-            android:fontFamily="@font/noto_sans_kr_semi_bold"
-            android:includeFontPadding="false"
-            app:layout_constraintBottom_toBottomOf="@id/btn_message_chat_back"
             app:layout_constraintStart_toEndOf="@id/btn_message_chat_back"
-            app:layout_constraintTop_toTopOf="@id/btn_message_chat_back" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/btn_message_chat_more"
@@ -39,20 +40,20 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"
             android:src="@drawable/ic_message_chat_more"
-            app:layout_constraintBottom_toBottomOf="@id/btn_message_chat_back"
+            app:layout_constraintBottom_toBottomOf="@id/tv_message_chat_title"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/btn_message_chat_back" />
+            app:layout_constraintTop_toTopOf="@id/tv_message_chat_title" />
 
         <!-- 회색 구분선 -->
         <View
             android:id="@+id/line_message_chatroom_1"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/grey_50"
             android:layout_marginTop="20dp"
-            app:layout_constraintStart_toStartOf="parent"
+            android:background="@color/grey_50"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btn_message_chat_back"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_message_chat_back" />
 
         <!-- NestedScrollView로 감싸서 키보드 올라올 때 스크롤 가능하도록 설정 -->
         <androidx.core.widget.NestedScrollView
@@ -60,14 +61,14 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:fillViewport="true"
-            app:layout_constraintTop_toBottomOf="@id/line_message_chatroom_1"
-            app:layout_constraintBottom_toTopOf="@id/et_message_chat">
+            app:layout_constraintBottom_toTopOf="@id/et_message_chat"
+            app:layout_constraintTop_toBottomOf="@id/line_message_chatroom_1">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_message_chat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false"/>
+                android:nestedScrollingEnabled="false" />
         </androidx.core.widget.NestedScrollView>
 
         <!-- 회색 구분선 -->
@@ -75,32 +76,32 @@
             android:id="@+id/line_message_chatroom_2"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/grey_50"
             android:layout_marginBottom="20dp"
-            app:layout_constraintStart_toStartOf="parent"
+            android:background="@color/grey_50"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/scroll_message_chat"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/scroll_message_chat" />
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/et_message_chat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="45dp"
             android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="14dp"
             android:background="@drawable/bg_message_search"
             android:fontFamily="@font/noto_sans_kr_regular"
             android:hint="채팅을 입력하세요"
             android:includeFontPadding="false"
+            android:minHeight="45dp"
             android:padding="10dp"
-            android:layout_marginTop="14dp"
             android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/scroll_message_chat"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@+id/scroll_message_chat" />
 
         <FrameLayout
-            android:id="@+id/btn_message_chat"
+            android:id="@+id/btn_message_chat_send"
             android:layout_width="28dp"
             android:layout_height="28dp"
             android:layout_marginEnd="10dp"
@@ -110,18 +111,18 @@
 
             <!-- 버튼 배경 -->
             <ImageView
-                android:id="@+id/btn_message_chat_background"
+                android:id="@+id/btn_message_chat_send_background"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/ic_message_notification" />
 
             <!-- 화살표 아이콘 -->
             <ImageView
-                android:id="@+id/btn_message_chat_arrow"
+                android:id="@+id/btn_message_chat_send_arrow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_message_chat_arrow"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                android:src="@drawable/ic_message_chat_arrow" />
         </FrameLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
