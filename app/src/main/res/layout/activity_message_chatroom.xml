@@ -43,14 +43,24 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/btn_message_chat_back" />
 
+        <!-- 회색 구분선 -->
+        <View
+            android:id="@+id/line_message_chatroom_1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/grey_50"
+            android:layout_marginTop="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_message_chat_back"/>
+
         <!-- NestedScrollView로 감싸서 키보드 올라올 때 스크롤 가능하도록 설정 -->
         <androidx.core.widget.NestedScrollView
             android:id="@+id/scroll_message_chat"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="20dp"
             android:fillViewport="true"
-            app:layout_constraintTop_toBottomOf="@id/btn_message_chat_back"
+            app:layout_constraintTop_toBottomOf="@id/line_message_chatroom_1"
             app:layout_constraintBottom_toTopOf="@id/et_message_chat">
 
             <androidx.recyclerview.widget.RecyclerView
@@ -59,6 +69,17 @@
                 android:layout_height="wrap_content"
                 android:nestedScrollingEnabled="false"/>
         </androidx.core.widget.NestedScrollView>
+
+        <!-- 회색 구분선 -->
+        <View
+            android:id="@+id/line_message_chatroom_2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/grey_50"
+            android:layout_marginBottom="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/scroll_message_chat"/>
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/et_message_chat"

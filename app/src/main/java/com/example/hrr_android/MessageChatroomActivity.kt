@@ -62,7 +62,7 @@ class MessageChatroomActivity : AppCompatActivity() {
     private fun addDummyMessages() {
         chatList.add(ChatMessage("챌린저명", "안녕하세요", "오후 2:41", false, "2025-01-31"))
         chatList.add(ChatMessage("챌린저명", "챌린지 때문에 연락 드렸어요", "오후 2:41", false, "2025-01-31"))
-        chatList.add(ChatMessage("나", "넵 무슨 일일까요?", "오후 2:43", true, "2025-01-31"))
+        chatList.add(ChatMessage("나", "넵", "오후 2:43", true, "2025-01-31"))
         chatList.add(ChatMessage("챌린저명", "저도 참가할 수 있을까요?", "오후 2:43", false, "2025-02-01"))
         chatList.add(ChatMessage("나", "좋아요!", "오후 2:43", true, "2025-02-01"))
         chatList.add(ChatMessage("나", "열심히 해봐요", "오후 2:43", true, "2025-02-01"))
@@ -73,17 +73,16 @@ class MessageChatroomActivity : AppCompatActivity() {
     private fun sendMessage() {
         val messageText = binding.etMessageChat.text.toString().trim()
         if (messageText.isNotEmpty()) {
-            // 현재 시간을 "오전/오후 h:mm" 형식으로 가져오기 (예: "오후 2:44")
+            // 현재 시간을 "오전/오후 h:mm" 형식으로 가져오기
             val currentTime = SimpleDateFormat("a h:mm", Locale.getDefault()).format(Date())
-            // 현재 날짜를 "yyyy-MM-dd" 형식으로 가져오기 (원하는 포맷으로 변경 가능)
+            // 현재 날짜를 "yyyy-MM-dd" 형식으로 가져오기
             val currentDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
 
-            // ChatMessage 데이터 클래스에 date 필드를 추가했다고 가정하고 생성
             val newMessage = ChatMessage("나", messageText, currentTime, true, currentDate)
             chatList.add(newMessage)
             val newIndex = chatList.size - 1
 
-            // 이전 메시지가 같은 그룹(같은 isMine과 time)이라면, 이전 메시지가 더 이상 그룹의 마지막이 아니게 됨
+            // 이전 메시지가 같은 그룹이라면, 이전 메시지가 더 이상 그룹의 마지막이 아니게 됨
             if (newIndex > 0) {
                 val previousMessage = chatList[newIndex - 1]
                 if (previousMessage.isMine == newMessage.isMine && previousMessage.time == newMessage.time) {
