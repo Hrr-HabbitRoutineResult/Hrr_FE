@@ -54,6 +54,9 @@
             android:exported="false" />
         <!-- HTTP 요청 허용 -->
         <activity
+            android:name=".community.ui.BoardActivity"
+            android:exported="false" />
+        <activity
             android:name=".LoadingActivity"
             android:exported="false" />
         <activity

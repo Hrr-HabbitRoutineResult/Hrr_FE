@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingVertical="20dp"
+    android:paddingHorizontal="16dp">
+
+    <ImageView
+        android:id="@+id/iv_hot_post"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:src="@drawable/ic_community_hot"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_hot_post_background"
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="13dp"
+        android:background="@drawable/bg_grey_50_filled_5"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/iv_hot_post"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_hot_post_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:fontFamily="@font/noto_sans_kr_regular"
+        android:includeFontPadding="false"
+        android:text="운동 챌린지 새로 열었어"
+        android:textColor="@color/text_primary"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_hot_post_background"
+        app:layout_constraintStart_toStartOf="@+id/iv_hot_post_background"
+        app:layout_constraintTop_toTopOf="@+id/iv_hot_post_background" />
+
+    <TextView
+        android:id="@+id/tv_hot_post_like"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/noto_sans_kr_regular"
+        android:includeFontPadding="false"
+        android:text="21"
+        android:textColor="@color/sub_01"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_hot_post_background"
+        app:layout_constraintEnd_toStartOf="@+id/iv_hot_post_like"
+        app:layout_constraintTop_toTopOf="@+id/iv_hot_post_background" />
+
+    <ImageView
+        android:id="@+id/iv_hot_post_like"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:src="@drawable/ic_post_like_color"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_hot_post_background"
+        app:layout_constraintEnd_toEndOf="@+id/iv_hot_post_background"
+        app:layout_constraintTop_toTopOf="@+id/iv_hot_post_background" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

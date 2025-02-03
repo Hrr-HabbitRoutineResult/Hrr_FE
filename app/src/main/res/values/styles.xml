@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--  설정 스위치 토글    -->
+    <style name="custom_toggle" parent="Widget.AppCompat.CompoundButton.Switch">
+        <item name="android:thumb">@drawable/toggle_thumb</item>
+        <item name="android:track">@drawable/toggle_bg</item>
+    </style>
+
     <style name="Tab_text" parent="TextAppearance.AppCompat.Medium">
         <item name="android:textSize">15sp</item>
     </style>
@@ -12,6 +18,5 @@
         <item name="android:windowBackground">@android:color/transparent</item>
 
     </style>
-
 
 </resources>

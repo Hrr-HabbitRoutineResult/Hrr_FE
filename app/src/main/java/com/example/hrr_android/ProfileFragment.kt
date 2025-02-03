@@ -90,7 +90,16 @@ class ProfileFragment : Fragment() {
                 binding.tvProfileBadge03.text = selectedBadges[2].name
             }
         }
-
+        
+        // 설정 버튼 클릭 처리
+        binding.ivProfileMenu.setOnClickListener {
+            // Fragment 전환
+            this.parentFragmentManager.beginTransaction()
+                .replace(R.id.main_frame, SettingFragment())
+                .addToBackStack(null)
+                .commit()
+        }
+        
         // 프로필 수정 모드
         binding.tvProfileEdit.setOnClickListener {
             val intent = Intent(requireContext(), EditProfileActivity::class.java)
@@ -102,7 +111,6 @@ class ProfileFragment : Fragment() {
             val intent = Intent(requireContext(), EditProfileActivity::class.java)
             intent.putExtra("clicked", "badge")
             startActivity(intent)
-        }
 
     }
 
