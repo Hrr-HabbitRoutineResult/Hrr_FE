@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -44,6 +45,44 @@ class MessageChatroomActivity : AppCompatActivity() {
         // include된 레이아웃의 내부 닫기 버튼 클릭 시 DrawerLayout 닫기
         binding.sheetMessageBottom.btnMessageBottomClose.setOnClickListener {
             binding.drawerLayout.closeDrawer(GravityCompat.END)
+        }
+
+        // include된 레이아웃의 내부 나가기 버튼 클릭 시 다이얼로그 닫기
+        binding.sheetMessageBottom.tvMessageBottomExit.setOnClickListener {
+            val dialog = DefaultDialog(
+                this,
+                "나가기",
+                "해당 쪽지방을 나가시겠어요?",
+                object : DefaultDialog.DialogListener {
+                    override fun onYesClicked() {
+                        Toast.makeText(this@MessageChatroomActivity, "나가기 선택됨", Toast.LENGTH_SHORT).show()
+                        finish()
+                    }
+                    override fun onNoClicked() {
+                        Toast.makeText(this@MessageChatroomActivity, "취소됨", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            )
+            dialog.show()
+        }
+
+        // include된 레이아웃의 내부 나가기 버튼 클릭 시 다이얼로그 닫기
+        binding.sheetMessageBottom.tvMessageBottomBlock.setOnClickListener {
+            val dialog = DefaultDialog(
+                this,
+                "차단",
+                "이 챌린저와의 쪽지 수신 및 발신이 차단되며\n차단된 챌린저는 회원님의 프로필과 \n게시한 글도 볼 수 없게 됩니다.",
+                object : DefaultDialog.DialogListener {
+                    override fun onYesClicked() {
+                        Toast.makeText(this@MessageChatroomActivity, "나가기 선택됨", Toast.LENGTH_SHORT).show()
+                        finish()
+                    }
+                    override fun onNoClicked() {
+                        Toast.makeText(this@MessageChatroomActivity, "취소됨", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            )
+            dialog.show()
         }
 
         // 뒤로 가기 버튼 클릭 시 Activity 종료
