@@ -97,6 +97,13 @@ class ProfileFragment : Fragment() {
             startActivity(intent)
         }
 
+        // 대표 뱃지 클릭 시 뱃지 수정 화면으로 전환
+        binding.llProfileBadge.setOnClickListener {
+            val intent = Intent(requireContext(), EditProfileActivity::class.java)
+            intent.putExtra("clicked", "badge")
+            startActivity(intent)
+        }
+
     }
 
 }

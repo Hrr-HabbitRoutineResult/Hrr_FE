@@ -79,6 +79,14 @@ class EditProfileActivity : AppCompatActivity(), OnBadgeClickListener {
 
         setContentView(binding.root)
 
+        // Intent 데이터 확인
+        val trigger = intent.getStringExtra("clicked")
+        if (trigger == "badge") {
+            binding.llEditBadge.post {
+                binding.llEditBadge.performClick() // 뱃지 편집 모드 강제 실행
+            }
+        }
+
         // 대표 뱃지 바인딩
         setSelectedBadges(selectedBadgeList, binding)
 
