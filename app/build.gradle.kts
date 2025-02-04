@@ -23,6 +23,12 @@ android {
         }
         val baseUrl = properties.getProperty("BASE_URL") ?: ""
         buildConfigField("String", "BASE_URL", "\"$baseUrl\"")
+
+        // Kakao App Key 설정
+        val kakaoAppKey = properties.getProperty("KAKAO_APP_KEY") ?: ""
+        buildConfigField("String", "KAKAO_APP_KEY", "\"$kakaoAppKey\"")
+        // AndroidManifest.xml에서 사용할 키 추가
+        manifestPlaceholders["kakaoAppKey"] = kakaoAppKey
     }
 
     buildTypes {
@@ -80,4 +86,7 @@ dependencies {
 
     // EncryptedSharedPreferences 및 MasterKey 사용을 위한 AndroidX Security Crypto 의존성 추가
     implementation (libs.androidx.security.crypto.ktx.v110alpha06)
+
+    // Kakao SDK
+    implementation (libs.v2.user)
 }

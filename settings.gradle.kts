@@ -8,6 +8,7 @@ pluginManagement {
             }
         }
         mavenCentral()
+        maven { url = uri("https://devrepo.kakao.com/nexus/content/groups/public/") }
         gradlePluginPortal()
     }
 }
@@ -15,6 +16,7 @@ dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         google()
+        maven { url = uri("https://devrepo.kakao.com/nexus/content/groups/public/") }
         mavenCentral()
     }
 }
