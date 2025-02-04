@@ -43,9 +43,9 @@
         android:orientation="horizontal"
         android:layout_gravity="center">
 
-        <!-- 월요일 -->
+        <!-- 일요일 -->
         <LinearLayout
-            android:id="@+id/ll_btn_monday"
+            android:id="@+id/ll_btn_sunday"
             android:layout_width="40dp"
             android:layout_height="80dp"
             android:orientation="vertical"
@@ -56,7 +56,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="3"
-                android:text="월"
+                android:text="일"
                 android:textSize="12sp"
                 android:fontFamily="@font/font_style"
                 android:textFontWeight="400"
@@ -74,6 +74,42 @@
                 android:fontFamily="@font/font_style"
                 android:textFontWeight="600"
                 android:textColor="@color/white"
+                android:includeFontPadding="false"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="9dp"/>
+        </LinearLayout>
+
+        <!-- 월요일 -->
+        <LinearLayout
+            android:id="@+id/ll_btn_monday"
+            android:layout_width="40dp"
+            android:layout_height="80dp"
+            android:orientation="vertical"
+            android:background="@drawable/bg_button_unselected_stroke"
+            android:layout_marginEnd="8dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="3"
+                android:text="월"
+                android:textSize="12sp"
+                android:fontFamily="@font/font_style"
+                android:textFontWeight="400"
+                android:textColor="@color/grey_500"
+                android:includeFontPadding="false"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="10dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="7"
+                android:text="24"
+                android:textSize="16sp"
+                android:fontFamily="@font/font_style"
+                android:textFontWeight="600"
+                android:textColor="@color/grey_500"
                 android:includeFontPadding="false"
                 android:gravity="center_horizontal"
                 android:layout_marginTop="9dp"/>
@@ -105,7 +141,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="7"
-                android:text="24"
+                android:text="25"
                 android:textSize="16sp"
                 android:fontFamily="@font/font_style"
                 android:textFontWeight="600"
@@ -121,42 +157,6 @@
             android:layout_width="40dp"
             android:layout_height="80dp"
             android:orientation="vertical"
-            android:background="@drawable/bg_button_unselected_stroke"
-            android:layout_marginEnd="8dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="3"
-                android:text="수"
-                android:textSize="12sp"
-                android:fontFamily="@font/font_style"
-                android:textFontWeight="400"
-                android:textColor="@color/grey_500"
-                android:includeFontPadding="false"
-                android:gravity="center_horizontal"
-                android:layout_marginTop="10dp"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="7"
-                android:text="25"
-                android:textSize="16sp"
-                android:fontFamily="@font/font_style"
-                android:textFontWeight="600"
-                android:textColor="@color/grey_500"
-                android:includeFontPadding="false"
-                android:gravity="center_horizontal"
-                android:layout_marginTop="9dp"/>
-        </LinearLayout>
-
-        <!-- 목요일 -->
-        <LinearLayout
-            android:id="@+id/ll_btn_thursday"
-            android:layout_width="40dp"
-            android:layout_height="80dp"
-            android:orientation="vertical"
             android:background="@drawable/bg_button_selected_stroke"
             android:layout_marginEnd="8dp">
 
@@ -164,7 +164,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="3"
-                android:text="목"
+                android:text="수"
                 android:textSize="12sp"
                 android:fontFamily="@font/font_style"
                 android:textFontWeight="400"
@@ -182,6 +182,42 @@
                 android:fontFamily="@font/font_style"
                 android:textFontWeight="600"
                 android:textColor="@color/sub_01"
+                android:includeFontPadding="false"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="9dp"/>
+        </LinearLayout>
+
+        <!-- 목요일 -->
+        <LinearLayout
+            android:id="@+id/ll_btn_thursday"
+            android:layout_width="40dp"
+            android:layout_height="80dp"
+            android:orientation="vertical"
+            android:background="@drawable/bg_button_unselected_stroke"
+            android:layout_marginEnd="8dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="3"
+                android:text="목"
+                android:textSize="12sp"
+                android:fontFamily="@font/font_style"
+                android:textFontWeight="400"
+                android:textColor="@color/grey_500"
+                android:includeFontPadding="false"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="10dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="7"
+                android:text="27"
+                android:textSize="16sp"
+                android:fontFamily="@font/font_style"
+                android:textFontWeight="600"
+                android:textColor="@color/grey_500"
                 android:includeFontPadding="false"
                 android:gravity="center_horizontal"
                 android:layout_marginTop="9dp"/>
@@ -213,7 +249,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="7"
-                android:text="27"
+                android:text="28"
                 android:textSize="16sp"
                 android:fontFamily="@font/font_style"
                 android:textFontWeight="600"
@@ -229,49 +265,13 @@
             android:layout_width="40dp"
             android:layout_height="80dp"
             android:orientation="vertical"
-            android:background="@drawable/bg_button_unselected_stroke"
-            android:layout_marginEnd="8dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="3"
-                android:text="토"
-                android:textSize="12sp"
-                android:fontFamily="@font/font_style"
-                android:textFontWeight="400"
-                android:textColor="@color/grey_500"
-                android:includeFontPadding="false"
-                android:gravity="center_horizontal"
-                android:layout_marginTop="10dp"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="7"
-                android:text="28"
-                android:textSize="16sp"
-                android:fontFamily="@font/font_style"
-                android:textFontWeight="600"
-                android:textColor="@color/grey_500"
-                android:includeFontPadding="false"
-                android:gravity="center_horizontal"
-                android:layout_marginTop="9dp"/>
-        </LinearLayout>
-
-        <!-- 일요일 -->
-        <LinearLayout
-            android:id="@+id/ll_btn_sunday"
-            android:layout_width="40dp"
-            android:layout_height="80dp"
-            android:orientation="vertical"
             android:background="@drawable/bg_button_unselected_stroke">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="3"
-                android:text="일"
+                android:text="토"
                 android:textSize="12sp"
                 android:fontFamily="@font/font_style"
                 android:textFontWeight="400"
