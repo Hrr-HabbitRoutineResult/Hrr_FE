@@ -125,7 +125,8 @@
                 android:includeFontPadding="false"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/iv_edit_name_pen"/>
+                app:layout_constraintEnd_toStartOf="@+id/iv_edit_name_pen"
+                android:layout_marginStart="25dp"/>
 
             <EditText
                 android:id="@+id/et_edit_username"
