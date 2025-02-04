@@ -3,6 +3,7 @@ package com.example.hrr_android.access.ui
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +17,8 @@ import com.example.hrr_android.access.AuthViewModel
 import com.example.hrr_android.access.ValidUtils
 import com.example.hrr_android.databinding.CustomSnackbarBinding
 import com.google.android.material.snackbar.Snackbar
+import com.kakao.sdk.auth.model.OAuthToken
+import com.kakao.sdk.user.UserApiClient
 
 class LoginActivity : AppCompatActivity() {
 
@@ -54,6 +57,10 @@ class LoginActivity : AppCompatActivity() {
         // 비밀번호 찾기 클릭 시
         binding.tvLoginFindPassword.setOnClickListener {
             navigateToPasswordActivity(PasswordNavigator.VERIFICATION)
+        }
+
+        binding.ivLoginKakao.setOnClickListener {
+            attemptKakaoLogin()
         }
 
         // 네이버 로고 클릭 시
@@ -97,4 +104,78 @@ class LoginActivity : AppCompatActivity() {
         snackbar.show()
     }
 
+    // 카카오 로그인 시도
+    private fun attemptKakaoLogin() {
+        if (UserApiClient.instance.isKakaoTalkLoginAvailable(this)) {
+            // 카카오톡 로그인
+            loginWithKakaoTalk()
+        } else {
+            // 카카오 계정 로그인
+            loginWithKakaoAccount()
+        }
+    }
+
+    // 카카오톡으로 로그인
+    private fun loginWithKakaoTalk() {
+        UserApiClient.instance.loginWithKakaoTalk(this) { token, error ->
+            if (error != null) {
+                Log.e("KakaoLogin", "카카오톡 로그인 실패", error)
+                loginWithKakaoAccount() // 카카오톡 로그인 실패 시 계정 로그인으로 시도
+            } else if (token != null) {
+                Log.i("KakaoLogin", "카카오톡 로그인 성공")
+                handleLoginSuccess(token)
+            }
+        }
+    }
+
+    // 카카오 계정으로 로그인
+    private fun loginWithKakaoAccount() {
+        UserApiClient.instance.loginWithKakaoAccount(this) { token, error ->
+            if (error != null) {
+                Log.e("KakaoLogin", "카카오 계정 로그인 실패", error)
+            } else if (token != null) {
+                Log.i("KakaoLogin", "카카오 계정 로그인 성공")
+                handleLoginSuccess(token)
+            }
+        }
+    }
+
+    // 로그인 성공 시
+    private fun handleLoginSuccess(token: OAuthToken) {
+        saveAccessToken(token.accessToken) // Access Token 저장
+        fetchUserInfo() // 사용자 정보 요청
+    }
+
+    // Access Token 저장
+    private fun saveAccessToken(accessToken: String) {
+        val sharedPreferences = getSharedPreferences("auth", MODE_PRIVATE)
+        with(sharedPreferences.edit()) {
+            putString("access_token", accessToken)
+            apply()
+        }
+        Log.i("KakaoLogin", "Access Token 저장 성공")
+    }
+
+    // 사용자 정보 요청
+    private fun fetchUserInfo() {
+        UserApiClient.instance.me { user, error ->
+            if (error != null) {
+                Log.e("KakaoLogin", "사용자 정보 요청 실패", error)
+            } else if (user != null) {
+                val nickname = user.kakaoAccount?.profile?.nickname ?: "닉네임 없음"
+                val email = user.kakaoAccount?.email ?: "이메일 없음"
+                Log.i("KakaoLogin", "사용자 정보 요청 성공 - 닉네임: $nickname, 이메일: $email")
+
+                // 사용자 정보를 저장하거나 다음 화면으로 전달
+                navigateToNextScreen()
+            }
+        }
+    }
+
+    // 화면 전환
+    private fun navigateToNextScreen() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
 }
