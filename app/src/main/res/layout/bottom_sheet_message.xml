@@ -2,7 +2,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:minWidth="255dp"
@@ -156,57 +155,78 @@
             app:layout_constraintBottom_toBottomOf="@id/iv_message_participant_2"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ImageView
-        android:id="@+id/iv_message_bottom_exit"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/btn_message_bottom_exit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_message_bottom_exit"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginBottom="55dp"/>
+        android:layout_marginBottom="45dp"
+        android:paddingVertical="10dp">
 
-    <TextView
-        android:id="@+id/tv_message_bottom_exit"
+        <ImageView
+            android:id="@+id/iv_message_bottom_exit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_message_bottom_exit"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/tv_message_bottom_exit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/noto_sans_kr_medium"
+            android:includeFontPadding="false"
+            android:text="나가기"
+            android:textSize="13sp"
+            android:layout_marginStart="5dp"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_message_bottom_exit"
+            app:layout_constraintStart_toEndOf="@+id/iv_message_bottom_exit"
+            app:layout_constraintTop_toTopOf="@+id/iv_message_bottom_exit"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/btn_message_bottom_block"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/noto_sans_kr_medium"
-        android:includeFontPadding="false"
-        android:text="나가기"
-        android:textSize="13sp"
-        android:layout_marginStart="5dp"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_message_bottom_exit"
-        app:layout_constraintStart_toEndOf="@+id/iv_message_bottom_exit"
-        app:layout_constraintTop_toTopOf="@+id/iv_message_bottom_exit" />
-
-    <ImageView
-        android:id="@+id/iv_message_bottom_block"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_message_bottom_block"
         android:layout_marginStart="15dp"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_message_bottom_exit"
-        app:layout_constraintStart_toEndOf="@+id/tv_message_bottom_exit"
-        app:layout_constraintTop_toTopOf="@+id/tv_message_bottom_exit" />
+        app:layout_constraintBottom_toBottomOf="@+id/btn_message_bottom_exit"
+        app:layout_constraintStart_toEndOf="@+id/btn_message_bottom_exit"
+        app:layout_constraintTop_toTopOf="@+id/btn_message_bottom_exit"
+        android:paddingVertical="10dp">
 
-    <TextView
-        android:id="@+id/tv_message_bottom_block"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/noto_sans_kr_medium"
-        android:includeFontPadding="false"
-        android:text="차단"
-        android:textSize="13sp"
-        android:layout_marginStart="5dp"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_message_bottom_block"
-        app:layout_constraintStart_toEndOf="@+id/iv_message_bottom_block"
-        app:layout_constraintTop_toTopOf="@+id/iv_message_bottom_block" />
+        <ImageView
+            android:id="@+id/iv_message_bottom_block"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_message_bottom_block"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/tv_message_bottom_block"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/noto_sans_kr_medium"
+            android:includeFontPadding="false"
+            android:text="차단"
+            android:textSize="13sp"
+            android:layout_marginStart="5dp"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_message_bottom_block"
+            app:layout_constraintStart_toEndOf="@+id/iv_message_bottom_block"
+            app:layout_constraintTop_toTopOf="@+id/iv_message_bottom_block"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_message_alarm"
         android:layout_marginEnd="5dp"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_message_bottom_block"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_message_bottom_block"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tv_message_bottom_block" />
+        app:layout_constraintTop_toTopOf="@+id/btn_message_bottom_block" />
 </androidx.constraintlayout.widget.ConstraintLayout>

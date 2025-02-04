@@ -51,7 +51,7 @@ class MessageChatroomActivity : AppCompatActivity() {
         }
 
         // include된 레이아웃의 내부 나가기 버튼 클릭 시 다이얼로그 닫기
-        binding.sheetMessageBottom.tvMessageBottomExit.setOnClickListener {
+        binding.sheetMessageBottom.btnMessageBottomExit.setOnClickListener {
             val dialog = DefaultDialog(
                 this,
                 "나가기",
@@ -70,7 +70,7 @@ class MessageChatroomActivity : AppCompatActivity() {
         }
 
         // include된 레이아웃의 내부 나가기 버튼 클릭 시 다이얼로그 닫기
-        binding.sheetMessageBottom.tvMessageBottomBlock.setOnClickListener {
+        binding.sheetMessageBottom.btnMessageBottomBlock.setOnClickListener {
             val dialog = DefaultDialog(
                 this,
                 "차단",
