@@ -13,13 +13,13 @@
     <fragment
         android:id="@+id/navi_community"
         android:name="com.example.hrr_android.community.ui.fragment.CommunityFragment"
-        android:label="검색" />
+        android:label="게시판" />
 
     <!-- 채팅 -->
     <fragment
         android:id="@+id/navi_message"
         android:name="com.example.hrr_android.ProfileLevelFragment"
-        android:label="프로필" />
+        android:label="채팅" />
 
     <!-- 프로필 -->
     <fragment
