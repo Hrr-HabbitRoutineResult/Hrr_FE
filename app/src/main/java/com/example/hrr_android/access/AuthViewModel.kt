@@ -6,14 +6,14 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.hrr_android.AuthRepositoryProvider
 import com.example.hrr_android.access.model.LoginResponse
 import com.example.hrr_android.access.model.RegisterRequest
 import com.example.hrr_android.access.model.RegisterResponse
-import com.example.hrr_android.access.repository.AuthRepository
 import kotlinx.coroutines.launch
 
 class AuthViewModel(application: Application) : AndroidViewModel(application) {
-    private val repository = AuthRepository(application)
+    private val repository = AuthRepositoryProvider.authRepository
 
     // 로그인 결과 LiveData
     private val _loginResult = MutableLiveData<Result<LoginResponse>>()
