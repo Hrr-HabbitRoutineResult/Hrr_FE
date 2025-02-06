@@ -13,13 +13,20 @@ activity = "1.9.3"
 constraintlayout = "2.2.0"
 okhttp = "4.10.0"
 retrofit = "2.9.0"
+securityCrypto = "1.1.0-alpha06"
+securityCryptoKtxVersion = "1.1.0-alpha06"
+securityCryptoVersion = "1.0.0"
 viewpager2 = "1.1.0"
+securityCryptoKtx = "1.0.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "fragmentKtx" }
 androidx-lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycleViewmodelKtx" }
 androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
+androidx-security-crypto = { module = "androidx.security:security-crypto", version.ref = "securityCrypto" }
+androidx-security-crypto-ktx-v110alpha06 = { module = "androidx.security:security-crypto-ktx", version.ref = "securityCryptoKtxVersion" }
+androidx-security-crypto-v100 = { module = "androidx.security:security-crypto", version.ref = "securityCryptoVersion" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
@@ -34,6 +41,7 @@ androidx-viewpager2 = { group = "androidx.viewpager2", name = "viewpager2", vers
 gson = { module = "com.google.code.gson:gson", version = "2.10.1" }
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+androidx-security-crypto-ktx = { group = "androidx.security", name = "security-crypto-ktx", version.ref = "securityCryptoKtx" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -20,7 +20,8 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/text_line"
-            android:layout_gravity="bottom" />
+            android:layout_gravity="bottom"
+            android:elevation="1dp"/>
     </FrameLayout>
 
     <!-- 네비게이션 바 -->
