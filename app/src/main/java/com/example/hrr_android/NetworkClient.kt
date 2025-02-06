@@ -44,5 +44,11 @@ object NetworkClient {
             .build()
     }
 
-    val authService: AuthService = retrofit.create(AuthService::class.java)
+    // API 서비스 생성 함수
+    fun <T> createService(service: Class<T>): T {
+        return retrofit.create(service)
+    }
+    // 개별 API 서비스 제공
+    val authService: AuthService by lazy { createService(AuthService::class.java) }
+    val userService: UserService by lazy { createService(UserService::class.java) }
 }

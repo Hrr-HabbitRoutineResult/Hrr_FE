@@ -3,6 +3,8 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.ksp)     //hilt
+    alias(libs.plugins.hilt)    //hilt
 }
 
 android {
@@ -80,4 +82,8 @@ dependencies {
 
     // EncryptedSharedPreferences 및 MasterKey 사용을 위한 AndroidX Security Crypto 의존성 추가
     implementation (libs.androidx.security.crypto.ktx.v110alpha06)
+
+    //hilt
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.android.compiler)
 }
