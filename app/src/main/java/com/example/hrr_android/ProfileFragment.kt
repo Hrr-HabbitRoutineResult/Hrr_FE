@@ -5,19 +5,24 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.viewModels
 import com.example.hrr_android.databinding.FragmentProfileBinding
 import com.google.android.material.tabs.TabLayoutMediator
 import com.mikhaellopez.circularprogressbar.CircularProgressBar
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding            //뷰 바인딩
     private var tabs = arrayListOf("챌린지", "인증기록", "뱃지")        //탭 제목
     private var selectedBadges = ArrayList<Badge>()                 //대표 뱃지 리스트
+    private val userViewModel: UserViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentProfileBinding.inflate(inflater, container, false)
 
         //ViewPager2 Adapter 연결
@@ -35,6 +40,27 @@ class ProfileFragment : Fragment() {
             add(Badge("수준급 스터디언", R.drawable.img_badge_challenge_01))
             add(Badge("운동 스타터", R.drawable.img_badge_challenge_01))
         }
+
+        // LiveData 관찰 (데이터가 변경될 때 자동 업데이트되도록 설정)
+        userViewModel.profile.observe(viewLifecycleOwner) { profile ->
+            profile?.let {
+                //Todo: 프로필 사진 바인딩
+                binding.tvProfileUsername.text = it.name    // 이름
+                binding.tvProfileLevel.text = it.level      // 레벨
+                binding.tvProfileFollowerCount.text = it.followerCount.toString()  // 팔로워 수
+                binding.tvProfileFollowingCount.text = it.followingCount.toString() // 팔로잉 수
+                //Todo: 뱃지 관련 바인딩
+            }
+        }
+
+        userViewModel.errorMessage.observe(viewLifecycleOwner) { errorMsg ->
+            errorMsg?.let {
+                Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
+            }
+        }
+
+        // 유저 데이터 로드
+        userViewModel.loadProfile()
 
         return binding.root
     }

@@ -1,19 +1,26 @@
 package com.example.hrr_android.access
 
-import android.app.Application
 import android.util.Log
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.hrr_android.AuthRepositoryProvider
 import com.example.hrr_android.access.model.LoginResponse
 import com.example.hrr_android.access.model.RegisterRequest
 import com.example.hrr_android.access.model.RegisterResponse
+import com.example.hrr_android.access.repository.AuthRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class AuthViewModel(application: Application) : AndroidViewModel(application) {
-    private val repository = AuthRepositoryProvider.authRepository
+@HiltViewModel
+class AuthViewModel @Inject constructor(
+    private val authRepository: AuthRepository
+) : ViewModel() {
+
+    init {
+        Log.d("HiltCheck", "AuthViewModel 주입 성공")
+    }
 
     // 로그인 결과 LiveData
     private val _loginResult = MutableLiveData<Result<LoginResponse>>()
@@ -34,15 +41,20 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
     // 로그인 요청
     fun login(email: String, password: String) {
         viewModelScope.launch {
-            val result = repository.login(email, password)
-            _loginResult.postValue(result)
+            try {
+                val result = authRepository.login(email, password)
+                _loginResult.postValue(result)
+            } catch (e: Exception) {
+                Log.e("AuthViewModel", "서버 문제 발생: ${e.message}")
+                _loginResult.postValue(Result.failure(e))
+            }
         }
     }
 
     // 이메일 인증 코드 전송
     fun sendVerificationCode(email: String) {
         viewModelScope.launch {
-            val result = repository.sendVerificationCode(email)
+            val result = authRepository.sendVerificationCode(email)
             result.onSuccess {
                 _isVerified.postValue(true)  // 성공 시 true 저장
             }.onFailure {
@@ -54,7 +66,7 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
     // 이메일 인증 코드 확인 및 ID 저장
     fun confirmVerificationCode(email: String, code: String) {
         viewModelScope.launch {
-            val result = repository.confirmVerificationCode(email, code)
+            val result = authRepository.confirmVerificationCode(email, code)
             result.onSuccess { id ->
                 _verifiedUserId.postValue(id)  // 받은 ID 저장
                 Log.d("AuthID", "이메일 인증 성공 - 받은 ID: $id")
@@ -68,23 +80,23 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
     // 회원가입 요청
     fun registerUser(request: RegisterRequest) {
         viewModelScope.launch {
-            val result = repository.registerUser(request)
+            val result = authRepository.registerUser(request)
             _registrationResult.value = result
         }
     }
 
     // 저장된 JWT가 있으면 자동 로그인 가능
     fun hasSavedToken(): Boolean {
-        val token = repository.getAccessToken()
+        val token = authRepository.getAccessToken()
         return token != null
     }
 
     // API 호출 시 accessToken 값을 사용할 때
     fun getAccessToken(): String? {
-        return repository.getAccessToken()
+        return authRepository.getAccessToken()
     }
 
     fun logout() {
-        repository.clearTokens()
+        authRepository.clearTokens()
     }
 }

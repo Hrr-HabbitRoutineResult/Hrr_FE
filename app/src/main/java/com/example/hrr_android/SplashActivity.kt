@@ -6,8 +6,10 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.hrr_android.access.AuthViewModel
 import com.example.hrr_android.access.ui.LoginActivity
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 
+@AndroidEntryPoint
 class SplashActivity : AppCompatActivity() {
 
     private val authViewModel: AuthViewModel by viewModels() // ViewModel 사용

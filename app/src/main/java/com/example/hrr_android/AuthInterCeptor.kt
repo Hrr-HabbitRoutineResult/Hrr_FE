@@ -3,14 +3,17 @@ package com.example.hrr_android
 import com.example.hrr_android.access.repository.AuthRepository
 import okhttp3.Interceptor
 import okhttp3.Response
+import javax.inject.Inject
+import javax.inject.Provider
 
-object AuthInterceptor : Interceptor {
-    private val authRepository: AuthRepository
-        get() = AuthRepositoryProvider.authRepository
+class AuthInterceptor @Inject constructor(
+    private val authRepositoryProvider: Provider<AuthRepository>
+) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val originalRequest = chain.request()
         val requestBuilder = originalRequest.newBuilder()
+        val authRepository = authRepositoryProvider.get()
 
         // Authorization이 필요 없는 api 경로들
         val excludedPatterns = listOf(  // 공통 경로로 묶을 수 있는 경우
@@ -27,12 +30,13 @@ object AuthInterceptor : Interceptor {
         val isExcluded = excludedEndpoints.contains(originalRequest.url.encodedPath) ||
                 excludedPatterns.any { it.matches(originalRequest.url.encodedPath) }
 
-        if (!isExcluded) {
+        if (!isExcluded && originalRequest.header("Authorization") == null) {
             val token = authRepository.getAccessToken()
             if (!token.isNullOrEmpty()) {
                 requestBuilder.addHeader("Authorization", "Bearer $token")
             }
         }
+
 
         return chain.proceed(requestBuilder.build())
     }

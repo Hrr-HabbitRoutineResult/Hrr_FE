@@ -23,7 +23,13 @@ android {
         val properties = Properties().apply {
             load(project.rootProject.file("local.properties").inputStream())
         }
+//        val baseUrl = properties.getProperty("BASE_URL") ?: ""
+//        buildConfigField("String", "BASE_URL", "\"$baseUrl\"")
         val baseUrl = properties.getProperty("BASE_URL") ?: ""
+        if (baseUrl.isEmpty()) {
+            throw GradleException("BASE_URL is not defined in local.properties")
+        }
+
         buildConfigField("String", "BASE_URL", "\"$baseUrl\"")
     }
 
@@ -58,6 +64,7 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.security.crypto.ktx)
+    implementation(libs.androidx.espresso.core)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

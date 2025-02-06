@@ -1,12 +1,14 @@
 package com.example.hrr_android
 
+import android.util.Log
 import java.io.IOException
 import javax.inject.Inject
+import javax.inject.Singleton
 
-class UserRepository @Inject constructor(networkClient: NetworkClient) {
-
-    private val userService = networkClient.userService
-
+@Singleton
+class UserRepository @Inject constructor(
+    private val userService: UserService
+) {
     suspend fun loadProfile(): Result<UserResponse> {
         return try {
             val response = userService.getUserInfo()
@@ -16,8 +18,10 @@ class UserRepository @Inject constructor(networkClient: NetworkClient) {
                 response.isSuccessful -> {
                     val responseBody = response.body()
                     if (responseBody?.success?.data != null) {
+                        Log.d("API Response", responseBody.toString())
                         Result.success(responseBody.success.data)
                     } else {
+                        Log.d("API Response", responseBody.toString())
                         Result.failure(Exception("서버 응답이 비어 있습니다."))
                     }
                 }
