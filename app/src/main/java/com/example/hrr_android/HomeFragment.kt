@@ -12,6 +12,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.hrr_android.access.ui.LoginActivity
 import com.example.hrr_android.databinding.FragmentHomeBinding
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.hrr_android.access.AuthViewModel
 
 class HomeFragment : Fragment() {
@@ -91,7 +92,7 @@ class HomeFragment : Fragment() {
         authViewModel = ViewModelProvider(requireActivity()).get(AuthViewModel::class.java)
 
         binding.ivHomePopularPost.setOnClickListener {
-            logout()
+            findNavController().navigate(R.id.navi_community)
         }
 
     }

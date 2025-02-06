@@ -81,4 +81,8 @@ dependencies {
 
     // EncryptedSharedPreferences 및 MasterKey 사용을 위한 AndroidX Security Crypto 의존성 추가
     implementation (libs.androidx.security.crypto.ktx.v110alpha06)
+
+    // Bottom Navigation Component
+    implementation(libs.navigation.fragment)
+    implementation(libs.navigation.ui)
 }
