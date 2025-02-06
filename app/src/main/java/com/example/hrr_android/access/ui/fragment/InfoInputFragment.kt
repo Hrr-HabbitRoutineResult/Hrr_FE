@@ -1,10 +1,8 @@
 package com.example.hrr_android.access.ui.fragment
 
-import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import android.view.LayoutInflater
@@ -18,7 +16,6 @@ import com.example.hrr_android.access.model.RegisterRequest
 import com.example.hrr_android.access.model.RegisterResponse
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
-import com.example.hrr_android.access.ui.LoginActivity
 import com.example.hrr_android.access.ui.SignUpActivity
 
 class InfoInputFragment : Fragment() {
@@ -80,10 +77,9 @@ class InfoInputFragment : Fragment() {
         authViewModel.registrationResult.observe(viewLifecycleOwner) { result ->
             result.onSuccess { registerResponse ->
                 saveUserInfo(registerResponse)
-                (activity as? SignUpActivity)?.let { activity ->
-                    activity.startActivity(Intent(activity, LoginActivity::class.java))
-                    activity.finish()
-                }
+
+                // CompleteFragment로 이동
+                (activity as? SignUpActivity)?.changeFragment(CompleteFragment())
             }.onFailure {
                 ValidUtils.hideKeyboard(requireContext(), requireView())
                 ValidUtils.showSnackbar(requireView(), "회원가입에 실패하였습니다.", binding.lineInfoInput)
