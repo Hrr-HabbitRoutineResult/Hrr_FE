@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.example.hrr_android.access.ui.LoginActivity
 import com.example.hrr_android.databinding.FragmentHomeBinding
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.hrr_android.access.AuthViewModel
 
 class HomeFragment : Fragment() {
@@ -107,7 +109,11 @@ class HomeFragment : Fragment() {
             binding.rvHomeHotPost.visibility = View.VISIBLE
             binding.layoutHomePopularPost.visibility = View.GONE
         }
-
+        
+        binding.ivHomePopularPost.setOnClickListener {
+            findNavController().navigate(R.id.navi_community)
+        }
+        
         // Adapter 초기화
         hotPostAdapter = HotPostRVAdapter(hotPostList)
 

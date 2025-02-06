@@ -6,6 +6,8 @@ import com.example.hrr_android.access.model.EmailVerificationRequest
 import com.example.hrr_android.access.model.EmailVerificationResponse
 import com.example.hrr_android.access.model.LoginRequest
 import com.example.hrr_android.access.model.LoginResponse
+import com.example.hrr_android.access.model.RegisterRequest
+import com.example.hrr_android.access.model.RegisterResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -28,4 +30,10 @@ interface AuthService {
     suspend fun confirmVerificationCode(
         @Body request: EmailConfirmRequest
     ): Response<EmailConfirmResponse>
+
+    // 회원가입 API
+    @POST("api/v1/auth/register")
+    suspend fun registerUser(
+        @Body request: RegisterRequest
+    ): Response<RegisterResponse>
 }

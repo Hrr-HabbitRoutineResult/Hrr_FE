@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:startDestination="@id/navi_home">
+
+    <!-- 홈 -->
+    <fragment
+        android:id="@+id/navi_home"
+        android:name="com.example.hrr_android.HomeFragment"
+        android:label="홈" />
+
+    <!-- 게시판 -->
+    <fragment
+        android:id="@+id/navi_community"
+        android:name="com.example.hrr_android.community.ui.fragment.CommunityFragment"
+        android:label="게시판" />
+
+    <!-- 채팅 -->
+    <fragment
+        android:id="@+id/navi_message"
+        android:name="com.example.hrr_android.ProfileLevelFragment"
+        android:label="채팅" />
+
+    <!-- 프로필 -->
+    <fragment
+        android:id="@+id/navi_profile"
+        android:name="com.example.hrr_android.ProfileFragment"
+        android:label="프로필" />
+
+</navigation>

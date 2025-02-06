@@ -5,12 +5,14 @@ import android.os.Bundle
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import com.example.hrr_android.LoadingActivity
+import com.example.hrr_android.access.ValidUtils
+import com.example.hrr_android.databinding.ActivityOnboardingBinding
+import com.example.hrr_android.onboarding.OnboardingStep
 import com.example.hrr_android.onboarding.ui.fragment.CategoryFragment
 import com.example.hrr_android.onboarding.ui.fragment.GoalFragment
 import com.example.hrr_android.onboarding.ui.fragment.InfoSelectFragment
-import com.example.hrr_android.LoadingActivity
-import com.example.hrr_android.databinding.ActivityOnboardingBinding
-import com.google.android.material.snackbar.Snackbar
 
 class OnboardingActivity : AppCompatActivity() {
 
@@ -23,17 +25,20 @@ class OnboardingActivity : AppCompatActivity() {
         binding = ActivityOnboardingBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // 기본적으로 버튼을 비활성화
+        updateNextButtonState(null)
+
         // 초기 프래그먼트 설정
         if (savedInstanceState == null) {
             changeFragment(InfoSelectFragment())
         }
 
-        // Back 버튼 클릭 리스너
+        // "뒤로 가기" 버튼 클릭 리스너
         binding.btnOnboardingBack.setOnClickListener {
             handleBackPressed()
         }
 
-        // Next 버튼 클릭 리스너
+        // "다음" 버튼 클릭 리스너
         binding.btnOnboardingNext.setOnClickListener {
             navigateToNextFragment()
         }
@@ -60,7 +65,15 @@ class OnboardingActivity : AppCompatActivity() {
             finish()
         } else { // 이전 단계로 이동
             supportFragmentManager.popBackStack()
-            updateCurrentFragment()
+
+            // 백스택 변경을 감지한 후 업데이트 실행
+            supportFragmentManager.addOnBackStackChangedListener(object : FragmentManager.OnBackStackChangedListener {
+                override fun onBackStackChanged() {
+                    supportFragmentManager.removeOnBackStackChangedListener(this) // 리스너 제거
+                    updateCurrentFragment()
+                    updateNextButtonState(null)
+                }
+            })
         }
     }
 
@@ -70,67 +83,56 @@ class OnboardingActivity : AppCompatActivity() {
             .replace(binding.layoutOnboardingFragmentContainer.id, fragment)
             .addToBackStack(null)
             .commit()
+
+        updateNextButtonState(null)
     }
 
+    // 현재 프래그먼트의 상태에 따라 다음 화면으로 이동
     private fun navigateToNextFragment() {
         val currentFragment = supportFragmentManager.findFragmentById(binding.layoutOnboardingFragmentContainer.id)
 
-        // 현재 프래그먼트가 특정 타입인지 확인
         when (currentFragment) {
-            is InfoSelectFragment -> {
-                if (currentFragment.isValidSelection()) {
-                    changeFragment(CategoryFragment())
-                } else {
-                    showSnackbar("정보를 선택해주세요.")
-                }
+            is InfoSelectFragment -> if (currentFragment.isValidSelection()) changeFragment(CategoryFragment())
+            is CategoryFragment -> if (currentFragment.isValidSelection()) changeFragment(GoalFragment())
+            is GoalFragment -> if (currentFragment.isValidSelection()) {
+                val intent = Intent(this, LoadingActivity::class.java)
+                intent.putExtra("fromOnboarding", true)
+                startActivity(intent)
+                finish()
             }
-            is CategoryFragment -> {
-                if (currentFragment.isValidSelection()) {
-                    changeFragment(GoalFragment())
-                } else {
-                    showSnackbar("카테고리를 선택해주세요.")
-                }
-            }
-            is GoalFragment -> {
-                if (currentFragment.isValidSelection()) {
-                    // ResultActivity로 이동 (LoadingActivity를 통해)
-                    val intent = Intent(this, LoadingActivity::class.java)
-                    intent.putExtra("fromOnboarding", true) // 온보딩에서 왔음을 전달
-                    startActivity(intent)
-                    finish() // OnboardingActivity 종료
-                } else {
-                    showSnackbar("목표를 선택해주세요.")
-                }
-            }
-
         }
     }
 
+    // 현재 프래그먼트의 상태에 따라 버튼 활성화/비활성화 업데이트
+    fun updateNextButtonState(currentFragment: Fragment?) {
+        val isEnabled = when (currentFragment) {
+            is InfoSelectFragment -> currentFragment.isValidSelection()
+            is CategoryFragment -> currentFragment.isValidSelection()
+            is GoalFragment -> currentFragment.isValidSelection()
+            else -> false
+        }
+
+        ValidUtils.updateButtonState(
+            binding.btnOnboardingNext,
+            binding.tvOnboardingNext,
+            binding.ivOnboardingNext,
+            isEnabled
+        )
+    }
 
     // 진행도 및 단계 업데이트
-    private fun updateProgress(progress: Int, title: String, describe: String) {
-        binding.pbOnboardingStep.progress = progress // ProgressBar 업데이트
-        binding.tvOnboardingStepTitle.text = title   // 단계 텍스트 업데이트
-        binding.tvOnboardingStepDescribe.text = describe  // 설명 텍스트 업데이트
+    private fun updateProgress(step: OnboardingStep) {
+        binding.pbOnboardingStep.progress = step.progress
+        binding.tvOnboardingStepTitle.text = step.title
+        binding.tvOnboardingStepDescribe.text = step.description
     }
 
     // 현재 프래그먼트에 맞게 UI 업데이트
     private fun updateCurrentFragment() {
         val currentFragment = supportFragmentManager.findFragmentById(binding.layoutOnboardingFragmentContainer.id)
-        when (currentFragment) {
-            is InfoSelectFragment -> updateProgress(33, "안녕하세요!", "아래에서 본인의 특성을 선택해주세요.")
-            is CategoryFragment -> updateProgress(66, "관심 있는 분야가 무엇인가요?", "아래의 카테고리에서 가장 관심있는 분야를 선택해주세요.")
-            is GoalFragment -> updateProgress(100, "나의 목표는...", "아래에서 챌린지를 통해 이루고 싶은 목표를 선택해주세요. (최대 3개)")
-        }
-    }
+        if (currentFragment == null) return
 
-    private fun showSnackbar(message: String) {
-        Snackbar.make(
-            binding.root, // 루트 레이아웃
-            message, // 메시지
-            Snackbar.LENGTH_SHORT // 지속 시간
-        ).setAnchorView(binding.btnOnboardingNext) // Next 버튼을 기준으로 표시
-            .show()
+        val step = OnboardingStep.fromFragment(currentFragment) ?: return
+        updateProgress(step)
     }
-
 }

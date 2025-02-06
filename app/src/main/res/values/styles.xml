@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  
+    <style name="Tab_text" parent="TextAppearance.AppCompat.Medium">
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <!--  BottomSheetDialog  -->
+    <style name="BottomSheetDialog" parent="Theme.AppCompat.Light.Dialog">
+        <!-- 다이얼로그 배경을 투명하게 설정 -->
+        <item name="android:background">@android:color/transparent</item>
+        <!-- 내용 부분은 여전히 표시되도록 설정 -->
+        <item name="android:windowBackground">@android:color/transparent</item>
+
+    </style>
+
+    <style name="custom_toggle" parent="Widget.AppCompat.CompoundButton.Switch">
+        <item name="android:thumb">@drawable/toggle_thumb</item>
+        <item name="android:track">@drawable/toggle_bg</item>
+    </style>
+
+</resources>
