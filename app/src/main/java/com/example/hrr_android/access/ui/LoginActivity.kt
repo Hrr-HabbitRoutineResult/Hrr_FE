@@ -1,17 +1,26 @@
 package com.example.hrr_android.access.ui
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
-import android.util.Patterns
-import android.widget.Toast
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.hrr_android.MainActivity
 import com.example.hrr_android.access.PasswordNavigator
 import com.example.hrr_android.databinding.ActivityLoginBinding
+import androidx.activity.viewModels
+import com.example.hrr_android.access.AuthViewModel
+import com.example.hrr_android.access.ValidUtils
+import com.example.hrr_android.databinding.CustomSnackbarBinding
+import com.google.android.material.snackbar.Snackbar
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
+    private val authViewModel: AuthViewModel by viewModels()  // 뷰 모델 초기화
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,13 +33,15 @@ class LoginActivity : AppCompatActivity() {
             val email = binding.etLoginEmail.text.toString().trim()
             val password = binding.etLoginPassword.text.toString().trim()
 
-            // 유효성 검사 실행
-            if (isValidInput(email, password)) {
-                Toast.makeText(this, "유효성 검사 완료", Toast.LENGTH_SHORT).show()
-                // MainActivity로 화면 전환 (추후에 로그인 API 호출)
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
-                finish()
+            authViewModel.login(email, password)  // 로그인 API 호출
+        }
+
+        authViewModel.loginResult.observe(this) { result ->
+            result.onSuccess {
+                moveToMainActivity()
+            }.onFailure {
+                ValidUtils.hideKeyboard(this, binding.root)
+                showCustomSnackbar(binding.root)
             }
         }
 
@@ -51,24 +62,11 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    // 이메일 및 비밀번호 유효성 검사 함수
-    private fun isValidInput(email: String, password: String): Boolean {
-        if (email.isEmpty()) {
-            Toast.makeText(this, "이메일을 입력해 주세요.", Toast.LENGTH_SHORT).show()
-            return false
-        }
-
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            Toast.makeText(this, "유효한 이메일을 입력해 주세요.", Toast.LENGTH_SHORT).show()
-            return false
-        }
-
-        if (password.isEmpty()) {
-            Toast.makeText(this, "비밀번호를 입력해 주세요.", Toast.LENGTH_SHORT).show()
-            return false
-        }
-
-        return true
+    // 로그인 성공 시 MainActivity로 이동
+    private fun moveToMainActivity() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 
     private fun navigateToPasswordActivity(fragment: PasswordNavigator) {
@@ -76,4 +74,27 @@ class LoginActivity : AppCompatActivity() {
         intent.putExtra("fragment_to_load", fragment.fragmentName) // Enum에서 fragmentName 사용
         startActivity(intent)
     }
+
+    // 커스텀 스낵바
+    private fun showCustomSnackbar(view: View) {
+        val snackbar = Snackbar.make(view, "", Snackbar.LENGTH_LONG) // 빈 텍스트로 기본 Snackbar 생성
+
+        // Snackbar의 뷰 가져오기
+        val snackbarView = snackbar.view as ViewGroup
+        val context = snackbarView.context
+
+        // 기존 Snackbar
+        val defaultTextView = snackbarView.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
+        defaultTextView.visibility = View.INVISIBLE
+
+        // 스낵바 커스텀
+        val binding = CustomSnackbarBinding.inflate(LayoutInflater.from(context), snackbarView, false)
+        binding.tvSnackbarContent.text = "이메일과 비밀번호를 다시 확인해주세요"
+        snackbarView.setBackgroundColor(Color.TRANSPARENT)
+        snackbarView.setPadding(0, 0, 0, 0)
+        snackbarView.addView(binding.root)
+
+        snackbar.show()
+    }
+
 }

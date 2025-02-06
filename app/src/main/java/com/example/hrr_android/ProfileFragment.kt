@@ -25,6 +25,9 @@ class ProfileFragment : Fragment() {
         profileCommon.onFollowClicked(requireActivity(), binding.llProfileFollower, "follower")
         profileCommon.onFollowClicked(requireActivity(), binding.llProfileFollowing, "following")
 
+        //클릭 이벤트 처리 설정
+        initClickListener()
+
         return binding.root
     }
 
@@ -46,7 +49,24 @@ class ProfileFragment : Fragment() {
         //설정한 대표 뱃지 개수에 따라 visibility 조정
         profileCommon.setupBadges(binding, selectedBadges)
 
+        // 설정 버튼 클릭 처리
+        binding.ivProfileMenu.setOnClickListener {
+            // Fragment 전환
+            this.parentFragmentManager.beginTransaction()
+                .replace(R.id.main_frame, SettingFragment())
+                .addToBackStack(null)
+                .commit()
+        }
 
+    }
+
+    private fun initClickListener() {
+        binding.llProfileRank.setOnClickListener {
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.main_frame, ProfileLevelFragment())
+                .addToBackStack(null) // 뒤로 가기 지원
+                .commit()
+        }
     }
 
 }

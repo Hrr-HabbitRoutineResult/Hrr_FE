@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="160dp"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/bg_radius10_border1"
+    android:layout_marginStart="4dp"
+    android:layout_marginEnd="4dp"
+    android:layout_marginTop="8dp">
+
+    <!-- 챌린지 대표 이미지 -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        app:cardCornerRadius="10dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/iv_challenge_more_bg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/img_cook"
+                android:scaleType="centerCrop"/>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/gradient_profile_challenge_more"/>
+
+        </FrameLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <!-- 완료 도장 -->
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/img_complete"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="5dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="5dp"
+        android:elevation="2dp"/>
+
+    <!-- 챌린지명 -->
+    <TextView
+        android:id="@+id/tv_challenge_more_detail_title"
+        android:layout_width="wrap_content"
+        android:layout_height="22dp"
+        android:text="흑백요리가 나가실 분"
+        android:textSize="15sp"
+        android:textColor="@color/white"
+        android:fontFamily="@font/font_style"
+        android:textFontWeight="500"
+        android:includeFontPadding="false"
+        app:layout_constraintBottom_toTopOf="@+id/tv_challenge_more_detail_subtitle"
+        android:layout_marginBottom="2dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="12dp"
+        android:elevation="2dp"/>
+
+    <!-- 챌린지 한 줄 소개 -->
+    <TextView
+        android:id="@+id/tv_challenge_more_detail_subtitle"
+        android:layout_width="match_parent"
+        android:layout_height="17dp"
+        android:text="흑백요리사 시즌 4쯤에 나가는 걸 목표로"
+        android:textSize="12sp"
+        android:textColor="@color/grey_400"
+        android:fontFamily="@font/font_style"
+        android:textFontWeight="400"
+        android:includeFontPadding="false"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="13dp"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="14dp"
+        android:elevation="2dp"
+        android:ellipsize="end"
+        android:maxLines="1"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

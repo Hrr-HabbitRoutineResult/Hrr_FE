@@ -2,6 +2,7 @@ package com.example.hrr_android
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.example.hrr_android.community.ui.fragment.CommunityFragment
 import com.example.hrr_android.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -43,7 +44,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.navi_message -> {
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.main_frame, ProfileLevelFragment())
+                        .replace(R.id.main_frame, MessageFragment())
                         .commit()
                     return@setOnItemSelectedListener true
                 }

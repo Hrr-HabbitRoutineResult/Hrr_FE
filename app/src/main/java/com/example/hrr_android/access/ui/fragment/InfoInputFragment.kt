@@ -1,23 +1,32 @@
 package com.example.hrr_android.access.ui.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
-import com.example.hrr_android.R
-import com.example.hrr_android.access.ui.SignUpActivity
 import com.example.hrr_android.access.ValidUtils
 import com.example.hrr_android.databinding.FragmentInfoInputBinding
+import com.example.hrr_android.access.AuthViewModel
+import com.example.hrr_android.access.model.RegisterRequest
+import com.example.hrr_android.access.model.RegisterResponse
+import androidx.security.crypto.EncryptedSharedPreferences
+import androidx.security.crypto.MasterKey
+import com.example.hrr_android.access.ui.LoginActivity
+import com.example.hrr_android.access.ui.SignUpActivity
 
 class InfoInputFragment : Fragment() {
 
     private var _binding: FragmentInfoInputBinding? = null
     private val binding get() = _binding!!
+
+    private val authViewModel: AuthViewModel by activityViewModels() // 뷰 모델 초기화
 
     // 유효성 상태 변수 선언
     private var isEmailValid = false // 이메일 유효성 상태
@@ -48,12 +57,60 @@ class InfoInputFragment : Fragment() {
         setupPasswordValidation()
         setupPasswordMatchValidation()
 
+        // 회원가입 API 결과 관찰
+        observeRegistrationResult()
+
         // 버튼 클릭 리스너
         binding.btnInfoInputNext.setOnClickListener {
             if (binding.btnInfoInputNext.isEnabled) {
-                // 버튼이 활성화된 경우만 동작
-                (activity as? SignUpActivity)?.changeFragment(CompleteFragment())
+                // 모든 입력값 유효성 검사 후 회원가입 API 호출
+                val email = binding.etSignupEmail.text.toString()
+                val password = binding.etSignupPassword.text.toString()
+                val nickname = binding.etSignupNickname.text.toString()
+
+                val verificationId = authViewModel.verifiedUserId.value ?: 0
+
+                val registerRequest = RegisterRequest(email, password, nickname, verificationId)
+                authViewModel.registerUser(registerRequest)
             }
+        }
+    }
+
+    private fun observeRegistrationResult() {
+        authViewModel.registrationResult.observe(viewLifecycleOwner) { result ->
+            result.onSuccess { registerResponse ->
+                saveUserInfo(registerResponse)
+                (activity as? SignUpActivity)?.let { activity ->
+                    activity.startActivity(Intent(activity, LoginActivity::class.java))
+                    activity.finish()
+                }
+            }.onFailure {
+                ValidUtils.hideKeyboard(requireContext(), requireView())
+                ValidUtils.showSnackbar(requireView(), "회원가입에 실패하였습니다.", binding.lineInfoInput)
+            }
+        }
+    }
+
+    private fun saveUserInfo(registerResponse: RegisterResponse) {
+        val user = registerResponse.createdUser
+        // MasterKey 생성
+        val masterKey = MasterKey.Builder(requireContext())
+            .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+            .build()
+        // EncryptedSharedPreferences 인스턴스 생성
+        val sharedPreferences = EncryptedSharedPreferences.create(
+            requireContext(),
+            "user_prefs",
+            masterKey,
+            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+        )
+        // 사용자 정보 저장
+        sharedPreferences.edit().apply {
+            putInt("user_id", user.id)
+            putString("user_email", user.email)
+            putString("user_nickname", user.nickname)
+            apply()
         }
     }
 
@@ -129,13 +186,19 @@ class InfoInputFragment : Fragment() {
 
     private fun setupVerificationProcess() {
         // 이메일 전송 및 인증 처리 설정
-        binding.btnSignupSend.setOnClickListener { handleEmailSend() }
+        binding.btnSignupSend.setOnClickListener {
+            handleEmailSend()
+        }
         binding.btnSignupVerification.setOnClickListener { handleVerification() }
     }
 
     private fun handleEmailSend() {
-        // 이메일 전송 처리
+        val email = binding.etSignupEmail.text.toString()
+
         if (isEmailValid) {
+            // 이메일 인증 코드 전송 요청
+            authViewModel.sendVerificationCode(email)
+
             isEmailSent = true
             binding.etSignupEmail.isEnabled = false
             binding.etSignupEmail.setTextColor(ValidUtils.getTextColorDefault(requireContext()))
@@ -149,28 +212,48 @@ class InfoInputFragment : Fragment() {
             binding.btnSignupVerification.background = ValidUtils.getButtonActiveBackground(requireContext())
             binding.tvSignupVerification.setTextColor(ValidUtils.getTextColorError(requireContext()))
 
-            ValidUtils.hideKeyboard(requireContext(), requireView())
-            ValidUtils.showSnackbar(requireView(), "인증 코드가 전송 되었습니다.", binding.lineInfoInput)
-            validateAndProceed() // 상태 업데이트
+            // ViewModel의 응답에 따라 UI 업데이트
+            authViewModel.isVerified.observe(viewLifecycleOwner) { isVerified ->
+                if (isVerified) {  // 성공 응답 처리
+                    ValidUtils.hideKeyboard(requireContext(), requireView())
+                    ValidUtils.showSnackbar(requireView(), "인증 코드가 전송 되었습니다.", binding.lineInfoInput)
+                    validateAndProceed() // 상태 업데이트
+                } else {
+                    ValidUtils.hideKeyboard(requireContext(), requireView())
+                    ValidUtils.showSnackbar(requireView(),  "인증 코드를 전송하지 못했습니다.", binding.lineInfoInput)
+                }
+            }
         }
     }
 
     private fun handleVerification() {
-        // 인증 코드 검증 처리
+        val email = binding.etSignupEmail.text.toString()
         val verificationCode = binding.etSignupVerification.text.toString()
-        ValidUtils.hideKeyboard(requireContext(), requireView())
-        if (isEmailSent && verificationCode == "0202") {
-            isVerificationValid = true
-            binding.etSignupVerification.isEnabled = false
-            binding.etSignupVerification.setTextColor(ValidUtils.getTextColorDefault(requireContext()))
 
-            binding.btnSignupVerification.isEnabled = false
-            binding.btnSignupVerification.background = ValidUtils.getButtonInactiveBackground(requireContext())
-            binding.tvSignupVerification.setTextColor(ValidUtils.getTextColorDefault(requireContext()))
-            ValidUtils.showSnackbar(requireView(), "이메일 인증이 완료 되었습니다.", binding.lineInfoInput)
-            validateAndProceed() // 상태 업데이트
-        } else {
-            ValidUtils.showSnackbar(requireView(), "올바른 인증 코드를 입력해 주세요.", binding.lineInfoInput)
+        ValidUtils.hideKeyboard(requireContext(), requireView())
+
+        if (isEmailSent) {
+            // 이메일 인증 코드 확인 요청
+            authViewModel.confirmVerificationCode(email, verificationCode)
+
+            // Viewmodel의 응답에 따라 UI 업데이트
+            authViewModel.verifiedUserId.observe(viewLifecycleOwner) { userId ->
+                if (userId != null) {  // ID가 존재하면 인증 성공
+                    isVerificationValid = true
+                    binding.etSignupVerification.isEnabled = false
+                    binding.etSignupVerification.setTextColor(ValidUtils.getTextColorDefault(requireContext()))
+
+                    binding.btnSignupVerification.isEnabled = false
+                    binding.btnSignupVerification.background = ValidUtils.getButtonInactiveBackground(requireContext())
+                    binding.tvSignupVerification.setTextColor(ValidUtils.getTextColorDefault(requireContext()))
+
+                    ValidUtils.showSnackbar(requireView(), "이메일 인증이 완료되었습니다.", binding.lineInfoInput)
+                    validateAndProceed() // 상태 업데이트
+                } else {
+                    ValidUtils.hideKeyboard(requireContext(), requireView())
+                    ValidUtils.showSnackbar(requireView(), "올바른 인증 코드를 입력해 주세요.", binding.lineInfoInput)
+                }
+            }
         }
     }
 
