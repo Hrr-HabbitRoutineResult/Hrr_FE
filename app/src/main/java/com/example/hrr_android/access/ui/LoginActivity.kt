@@ -70,10 +70,12 @@ class LoginActivity : AppCompatActivity() {
 
         // 카카오 로그인 결과 관찰
         authViewModel.kakaoLoginResult.observe(this) { result ->
-            result.onSuccess { response ->
+            result.onSuccess {
                 Log.d("KakaoLogin", "로그인 성공! JWT")
-                // 로그인 성공 시 다음 화면으로 이동
-                startActivity(Intent(this, MainActivity::class.java))
+                // Intent에 카카오 로그인 여부를 담아서 전달
+                val intent = Intent(this, SignUpActivity::class.java)
+                intent.putExtra("isKakaoLogin", true)  // 카카오 로그인 여부 전달
+                startActivity(intent)
             }.onFailure { error ->
                 Log.e("KakaoLogin", "로그인 실패: ${error.message}")
             }
@@ -155,31 +157,7 @@ class LoginActivity : AppCompatActivity() {
     private fun handleLoginSuccess(token: OAuthToken) {
         val kakaoAccessToken = token.accessToken
         Log.d("KakaoLogin", "카카오 로그인 성공, Access Token: $kakaoAccessToken")
-        fetchUserInfo()
         // ViewModel을 통해 로그인 요청을 보냄
         authViewModel.loginWithKakao(token.accessToken)
-    }
-
-    // 사용자 정보 요청
-    private fun fetchUserInfo() {
-        UserApiClient.instance.me { user, error ->
-            if (error != null) {
-                Log.e("KakaoLogin", "사용자 정보 요청 실패", error)
-            } else if (user != null) {
-                val nickname = user.kakaoAccount?.profile?.nickname ?: "닉네임 없음"
-                val email = user.kakaoAccount?.email ?: "이메일 없음"
-                Log.i("KakaoLogin", "사용자 정보 요청 성공 - 닉네임: $nickname, 이메일: $email")
-
-                // 사용자 정보를 저장하거나 다음 화면으로 전달
-                navigateToNextScreen()
-            }
-        }
-    }
-
-    // 화면 전환
-    private fun navigateToNextScreen() {
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
-        finish()
     }
 }
