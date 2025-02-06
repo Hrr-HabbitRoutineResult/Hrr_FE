@@ -17,7 +17,7 @@ class ProfileFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentProfileBinding.inflate(inflater, container, false)
 
         //ViewPager2 Adapter 연결
@@ -35,6 +35,9 @@ class ProfileFragment : Fragment() {
             add(Badge("수준급 스터디언", R.drawable.img_badge_challenge_01))
             add(Badge("운동 스타터", R.drawable.img_badge_challenge_01))
         }
+
+        //클릭 이벤트 처리 설정
+        initClickListener()
 
         return binding.root
     }
@@ -99,6 +102,15 @@ class ProfileFragment : Fragment() {
                 .commit()
         }
 
+    }
+
+    private fun initClickListener() {
+        binding.llProfileRank.setOnClickListener {
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.main_frame, ProfileLevelFragment())
+                .addToBackStack(null) // 뒤로 가기 지원
+                .commit()
+        }
     }
 
 }
