@@ -50,13 +50,10 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
             val result = repository.loginWithKakao(kakaoAccessToken)
 
             result.onSuccess { response ->
-                val userEmail = response.user?.email ?: "No Email" // ✅ `null` 방지
-                Log.d("KakaoLogin", "로그인 성공! JWT: ${response.accessToken}, 이메일: $userEmail")
-
                 _kakaoLoginResult.postValue(Result.success(response))
             }.onFailure { error ->
                 Log.e("KakaoLogin", "로그인 실패: ${error.message}")
-                _kakaoLoginResult.postValue(Result.failure(error)) // ✅ 실패 처리
+                _kakaoLoginResult.postValue(Result.failure(error))
             }
         }
     }
@@ -79,10 +76,8 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
             val result = repository.confirmVerificationCode(email, code)
             result.onSuccess { id ->
                 _verifiedUserId.postValue(id)  // 받은 ID 저장
-                Log.d("AuthID", "이메일 인증 성공 - 받은 ID: $id")
             }.onFailure { e ->
                 _verifiedUserId.postValue(null)
-                Log.e("AuthID", "이메일 인증 실패: ${e.message}")
             }
         }
     }

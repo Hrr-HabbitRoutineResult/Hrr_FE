@@ -118,22 +118,12 @@ class AuthRepository(context: Context) {
     // 카카오 로그인 요청
     suspend fun loginWithKakao(kakaoAccessToken: String): Result<KakaoLoginResponse> {
         return try {
-            Log.d("KakaoLogin", "로그인 요청 시작: Token = $kakaoAccessToken")
-
             val request = KakaoLoginRequest(kakaoAccessToken)
-            Log.d("KakaoLogin", "서버로 보낼 요청 데이터(JSON): ${Gson().toJson(request)}") // 요청 확인
-
             val response = authService.loginWithKakao(request)
-
-            Log.d("KakaoLogin", "서버 응답 코드: ${response.code()}")
-            Log.d("KakaoLogin", "서버 응답 메시지: ${response.message()}")
 
             if (response.isSuccessful) {
                 val responseBody = response.body()
                 if (responseBody != null) {
-                    val userEmail = responseBody.user?.email ?: "No Email" // ✅ `null` 체크 추가
-                    Log.d("KakaoLogin", "로그인 성공 - JWT: ${responseBody.accessToken}, 이메일: $userEmail")
-
                     saveTokens(responseBody.accessToken, responseBody.refreshToken)
                     Result.success(responseBody)
                 } else {
