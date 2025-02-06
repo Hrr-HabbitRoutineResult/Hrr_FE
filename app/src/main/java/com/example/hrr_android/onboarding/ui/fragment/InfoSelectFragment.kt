@@ -25,13 +25,13 @@ class InfoSelectFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // 성별 버튼 선택 상태 관리
-        RadioGroupUtils.setupRadioGroup(binding.radioGroupGender)
+        RadioGroupUtils.setupRadioGroup(binding.radioGroupGender, this)
 
         // 연령대 버튼 선택 상태 관리
-        RadioGroupUtils.setupRadioGroup(binding.radioGroupAge)
+        RadioGroupUtils.setupRadioGroup(binding.radioGroupAge, this)
 
         // 직업 버튼 선택 상태 관리
-        RadioGroupUtils.setupRadioGroup(binding.radioGroupJob)
+        RadioGroupUtils.setupRadioGroup(binding.radioGroupJob, this)
     }
 
     override fun onDestroyView() {

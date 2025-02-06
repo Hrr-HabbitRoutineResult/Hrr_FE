@@ -24,6 +24,15 @@
             android:name=".community.ui.BoardActivity"
             android:exported="false" />
         <activity
+            android:name=".MyBadgeDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ProfileMoreActivity"
+            android:exported="false" />
+        <activity
+            android:name=".OtherProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".LoadingActivity"
             android:exported="false" />
         <activity
@@ -37,8 +46,8 @@
             android:exported="false" />
         <activity
             android:name=".access.ui.SignUpActivity"
-            android:windowSoftInputMode="adjustPan"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".access.ui.LoginActivity"
             android:exported="false" />

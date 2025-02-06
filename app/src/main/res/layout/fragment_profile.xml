@@ -163,36 +163,55 @@
             android:textFontWeight="400"
             android:includeFontPadding="false">
 
-            <TextView
+            <LinearLayout
+                android:id="@+id/ll_profile_follower"
                 android:layout_width="wrap_content"
-                android:layout_height="17dp"
-                android:text="00"
-                android:textSize="12sp"
-                android:textColor="@color/text_primary"/>
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="17dp"
-                android:text="팔로워"
-                android:textSize="12sp"
-                android:textColor="@color/text_primary"
-                android:layout_marginStart="5dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="17dp"
+                    android:text="00"
+                    android:textSize="12sp"
+                    android:textColor="@color/text_primary"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="17dp"
-                android:text="00"
-                android:textSize="12sp"
-                android:textColor="@color/text_primary"
-                android:layout_marginStart="13dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="17dp"
+                    android:text="팔로워"
+                    android:textSize="12sp"
+                    android:textColor="@color/text_primary"
+                    android:layout_marginStart="5dp"/>
 
-            <TextView
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_profile_following"
                 android:layout_width="wrap_content"
-                android:layout_height="17dp"
-                android:text="팔로잉"
-                android:textSize="12sp"
-                android:textColor="@color/text_primary"
-                android:layout_marginStart="5dp"/>
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="17dp"
+                    android:text="00"
+                    android:textSize="12sp"
+                    android:textColor="@color/text_primary"
+                    android:layout_marginStart="13dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="17dp"
+                    android:text="팔로잉"
+                    android:textSize="12sp"
+                    android:textColor="@color/text_primary"
+                    android:layout_marginStart="5dp"/>
+
+            </LinearLayout>
+
+
+
 
         </LinearLayout>
 
@@ -319,7 +338,8 @@
             app:tabIndicatorColor="@android:color/transparent"
             android:fontFamily="@font/font_style"
             android:textFontWeight="400"
-            android:includeFontPadding="false"/>
+            android:includeFontPadding="false"
+            app:tabSelectedTextAppearance="@style/Tab_text"/>
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/vp_profile"

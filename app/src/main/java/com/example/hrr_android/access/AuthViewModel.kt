@@ -7,6 +7,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.hrr_android.access.model.LoginResponse
+import com.example.hrr_android.access.model.RegisterRequest
+import com.example.hrr_android.access.model.RegisterResponse
 import com.example.hrr_android.access.repository.AuthRepository
 import kotlinx.coroutines.launch
 
@@ -24,6 +26,10 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
     // 이메일 인증 후 받은 ID 저장
     private val _verifiedUserId = MutableLiveData<Int?>()
     val verifiedUserId: LiveData<Int?> get() = _verifiedUserId
+
+    // 회원가입 결과 LiveData
+    private val _registrationResult = MutableLiveData<Result<RegisterResponse>>()
+    val registrationResult: LiveData<Result<RegisterResponse>> get() = _registrationResult
 
     // 로그인 요청
     fun login(email: String, password: String) {
@@ -56,6 +62,14 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
                 _verifiedUserId.postValue(null)
                 Log.e("AuthID", "이메일 인증 실패: ${e.message}")
             }
+        }
+    }
+
+    // 회원가입 요청
+    fun registerUser(request: RegisterRequest) {
+        viewModelScope.launch {
+            val result = repository.registerUser(request)
+            _registrationResult.value = result
         }
     }
 
