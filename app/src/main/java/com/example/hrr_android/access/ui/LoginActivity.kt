@@ -67,6 +67,17 @@ class LoginActivity : AppCompatActivity() {
         binding.ivLoginNaver.setOnClickListener {
             navigateToPasswordActivity(PasswordNavigator.RESET)
         }
+
+        // 카카오 로그인 결과 관찰
+        authViewModel.kakaoLoginResult.observe(this) { result ->
+            result.onSuccess { response ->
+                Log.d("KakaoLogin", "로그인 성공! JWT")
+                // 로그인 성공 시 다음 화면으로 이동
+                startActivity(Intent(this, MainActivity::class.java))
+            }.onFailure { error ->
+                Log.e("KakaoLogin", "로그인 실패: ${error.message}")
+            }
+        }
     }
 
     // 로그인 성공 시 MainActivity로 이동
@@ -140,20 +151,13 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    // 로그인 성공 시
+    // 카카오 로그인 성공 시 서버에 AccessToken 전달
     private fun handleLoginSuccess(token: OAuthToken) {
-        saveAccessToken(token.accessToken) // Access Token 저장
-        fetchUserInfo() // 사용자 정보 요청
-    }
-
-    // Access Token 저장
-    private fun saveAccessToken(accessToken: String) {
-        val sharedPreferences = getSharedPreferences("auth", MODE_PRIVATE)
-        with(sharedPreferences.edit()) {
-            putString("access_token", accessToken)
-            apply()
-        }
-        Log.i("KakaoLogin", "Access Token 저장 성공")
+        val kakaoAccessToken = token.accessToken
+        Log.d("KakaoLogin", "카카오 로그인 성공, Access Token: $kakaoAccessToken")
+        fetchUserInfo()
+        // ViewModel을 통해 로그인 요청을 보냄
+        authViewModel.loginWithKakao(token.accessToken)
     }
 
     // 사용자 정보 요청
