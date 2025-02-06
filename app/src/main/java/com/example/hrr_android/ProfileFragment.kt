@@ -18,7 +18,7 @@ class ProfileFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentProfileBinding.inflate(inflater, container, false)
 
         //ViewPager2 Adapter 연결
@@ -32,10 +32,13 @@ class ProfileFragment : Fragment() {
 
         //뱃지 더미 데이터 - 테스트 시 주석 해제 or 설정
         selectedBadges.apply {
-            add(Badge("프로 챌린저", R.drawable.img_badge_challenge_01))
-            add(Badge("수준급 스터디언", R.drawable.img_badge_challenge_01))
-            add(Badge("운동 스타터", R.drawable.img_badge_challenge_01))
+            add(Badge("프로 챌린저", R.drawable.badge_type_pro_challenger, type = "type"))
+            add(Badge("수준급 스터디언", R.drawable.badge_type_good_studian, type = "type"))
+            add(Badge("운동 스타터", R.drawable.badge_category_exercise_starter, type = "category"))
         }
+
+        //클릭 이벤트 처리 설정
+        initClickListener()
 
         return binding.root
     }
@@ -112,6 +115,15 @@ class ProfileFragment : Fragment() {
             intent.putExtra("clicked", "badge")
             startActivity(intent)
 
+    }
+
+    private fun initClickListener() {
+        binding.llProfileRank.setOnClickListener {
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.main_frame, ProfileLevelFragment())
+                .addToBackStack(null) // 뒤로 가기 지원
+                .commit()
+        }
     }
 
 }

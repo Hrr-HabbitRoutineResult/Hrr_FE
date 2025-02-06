@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 획득한 마이 뱃지 각각을 클릭하면 나오는 뱃지 상세 페이지 -->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MyBadgeDetailActivity"
+    android:background="@color/main_active"
+    android:paddingHorizontal="16dp">
+
+    <!-- 뒤로 가기 버튼 -->
+    <ImageView
+        android:id="@+id/iv_badge_detail_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/btn_arrow_left"
+        app:tint="@color/white"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="45dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="4dp"/>
+
+    <LinearLayout
+        android:id="@+id/ll_recent_achieved_badge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/iv_badge_detail_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <!-- 뱃지 아이콘 -->
+        <ImageView
+            android:id="@+id/iv_obtained_badge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/badge_category_exercise_master"
+            android:layout_marginTop="40dp"/>
+
+        <!-- 뱃지 이름 -->
+        <TextView
+            android:id="@+id/tv_obtained_badge_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="운동 마스터"
+            android:fontFamily="@font/font_style"
+            android:textFontWeight="700"
+            android:includeFontPadding="false"
+            android:textSize="24sp"
+            android:textColor="@color/white"
+            android:layout_marginTop="20dp"/>
+
+        <!-- 뱃지 종류 -->
+        <TextView
+            android:id="@+id/tv_obtained_badge_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="카테고리"
+            android:fontFamily="@font/font_style"
+            android:textFontWeight="400"
+            android:includeFontPadding="false"
+            android:textSize="12sp"
+            android:textColor="@color/white"
+            android:layout_marginTop="5dp"/>
+
+        <!-- 구분선 -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/white"
+            android:layout_marginTop="32dp"/>
+
+        <!-- 기준 날짜 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_badge_timer"
+                android:layout_marginTop="1dp"
+                android:layout_marginEnd="3dp"/>
+
+            <TextView
+                android:id="@+id/tv_badge_detail_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="25.01.10 기준"
+                android:fontFamily="@font/font_style"
+                android:textFontWeight="400"
+                android:includeFontPadding="false"
+                android:textSize="12sp"
+                android:textColor="@color/grey_400"/>
+
+        </LinearLayout>
+
+        <!-- 해당 뱃지 획득 인원수 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="지금까지 해당 뱃지를 획득한 챌린저는"
+            android:fontFamily="@font/font_style"
+            android:textFontWeight="500"
+            android:includeFontPadding="false"
+            android:textSize="13sp"
+            android:textColor="@color/white"
+            android:layout_marginTop="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="125명 이에요."
+            android:fontFamily="@font/font_style"
+            android:textFontWeight="500"
+            android:includeFontPadding="false"
+            android:textSize="13sp"
+            android:textColor="@color/white"
+            android:layout_marginTop="2dp"/>
+
+        <!-- 획득 조건 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_radius15_bg02"
+            android:layout_marginTop="40dp"
+            android:paddingVertical="17dp"
+            android:paddingHorizontal="15dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="획득 조건"
+                android:fontFamily="@font/font_style"
+                android:textFontWeight="600"
+                android:includeFontPadding="false"
+                android:textSize="18sp"
+                android:textColor="@color/white"
+                android:layout_marginBottom="15dp"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_badge_condition_01"
+                android:layout_width="match_parent"
+                android:layout_height="32dp">
+
+                <TextView
+                    android:id="@+id/tv_badge_condition_01"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="•  획득 조건 내용"
+                    android:fontFamily="@font/font_style"
+                    android:textFontWeight="400"
+                    android:includeFontPadding="false"
+                    android:textSize="13sp"
+                    android:textColor="@color/white"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:paddingVertical="6.5dp"/>
+
+                <ImageView
+                    android:id="@+id/iv_badge_condition_obtained_01"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_check_certified_"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_badge_condition_02"
+                android:layout_width="match_parent"
+                android:layout_height="32dp">
+
+                <TextView
+                    android:id="@+id/tv_badge_condition_02"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="•  획득 조건 내용"
+                    android:fontFamily="@font/font_style"
+                    android:textFontWeight="400"
+                    android:includeFontPadding="false"
+                    android:textSize="13sp"
+                    android:textColor="@color/white"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:paddingVertical="6.5dp"/>
+
+                <ImageView
+                    android:id="@+id/iv_badge_condition_obtained_02"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_check_certified_"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_badge_condition_03"
+                android:layout_width="match_parent"
+                android:layout_height="32dp">
+
+                <TextView
+                    android:id="@+id/tv_badge_condition_03"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="•  획득 조건 내용"
+                    android:fontFamily="@font/font_style"
+                    android:textFontWeight="400"
+                    android:includeFontPadding="false"
+                    android:textSize="13sp"
+                    android:textColor="@color/white"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:paddingVertical="6.5dp"/>
+
+                <ImageView
+                    android:id="@+id/iv_badge_condition_obtained_03"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_check_certified_"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
