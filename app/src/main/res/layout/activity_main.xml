@@ -17,7 +17,7 @@
         app:defaultNavHost="true"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/view_line_navi"/>
-
+  
     <!-- 구분선 -->
     <View
         android:id="@+id/view_line_navi"

@@ -30,8 +30,8 @@ class MainActivity : AppCompatActivity() {
         if (navController == null) {
             Log.e("NavDebug", "NavController is NULL! Check if main_frame is a NavHostFragment")
             return
-        }
 
+        }
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.main_bottom_navi)
         bottomNavigationView.setupWithNavController(navController)
 

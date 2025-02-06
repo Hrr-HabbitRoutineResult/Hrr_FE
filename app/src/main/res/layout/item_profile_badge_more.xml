@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="20dp">
+
+    <include
+        android:id="@+id/include_item_profile_badge"
+        layout="@layout/item_profile_badge"/>
+
+</FrameLayout>
+
+
+
