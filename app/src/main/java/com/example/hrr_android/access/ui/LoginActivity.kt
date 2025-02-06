@@ -109,7 +109,7 @@ class LoginActivity : AppCompatActivity() {
 
         // 스낵바 커스텀
         val binding = CustomSnackbarBinding.inflate(LayoutInflater.from(context), snackbarView, false)
-        binding.tvSnackbarContent.text = "이메일과 비밀번호를 다시 확인해주세요"
+        binding.tvSnackbarContent.text = "로그인에 실패하였습니다."
         snackbarView.setBackgroundColor(Color.TRANSPARENT)
         snackbarView.setPadding(0, 0, 0, 0)
         snackbarView.addView(binding.root)
