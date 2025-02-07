@@ -7,6 +7,7 @@
     android:background="@drawable/bg_challenge_dialog">
 
     <TextView
+        android:id="@+id/tv_challenge_dialog_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -19,6 +20,7 @@
         android:layout_marginTop="170dp"/>
 
     <TextView
+        android:id="@+id/tv_challenge_dialog_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -38,7 +40,8 @@
         android:orientation="horizontal"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16.19dp"
-        android:layout_marginTop="50dp">
+        android:layout_marginTop="50dp"
+        android:gravity="center">
 
         <!-- 아니오 버튼 -->
         <androidx.appcompat.widget.AppCompatButton

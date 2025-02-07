@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="320dp"
+    android:layout_height="384dp"
+    android:background="@drawable/bg_radius_15_white">
+
+    <!-- 원형 프로그레스바 -->
+    <com.mikhaellopez.circularprogressbar.CircularProgressBar
+        android:id="@+id/cpb_challengers_progress_bar"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_marginTop="55dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:cpb_background_progressbar_color="@color/text_line"
+        app:cpb_background_progressbar_width="12.5dp"
+        app:cpb_progress_direction="to_right"
+        app:cpb_progressbar_color_start="@color/sub_01"
+        app:cpb_progressbar_color_end="@color/sub_04"
+        app:cpb_progressbar_width="12.5dp"
+        app:cpb_round_border="true"
+        app:cpb_progress="76" />
+
+    <!-- 내부 원 -->
+    <View
+        android:id="@+id/view_inner_circle"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:background="@drawable/bg_inner_circle"
+        app:layout_constraintTop_toTopOf="@id/cpb_challengers_progress_bar"
+        app:layout_constraintBottom_toBottomOf="@id/cpb_challengers_progress_bar"
+        app:layout_constraintStart_toStartOf="@id/cpb_challengers_progress_bar"
+        app:layout_constraintEnd_toEndOf="@id/cpb_challengers_progress_bar" />
+
+    <!-- 현재 참여 인원 영역  -->
+    <TextView
+        android:id="@+id/tv_challengers_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="20/26"
+        android:textSize="24sp"
+        android:fontFamily="@font/font_style"
+        android:textFontWeight="700"
+        android:textColor="@color/sub_01"
+        android:includeFontPadding="false"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintTop_toTopOf="@id/view_inner_circle"
+        app:layout_constraintBottom_toTopOf="@id/tv_challengers_title"
+        app:layout_constraintStart_toStartOf="@id/view_inner_circle"
+        app:layout_constraintEnd_toEndOf="@id/view_inner_circle" />
+
+    <TextView
+        android:id="@+id/tv_challengers_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="현재 참여인원"
+        android:textSize="13sp"
+        android:fontFamily="@font/font_style"
+        android:textFontWeight="500"
+        android:textColor="@color/text_primary"
+        android:includeFontPadding="false"
+        android:layout_marginTop="11dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_challengers_count"
+        app:layout_constraintBottom_toBottomOf="@id/view_inner_circle"
+        app:layout_constraintStart_toStartOf="@id/view_inner_circle"
+        app:layout_constraintEnd_toEndOf="@id/view_inner_circle" />
+
+    <!-- 인증 인원 관련 텍스트 영역 -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="25dp"
+        app:layout_constraintTop_toBottomOf="@id/cpb_challengers_progress_bar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="총인원 26"
+            android:textSize="13sp"
+            android:fontFamily="@font/font_style"
+            android:textFontWeight="400"
+            android:textColor="@color/text_primary"
+            android:includeFontPadding="false"
+            android:layout_marginEnd="30dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="인증완료 20"
+            android:textSize="13sp"
+            android:fontFamily="@font/font_style"
+            android:textFontWeight="400"
+            android:textColor="@color/text_primary"
+            android:includeFontPadding="false"
+            android:layout_marginEnd="30dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="미인증 6"
+            android:textSize="13sp"
+            android:fontFamily="@font/font_style"
+            android:textFontWeight="400"
+            android:textColor="@color/text_primary"
+            android:includeFontPadding="false"/>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <!-- 프로필 이미지 -->
+    <ImageView
+        android:id="@+id/iv_record_profile_image"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/img_profile"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- 수평 방향 가이드라인 -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <!-- 사용자 닉네임 -->
+    <TextView
+        android:id="@+id/tv_record_profile_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="김흐르"
+        android:textSize="20sp"
+        android:fontFamily="@font/font_style"
+        android:textFontWeight="600"
+        android:textColor="@color/text_primary"
+        android:includeFontPadding="false"
+        android:layout_marginStart="15dp"
+        app:layout_constraintStart_toEndOf="@id/iv_record_profile_image"
+        app:layout_constraintBottom_toTopOf="@id/guideline" />
+
+    <!-- 인증 및 경고 현황 컨테이너 -->
+    <LinearLayout
+        android:id="@+id/ll_record_counts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="3dp"
+        app:layout_constraintStart_toEndOf="@id/iv_record_profile_image"
+        app:layout_constraintTop_toBottomOf="@id/guideline">
+
+        <!-- 사용자 인증 현황 -->
+        <TextView
+            android:id="@+id/tv_record_profile_certification_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="인증  25회"
+            android:textSize="13sp"
+            android:fontFamily="@font/font_style"
+            android:textFontWeight="400"
+            android:textColor="@color/text_primary"
+            android:includeFontPadding="false" />
+
+        <!-- 사용자 경고 현황 -->
+        <TextView
+            android:id="@+id/tv_record_profile_warning_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="경고  0회"
+            android:textSize="13sp"
+            android:fontFamily="@font/font_style"
+            android:textFontWeight="400"
+            android:textColor="@color/text_primary"
+            android:includeFontPadding="false"
+            android:layout_marginStart="20dp" />
+
+    </LinearLayout>
+
+    <!-- 프로그레스 아이콘 -->
+    <ImageView
+        android:id="@+id/iv_record_progress_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_progress_flag"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_record_profile_image" />
+
+    <!-- 프로그레스바 -->
+    <ProgressBar
+        android:id="@+id/pb_record_progress"
+        android:layout_width="320dp"
+        android:layout_height="7dp"
+        android:progressDrawable="@drawable/pb_my_challenge"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:max="100"
+        android:progress="100"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_record_progress_icon" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

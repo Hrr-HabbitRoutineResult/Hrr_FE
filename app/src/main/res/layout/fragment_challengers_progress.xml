@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".challenge.ui.record.progress.ChallengersProgressFragment">
+
+    <LinearLayout
+        android:id="@+id/ll_challengers_progress_container"
+        android:layout_width="match_parent"
+        android:layout_height="420dp"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:background="@color/grey_50">
+
+        <!-- 원형 프로그레스바 영역 -->
+        <include
+            layout="@layout/layout_challengers_progress"
+            android:layout_width="320dp"
+            android:layout_height="384dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="20dp" />
+
+    </LinearLayout>
+
+    <!-- 전체 인증 보기 영역 -->
+    <include
+        android:id="@+id/layout_challengers_overview"
+        layout="@layout/layout_challengers_overview"
+        android:layout_width="match_parent"
+        android:layout_height="174dp"/>
+
+    <!-- 구분선 -->
+    <View
+        android:id="@+id/view_divider"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/grey_50"
+        android:visibility="gone"/>
+
+    <!-- 인증 목록 영역 -->
+    <include
+        android:id="@+id/layout_record_list"
+        layout="@layout/layout_record_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:visibility="gone"/>
+
+</LinearLayout>
