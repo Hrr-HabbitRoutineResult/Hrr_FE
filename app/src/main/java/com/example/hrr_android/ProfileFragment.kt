@@ -1,6 +1,7 @@
 package com.example.hrr_android
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -45,8 +46,8 @@ class ProfileFragment : Fragment() {
         userViewModel.profile.observe(viewLifecycleOwner) { profile ->
             profile?.let {
                 //Todo: 프로필 사진 바인딩
-                binding.tvProfileUsername.text = it.name    // 이름
-                binding.tvProfileLevel.text = it.level      // 레벨
+                binding.tvProfileUsername.text = it.nickname    // 이름
+                binding.tvProfileLevel.text = it.level.toString()// 레벨
                 binding.tvProfileFollowerCount.text = it.followerCount.toString()  // 팔로워 수
                 binding.tvProfileFollowingCount.text = it.followingCount.toString() // 팔로잉 수
                 //Todo: 뱃지 관련 바인딩

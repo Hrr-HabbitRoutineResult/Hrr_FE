@@ -39,7 +39,8 @@ class AuthRepository @Inject constructor(
             val response = authService.login(LoginRequest(email, password))
 
             if (response.isSuccessful) {
-                val loginResponse = response.body()
+                val loginResponse = response.body()?.success
+                Log.d("NetworkError", loginResponse.toString())
                 if (loginResponse != null) {
                     saveTokens(loginResponse.accessToken, loginResponse.refreshToken)
                     Result.success(loginResponse)

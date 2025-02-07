@@ -1,16 +1,21 @@
 package com.example.hrr_android
 
+import com.google.gson.annotations.SerializedName
+
 data class UserResponse(
-    val id: Int,
-    val name: String,
-    val gender: String,
-    val email: String,
-    val level: String,
-    val points: Int,
-    val followerCount: Int,
-    val followingCount: Int,
-    val badges: List<BadgeResponse>
+    @SerializedName("id") val id: Int,
+    @SerializedName("nickname") val nickname: String,
+    @SerializedName("gender") val gender: String,
+    @SerializedName("email") val email: String,
+    @SerializedName("level") val level: String?,
+    @SerializedName("points") val points: Int,
+    @SerializedName("followerCount") val followerCount: Int,
+    @SerializedName("followingCount") val followingCount: Int,
+    @SerializedName("user_badge_1") val userBadge1: List<BadgeResponse>?,
+    @SerializedName("user_badge_2") val userBadge2: List<BadgeResponse>?,
+    @SerializedName("user_badge_3") val userBadge3: List<BadgeResponse>?
 )
+
 
 data class BadgeResponse(
     val id: Int,

@@ -3,10 +3,12 @@ package com.example.hrr_android
 import android.util.Log
 import com.example.hrr_android.access.network.AuthService
 import com.example.hrr_android.access.repository.AuthRepository
+import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dagger.Provides
+import okhttp3.ConnectionPool
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -40,6 +42,8 @@ object NetworkModule {
         val authInterceptor = AuthInterceptor(authRepositoryProvider)
 
         return OkHttpClient.Builder()
+            .connectionPool(ConnectionPool(5, 5, TimeUnit.MINUTES)) // 연결 재사용 가능하도록 설정
+            .retryOnConnectionFailure(true)
             .addInterceptor(loggingInterceptor)
             .addInterceptor(authInterceptor)
             .connectTimeout(30, TimeUnit.SECONDS)
@@ -51,11 +55,13 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
-        Log.d("BaseUrlCheck", "BASE_URL: ${BuildConfig.BASE_URL}")
+        val gson = GsonBuilder()
+            .setLenient() // 유연한 파싱 허용
+            .create()
         return try{
             Retrofit.Builder()
                 .baseUrl(BuildConfig.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(okHttpClient)
                 .build()
         }catch (e: Exception) {
