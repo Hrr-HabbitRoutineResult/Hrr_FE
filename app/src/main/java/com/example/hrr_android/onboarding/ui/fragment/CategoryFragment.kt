@@ -25,7 +25,7 @@ class CategoryFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // 카테고리 버튼 선택 상태 관리
-        RadioGroupUtils.setupRadioGroup(binding.radioGroupCategory)
+        RadioGroupUtils.setupRadioGroup(binding.radioGroupCategory, this)
     }
 
     override fun onDestroyView() {

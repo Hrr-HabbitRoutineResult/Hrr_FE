@@ -25,7 +25,7 @@ class GoalFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // 목표 버튼 선택 상태 관리
-        RadioGroupUtils.setupRadioGroupWithMax(binding.radioGroupGoals, 3)
+        RadioGroupUtils.setupRadioGroupWithMax(binding.radioGroupGoals, 3, this)
     }
 
     override fun onDestroyView() {

@@ -1,5 +1,6 @@
 package com.example.hrr_android.access.ui.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -10,10 +11,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
-import com.example.hrr_android.access.ui.SignUpActivity
 import com.example.hrr_android.access.ValidUtils
 import com.example.hrr_android.databinding.FragmentInfoInputBinding
 import com.example.hrr_android.access.AuthViewModel
+import com.example.hrr_android.access.model.RegisterRequest
+import com.example.hrr_android.access.model.RegisterResponse
+import androidx.security.crypto.EncryptedSharedPreferences
+import androidx.security.crypto.MasterKey
+import com.example.hrr_android.access.ui.LoginActivity
+import com.example.hrr_android.access.ui.SignUpActivity
 
 class InfoInputFragment : Fragment() {
 
@@ -51,17 +57,60 @@ class InfoInputFragment : Fragment() {
         setupPasswordValidation()
         setupPasswordMatchValidation()
 
+        // 회원가입 API 결과 관찰
+        observeRegistrationResult()
+
         // 버튼 클릭 리스너
         binding.btnInfoInputNext.setOnClickListener {
             if (binding.btnInfoInputNext.isEnabled) {
-                // 버튼이 활성화된 경우만 동작
-                (activity as? SignUpActivity)?.changeFragment(CompleteFragment())
+                // 모든 입력값 유효성 검사 후 회원가입 API 호출
+                val email = binding.etSignupEmail.text.toString()
+                val password = binding.etSignupPassword.text.toString()
+                val nickname = binding.etSignupNickname.text.toString()
+
+                val verificationId = authViewModel.verifiedUserId.value ?: 0
+
+                val registerRequest = RegisterRequest(email, password, nickname, verificationId)
+                authViewModel.registerUser(registerRequest)
             }
         }
+    }
 
-        // verifiedUserId 값이 변경될 때 로그 출력
-        authViewModel.verifiedUserId.observe(viewLifecycleOwner) { userId ->
-            Log.d("AuthID", "LiveData 업데이트 - 인증된 ID: $userId")  // 로그 추가
+    private fun observeRegistrationResult() {
+        authViewModel.registrationResult.observe(viewLifecycleOwner) { result ->
+            result.onSuccess { registerResponse ->
+                saveUserInfo(registerResponse)
+                (activity as? SignUpActivity)?.let { activity ->
+                    activity.startActivity(Intent(activity, LoginActivity::class.java))
+                    activity.finish()
+                }
+            }.onFailure {
+                ValidUtils.hideKeyboard(requireContext(), requireView())
+                ValidUtils.showSnackbar(requireView(), "회원가입에 실패하였습니다.", binding.lineInfoInput)
+            }
+        }
+    }
+
+    private fun saveUserInfo(registerResponse: RegisterResponse) {
+        val user = registerResponse.createdUser
+        // MasterKey 생성
+        val masterKey = MasterKey.Builder(requireContext())
+            .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+            .build()
+        // EncryptedSharedPreferences 인스턴스 생성
+        val sharedPreferences = EncryptedSharedPreferences.create(
+            requireContext(),
+            "user_prefs",
+            masterKey,
+            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+        )
+        // 사용자 정보 저장
+        sharedPreferences.edit().apply {
+            putInt("user_id", user.id)
+            putString("user_email", user.email)
+            putString("user_nickname", user.nickname)
+            apply()
         }
     }
 

@@ -55,11 +55,13 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.security.crypto.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     implementation(libs.circularprogressbar)
     implementation(libs.androidx.viewpager2)
+    implementation(libs.gson)
 
     // Retrofit2 의존성
     implementation(libs.retrofit)
@@ -76,4 +78,11 @@ dependencies {
 
     // LiveData KTX (LiveData 사용 최적화)
     implementation(libs.androidx.lifecycle.livedata.ktx)
+
+    // EncryptedSharedPreferences 및 MasterKey 사용을 위한 AndroidX Security Crypto 의존성 추가
+    implementation (libs.androidx.security.crypto.ktx.v110alpha06)
+
+    // Bottom Navigation Component
+    implementation(libs.navigation.fragment)
+    implementation(libs.navigation.ui)
 }
