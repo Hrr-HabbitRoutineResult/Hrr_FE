@@ -711,6 +711,220 @@
                 android:layout_marginTop="25dp"
                 android:background="@color/text_line" />
 
+            <!-- 기간 제목 -->
+            <TextView
+                android:id="@+id/tv_week"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="23dp"
+                android:layout_marginStart="20dp"
+                android:text="요일"
+                android:textColor="@color/text_primary"
+                android:fontFamily="@font/noto_sans_kr_semi_bold"
+                android:textSize="16sp" />
+
+            <!-- 기간 버튼 -->
+            <LinearLayout
+                android:id="@+id/ll_week"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="12dp"
+                android:paddingHorizontal="20dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="3"
+                    android:layout_marginBottom="8dp">
+
+                    <FrameLayout
+                        android:id="@+id/btn_week_all"
+                        android:layout_width="0dp"
+                        android:layout_height="33dp"
+                        android:layout_marginEnd="10dp"
+                        android:background="@drawable/btn_challenge_filter"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:font="@font/noto_sans_kr_medium"
+                            android:gravity="center"
+                            android:text="전체"
+                            android:textColor="@color/text_tertiary"
+                            android:textSize="13sp" />
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/btn_week_mon"
+                        android:layout_width="0dp"
+                        android:layout_height="33dp"
+                        android:layout_marginEnd="10dp"
+                        android:background="@drawable/btn_challenge_filter"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:font="@font/noto_sans_kr_medium"
+                            android:gravity="center"
+                            android:text="월"
+                            android:textColor="@color/text_tertiary"
+                            android:textSize="13sp" />
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/btn_week_tues"
+                        android:layout_width="0dp"
+                        android:layout_height="33dp"
+                        android:background="@drawable/btn_challenge_filter"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:font="@font/noto_sans_kr_medium"
+                            android:gravity="center"
+                            android:text="화"
+                            android:textColor="@color/text_tertiary"
+                            android:textSize="13sp" />
+                    </FrameLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="3"
+                    android:layout_marginBottom="8dp">
+
+                    <FrameLayout
+                        android:id="@+id/btn_week_wed"
+                        android:layout_width="0dp"
+                        android:layout_height="33dp"
+                        android:layout_marginEnd="10dp"
+                        android:background="@drawable/btn_challenge_filter"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:font="@font/noto_sans_kr_medium"
+                            android:gravity="center"
+                            android:text="수"
+                            android:textColor="@color/text_tertiary"
+                            android:textSize="13sp" />
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/btn_week_thu"
+                        android:layout_width="0dp"
+                        android:layout_height="33dp"
+                        android:layout_marginEnd="10dp"
+                        android:background="@drawable/btn_challenge_filter"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:font="@font/noto_sans_kr_medium"
+                            android:gravity="center"
+                            android:text="목"
+                            android:textColor="@color/text_tertiary"
+                            android:textSize="13sp" />
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/btn_week_fri"
+                        android:layout_width="0dp"
+                        android:layout_height="33dp"
+                        android:background="@drawable/btn_challenge_filter"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:font="@font/noto_sans_kr_medium"
+                            android:gravity="center"
+                            android:text="금"
+                            android:textColor="@color/text_tertiary"
+                            android:textSize="13sp" />
+                    </FrameLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="3">
+
+                    <FrameLayout
+                        android:id="@+id/btn_week_sat"
+                        android:layout_width="0dp"
+                        android:layout_height="33dp"
+                        android:layout_marginEnd="10dp"
+                        android:background="@drawable/btn_challenge_filter"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:font="@font/noto_sans_kr_medium"
+                            android:gravity="center"
+                            android:text="토"
+                            android:textColor="@color/text_tertiary"
+                            android:textSize="13sp" />
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/btn_week_sun"
+                        android:layout_width="0dp"
+                        android:layout_height="33dp"
+                        android:layout_marginEnd="10dp"
+                        android:background="@drawable/btn_challenge_filter"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:font="@font/noto_sans_kr_medium"
+                            android:gravity="center"
+                            android:text="일"
+                            android:textColor="@color/text_tertiary"
+                            android:textSize="13sp" />
+                    </FrameLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- 구분선 -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="25dp"
+                android:background="@color/text_line" />
+
             <!-- 인원 제목 -->
             <TextView
                 android:id="@+id/tv_people"
