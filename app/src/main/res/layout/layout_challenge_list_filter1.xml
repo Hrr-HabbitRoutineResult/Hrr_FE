@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <!-- 필터 버튼들 -->
+    <HorizontalScrollView
+        android:id="@+id/filterScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="62dp"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="62dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="18dp"
+            android:paddingEnd="18dp">
+
+            <!-- 전체 버튼 -->
+            <FrameLayout
+                android:id="@+id/btn_filter_all"
+                android:layout_width="54dp"
+                android:layout_height="28dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/btn_challenge_filter"
+                android:clickable="true"
+                android:focusable="true">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:font="@font/noto_sans_kr_medium"
+                    android:gravity="center"
+                    android:text="전체"
+                    android:textColor="@color/text_tertiary"
+                    android:textSize="13sp" />
+            </FrameLayout>
+
+            <!-- 카테고리 버튼 -->
+            <FrameLayout
+                android:id="@+id/btn_filter_category"
+                android:layout_width="77dp"
+                android:layout_height="28dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/btn_challenge_filter"
+                android:clickable="true"
+                android:focusable="true">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:font="@font/noto_sans_kr_medium"
+                    android:gravity="center"
+                    android:text="카테고리"
+                    android:textColor="@color/text_tertiary"
+                    android:textSize="13sp" />
+            </FrameLayout>
+
+            <!-- 유형 버튼 -->
+            <FrameLayout
+                android:id="@+id/btn_filter_type"
+                android:layout_width="54dp"
+                android:layout_height="28dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/btn_challenge_filter"
+                android:clickable="true"
+                android:focusable="true">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:font="@font/noto_sans_kr_medium"
+                    android:gravity="center"
+                    android:text="유형"
+                    android:textColor="@color/text_tertiary"
+                    android:textSize="13sp" />
+            </FrameLayout>
+
+            <!-- 기간 버튼 -->
+            <FrameLayout
+                android:id="@+id/btn_filter_duration"
+                android:layout_width="54dp"
+                android:layout_height="28dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/btn_challenge_filter"
+                android:clickable="true"
+                android:focusable="true">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:font="@font/noto_sans_kr_medium"
+                    android:gravity="center"
+                    android:text="기간"
+                    android:textColor="@color/text_tertiary"
+                    android:textSize="13sp" />
+            </FrameLayout>
+
+            <!-- 빈도 버튼 -->
+            <FrameLayout
+                android:id="@+id/btn_filter_frequency"
+                android:layout_width="54dp"
+                android:layout_height="28dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/btn_challenge_filter"
+                android:clickable="true"
+                android:focusable="true">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:font="@font/noto_sans_kr_medium"
+                    android:gravity="center"
+                    android:text="빈도"
+                    android:textColor="@color/text_tertiary"
+                    android:textSize="13sp" />
+            </FrameLayout>
+
+            <!-- 인원 버튼 -->
+            <FrameLayout
+                android:id="@+id/btn_filter_max_people"
+                android:layout_width="54dp"
+                android:layout_height="28dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/btn_challenge_filter"
+                android:clickable="true"
+                android:focusable="true">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:font="@font/noto_sans_kr_medium"
+                    android:gravity="center"
+                    android:text="인원"
+                    android:textColor="@color/text_tertiary"
+                    android:textSize="13sp" />
+            </FrameLayout>
+        </LinearLayout>
+    </HorizontalScrollView>
+</LinearLayout>

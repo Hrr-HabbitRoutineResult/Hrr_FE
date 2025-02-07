@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
 
                 R.id.navi_community -> {
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.main_frame, CommunityFragment())
+                        .replace(R.id.main_frame, MakeChallengeFragment())
                         .commit()
                     return@setOnItemSelectedListener true
                 }
