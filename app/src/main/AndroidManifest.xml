@@ -54,6 +54,9 @@
             android:exported="false" />
         <!-- HTTP 요청 허용 -->
         <activity
+            android:name=".NotificationActivity"
+            android:exported="false" />
+        <activity
             android:name=".community.ui.BoardActivity"
             android:exported="false" />
         <activity
@@ -61,6 +64,9 @@
             android:exported="false" />
         <activity
             android:name=".ProfileMoreActivity"
+            android:exported="false" />
+        <activity
+            android:name=".OtherProfileActivity"
             android:exported="false" />
         <activity
             android:name=".LoadingActivity"

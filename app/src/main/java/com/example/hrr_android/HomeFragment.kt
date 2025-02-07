@@ -12,6 +12,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.hrr_android.access.ui.LoginActivity
 import com.example.hrr_android.databinding.FragmentHomeBinding
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.hrr_android.access.AuthViewModel
 
 class HomeFragment : Fragment() {
@@ -21,6 +22,7 @@ class HomeFragment : Fragment() {
 
     private lateinit var categoryAdapter: CategoryRVAdapter
     private lateinit var challengeAdapter: ChallengeCardVPAdapter
+    private lateinit var hotPostAdapter: HotPostRVAdapter
 
     private lateinit var authViewModel: AuthViewModel
 
@@ -87,13 +89,57 @@ class HomeFragment : Fragment() {
             binding.indicatorHomeChallengeCard.visibility = View.VISIBLE
         }
 
-        // 뷰 모델 연결
-        authViewModel = ViewModelProvider(requireActivity()).get(AuthViewModel::class.java)
+        // 더미데이터
+        val hotPostList = listOf(
+            HotPost("운동게시판", "어제 PT 갔거든? 근데 피티쌤이"),
+            HotPost("학업게시판", "교수님이 아무래도 내가 자기 수업만 듣는 줄 아는 것 같아 그렇지 않고서야"),
+            HotPost("취업준비게시판", "IT 계열인데 서류는 통과했어"),
+            HotPost("생활습관게시판", "우리 챌린지 방 스터디가 잘 운영이 안되는 것 같아"),
+            HotPost("공공기관/공무원/정출연 취준생", "해커스 공기업 NCS 통합 봉모 주황이 1회차")
+        )
 
+        // 더미 데이터가 없는 상태
+        // val hotPostList = listOf<HotPost>()
+
+        // 데이터 확인 후 visibility 조정
+        if (hotPostList.isEmpty()) {
+            binding.rvHomeHotPost.visibility = View.GONE
+            binding.layoutHomePopularPost.visibility = View.VISIBLE
+        } else {
+            binding.rvHomeHotPost.visibility = View.VISIBLE
+            binding.layoutHomePopularPost.visibility = View.GONE
+        }
+        
         binding.ivHomePopularPost.setOnClickListener {
-            logout()
+            findNavController().navigate(R.id.navi_community)
+        }
+        
+        // Adapter 초기화
+        hotPostAdapter = HotPostRVAdapter(hotPostList)
+
+        binding.rvHomeHotPost.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = hotPostAdapter
         }
 
+        // 알림 화면으로 이동
+        binding.ivHomeAlarm.setOnClickListener {
+            val intent = Intent(requireContext(), NotificationActivity::class.java)
+            startActivity(intent)
+        }
+
+        // 게시판으로 이동
+        binding.tvHomeMore.setOnClickListener {
+            val communityFragment = CommunityFragment()
+
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.main_frame, communityFragment)
+                .commit()
+
+            // 바텀 네비게이션 아이템 변경 (뷰 바인딩 사용)
+            val activityBinding = (requireActivity() as MainActivity).getBinding()
+            activityBinding.mainBottomNavi.selectedItemId = R.id.navi_community
+        }
     }
 
     override fun onDestroyView() {

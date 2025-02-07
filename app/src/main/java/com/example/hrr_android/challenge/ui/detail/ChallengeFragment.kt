@@ -6,10 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hrr_android.R
 import com.example.hrr_android.challenge.ui.detail.adapter.CertificationListAdapter
+import com.example.hrr_android.challenge.ui.record.ProgressFragment
+import com.example.hrr_android.challenge.ui.record.RecordFragment
 import com.example.hrr_android.databinding.FragmentChallengeBinding
 import com.example.hrr_android.databinding.LayoutChallengeButtonBinding
 
@@ -32,18 +35,29 @@ class ChallengeFragment : Fragment(), ChallengeDialogInterface {
         super.onViewCreated(view, savedInstanceState)
 
         val buttonBinding = LayoutChallengeButtonBinding.bind(binding.llChallengeButtons.root)
+
+        // '참가하기' 버튼 클릭 시 JOIN 다이얼로그 표시
         buttonBinding.btnChallengeJoin.setOnClickListener {
-            val dialog = ChallengeDialog(this)
+            val dialog = ChallengeDialog(this, ChallengeDialog.DialogType.JOIN)
             dialog.isCancelable = false
             dialog.show(parentFragmentManager, "ChallengeDialog")
         }
+        // TODO: 개발용 CREATE 다이얼로그 표시 테스트, 추후 삭제
+//        buttonBinding.btnChallengeJoin.setOnLongClickListener {
+//            val dialog = ChallengeDialog(this, ChallengeDialog.DialogType.CREATE)
+//            dialog.isCancelable = false
+//            dialog.show(parentFragmentManager, "ChallengeDialog")
+//            true
+//        }
     }
 
+    // JOIN 다이얼로그에서 '네' 버튼 클릭 시 호출
     override fun onJoinButtonClick() {
         addCertificationViews()
         updateButtonLayout(ChallengeState.JOINED)  // 상태 변경
     }
 
+    // 인증 관련 뷰 동적으로 추가
     private fun addCertificationViews() {
         val container = binding.llChallengeContainer
         val ruleView = container.findViewById<View>(R.id.layout_challenge_rule)
@@ -70,13 +84,55 @@ class ChallengeFragment : Fragment(), ChallengeDialogInterface {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             adapter = CertificationListAdapter()
         }
+
+        // 챌린지 인증 현황 더보기 버튼 클릭 시 ProgressFragment로 이동
+        certificationListView.findViewById<View>(R.id.ll_more)?.setOnClickListener {
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.main_frame, ProgressFragment())
+                .addToBackStack(null)
+                .commit()
+        }
     }
 
+    // 챌린지 완주 시
+    private fun showCompleteLayout() {
+        // 기존 컨테이너 뷰 모두 제거
+        binding.llChallengeContainer.removeAllViews()
+        // 프래그먼트 배경색 변경
+        binding.root.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.grey_50))
+
+        // 헤더만 다시 호출
+        val headerView = layoutInflater.inflate(
+            R.layout.layout_challenge_header,
+            binding.llChallengeContainer,
+            false
+        )
+        binding.llChallengeContainer.addView(headerView)
+
+        // 챌린지 완주 뷰 추가
+        val completeView = layoutInflater.inflate(
+            R.layout.layout_challenge_complete,
+            binding.llChallengeContainer,
+            false
+        )
+        binding.llChallengeContainer.addView(completeView)
+
+        // 버튼 상태 업데이트
+        updateButtonLayout(ChallengeState.COMPLETED)
+    }
+
+    // 챌린지 완주 확인 함수
+    private fun isChallengeCompleted() {
+        // TODO: 챌린지 완주 확인 로직 추가 구현 예정
+    }
+
+    // 챌린지 상태에 따른 하단 버튼 영역 업데이트
     private fun updateButtonLayout(state: ChallengeState) {
         val layoutResId = when(state) {
             ChallengeState.INITIAL -> R.layout.layout_challenge_button
             ChallengeState.JOINED -> R.layout.layout_challenge_button_certification
             ChallengeState.CERTIFIED -> R.layout.layout_challenge_button_countdown
+            ChallengeState.COMPLETED -> R.layout.layout_challenge_button_complete
         }
 
         // 현재 버튼 레이아웃
@@ -97,7 +153,22 @@ class ChallengeFragment : Fragment(), ChallengeDialogInterface {
         when(state) {
             ChallengeState.JOINED -> {
                 newButtonLayout.findViewById<Button>(R.id.btn_challenge_certification)?.setOnClickListener {
-                    updateButtonLayout(ChallengeState.CERTIFIED)
+                    updateButtonLayout(ChallengeState.COMPLETED)
+                }
+            }
+            // TODO: 개발용 완주 화면 테스트, 추후 삭제
+//            ChallengeState.CERTIFIED -> {
+//                newButtonLayout.findViewById<Button>(R.id.btn_challenge_countdown)?.setOnClickListener {
+//                    showCompleteLayout()
+//                }
+//            }
+            // TODO: 개발용 인증 기록 화면 이동 테스트, 추후 수정 필요
+            ChallengeState.COMPLETED -> {
+                newButtonLayout.findViewById<Button>(R.id.btn_challenge_complete)?.setOnClickListener {
+                    requireActivity().supportFragmentManager.beginTransaction()
+                        .replace(R.id.main_frame, RecordFragment())
+                        .addToBackStack(null)
+                        .commit()
                 }
             }
             else -> {}
@@ -108,7 +179,8 @@ class ChallengeFragment : Fragment(), ChallengeDialogInterface {
     enum class ChallengeState {
         INITIAL,    // 챌린지 참가 전, 초기 상태
         JOINED,     // 챌린지 참가 후, 인증 전
-        CERTIFIED   // 인증 완료
+        CERTIFIED,   // 인증 완료
+        COMPLETED    // 챌린지 완주
     }
 
     override fun onDestroyView() {

@@ -1,5 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- 인증 현황 탭 레이아웃 텍스트 스타일 -->
+    <style name="TabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">15sp</item>
+        <item name="fontFamily">@font/noto_sans_kr_medium</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <!-- 커스텀 캘린더 요일 텍스트 스타일 -->
+    <style name="CalendarWeekdayText">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="fontFamily">@font/noto_sans_kr_medium</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:padding">8dp</item>
+    </style>
+  
+    <style name="Tab_text" parent="TextAppearance.AppCompat.Medium">
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <!--  BottomSheetDialog  -->
+    <style name="BottomSheetDialog" parent="Theme.AppCompat.Light.Dialog">
+        <!-- 다이얼로그 배경을 투명하게 설정 -->
+        <item name="android:background">@android:color/transparent</item>
+        <!-- 내용 부분은 여전히 표시되도록 설정 -->
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
     <!--  설정 스위치 토글    -->
     <style name="custom_toggle" parent="Widget.AppCompat.CompoundButton.Switch">
         <item name="android:thumb">@drawable/toggle_thumb</item>

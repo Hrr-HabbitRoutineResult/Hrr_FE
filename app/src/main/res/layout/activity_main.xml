@@ -7,22 +7,25 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <!-- Fragment 띄울 뷰 -->
-    <FrameLayout
+    <!-- Fragment 컨테이너 -->
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/main_frame"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        app:navGraph="@navigation/nav_graph"
+        app:defaultNavHost="true"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/main_bottom_navi">
-
-        <!-- 구분선 -->
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/text_line"
-            android:layout_gravity="bottom"
-            android:elevation="1dp"/>
-    </FrameLayout>
+        app:layout_constraintBottom_toTopOf="@+id/view_line_navi"/>
+  
+    <!-- 구분선 -->
+    <View
+        android:id="@+id/view_line_navi"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/text_line"
+        app:layout_constraintTop_toBottomOf="@+id/main_frame"
+        app:layout_constraintBottom_toTopOf="@+id/main_bottom_navi"/>
 
     <!-- 네비게이션 바 -->
     <com.google.android.material.bottomnavigation.BottomNavigationView

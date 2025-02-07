@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".FollowingFragment">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_following"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:listitem="@layout/item_profile_follow"/>
+
+    <FrameLayout
+        android:id="@+id/fl_unfollow_view"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:background="@drawable/bg_radius10_white_border1_grey500"
+        android:paddingVertical="8dp"
+        android:paddingHorizontal="23.5dp"
+        android:visibility="gone"
+        android:layout_marginTop="52dp"
+        android:layout_gravity="end"
+        android:layout_marginEnd="12dp">
+
+        <TextView
+            android:id="@+id/tv_unfollow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="김흐르 님 언팔로우하기"
+            android:fontFamily="@font/font_style"
+            android:textFontWeight="500"
+            android:includeFontPadding="false"
+            android:textSize="13sp"
+            android:textColor="@color/sub_01"/>
+    </FrameLayout>
+
+</FrameLayout>
