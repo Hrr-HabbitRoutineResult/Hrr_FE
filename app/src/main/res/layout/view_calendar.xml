@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:parentTag="android.widget.LinearLayout">
+
+    <!-- 커스텀 캘린더 상단 헤더 영역 -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp">
+
+        <!-- 년월 표시 -->
+        <TextView
+            android:id="@+id/tv_calendar_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:textSize="24sp"
+            android:fontFamily="@font/font_style"
+            android:textFontWeight="600"
+            android:textColor="@color/text_primary"
+            android:includeFontPadding="false" />
+
+        <!-- 이전/다음 달 이동 버튼을 감싸는 컨테이너 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="16dp">
+
+            <ImageButton
+                android:id="@+id/btn_calendar_prev"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_calendar_arrow_left"
+                android:background="@null" />
+
+            <ImageButton
+                android:id="@+id/btn_calendar_next"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_calendar_arrow_right"
+                android:background="@null"
+                android:layout_marginStart="5dp"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <!-- 캘린더 메인 컨테이너(요일 헤더랑 날짜 그리드 포함) -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <!-- 요일 헤더 -->
+        <LinearLayout
+            android:id="@+id/ll_calendar_weekdays"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="7">
+
+            <TextView
+                style="@style/CalendarWeekdayText"
+                android:text="일" />
+            <TextView
+                style="@style/CalendarWeekdayText"
+                android:text="월 "/>
+            <TextView
+                style="@style/CalendarWeekdayText"
+                android:text="화" />
+            <TextView
+                style="@style/CalendarWeekdayText"
+                android:text="수" />
+            <TextView
+                style="@style/CalendarWeekdayText"
+                android:text="목" />
+            <TextView
+                style="@style/CalendarWeekdayText"
+                android:text="금" />
+            <TextView
+                style="@style/CalendarWeekdayText"
+                android:text="토" />
+
+        </LinearLayout>
+
+        <!-- 날짜 그리드 컨테이너 -->
+        <LinearLayout
+            android:id="@+id/ll_calendar_dates"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"/>
+
+    </LinearLayout>
+
+</merge>

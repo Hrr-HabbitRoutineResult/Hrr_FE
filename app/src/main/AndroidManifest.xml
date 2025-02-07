@@ -21,6 +21,9 @@
             android:exported="false"
             android:windowSoftInputMode="adjustPan"/>
         <activity
+            android:name=".NotificationActivity"
+            android:exported="false" />
+        <activity
             android:name=".community.ui.BoardActivity"
             android:exported="false" />
         <activity
