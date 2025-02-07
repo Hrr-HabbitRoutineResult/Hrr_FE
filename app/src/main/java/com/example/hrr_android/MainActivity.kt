@@ -36,4 +36,9 @@ class MainActivity : AppCompatActivity() {
         bottomNavigationView.setupWithNavController(navController)
 
     }
+
+    // 프래그먼트에서 접근할 수 있도록 추가
+    fun getBinding(): ActivityMainBinding {
+        return binding
+    }
 }
