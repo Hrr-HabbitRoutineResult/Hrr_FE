@@ -5,7 +5,6 @@ import android.util.Log
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 import com.example.hrr_android.access.network.AuthService
-import com.example.hrr_android.NetworkClient
 import com.example.hrr_android.access.model.EmailConfirmRequest
 import com.example.hrr_android.access.model.EmailVerificationRequest
 import com.example.hrr_android.access.model.KakaoLoginRequest
@@ -14,11 +13,16 @@ import com.example.hrr_android.access.model.LoginRequest
 import com.example.hrr_android.access.model.LoginResponse
 import com.example.hrr_android.access.model.RegisterRequest
 import com.example.hrr_android.access.model.RegisterResponse
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
+import javax.inject.Singleton
 import com.google.gson.Gson
 
-class AuthRepository(context: Context) {
-    private val authService: AuthService = NetworkClient.authService
-
+@Singleton
+class AuthRepository @Inject constructor(
+    @ApplicationContext private val context: Context,
+    private val authService: AuthService
+) {
     // EncryptedSharedPreferences 설정
     private val masterKey = MasterKey.Builder(context)
         .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
@@ -38,7 +42,8 @@ class AuthRepository(context: Context) {
             val response = authService.login(LoginRequest(email, password))
 
             if (response.isSuccessful) {
-                val loginResponse = response.body()
+                val loginResponse = response.body()?.success
+                Log.d("NetworkError", loginResponse.toString())
                 if (loginResponse != null) {
                     loginResponse.success?.let { saveTokens(it.accessToken, it.refreshToken) }
                     Result.success(loginResponse)
@@ -50,6 +55,7 @@ class AuthRepository(context: Context) {
                 Result.failure(Exception("로그인 실패: $errorBody"))
             }
         } catch (e: Exception) {
+            Log.e("NetworkError", "네트워크 오류 발생: ${e.message}")
             Result.failure(Exception("네트워크 오류: ${e.message}"))
         }
     }

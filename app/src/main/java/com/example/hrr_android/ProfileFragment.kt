@@ -2,15 +2,23 @@ package com.example.hrr_android
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.viewModels
 import com.example.hrr_android.databinding.FragmentProfileBinding
+import com.google.android.material.tabs.TabLayoutMediator
+import com.mikhaellopez.circularprogressbar.CircularProgressBar
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding            //뷰 바인딩
     private var selectedBadges = ArrayList<Badge>()                 //대표 뱃지 리스트
+    private val userViewModel: UserViewModel by viewModels()
     private val profileCommon = ProfileCommon()     //공통 로직 인스턴스 생성
 
     override fun onCreateView(
@@ -28,6 +36,27 @@ class ProfileFragment : Fragment() {
 
         //클릭 이벤트 처리 설정
         initClickListener()
+
+        // LiveData 관찰 (데이터가 변경될 때 자동 업데이트되도록 설정)
+        userViewModel.profile.observe(viewLifecycleOwner) { profile ->
+            profile?.let {
+                //Todo: 프로필 사진 바인딩
+                binding.tvProfileUsername.text = it.nickname    // 이름
+                binding.tvProfileLevel.text = it.level.toString()// 레벨
+                binding.tvProfileFollowerCount.text = it.followerCount.toString()  // 팔로워 수
+                binding.tvProfileFollowingCount.text = it.followingCount.toString() // 팔로잉 수
+                //Todo: 뱃지 관련 바인딩
+            }
+        }
+
+        userViewModel.errorMessage.observe(viewLifecycleOwner) { errorMsg ->
+            errorMsg?.let {
+                Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
+            }
+        }
+
+        // 유저 데이터 로드
+        userViewModel.loadProfile()
 
         return binding.root
     }

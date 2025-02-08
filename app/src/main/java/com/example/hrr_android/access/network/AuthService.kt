@@ -1,5 +1,6 @@
 package com.example.hrr_android.access.network
 
+import com.example.hrr_android.ApiResponse
 import com.example.hrr_android.access.model.EmailConfirmRequest
 import com.example.hrr_android.access.model.EmailConfirmResponse
 import com.example.hrr_android.access.model.EmailVerificationRequest
@@ -20,7 +21,7 @@ interface AuthService {
     @POST("api/v1/auth/login/email")
     suspend fun login(
         @Body request: LoginRequest
-    ): Response<LoginResponse>
+    ): Response<ApiResponse<LoginResponse>>
 
     // 이메일 인증 코드 전송 API
     @POST("api/v1/auth/send-verify-email")

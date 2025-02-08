@@ -17,9 +17,11 @@ import com.example.hrr_android.access.AuthViewModel
 import com.example.hrr_android.access.ValidUtils
 import com.example.hrr_android.databinding.CustomSnackbarBinding
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.user.UserApiClient
 
+@AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding

@@ -2,7 +2,9 @@ package com.example.hrr_android
 
 import android.app.Application
 import com.kakao.sdk.common.KakaoSdk
+import dagger.hilt.android.HiltAndroidApp
 
+@HiltAndroidApp
 class MyApplication : Application() {
     private val kakaoAppKey = BuildConfig.KAKAO_APP_KEY
     override fun onCreate() {

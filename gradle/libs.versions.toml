@@ -1,7 +1,7 @@
 [versions]
 agp = "8.6.0"
 fragmentKtx = "1.8.5"
-kotlin = "1.9.0"
+kotlin = "1.9.21"
 coreKtx = "1.15.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
@@ -20,6 +20,8 @@ v2User = "2.14.0"
 viewpager2 = "1.1.0"
 glide = "4.15.1"
 securityCryptoKtx = "1.0.0"
+ksp = "1.9.21-1.0.16"
+hilt = "2.50"
 navigation = "2.8.6"
 
 [libraries]
@@ -47,6 +49,8 @@ retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit
 glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
 glideCompiler = { group = "com.github.bumptech.glide", name = "compiler", version.ref = "glide" }
 androidx-security-crypto-ktx = { group = "androidx.security", name = "security-crypto-ktx", version.ref = "securityCryptoKtx" }
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
+hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
 v2-user = { module = "com.kakao.sdk:v2-user", version.ref = "v2User" }
 navigation-fragment = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigation" }
 navigation-ui = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigation" }
@@ -54,5 +58,7 @@ navigation-ui = { module = "androidx.navigation:navigation-ui-ktx", version.ref 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 

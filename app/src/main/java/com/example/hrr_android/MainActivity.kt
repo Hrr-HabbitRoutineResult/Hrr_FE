@@ -6,9 +6,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.hrr_android.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 import com.example.hrr_android.message.ui.MessageFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     //뷰 바인딩
     private lateinit var binding: ActivityMainBinding
