@@ -18,7 +18,7 @@
     <!-- 채팅 -->
     <fragment
         android:id="@+id/navi_message"
-        android:name="com.example.hrr_android.ProfileLevelFragment"
+        android:name="com.example.hrr_android.message.ui.MessageFragment"
         android:label="채팅" />
 
     <!-- 프로필 -->
