@@ -31,11 +31,6 @@ class ProfileFragment : Fragment() {
         //ViewPager2 Adapter 연결
         profileCommon.setupViewPager(binding, requireActivity(), true)
 
-
-
-        //클릭 이벤트 처리 설정
-        initClickListener()
-
         // LiveData 관찰 (데이터가 변경될 때 자동 업데이트되도록 설정)
         userViewModel.profile.observe(viewLifecycleOwner) { profile ->
             profile?.let {
@@ -50,9 +45,19 @@ class ProfileFragment : Fragment() {
 
         userViewModel.errorMessage.observe(viewLifecycleOwner) { errorMsg ->
             errorMsg?.let {
-                Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
+                val errorToUser = when {
+                    it.contains("IllegalStateException") -> "데이터를 불러오는 중 문제가 발생했습니다. 다시 시도해 주세요."
+                    it.contains("JsonSyntaxException") -> "서버 응답이 올바르지 않습니다. 업데이트를 확인해 주세요."
+                    it.contains("SocketTimeoutException") -> "서버 응답이 지연되고 있습니다. 잠시 후 다시 시도해 주세요."
+                    it.contains("IOException") -> "네트워크 연결을 확인해 주세요."
+                    else -> "알 수 없는 오류가 발생했습니다. 잠시 후 다시 시도해 주세요."
+                }
+
+                Toast.makeText(requireContext(), errorToUser, Toast.LENGTH_LONG).show()
+                Log.e("ProfileFragmentVM", "오류 발생: $errorMsg")
             }
         }
+
 
         // 유저 데이터 로드
         userViewModel.loadProfile()
@@ -62,6 +67,9 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        //클릭 이벤트 처리 설정
+        initClickListener()
 
         //레벨 달성률 게이지 바 구현
         profileCommon.setupCircularProgressBar(binding, 76, 100)
