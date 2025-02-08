@@ -8,13 +8,13 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hrr_android.databinding.ItemProfileBadgeMoreBinding
 
-interface OnBadgeClickListener{
+interface OnBadgeMoreClickListener{
     fun onBadgeClick(badge: Badge)
 }
 
 class ProfileBadgeMoreRVAdapter(
     private val badgeList : ArrayList<Badge>,
-    private val listener: OnBadgeClickListener)
+    private val listener: OnBadgeMoreClickListener)
     : RecyclerView.Adapter<ProfileBadgeMoreRVAdapter.ViewHolder>() {
     override fun onCreateViewHolder(
         viewGroup: ViewGroup,
