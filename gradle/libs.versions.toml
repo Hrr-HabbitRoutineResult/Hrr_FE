@@ -16,6 +16,7 @@ retrofit = "2.9.0"
 securityCrypto = "1.1.0-alpha06"
 securityCryptoKtxVersion = "1.1.0-alpha06"
 securityCryptoVersion = "1.0.0"
+v2User = "2.14.0"
 viewpager2 = "1.1.0"
 glide = "4.15.1"
 securityCryptoKtx = "1.0.0"
@@ -46,6 +47,7 @@ retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit
 glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
 glideCompiler = { group = "com.github.bumptech.glide", name = "compiler", version.ref = "glide" }
 androidx-security-crypto-ktx = { group = "androidx.security", name = "security-crypto-ktx", version.ref = "securityCryptoKtx" }
+v2-user = { module = "com.kakao.sdk:v2-user", version.ref = "v2User" }
 navigation-fragment = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigation" }
 navigation-ui = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigation" }
 

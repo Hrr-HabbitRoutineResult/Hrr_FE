@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.hrr_android.access.ui.fragment.CompleteFragment
 import com.example.hrr_android.access.ui.fragment.InfoInputFragment
+import com.example.hrr_android.access.ui.fragment.NicknameFragment
 import com.example.hrr_android.access.ui.fragment.TermsFragment
 import com.example.hrr_android.databinding.ActivitySignUpBinding
 
@@ -81,7 +82,7 @@ class SignUpActivity : AppCompatActivity() {
 
         when (currentFragment) {
             is TermsFragment -> updateProgress(33, "약관동의")
-            is InfoInputFragment -> updateProgress(66, "가입정보 입력")
+            is InfoInputFragment, is NicknameFragment -> updateProgress(66, "가입정보 입력")
             is CompleteFragment -> updateProgress(100, "가입완료")
         }
     }
