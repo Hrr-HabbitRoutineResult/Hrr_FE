@@ -1,38 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="85dp"
-    android:background="@android:color/white">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-    <!-- 뒤로가기 버튼 -->
-    <ImageButton
-        android:id="@+id/btn_challenge_list_back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:src="@drawable/ic_arrow_back"
-        android:contentDescription="뒤로가기"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="45dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="45dp"
+        android:layout_marginBottom="10dp">
 
-    <!-- Title -->
-    <TextView
-        android:id="@+id/tv_header_title"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="챌린지 개설"
-        android:textSize="20sp"
-        android:fontFamily="@font/noto_sans_kr_semi_bold"
-        android:textColor="@color/black"
-        app:layout_constraintTop_toTopOf="@+id/btn_challenge_list_back"
-        app:layout_constraintBottom_toBottomOf="@+id/btn_challenge_list_back"
-        app:layout_constraintStart_toEndOf="@+id/btn_challenge_list_back"
-        android:layout_marginStart="28dp"
-        android:gravity="center"
-        android:includeFontPadding="false"/>
+        <!-- 뒤로가기 버튼 -->
+        <ImageButton
+            android:id="@+id/btn_record_back"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@null"
+            android:src="@drawable/ic_arrow_back"
+            android:scaleType="center"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <!-- 타이틀 -->
+        <TextView
+            android:id="@+id/tv_record_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="챌린지 개설"
+            android:textSize="20sp"
+            android:fontFamily="@font/font_style"
+            android:textFontWeight="600"
+            android:textColor="@color/text_primary"
+            android:includeFontPadding="false" />
+
+    </LinearLayout>
+
+    <!-- 회색 구분선 -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grey_50" />
+
+</LinearLayout>
