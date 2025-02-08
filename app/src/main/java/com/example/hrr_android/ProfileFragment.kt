@@ -1,5 +1,6 @@
 package com.example.hrr_android
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -57,6 +58,18 @@ class ProfileFragment : Fragment() {
                 .addToBackStack(null)
                 .commit()
         }
+        
+        // 프로필 수정 모드
+        binding.tvProfileEdit.setOnClickListener {
+            val intent = Intent(requireContext(), EditProfileActivity::class.java)
+            startActivity(intent)
+        }
+
+        // 대표 뱃지 클릭 시 뱃지 수정 화면으로 전환
+        binding.llProfileBadge.setOnClickListener {
+            val intent = Intent(requireContext(), EditProfileActivity::class.java)
+            intent.putExtra("clicked", "badge")
+            startActivity(intent)
 
     }
 
