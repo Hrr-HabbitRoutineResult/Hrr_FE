@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="88dp"
-    android:layout_height="wrap_content"
+    android:layout_width="108dp"
+    android:layout_height="104dp"
     android:orientation="vertical"
-    android:layout_marginStart="10dp"
-    android:layout_marginEnd="10dp">
+    android:paddingHorizontal="14dp">
 
     <!-- 뱃지 아이콘 -->
     <ImageView
         android:id="@+id/iv_profile_badge_icon"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:src="@drawable/img_badge_challenge_01"
-        android:layout_gravity="center"/>
+        android:src="@drawable/img_badge_challenge_01"/>
 
     <!-- 뱃지명 -->
     <TextView
