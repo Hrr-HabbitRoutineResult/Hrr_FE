@@ -2,29 +2,22 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
     <!-- 인터넷 권한 추가 -->
-    <uses-permission android:name="android.permission.INTERNET" />
-
-    <!--  카메라 및 갤러리 사용 권한 추가  -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- 카메라 및 갤러리 사용 권한 추가 -->
     <uses-feature
         android:name="android.hardware.camera"
-        android:required="false" />
-
-    <!-- 카메라 권한 -->
-    <uses-permission android:name="android.permission.CAMERA" />
-
-    <!-- Android 13 이상: 미디어 권한 -->
+        android:required="false" /> <!-- 카메라 권한 -->
+    <uses-permission android:name="android.permission.CAMERA" /> <!-- Android 13 이상: 미디어 권한 -->
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
-    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
-
-    <!-- Android 10 이하: 읽기/쓰기 권한 -->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
-        android:required="false"
-        android:maxSdkVersion="32" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:required="false"
-        android:maxSdkVersion="28" />
-
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" /> <!-- Android 10 이하: 읽기/쓰기 권한 -->
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32"
+        android:required="false" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28"
+        android:required="false" />
 
     <application
         android:name=".MyApplication"
@@ -38,8 +31,10 @@
         android:theme="@style/SplashTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-
-        <!--    사진 파일 저장을 위한 경로 사용    -->
+        <activity
+            android:name=".LevelActivity"
+            android:exported="false" />
+        <!-- 사진 파일 저장을 위한 경로 사용 -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.example.hrr_android.fileprovider"
@@ -52,19 +47,17 @@
 
         <activity
             android:name=".EditProfileActivity"
-            android:exported="false" />
+            android:exported="false" /> <!-- HTTP 요청 허용 -->
         <!-- HTTP 요청 허용 -->
-        tools:targetApi="31"
-        android:name=".MyApplication"
-        android:usesCleartextTraffic="true"> <!-- HTTP 요청 허용 -->
         <!-- Kakao 앱 키 등록 -->
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="${kakaoAppKey}" />
+
         <activity
             android:name=".message.ui.MessageChatroomActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".NotificationActivity"
             android:exported="false" />
@@ -119,10 +112,12 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:host="oauth"
+                <data
+                    android:host="oauth"
                     android:scheme="kakao${kakaoAppKey}" />
             </intent-filter>
         </activity>

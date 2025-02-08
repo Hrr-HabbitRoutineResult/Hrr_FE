@@ -109,11 +109,10 @@ class ProfileFragment : Fragment() {
     }
 
     private fun initClickListener() {
+        // 레벨 클릭 시 레벨 로드맵으로 전환
         binding.llProfileRank.setOnClickListener {
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.main_frame, ProfileLevelFragment())
-                .addToBackStack(null) // 뒤로 가기 지원
-                .commit()
+            val intent = Intent(requireContext(), LevelActivity::class.java)
+            startActivity(intent)
         }
     }
 }
