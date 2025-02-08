@@ -59,7 +59,7 @@ class AuthViewModel @Inject constructor(
     // 카카오 로그인 요청
     fun loginWithKakao(kakaoAccessToken: String) {
         viewModelScope.launch {
-            val result = repository.loginWithKakao(kakaoAccessToken)
+            val result = authRepository.loginWithKakao(kakaoAccessToken)
 
             result.onSuccess { response ->
                 _kakaoLoginResult.postValue(Result.success(response))
