@@ -7,10 +7,12 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.hrr_android.databinding.FragmentMakeChallengeBinding
+import com.example.hrr_android.databinding.LayoutMakeChallengeHeaderBinding
 
 class MakeChallengeFragment : Fragment() {
 
     private var _binding: FragmentMakeChallengeBinding? = null
+    private lateinit var makeChallengeHeaderBinding: LayoutMakeChallengeHeaderBinding //헤더바인딩
     private val binding get() = _binding!!
 
     override fun onCreateView(
