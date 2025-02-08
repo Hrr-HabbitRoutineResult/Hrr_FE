@@ -27,6 +27,7 @@ class ProfileMoreActivity : AppCompatActivity() {
                 "badge" -> "마이 뱃지"
                 "follower" -> "프로필"
                 "following" -> "프로필"
+                "setting" -> "설정"
                 else -> "완주 챌린지"        //기본적으로 챌린지 화면 사용
             }
 
@@ -39,6 +40,7 @@ class ProfileMoreActivity : AppCompatActivity() {
                         putString("selected_tab", type)
                     }
                 }
+                "setting" -> SettingFragment()
                 else -> ProfileChallengeMoreFragment() // 기본적으로 ProfileChallengeMoreFragment 사용
             }
 

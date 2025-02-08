@@ -82,11 +82,9 @@ class ProfileFragment : Fragment() {
 
         // 설정 버튼 클릭 처리
         binding.ivProfileMenu.setOnClickListener {
-            // Fragment 전환
-            this.parentFragmentManager.beginTransaction()
-                .replace(R.id.main_frame, SettingFragment())
-                .addToBackStack(null)
-                .commit()
+            val intent = Intent(requireContext(), ProfileMoreActivity::class.java)
+            intent.putExtra("type", "setting")
+            startActivity(intent)
         }
 
         // 프로필 수정 모드
