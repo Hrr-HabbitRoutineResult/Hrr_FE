@@ -28,10 +28,10 @@
 
         <!-- 인증 완료된 요일 -->
         <TextView
-            android:id="@+id/btn_monday"
+            android:id="@+id/btn_sunday"
             android:layout_width="40dp"
             android:layout_height="80dp"
-            android:text="월"
+            android:text="일"
             android:textSize="15sp"
             android:fontFamily="@font/font_style"
             android:textFontWeight="400"
@@ -42,6 +42,20 @@
             android:layout_marginEnd="8dp"/>
 
         <!-- 인증 불필요 요일 -->
+        <TextView
+            android:id="@+id/btn_monday"
+            android:layout_width="40dp"
+            android:layout_height="80dp"
+            android:text="월"
+            android:textSize="15sp"
+            android:fontFamily="@font/font_style"
+            android:textFontWeight="400"
+            android:textColor="@color/grey_500"
+            android:includeFontPadding="false"
+            android:gravity="center"
+            android:background="@drawable/bg_button_weekly_default"
+            android:layout_marginEnd="8dp"/>
+
         <TextView
             android:id="@+id/btn_tuesday"
             android:layout_width="40dp"
@@ -56,6 +70,7 @@
             android:background="@drawable/bg_button_weekly_default"
             android:layout_marginEnd="8dp"/>
 
+        <!-- 인증 필요 요일 -->
         <TextView
             android:id="@+id/btn_wednesday"
             android:layout_width="40dp"
@@ -64,13 +79,12 @@
             android:textSize="15sp"
             android:fontFamily="@font/font_style"
             android:textFontWeight="400"
-            android:textColor="@color/grey_500"
+            android:textColor="@color/sub_01"
             android:includeFontPadding="false"
             android:gravity="center"
-            android:background="@drawable/bg_button_weekly_default"
+            android:background="@drawable/bg_button_weekly_required"
             android:layout_marginEnd="8dp"/>
 
-        <!-- 인증 필요 요일 -->
         <TextView
             android:id="@+id/btn_thursday"
             android:layout_width="40dp"
@@ -79,10 +93,10 @@
             android:textSize="15sp"
             android:fontFamily="@font/font_style"
             android:textFontWeight="400"
-            android:textColor="@color/sub_01"
+            android:textColor="@color/grey_500"
             android:includeFontPadding="false"
             android:gravity="center"
-            android:background="@drawable/bg_button_weekly_required"
+            android:background="@drawable/bg_button_weekly_default"
             android:layout_marginEnd="8dp"/>
 
         <TextView
@@ -104,20 +118,6 @@
             android:layout_width="40dp"
             android:layout_height="80dp"
             android:text="토"
-            android:textSize="15sp"
-            android:fontFamily="@font/font_style"
-            android:textFontWeight="400"
-            android:textColor="@color/grey_500"
-            android:includeFontPadding="false"
-            android:gravity="center"
-            android:background="@drawable/bg_button_weekly_default"
-            android:layout_marginEnd="8dp"/>
-
-        <TextView
-            android:id="@+id/btn_sunday"
-            android:layout_width="40dp"
-            android:layout_height="80dp"
-            android:text="일"
             android:textSize="15sp"
             android:fontFamily="@font/font_style"
             android:textFontWeight="400"

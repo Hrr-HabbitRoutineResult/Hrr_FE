@@ -1,5 +1,6 @@
 package com.example.hrr_android
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -16,9 +17,9 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding            //뷰 바인딩
-    private var tabs = arrayListOf("챌린지", "인증기록", "뱃지")        //탭 제목
     private var selectedBadges = ArrayList<Badge>()                 //대표 뱃지 리스트
     private val userViewModel: UserViewModel by viewModels()
+    private val profileCommon = ProfileCommon()     //공통 로직 인스턴스 생성
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,20 +28,14 @@ class ProfileFragment : Fragment() {
         binding = FragmentProfileBinding.inflate(inflater, container, false)
 
         //ViewPager2 Adapter 연결
-        val profileVPAdapter = ProfileVPAdapter(this)
-        binding.vpProfile.adapter = profileVPAdapter
+        profileCommon.setupViewPager(binding, requireActivity(), true)
 
-        //탭 제목 설정
-        TabLayoutMediator(binding.tlProfile, binding.vpProfile){
-            tab, position ->tab.text = tabs[position]
-        }.attach()
+        //팔로우 클릭 처리
+        profileCommon.onFollowClicked(requireActivity(), binding.llProfileFollower, "follower")
+        profileCommon.onFollowClicked(requireActivity(), binding.llProfileFollowing, "following")
 
-        //뱃지 더미 데이터 - 테스트 시 주석 해제 or 설정
-        selectedBadges.apply {
-            add(Badge("프로 챌린저", R.drawable.img_badge_challenge_01))
-            add(Badge("수준급 스터디언", R.drawable.img_badge_challenge_01))
-            add(Badge("운동 스타터", R.drawable.img_badge_challenge_01))
-        }
+        //클릭 이벤트 처리 설정
+        initClickListener()
 
         // LiveData 관찰 (데이터가 변경될 때 자동 업데이트되도록 설정)
         userViewModel.profile.observe(viewLifecycleOwner) { profile ->
@@ -69,53 +64,20 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // 레벨 달성률 반원 게이지 바
-        val circularProgressBar = binding.cpbProfileLevelGauge
+        //레벨 달성률 게이지 바 구현
+        profileCommon.setupCircularProgressBar(binding, 76, 100)
 
-        // 레벨 달성률 수치
-        val requiredPoint = 100
-        val earnedPoint = 76
+        //뱃지 더미 데이터 - 테스트 시 주석 해제 or 설정
+        selectedBadges.clear()
 
-        // 퍼센트 계산
-        val progressPercentage = (earnedPoint / requiredPoint.toFloat()) * 50       //반원이라 백분율의 절반만 사용
-
-        // CircularProgressBar 설정 ; 그라데이션, 시간
-        circularProgressBar.apply {
-            progressBarColorDirection =
-                CircularProgressBar.GradientDirection.RIGHT_TO_LEFT
-            setProgressWithAnimation(progressPercentage, 1000) // 1초 동안
+        selectedBadges.apply {
+            add(Badge("프로 챌린저", R.drawable.img_badge_challenge_01))
+            add(Badge("수준급 스터디언", R.drawable.img_badge_challenge_01))
+            add(Badge("운동 스타터", R.drawable.img_badge_challenge_01))
         }
 
         //설정한 대표 뱃지 개수에 따라 visibility 조정
-        when(selectedBadges.size){
-            0 -> {}
-            1 -> {
-                binding.ivProfileBadge01.setImageResource(selectedBadges[0].icon)
-                binding.tvProfileBadge01.text = selectedBadges[0].name
-            }
-            2 -> {
-                binding.llProfileBadge02.visibility = View.VISIBLE
-
-                binding.ivProfileBadge01.setImageResource(selectedBadges[0].icon)
-                binding.tvProfileBadge01.text = selectedBadges[0].name
-
-                binding.ivProfileBadge02.setImageResource(selectedBadges[1].icon)
-                binding.tvProfileBadge02.text = selectedBadges[1].name
-            }
-            3 -> {
-                binding.llProfileBadge02.visibility = View.VISIBLE
-                binding.llProfileBadge03.visibility = View.VISIBLE
-
-                binding.ivProfileBadge01.setImageResource(selectedBadges[0].icon)
-                binding.tvProfileBadge01.text = selectedBadges[0].name
-
-                binding.ivProfileBadge02.setImageResource(selectedBadges[1].icon)
-                binding.tvProfileBadge02.text = selectedBadges[1].name
-
-                binding.ivProfileBadge03.setImageResource(selectedBadges[2].icon)
-                binding.tvProfileBadge03.text = selectedBadges[2].name
-            }
-        }
+        profileCommon.setupBadges(binding, selectedBadges)
 
         // 설정 버튼 클릭 처리
         binding.ivProfileMenu.setOnClickListener {
@@ -125,7 +87,28 @@ class ProfileFragment : Fragment() {
                 .addToBackStack(null)
                 .commit()
         }
+        
+        // 프로필 수정 모드
+        binding.tvProfileEdit.setOnClickListener {
+            val intent = Intent(requireContext(), EditProfileActivity::class.java)
+            startActivity(intent)
+        }
 
+        // 대표 뱃지 클릭 시 뱃지 수정 화면으로 전환
+        binding.llProfileBadge.setOnClickListener {
+            val intent = Intent(requireContext(), EditProfileActivity::class.java)
+            intent.putExtra("clicked", "badge")
+            startActivity(intent)
+
+    }
+
+    private fun initClickListener() {
+        binding.llProfileRank.setOnClickListener {
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.main_frame, ProfileLevelFragment())
+                .addToBackStack(null) // 뒤로 가기 지원
+                .commit()
+        }
     }
 
 }

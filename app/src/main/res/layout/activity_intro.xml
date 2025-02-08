@@ -101,7 +101,7 @@
                     android:includeFontPadding="false"
                     android:text="넘어가기"
                     android:textColor="@color/text_tertiary"
-                    android:textSize="14sp" />
+                    android:textSize="16sp" />
             </FrameLayout>
 
             <!-- "참가하기" 버튼 -->

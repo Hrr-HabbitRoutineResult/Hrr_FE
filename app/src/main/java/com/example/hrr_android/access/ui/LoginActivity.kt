@@ -3,6 +3,7 @@ package com.example.hrr_android.access.ui
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +18,8 @@ import com.example.hrr_android.access.ValidUtils
 import com.example.hrr_android.databinding.CustomSnackbarBinding
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import com.kakao.sdk.auth.model.OAuthToken
+import com.kakao.sdk.user.UserApiClient
 
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
@@ -58,9 +61,26 @@ class LoginActivity : AppCompatActivity() {
             navigateToPasswordActivity(PasswordNavigator.VERIFICATION)
         }
 
+        binding.ivLoginKakao.setOnClickListener {
+            attemptKakaoLogin()
+        }
+
         // 네이버 로고 클릭 시
         binding.ivLoginNaver.setOnClickListener {
             navigateToPasswordActivity(PasswordNavigator.RESET)
+        }
+
+        // 카카오 로그인 결과 관찰
+        authViewModel.kakaoLoginResult.observe(this) { result ->
+            result.onSuccess {
+                Log.d("KakaoLogin", "로그인 성공! JWT")
+                // Intent에 카카오 로그인 여부를 담아서 전달
+                val intent = Intent(this, SignUpActivity::class.java)
+                intent.putExtra("isKakaoLogin", true)  // 카카오 로그인 여부 전달
+                startActivity(intent)
+            }.onFailure { error ->
+                Log.e("KakaoLogin", "로그인 실패: ${error.message}")
+            }
         }
     }
 
@@ -91,7 +111,7 @@ class LoginActivity : AppCompatActivity() {
 
         // 스낵바 커스텀
         val binding = CustomSnackbarBinding.inflate(LayoutInflater.from(context), snackbarView, false)
-        binding.tvSnackbarContent.text = "이메일과 비밀번호를 다시 확인해주세요"
+        binding.tvSnackbarContent.text = "로그인에 실패하였습니다."
         snackbarView.setBackgroundColor(Color.TRANSPARENT)
         snackbarView.setPadding(0, 0, 0, 0)
         snackbarView.addView(binding.root)
@@ -99,4 +119,47 @@ class LoginActivity : AppCompatActivity() {
         snackbar.show()
     }
 
+    // 카카오 로그인 시도
+    private fun attemptKakaoLogin() {
+        if (UserApiClient.instance.isKakaoTalkLoginAvailable(this)) {
+            // 카카오톡 로그인
+            loginWithKakaoTalk()
+        } else {
+            // 카카오 계정 로그인
+            loginWithKakaoAccount()
+        }
+    }
+
+    // 카카오톡으로 로그인
+    private fun loginWithKakaoTalk() {
+        UserApiClient.instance.loginWithKakaoTalk(this) { token, error ->
+            if (error != null) {
+                Log.e("KakaoLogin", "카카오톡 로그인 실패", error)
+                loginWithKakaoAccount() // 카카오톡 로그인 실패 시 계정 로그인으로 시도
+            } else if (token != null) {
+                Log.i("KakaoLogin", "카카오톡 로그인 성공")
+                handleLoginSuccess(token)
+            }
+        }
+    }
+
+    // 카카오 계정으로 로그인
+    private fun loginWithKakaoAccount() {
+        UserApiClient.instance.loginWithKakaoAccount(this) { token, error ->
+            if (error != null) {
+                Log.e("KakaoLogin", "카카오 계정 로그인 실패", error)
+            } else if (token != null) {
+                Log.i("KakaoLogin", "카카오 계정 로그인 성공")
+                handleLoginSuccess(token)
+            }
+        }
+    }
+
+    // 카카오 로그인 성공 시 서버에 AccessToken 전달
+    private fun handleLoginSuccess(token: OAuthToken) {
+        val kakaoAccessToken = token.accessToken
+        Log.d("KakaoLogin", "카카오 로그인 성공, Access Token: $kakaoAccessToken")
+        // ViewModel을 통해 로그인 요청을 보냄
+        authViewModel.loginWithKakao(token.accessToken)
+    }
 }

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="100dp"
+    android:padding="20dp"
+    android:background="@color/sub_06_bg"
+    android:id="@+id/layout_notification_list">
+
+    <ImageView
+        android:id="@+id/iv_notification_cover"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/layout_rounded_image"
+        android:clipToOutline="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/img_running"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_notification_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:fontFamily="@font/noto_sans_kr_medium"
+        android:includeFontPadding="false"
+        android:text="운동 마스터 뱃지를 획득했어요!"
+        android:textColor="@color/text_primary"
+        android:textSize="15sp"
+        app:layout_constraintStart_toEndOf="@+id/iv_notification_cover"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_notification_content"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="45dp"
+        android:ellipsize="end"
+        android:fontFamily="@font/noto_sans_kr_regular"
+        android:includeFontPadding="false"
+        android:maxLines="2"
+        android:text="새롭게 획득한 뱃지를 확인하러 갈까요? 새롭게 획득한 뱃지를 확인하러 갈까요? 새롭게 획득한 뱃지를 확인하러 갈까요? 새롭게 획득한 뱃지를 확인하러 갈까요?"
+        android:textColor="@color/text_primary"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/iv_notification_cover"
+        app:layout_constraintTop_toBottomOf="@+id/tv_notification_title" />
+
+    <TextView
+        android:id="@+id/tv_notification_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/noto_sans_kr_regular"
+        android:includeFontPadding="false"
+        android:paddingVertical="3dp"
+        android:text="5분 전"
+        android:textColor="@color/text_secondary"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

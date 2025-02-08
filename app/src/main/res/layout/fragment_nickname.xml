@@ -1,0 +1,133 @@
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 닉네임 입력 영역 -->
+    <LinearLayout
+        android:id="@+id/layout_nickname_inputs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="70dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- 닉네임 레이블 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="닉네임"
+                android:textSize="13sp"
+                android:fontFamily="@font/noto_sans_kr_medium"
+                android:includeFontPadding="false"
+                android:textColor="@android:color/black"/>
+
+            <TextView
+                android:id="@+id/tv_signup_nickname_required"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" *"
+                android:textSize="13sp"
+                android:fontFamily="@font/noto_sans_kr_medium"
+                android:includeFontPadding="false"
+                android:textColor="@color/sub_01"/>
+        </LinearLayout>
+
+        <!-- 닉네임 입력 필드 -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="9dp">
+
+            <EditText
+                android:id="@+id/et_nickname"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="서비스에서 사용할 닉네임을 작성해주세요"
+                android:background="@drawable/bg_input_field"
+                android:paddingStart="14dp"
+                android:paddingEnd="40dp"
+                android:textSize="14sp"
+                android:fontFamily="@font/noto_sans_kr_regular"
+                android:includeFontPadding="false"
+                android:textColorHint="@color/text_tertiary"
+                android:textColor="@color/text_primary"
+                android:textCursorDrawable="@drawable/cursor_custom" />
+
+            <!-- 닉네임 유효성 검사 결과 에러 아이콘 -->
+            <ImageView
+                android:id="@+id/iv_nickname_error"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginEnd="14dp"
+                android:src="@drawable/ic_signup_error"
+                android:visibility="gone" />
+        </FrameLayout>
+
+        <!-- 닉네임 안내 문구 -->
+        <TextView
+            android:id="@+id/tv_nickname_helper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="5dp"
+            android:text="한글, 영어, 숫자의 조합으로 최대 10자까지 입력 가능합니다."
+            android:textSize="12sp"
+            android:fontFamily="@font/noto_sans_kr_regular"
+            android:includeFontPadding="false"
+            android:textColor="@color/text_tertiary"
+            android:layout_marginTop="7dp"/>
+    </LinearLayout>
+
+    <!-- 선 (구분선) -->
+    <View
+        android:id="@+id/line_info_input"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="14dp"
+        android:background="@color/text_line"
+        app:layout_constraintBottom_toTopOf="@id/btn_nickname_next"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- 다음 버튼 (화면 하단 고정) -->
+    <FrameLayout
+        android:id="@+id/btn_nickname_next"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- 배경 이미지 -->
+        <ImageView
+            android:id="@+id/iv_terms_next"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/btn_access_color" />
+
+        <!-- 버튼 텍스트 -->
+        <TextView
+            android:id="@+id/tv_terms_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="다음"
+            android:textColor="@drawable/btn_access_text_color"
+            android:textSize="16sp"
+            android:fontFamily="@font/noto_sans_kr_semi_bold"
+            android:layout_gravity="center"/>
+    </FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

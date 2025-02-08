@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="174dp"
+    android:orientation="vertical">
+
+    <!-- 타이틀 영역 -->
+    <LinearLayout
+        android:layout_width="328dp"
+        android:layout_height="29dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="28dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp">
+
+        <TextView
+            android:id="@+id/tv_overview_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="전체 인증 보기"
+            android:textSize="18sp"
+            android:fontFamily="@font/font_style"
+            android:textFontWeight="600"
+            android:textColor="@color/text_primary"
+            android:includeFontPadding="false"/>
+
+        <ImageView
+            android:id="@+id/btn_calendar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_calendar_black" />
+
+    </LinearLayout>
+
+    <!-- 요일별 인증 현황 -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center">
+
+        <!-- 일요일 -->
+        <LinearLayout
+            android:id="@+id/ll_btn_sunday"
+            android:layout_width="40dp"
+            android:layout_height="80dp"
+            android:orientation="vertical"
+            android:background="@drawable/bg_button_selected_filled"
+            android:layout_marginEnd="8dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="3"
+                android:text="일"
+                android:textSize="12sp"
+                android:fontFamily="@font/font_style"
+                android:textFontWeight="400"
+                android:textColor="@color/white"
+                android:includeFontPadding="false"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="10dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="7"
+                android:text="23"
+                android:textSize="16sp"
+                android:fontFamily="@font/font_style"
+                android:textFontWeight="600"
+                android:textColor="@color/white"
+                android:includeFontPadding="false"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="9dp"/>
+        </LinearLayout>
+
+        <!-- 월요일 -->
+        <LinearLayout
+            android:id="@+id/ll_btn_monday"
+            android:layout_width="40dp"
+            android:layout_height="80dp"
+            android:orientation="vertical"
+            android:background="@drawable/bg_button_unselected_stroke"
+            android:layout_marginEnd="8dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="3"
+                android:text="월"
+                android:textSize="12sp"
+                android:fontFamily="@font/font_style"
+                android:textFontWeight="400"
+                android:textColor="@color/grey_500"
+                android:includeFontPadding="false"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="10dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="7"
+                android:text="24"
+                android:textSize="16sp"
+                android:fontFamily="@font/font_style"
+                android:textFontWeight="600"
+                android:textColor="@color/grey_500"
+                android:includeFontPadding="false"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="9dp"/>
+        </LinearLayout>
+
+        <!-- 화요일 -->
+        <LinearLayout
+            android:id="@+id/ll_btn_tuesday"
+            android:layout_width="40dp"
+            android:layout_height="80dp"
+            android:orientation="vertical"
+            android:background="@drawable/bg_button_unselected_stroke"
+            android:layout_marginEnd="8dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="3"
+                android:text="화"
+                android:textSize="12sp"
+                android:fontFamily="@font/font_style"
+                android:textFontWeight="400"
+                android:textColor="@color/grey_500"
+                android:includeFontPadding="false"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="10dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="7"
+                android:text="25"
+                android:textSize="16sp"
+                android:fontFamily="@font/font_style"
+                android:textFontWeight="600"
+                android:textColor="@color/grey_500"
+                android:includeFontPadding="false"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="9dp"/>
+        </LinearLayout>
+
+        <!-- 수요일 -->
+        <LinearLayout
+            android:id="@+id/ll_btn_wednesday"
+            android:layout_width="40dp"
+            android:layout_height="80dp"
+            android:orientation="vertical"
+            android:background="@drawable/bg_button_selected_stroke"
+            android:layout_marginEnd="8dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="3"
+                android:text="수"
+                android:textSize="12sp"
+                android:fontFamily="@font/font_style"
+                android:textFontWeight="400"
+                android:textColor="@color/sub_01"
+                android:includeFontPadding="false"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="10dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="7"
+                android:text="26"
+                android:textSize="16sp"
+                android:fontFamily="@font/font_style"
+                android:textFontWeight="600"
+                android:textColor="@color/sub_01"
+                android:includeFontPadding="false"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="9dp"/>
+        </LinearLayout>
+
+        <!-- 목요일 -->
+        <LinearLayout
+            android:id="@+id/ll_btn_thursday"
+            android:layout_width="40dp"
+            android:layout_height="80dp"
+            android:orientation="vertical"
+            android:background="@drawable/bg_button_unselected_stroke"
+            android:layout_marginEnd="8dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="3"
+                android:text="목"
+                android:textSize="12sp"
+                android:fontFamily="@font/font_style"
+                android:textFontWeight="400"
+                android:textColor="@color/grey_500"
+                android:includeFontPadding="false"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="10dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="7"
+                android:text="27"
+                android:textSize="16sp"
+                android:fontFamily="@font/font_style"
+                android:textFontWeight="600"
+                android:textColor="@color/grey_500"
+                android:includeFontPadding="false"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="9dp"/>
+        </LinearLayout>
+
+        <!-- 금요일 -->
+        <LinearLayout
+            android:id="@+id/ll_btn_friday"
+            android:layout_width="40dp"
+            android:layout_height="80dp"
+            android:orientation="vertical"
+            android:background="@drawable/bg_button_unselected_stroke"
+            android:layout_marginEnd="8dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="3"
+                android:text="금"
+                android:textSize="12sp"
+                android:fontFamily="@font/font_style"
+                android:textFontWeight="400"
+                android:textColor="@color/grey_500"
+                android:includeFontPadding="false"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="10dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="7"
+                android:text="28"
+                android:textSize="16sp"
+                android:fontFamily="@font/font_style"
+                android:textFontWeight="600"
+                android:textColor="@color/grey_500"
+                android:includeFontPadding="false"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="9dp"/>
+        </LinearLayout>
+
+        <!-- 토요일 -->
+        <LinearLayout
+            android:id="@+id/ll_btn_saturday"
+            android:layout_width="40dp"
+            android:layout_height="80dp"
+            android:orientation="vertical"
+            android:background="@drawable/bg_button_unselected_stroke">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="3"
+                android:text="토"
+                android:textSize="12sp"
+                android:fontFamily="@font/font_style"
+                android:textFontWeight="400"
+                android:textColor="@color/grey_500"
+                android:includeFontPadding="false"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="10dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="7"
+                android:text="29"
+                android:textSize="16sp"
+                android:fontFamily="@font/font_style"
+                android:textFontWeight="600"
+                android:textColor="@color/grey_500"
+                android:includeFontPadding="false"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="9dp"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

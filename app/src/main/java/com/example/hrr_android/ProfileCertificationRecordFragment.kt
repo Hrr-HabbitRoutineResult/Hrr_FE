@@ -1,5 +1,6 @@
 package com.example.hrr_android
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -38,6 +39,13 @@ class ProfileCertificationRecordFragment : Fragment() {
         val profileCertificationRVAdapter = ProfileCertificationRVAdapter(certificationList)
         binding.rvProfileCertificationRecored.adapter = profileCertificationRVAdapter
         binding.rvProfileCertificationRecored.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+
+        //더보기 버튼 클릭 처리
+        binding.llProfileCertificationRecordMore.setOnClickListener{
+            val intent = Intent(requireContext(), ProfileMoreActivity::class.java)
+            intent.putExtra("type", "certification")
+            startActivity(intent)
+        }
 
         return binding.root
     }

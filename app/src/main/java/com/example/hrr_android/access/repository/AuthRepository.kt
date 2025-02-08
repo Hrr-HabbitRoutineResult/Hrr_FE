@@ -7,6 +7,8 @@ import androidx.security.crypto.MasterKey
 import com.example.hrr_android.access.network.AuthService
 import com.example.hrr_android.access.model.EmailConfirmRequest
 import com.example.hrr_android.access.model.EmailVerificationRequest
+import com.example.hrr_android.access.model.KakaoLoginRequest
+import com.example.hrr_android.access.model.KakaoLoginResponse
 import com.example.hrr_android.access.model.LoginRequest
 import com.example.hrr_android.access.model.LoginResponse
 import com.example.hrr_android.access.model.RegisterRequest
@@ -14,6 +16,7 @@ import com.example.hrr_android.access.model.RegisterResponse
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
+import com.google.gson.Gson
 
 @Singleton
 class AuthRepository @Inject constructor(
@@ -42,7 +45,7 @@ class AuthRepository @Inject constructor(
                 val loginResponse = response.body()?.success
                 Log.d("NetworkError", loginResponse.toString())
                 if (loginResponse != null) {
-                    saveTokens(loginResponse.accessToken, loginResponse.refreshToken)
+                    loginResponse.success?.let { saveTokens(it.accessToken, it.refreshToken) }
                     Result.success(loginResponse)
                 } else {
                     Result.failure(Exception("로그인 실패: 서버 응답 본문이 null"))
@@ -114,6 +117,32 @@ class AuthRepository @Inject constructor(
                 Result.failure(Exception("회원가입 실패: $errorBody"))
             }
         } catch (e: Exception) {
+            Result.failure(Exception("네트워크 오류: ${e.message}"))
+        }
+    }
+
+    // 카카오 로그인 요청
+    suspend fun loginWithKakao(kakaoAccessToken: String): Result<KakaoLoginResponse> {
+        return try {
+            val request = KakaoLoginRequest(kakaoAccessToken)
+            val response = authService.loginWithKakao(request)
+
+            if (response.isSuccessful) {
+                val responseBody = response.body()
+                if (responseBody != null) {
+                    saveTokens(responseBody.accessToken, responseBody.refreshToken)
+                    Result.success(responseBody)
+                } else {
+                    Log.e("KakaoLogin", "서버 응답 오류: 응답 본문이 비어 있음")
+                    Result.failure(Exception("서버 응답 오류"))
+                }
+            } else {
+                val errorBody = response.errorBody()?.string() ?: "알 수 없는 오류"
+                Log.e("KakaoLogin", "로그인 실패: $errorBody")
+                Result.failure(Exception("로그인 실패: $errorBody"))
+            }
+        } catch (e: Exception) {
+            Log.e("KakaoLogin", "네트워크 오류 발생: ${e.message}", e)
             Result.failure(Exception("네트워크 오류: ${e.message}"))
         }
     }

@@ -55,8 +55,17 @@ class TermsFragment : Fragment() {
 
         // 다음 버튼 클릭 시 유효성 검사
         binding.btnTermsNext.setOnClickListener {
-            (activity as? SignUpActivity)?.changeFragment(InfoInputFragment())  // 가입정보 입력 프래그먼트로 이동
+            val isKakaoLogin = activity?.intent?.getBooleanExtra("isKakaoLogin", false) ?: false
+
+            val nextFragment = if (isKakaoLogin) {
+                NicknameFragment()  // 카카오 로그인 시 닉네임 입력으로 이동
+            } else {
+                InfoInputFragment()  // 일반 회원가입 시 가입정보 입력으로 이동
+            }
+
+            (activity as? SignUpActivity)?.changeFragment(nextFragment)
         }
+
     }
 
     override fun onDestroyView() {
