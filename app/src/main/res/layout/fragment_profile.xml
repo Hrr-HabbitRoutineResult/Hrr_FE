@@ -89,7 +89,7 @@
         <!-- 프로필 수정 -->
         <TextView
             android:id="@+id/tv_profile_edit"
-            android:layout_width="92dp"
+            android:layout_width="wrap_content"
             android:layout_height="28dp"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="16dp"
