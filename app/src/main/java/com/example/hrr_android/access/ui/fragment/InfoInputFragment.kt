@@ -17,7 +17,9 @@ import com.example.hrr_android.access.model.RegisterResponse
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 import com.example.hrr_android.access.ui.SignUpActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class InfoInputFragment : Fragment() {
 
     private var _binding: FragmentInfoInputBinding? = null

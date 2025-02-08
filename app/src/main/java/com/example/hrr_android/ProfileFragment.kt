@@ -87,7 +87,7 @@ class ProfileFragment : Fragment() {
                 .addToBackStack(null)
                 .commit()
         }
-        
+
         // 프로필 수정 모드
         binding.tvProfileEdit.setOnClickListener {
             val intent = Intent(requireContext(), EditProfileActivity::class.java)
@@ -100,6 +100,8 @@ class ProfileFragment : Fragment() {
             intent.putExtra("clicked", "badge")
             startActivity(intent)
 
+        }
+
     }
 
     private fun initClickListener() {
@@ -110,5 +112,4 @@ class ProfileFragment : Fragment() {
                 .commit()
         }
     }
-
 }

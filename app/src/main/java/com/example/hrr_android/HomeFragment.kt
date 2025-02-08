@@ -14,6 +14,7 @@ import com.example.hrr_android.databinding.FragmentHomeBinding
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.hrr_android.access.AuthViewModel
+import com.example.hrr_android.community.ui.fragment.CommunityFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -112,10 +113,6 @@ class HomeFragment : Fragment() {
             binding.layoutHomePopularPost.visibility = View.GONE
         }
         
-        binding.ivHomePopularPost.setOnClickListener {
-            findNavController().navigate(R.id.navi_community)
-        }
-        
         // Adapter 초기화
         hotPostAdapter = HotPostRVAdapter(hotPostList)
 
@@ -132,15 +129,16 @@ class HomeFragment : Fragment() {
 
         // 게시판으로 이동
         binding.tvHomeMore.setOnClickListener {
-            val communityFragment = CommunityFragment()
-
-            requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.main_frame, communityFragment)
-                .commit()
-
-            // 바텀 네비게이션 아이템 변경 (뷰 바인딩 사용)
-            val activityBinding = (requireActivity() as MainActivity).getBinding()
-            activityBinding.mainBottomNavi.selectedItemId = R.id.navi_community
+            findNavController().navigate(R.id.navi_community)
+//            val communityFragment = CommunityFragment()
+//
+//            requireActivity().supportFragmentManager.beginTransaction()
+//                .replace(R.id.main_frame, communityFragment)
+//                .commit()
+//
+//            // 바텀 네비게이션 아이템 변경 (뷰 바인딩 사용)
+//            val activityBinding = (requireActivity() as MainActivity).getBinding()
+//            activityBinding.mainBottomNavi.selectedItemId = R.id.navi_community
         }
     }
 

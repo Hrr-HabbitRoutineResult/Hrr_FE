@@ -10,8 +10,9 @@ import com.example.hrr_android.access.ui.fragment.InfoInputFragment
 import com.example.hrr_android.access.ui.fragment.NicknameFragment
 import com.example.hrr_android.access.ui.fragment.TermsFragment
 import com.example.hrr_android.databinding.ActivitySignUpBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class SignUpActivity : AppCompatActivity() {
 
     // 뷰 바인딩 선언

@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.hrr_android.databinding.FragmentProfileBadgeMoreBinding
 import com.google.gson.Gson
 
-class ProfileBadgeMoreFragment : Fragment(), OnBadgeClickListener {
+class ProfileBadgeMoreFragment : Fragment(), OnBadgeMoreClickListener {
     //뷰 바인딩
     private var _binding: FragmentProfileBadgeMoreBinding? = null
     private val binding get() = _binding!!
