@@ -40,7 +40,6 @@ class AuthRepository @Inject constructor(
     suspend fun login(email: String, password: String): Result<LoginResponse> {
         return try {
             val response = authService.login(LoginRequest(email, password))
-            Log.d("asdf", response.toString())
             if (response.isSuccessful) {
                 val loginResponse = response.body()
                 if (loginResponse != null) {
