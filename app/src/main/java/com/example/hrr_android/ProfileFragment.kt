@@ -31,9 +31,7 @@ class ProfileFragment : Fragment() {
         //ViewPager2 Adapter 연결
         profileCommon.setupViewPager(binding, requireActivity(), true)
 
-        //팔로우 클릭 처리
-        profileCommon.onFollowClicked(requireActivity(), binding.llProfileFollower, "follower")
-        profileCommon.onFollowClicked(requireActivity(), binding.llProfileFollowing, "following")
+
 
         //클릭 이벤트 처리 설정
         initClickListener()
@@ -80,6 +78,16 @@ class ProfileFragment : Fragment() {
         //설정한 대표 뱃지 개수에 따라 visibility 조정
         profileCommon.setupBadges(binding, selectedBadges)
 
+
+
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    private fun initClickListener() {
         // 설정 버튼 클릭 처리
         binding.ivProfileMenu.setOnClickListener {
             val intent = Intent(requireContext(), ProfileMoreActivity::class.java)
@@ -93,26 +101,22 @@ class ProfileFragment : Fragment() {
             startActivity(intent)
         }
 
+        // 레벨 클릭 시 레벨 로드맵으로 전환
+        binding.llProfileRank.setOnClickListener {
+            val intent = Intent(requireContext(), LevelActivity::class.java)
+            startActivity(intent)
+        }
+
+        //팔로우 클릭 처리
+        profileCommon.onFollowClicked(requireActivity(), binding.llProfileFollower, "follower")
+        profileCommon.onFollowClicked(requireActivity(), binding.llProfileFollowing, "following")
+
         // 대표 뱃지 클릭 시 뱃지 수정 화면으로 전환
         binding.llProfileBadge.setOnClickListener {
             val intent = Intent(requireContext(), EditProfileActivity::class.java)
             intent.putExtra("clicked", "badge")
             startActivity(intent)
 
-        }
-
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
-    private fun initClickListener() {
-        // 레벨 클릭 시 레벨 로드맵으로 전환
-        binding.llProfileRank.setOnClickListener {
-            val intent = Intent(requireContext(), LevelActivity::class.java)
-            startActivity(intent)
         }
     }
 }
