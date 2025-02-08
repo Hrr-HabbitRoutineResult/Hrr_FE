@@ -21,7 +21,7 @@ interface AuthService {
     @POST("api/v1/auth/login/email")
     suspend fun login(
         @Body request: LoginRequest
-    ): Response<ApiResponse<LoginResponse>>
+    ): Response<LoginResponse>
 
     // 이메일 인증 코드 전송 API
     @POST("api/v1/auth/send-verify-email")

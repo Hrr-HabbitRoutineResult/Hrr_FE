@@ -40,10 +40,9 @@ class AuthRepository @Inject constructor(
     suspend fun login(email: String, password: String): Result<LoginResponse> {
         return try {
             val response = authService.login(LoginRequest(email, password))
-
+            Log.d("asdf", response.toString())
             if (response.isSuccessful) {
-                val loginResponse = response.body()?.success
-                Log.d("NetworkError", loginResponse.toString())
+                val loginResponse = response.body()
                 if (loginResponse != null) {
                     loginResponse.success?.let { saveTokens(it.accessToken, it.refreshToken) }
                     Result.success(loginResponse)
@@ -55,10 +54,10 @@ class AuthRepository @Inject constructor(
                 Result.failure(Exception("로그인 실패: $errorBody"))
             }
         } catch (e: Exception) {
-            Log.e("NetworkError", "네트워크 오류 발생: ${e.message}")
             Result.failure(Exception("네트워크 오류: ${e.message}"))
         }
     }
+
 
     // 이메일 인증 코드 전송
     suspend fun sendVerificationCode(email: String): Result<String> {
