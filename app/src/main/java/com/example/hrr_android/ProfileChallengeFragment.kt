@@ -10,7 +10,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.hrr_android.databinding.FragmentProfileChallengeBinding
 
 class ProfileChallengeFragment : Fragment() {
-    private lateinit var binding: FragmentProfileChallengeBinding       //뷰 바인딩
+    private var _binding: FragmentProfileChallengeBinding? = null       //뷰 바인딩
+    private val binding get() = _binding!!
     private var participatingChallengeList = ArrayList<Challenge>()     //참가중인 챌린지 리스트
     private var completedChallengeList = ArrayList<Challenge>()         //최근 완주한 챌린지 리스트
 
@@ -18,7 +19,7 @@ class ProfileChallengeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentProfileChallengeBinding.inflate(inflater, container, false)
+        _binding = FragmentProfileChallengeBinding.inflate(inflater, container, false)
 
         //참가중인 챌린지 더미 데이터 - 테스트 시 주석 해제 or 설정
         participatingChallengeList.apply {
@@ -65,6 +66,11 @@ class ProfileChallengeFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }

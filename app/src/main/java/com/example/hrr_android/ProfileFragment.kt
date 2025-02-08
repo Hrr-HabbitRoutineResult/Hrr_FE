@@ -16,7 +16,8 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ProfileFragment : Fragment() {
-    private lateinit var binding: FragmentProfileBinding            //뷰 바인딩
+    private var _binding: FragmentProfileBinding? = null            //뷰 바인딩
+    private val binding get() = _binding!!
     private var selectedBadges = ArrayList<Badge>()                 //대표 뱃지 리스트
     private val userViewModel: UserViewModel by viewModels()
     private val profileCommon = ProfileCommon()     //공통 로직 인스턴스 생성
@@ -25,7 +26,7 @@ class ProfileFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentProfileBinding.inflate(inflater, container, false)
+        _binding = FragmentProfileBinding.inflate(inflater, container, false)
 
         //ViewPager2 Adapter 연결
         profileCommon.setupViewPager(binding, requireActivity(), true)
@@ -102,6 +103,11 @@ class ProfileFragment : Fragment() {
 
         }
 
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun initClickListener() {

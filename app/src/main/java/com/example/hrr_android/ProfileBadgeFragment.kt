@@ -10,7 +10,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.hrr_android.databinding.FragmentProfileBadgeBinding
 
 class ProfileBadgeFragment : Fragment() {
-    private lateinit var binding: FragmentProfileBadgeBinding       //뷰 바인딩
+    private var _binding: FragmentProfileBadgeBinding? = null       //뷰 바인딩
+    private val binding get() = _binding!!
     private var typeBadgeList = ArrayList<Badge>()                  //유형 뱃지 리스트
     private var categoryBadgeList = ArrayList<Badge>()              //카테고리 뱃지 리스트
 
@@ -18,7 +19,7 @@ class ProfileBadgeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentProfileBadgeBinding.inflate(inflater, container, false)
+        _binding = FragmentProfileBadgeBinding.inflate(inflater, container, false)
 
         //유형 뱃지 더미 데이터 - 테스트 시 주석 해제 or 설정
         typeBadgeList.apply {
@@ -83,6 +84,11 @@ class ProfileBadgeFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }
