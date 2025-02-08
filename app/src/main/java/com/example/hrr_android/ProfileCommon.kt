@@ -1,5 +1,6 @@
 package com.example.hrr_android
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -77,17 +78,9 @@ class ProfileCommon {
     //팔로우 클릭 처리
     fun onFollowClicked(activity: FragmentActivity, view: View, type: String){
         view.setOnClickListener {
-            val profileFollowFragment = ProfileFollowFragment().apply {
-                arguments = Bundle().apply {
-                    putString("selected_tab", type)
-                }
-            }
-
-            // Fragment 전환
-            activity.supportFragmentManager.beginTransaction()
-                .replace(R.id.main_frame, profileFollowFragment)
-                .addToBackStack(null)
-                .commit()
+            val intent = Intent(activity, ProfileMoreActivity::class.java)
+            intent.putExtra("type", type)
+            activity.startActivity(intent)
         }
     }
 }
