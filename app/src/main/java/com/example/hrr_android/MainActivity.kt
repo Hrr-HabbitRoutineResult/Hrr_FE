@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.hrr_android.databinding.ActivityMainBinding
+import com.example.hrr_android.message.ui.MessageFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
@@ -24,6 +25,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initBottomNavigation(){
+
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.main_frame) as? NavHostFragment
         val navController = navHostFragment?.navController
 

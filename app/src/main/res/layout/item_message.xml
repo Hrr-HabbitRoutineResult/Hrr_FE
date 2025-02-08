@@ -1,0 +1,60 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="8dp">
+
+    <TextView
+        android:id="@+id/tv_message_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/noto_sans_kr_regular"
+        android:text="2025년 2월 2일"
+        android:textColor="@color/text_primary"
+        android:textSize="13sp"
+        android:includeFontPadding="false"
+        android:paddingTop="20dp"
+        android:paddingBottom="28dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- 메시지 시간 -->
+    <TextView
+        android:id="@+id/tv_message_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="오후 2:40"
+        android:textSize="12sp"
+        android:textColor="@color/text_tertiary"
+        android:fontFamily="@font/noto_sans_kr_regular"
+        android:includeFontPadding="false"
+        android:layout_marginEnd="7dp"
+        app:layout_constraintBottom_toBottomOf="@id/layout_message_container"
+        app:layout_constraintEnd_toStartOf="@id/layout_message_container"/>
+
+    <FrameLayout
+        android:id="@+id/layout_message_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_message"
+        android:paddingHorizontal="15dp"
+        android:paddingVertical="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_message_date">
+
+        <!-- 메시지 내용 -->
+        <TextView
+            android:id="@+id/tv_message_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/noto_sans_kr_regular"
+            android:includeFontPadding="false"
+            android:maxWidth="220dp"
+            android:text="Lorem ipsum dolor sit amet consectetur."
+            android:textColor="@color/text_primary"
+            android:textSize="15sp" />
+    </FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
