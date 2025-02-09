@@ -42,7 +42,7 @@ class ProfileCertificationRecordFragment : Fragment() {
         binding.rvProfileCertificationRecored.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
         //더보기 버튼 클릭 처리
-        binding.llProfileCertificationRecordMore.setOnClickListener{
+        binding.llProfileCertificationRecordTitle.setOnClickListener{
             val intent = Intent(requireContext(), ProfileMoreActivity::class.java)
             intent.putExtra("type", "certification")
             startActivity(intent)

@@ -77,7 +77,7 @@ class ProfileBadgeFragment : Fragment() {
         }
 
         //더보기 클릭 처리 구현
-        binding.llProfileBadgeMore.setOnClickListener{
+        binding.llProfileBadgeTitle.setOnClickListener{
             val intent = Intent(requireContext(), ProfileMoreActivity::class.java)
             intent.putExtra("type", "badge")
             startActivity(intent)
