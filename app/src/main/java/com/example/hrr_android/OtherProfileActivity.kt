@@ -45,7 +45,7 @@ class OtherProfileActivity : AppCompatActivity() {
         // ViewPager 연결
         profileCommon.setupViewPager(profileBinding, this, false)
 
-        // 레벨 달설 바 연결
+        // 레벨 달성 바 연결
         profileCommon.setupCircularProgressBar(profileBinding, 76, 100)
 
         // 대표 뱃지 바인딩
