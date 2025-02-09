@@ -142,6 +142,7 @@
                 android:background="@null"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="25dp"
                 android:visibility="gone"
                 app:layout_constraintEnd_toStartOf="@+id/iv_edit_name_pen"/>
 
