@@ -142,10 +142,10 @@
                 android:includeFontPadding="false"/>
 
             <ImageView
-                android:layout_width="3dp"
-                android:layout_height="7dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="3dp"
+                android:layout_marginStart="5dp"
                 android:src="@drawable/btn_rank_more" />
         </LinearLayout>
 

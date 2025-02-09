@@ -22,11 +22,11 @@ class ProfileChallengeFragment : Fragment() {
         _binding = FragmentProfileChallengeBinding.inflate(inflater, container, false)
 
         //참가중인 챌린지 더미 데이터 - 테스트 시 주석 해제 or 설정
-        participatingChallengeList.apply {
-            add(Challenge("토익 800점", R.drawable.img_english_book, isCertified = false))
-            add(Challenge("토익 900점 찍기. 쫄?", R.drawable.img_english_book, isCertified = true))
-            add(Challenge("열 자 제한 테스트", R.drawable.img_english_book, isCertified = true))
-        }
+//        participatingChallengeList.apply {
+//            add(Challenge("토익 800점", R.drawable.img_english_book, isCertified = false))
+//            add(Challenge("토익 900점 찍기. 쫄?", R.drawable.img_english_book, isCertified = true))
+//            add(Challenge("열 자 제한 테스트", R.drawable.img_english_book, isCertified = true))
+//        }
 
         //최근 완주한 챌린지 더미 데이터 - 테스트 시 주석 해제 or 설정
         completedChallengeList.apply {

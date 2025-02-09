@@ -28,9 +28,9 @@ class OtherProfileActivity : AppCompatActivity() {
 
         // 더미 데이터
         selectedBadges.apply {
-            add(Badge("프로 챌린저", R.drawable.img_badge_challenge_01))
-            add(Badge("수준급 스터디언", R.drawable.img_badge_challenge_01))
-            add(Badge("운동 스타터", R.drawable.img_badge_challenge_01))
+            add(Badge("프로 챌린저", R.drawable.badge_type_fromtoday_challenger))
+            add(Badge("수준급 스터디언", R.drawable.badge_type_fromtoday_challenger))
+            add(Badge("운동 스타터", R.drawable.badge_type_fromtoday_challenger))
         }
 
         // 안 쓰는 뷰들 정리

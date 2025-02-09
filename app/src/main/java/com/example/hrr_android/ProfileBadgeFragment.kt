@@ -23,11 +23,11 @@ class ProfileBadgeFragment : Fragment() {
 
         //유형 뱃지 더미 데이터 - 테스트 시 주석 해제 or 설정
         typeBadgeList.apply {
-            add(Badge("뱃지명", R.drawable.img_badge_challenge_01, type = "category"))
-            add(Badge("오늘부터 챌린저", R.drawable.img_badge_challenge_01, type = "category"))
-            add(Badge("뱃지 이름 테스트", R.drawable.img_badge_challenge_01, type = "category"))
-            add(Badge("뱃지명", R.drawable.img_badge_challenge_01, type = "category"))
-            add(Badge("뱃지명", R.drawable.img_badge_challenge_01, type = "category"))
+            add(Badge("뱃지명", R.drawable.badge_type_fromtoday_challenger, type = "category"))
+            add(Badge("오늘부터 챌린저", R.drawable.badge_type_fromtoday_challenger, type = "category"))
+            add(Badge("뱃지 이름 테스트", R.drawable.badge_type_fromtoday_challenger, type = "category"))
+            add(Badge("뱃지명", R.drawable.badge_type_fromtoday_challenger, type = "category"))
+            add(Badge("뱃지명", R.drawable.badge_type_fromtoday_challenger, type = "category"))
         }
 
         //유형 뱃지 RecyclerView 연결
@@ -37,11 +37,11 @@ class ProfileBadgeFragment : Fragment() {
 
         //카테고리 뱃지 더미 데이터 - 테스트 시 주석 해제 or 설정
         categoryBadgeList.apply {
-            add(Badge("뱃지명", R.drawable.img_badge_health_03, type = "category"))
-            add(Badge("프로 운동러", R.drawable.img_badge_health_03, type = "category"))
-            add(Badge("뱃지 이름 테스트", R.drawable.img_badge_health_03, type = "category"))
-            add(Badge("뱃지명", R.drawable.img_badge_health_03, type = "category"))
-            add(Badge("뱃지명", R.drawable.img_badge_health_03, type = "category"))
+            add(Badge("뱃지명", R.drawable.badge_category_pro_exercise, type = "category"))
+            add(Badge("프로 운동러", R.drawable.badge_category_pro_exercise, type = "category"))
+            add(Badge("뱃지 이름 테스트", R.drawable.badge_category_pro_exercise, type = "category"))
+            add(Badge("뱃지명", R.drawable.badge_category_pro_exercise, type = "category"))
+            add(Badge("뱃지명", R.drawable.badge_category_pro_exercise, type = "category"))
         }
 
         //카테고리 뱃지 RecyclerView 연결
