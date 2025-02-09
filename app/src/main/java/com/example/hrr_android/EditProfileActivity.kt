@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -92,12 +93,12 @@ class EditProfileActivity : AppCompatActivity(), OnBadgeClickListener {
         setSelectedBadges(selectedBadgeList, binding)
 
         // 취소 클릭 처리
-        binding.ivEditCancel.setOnClickListener {
+        binding.tvEditCancel.setOnClickListener {
             finish()
         }
 
         // 완료 클릭 처리
-        binding.ivEditComplete.setOnClickListener {
+        binding.tvEditComplete.setOnClickListener {
             // TODO: 사용자 정보 서버에 업데이트
             finish()
         }
@@ -115,12 +116,22 @@ class EditProfileActivity : AppCompatActivity(), OnBadgeClickListener {
         nickname.setOnClickListener {
             // 닉네임 부분 클릭 시 편집 모드 진입
             editMode(nameText, nameEdit)
+            binding.tvEditComplete.apply {
+                // "완료" 버튼 비활성화
+                isEnabled = false
+                setTextColor(Color.GRAY)
+            }
         }
 
         nameEdit.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
                 // EditText 포커스가 사라지면 저장 처리
                 changeSave(nameText, nameEdit)
+                binding.tvEditComplete.apply {
+                    // "완료" 버튼 비활성화
+                    isEnabled = true
+                    setTextColor(Color.WHITE)
+                }
             }
         }
 

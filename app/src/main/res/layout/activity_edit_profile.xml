@@ -26,7 +26,7 @@
 
         <!-- 취소 -->
         <TextView
-            android:id="@+id/iv_edit_cancel"
+            android:id="@+id/tv_edit_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="취소"
@@ -43,7 +43,7 @@
 
         <!-- 완료 -->
         <TextView
-            android:id="@+id/iv_edit_complete"
+            android:id="@+id/tv_edit_complete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="완료"
