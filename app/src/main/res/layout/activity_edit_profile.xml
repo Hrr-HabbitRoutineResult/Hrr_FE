@@ -7,7 +7,6 @@
     tools:context=".EditProfileActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     android:fillViewport="true"
     android:descendantFocusability="blocksDescendants">
 
@@ -27,7 +26,7 @@
 
         <!-- 취소 -->
         <TextView
-            android:id="@+id/iv_edit_cancel"
+            android:id="@+id/tv_edit_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="취소"
@@ -37,14 +36,14 @@
             android:textSize="16sp"
             android:textColor="@color/white"
             app:layout_constraintTop_toTopOf="@+id/fl_topBanner_edit"
-            android:layout_marginTop="33dp"
+            android:layout_marginTop="45dp"
             app:layout_constraintStart_toStartOf="@+id/fl_topBanner_edit"
             android:layout_marginStart="10dp"
             android:padding="10dp"/>
 
         <!-- 완료 -->
         <TextView
-            android:id="@+id/iv_edit_complete"
+            android:id="@+id/tv_edit_complete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="완료"
@@ -54,7 +53,7 @@
             android:textSize="16sp"
             android:textColor="@color/white"
             app:layout_constraintTop_toTopOf="@+id/fl_topBanner_edit"
-            android:layout_marginTop="33dp"
+            android:layout_marginTop="45dp"
             app:layout_constraintEnd_toEndOf="@+id/fl_topBanner_edit"
             android:layout_marginEnd="10dp"
             android:padding="10dp"/>
@@ -143,6 +142,7 @@
                 android:background="@null"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="25dp"
                 android:visibility="gone"
                 app:layout_constraintEnd_toStartOf="@+id/iv_edit_name_pen"/>
 

@@ -11,9 +11,9 @@ data class UserResponse(
     @SerializedName("points") val points: Int,
     @SerializedName("followerCount") val followerCount: Int,
     @SerializedName("followingCount") val followingCount: Int,
-    @SerializedName("user_badge_1") val userBadge1: List<BadgeResponse>?,
-    @SerializedName("user_badge_2") val userBadge2: List<BadgeResponse>?,
-    @SerializedName("user_badge_3") val userBadge3: List<BadgeResponse>?
+    @SerializedName("user_badge_1") val userBadge1: BadgeResponse?,
+    @SerializedName("user_badge_2") val userBadge2: BadgeResponse?,
+    @SerializedName("user_badge_3") val userBadge3: BadgeResponse?
 )
 
 

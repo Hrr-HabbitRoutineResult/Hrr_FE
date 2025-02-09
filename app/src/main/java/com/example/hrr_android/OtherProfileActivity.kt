@@ -28,9 +28,9 @@ class OtherProfileActivity : AppCompatActivity() {
 
         // 더미 데이터
         selectedBadges.apply {
-            add(Badge("프로 챌린저", R.drawable.img_badge_challenge_01))
-            add(Badge("수준급 스터디언", R.drawable.img_badge_challenge_01))
-            add(Badge("운동 스타터", R.drawable.img_badge_challenge_01))
+            add(Badge("프로 챌린저", R.drawable.badge_type_fromtoday_challenger))
+            add(Badge("수준급 스터디언", R.drawable.badge_type_fromtoday_challenger))
+            add(Badge("운동 스타터", R.drawable.badge_type_fromtoday_challenger))
         }
 
         // 안 쓰는 뷰들 정리
@@ -45,15 +45,15 @@ class OtherProfileActivity : AppCompatActivity() {
         // ViewPager 연결
         profileCommon.setupViewPager(profileBinding, this, false)
 
-        // 레벨 달설 바 연결
+        // 레벨 달성 바 연결
         profileCommon.setupCircularProgressBar(profileBinding, 76, 100)
 
         // 대표 뱃지 바인딩
         profileCommon.setupBadges(profileBinding, selectedBadges)
 
-        // 팔로우 목록 클릭 처리 - TODO: 팔로우 상세 화면을 Activity로 변경하면 구현 예정. 현재는 Fragment를 띄울 화면이 없어 바인딩 불가
-//        profileCommon.onFollowClicked(this, profileBinding.llProfileFollower, "follower")
-//        profileCommon.onFollowClicked(this, profileBinding.llProfileFollowing, "following")
+        // 팔로우 목록 클릭 처리
+        profileCommon.onFollowClicked(this, profileBinding.llProfileFollower, "follower")
+        profileCommon.onFollowClicked(this, profileBinding.llProfileFollowing, "following")
 
         // 팔로우 or 팔로잉 클릭 처리
         binding.ivOtherFollow.setOnClickListener {

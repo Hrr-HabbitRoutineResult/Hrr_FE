@@ -1,38 +1,30 @@
 package com.example.hrr_android
 
 import android.content.Context
-import android.content.res.ColorStateList
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.appcompat.app.AppCompatActivity
+import com.example.hrr_android.databinding.ActivityLevelBinding
+import android.content.res.ColorStateList
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import com.example.hrr_android.databinding.FragmentProfileLevelBinding
 
-class ProfileLevelFragment : Fragment() {
-    private var _binding: FragmentProfileLevelBinding? = null
-    private val binding get() = _binding!!
+class LevelActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityLevelBinding     // 뷰 바인딩
     private var myPoint: Int = 150        //현재 획득한 포인트
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentProfileLevelBinding.inflate(inflater, container, false)
-        return binding.root
-    }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        // 바인딩 초기화
+        binding = ActivityLevelBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         //X 버튼 클릭 리스너
         binding.ivLevelClose.setOnClickListener {
-            parentFragmentManager.popBackStack()     // 이전 상태로 복원
+            finish()
         }
 
         //레벨에 따라 아이콘 상태(텍스트, 배경)를 설정
@@ -41,11 +33,6 @@ class ProfileLevelFragment : Fragment() {
         //내 포인트 바인딩
         binding.tvLevelMypoint.text = "${myPoint}P"
 
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     private fun initLevelIcon(){
@@ -85,27 +72,27 @@ class ProfileLevelFragment : Fragment() {
 
             // 현재 레벨 전까지는 달성 상태로 변경
             if (levelIndex < currentLevelIndex) {
-                changeIcon(bg, inner, requireContext(), R.drawable.bg_level_map_achieved, R.color.white)
+                changeIcon(bg, inner, this, R.drawable.bg_level_map_achieved, R.color.white)
             }
             else if(levelIndex == currentLevelIndex){
                 // 현재 레벨은 최초 달성 여부 판단 후 변경
-                val prefs = requireContext().getSharedPreferences("Level_first", Context.MODE_PRIVATE)
+                val prefs = this.getSharedPreferences("Level_first", Context.MODE_PRIVATE)
                 isFirstAchieved = prefs.getBoolean("Level_$levelName", true)
 
                 //최초 달성 시
                 if(isFirstAchieved){
                     //그라데이션 배경으로 설정
-                    changeIcon(bg, inner, requireContext(), R.drawable.bg_level_map_achieved_first, R.color.sub_03)
+                    changeIcon(bg, inner, this, R.drawable.bg_level_map_achieved_first, R.color.sub_03)
 
                     //레벨 달성 바 변경
                     binding.llLevelAchieveBar.setBackgroundResource(R.drawable.bg_radius30_sub06)
                     binding.ivLevelCheck.setImageResource(R.drawable.ic_level_achieved)
-                    binding.tvLevelAchievedDatail.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_primary))
+                    binding.tvLevelAchievedDatail.setTextColor(ContextCompat.getColor(this, R.color.text_primary))
                     binding.tvLevelAchievedDatail.text = "포인트 ${levelPoint}P 달성 : $levelName 획득!"
                 }
                 else{
                     //달성 완료 상태로 설정
-                    changeIcon(bg, inner, requireContext(), R.drawable.bg_level_map_achieved, R.color.white)
+                    changeIcon(bg, inner, this, R.drawable.bg_level_map_achieved, R.color.white)
                 }
             }else if(levelIndex == currentLevelIndex + 1){
                 //다음 단계 달성 전의 텍스트 설정을 위한 if문
@@ -113,7 +100,7 @@ class ProfileLevelFragment : Fragment() {
 
                 if(!isFirstAchieved){
                     //최초 달성 시 다음 단계 달성 멘트로 오버되는 거 방지
-                   binding.tvLevelAchievedDatail.text = "포인트 ${levelPoint}P 달성 : $levelName 획득!"
+                    binding.tvLevelAchievedDatail.text = "포인트 ${levelPoint}P 달성 : $levelName 획득!"
                 }
 
             }
@@ -135,16 +122,16 @@ class ProfileLevelFragment : Fragment() {
                 dialog.setListener(object : LevelDialogInterface {
                     override fun onGetButtonClick() {
                         //메시지 출력
-                        Toast.makeText(requireContext(), "$levelName 레벨을 달성하였습니다. 축하합니다!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@LevelActivity, "$levelName 레벨을 달성하였습니다. 축하합니다!", Toast.LENGTH_SHORT).show()
 
                         //레벨 아이콘 "달성 완료" 상태로 변경
-                        changeIcon(bg, inner, requireContext(), R.drawable.bg_level_map_achieved, R.color.white)
+                        changeIcon(bg, inner, this@LevelActivity, R.drawable.bg_level_map_achieved, R.color.white)
 
                         //레벨 달성 바 기본 상태로 되돌리기 - 챌린저 도달 시에는 변화 없음
                         if(levelChar != "final"){
                             binding.llLevelAchieveBar.setBackgroundResource(R.drawable.bg_radius_30_grey_50)
                             binding.ivLevelCheck.setImageResource(R.drawable.ic_level_default)
-                            binding.tvLevelAchievedDatail.setTextColor(ContextCompat.getColor(requireContext(), R.color.grey_500))
+                            binding.tvLevelAchievedDatail.setTextColor(ContextCompat.getColor(this@LevelActivity, R.color.grey_500))
                             binding.tvLevelAchievedDatail.text = "포인트 ${nextLevel.first}P 달성 : ${nextLevel.second} 획득!"     //nextLevel = Pair(levelPoint, levelName)
                         }else{
                             //챌린저 도달 시 뷰 수정
@@ -154,12 +141,12 @@ class ProfileLevelFragment : Fragment() {
 
                         //Todo: "최초 여부" 상태 업데이트(api)
                         //최초 달성 여부를 내부 데이터에 저장
-                        val prefs = requireContext().getSharedPreferences("Level_first", Context.MODE_PRIVATE)
+                        val prefs = this@LevelActivity.getSharedPreferences("Level_first", Context.MODE_PRIVATE)
                         prefs.edit().putBoolean("Level_$levelName", false).apply()
 
                     }
                 })
-                dialog.show(parentFragmentManager, "LevelDialog")
+                dialog.show(supportFragmentManager, "LevelDialog")
             }
 
         }
@@ -186,6 +173,4 @@ class ProfileLevelFragment : Fragment() {
             }
         }
     }
-
-
 }

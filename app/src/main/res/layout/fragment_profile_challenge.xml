@@ -47,7 +47,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/tv_profile_participatingChallenge_title"
         android:layout_marginTop="15dp"
-        app:layout_constraintBottom_toTopOf="@+id/tv_profile_completedChallenge_title"
+        app:layout_constraintBottom_toTopOf="@+id/ll_profile_completedChallenge_title"
         android:layout_marginBottom="43dp"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="16dp"
@@ -107,73 +107,77 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_profile_participatingChallenge_title"
         android:layout_marginTop="15dp"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="1dp"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/tv_profile_completedChallenge_title"
+        android:paddingHorizontal="8.5dp"
+        app:layout_constraintBottom_toTopOf="@+id/ll_profile_completedChallenge_title"
         android:layout_marginBottom="45dp"
         tools:listitem="@layout/item_profile_participating_challenge"
         android:visibility="gone"
         android:clipToPadding="false"/>
 
     <!-- 최근 완주한 챌린지 -->
-    <TextView
-        android:id="@+id/tv_profile_completedChallenge_title"
+    <LinearLayout
+        android:id="@+id/ll_profile_completedChallenge_title"
         android:layout_width="wrap_content"
-        android:layout_height="26dp"
-        android:text="최근 완주한 챌린지"
-        android:fontFamily="@font/font_style"
-        android:textFontWeight="600"
-        android:includeFontPadding="false"
-        android:textSize="18sp"
+        android:layout_height="29dp"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/cl_profile_completedChallenge_content_no"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="206dp"/>
-
-    <!-- 최근 완주한 챌린지 더보기 -->
-    <LinearLayout
-        android:id="@+id/ll_profile_completedChallenge_more"
-        android:layout_width="50dp"
-        android:layout_height="40dp"
-        app:layout_constraintStart_toEndOf="@+id/tv_profile_completedChallenge_title"
-        android:layout_marginStart="140dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/cl_profile_completedChallenge_content_no"
-        android:layout_marginBottom="8dp"
+        android:layout_marginHorizontal="16dp"
         android:gravity="center_vertical">
-        
-        <TextView
-            android:layout_width="38dp"
-            android:layout_height="19dp"
-            android:text="더보기"
-            android:textColor="@color/text_tertiary"
-            android:fontFamily="@font/font_style"
-            android:textFontWeight="500"
-            android:includeFontPadding="false"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="4dp"
-            android:layout_marginEnd="7dp"/>
 
-        <ImageView
-            android:layout_width="5dp"
-            android:layout_height="20dp"
-            android:src="@drawable/btn_arrow_right"
-            app:tint="@color/text_tertiary"
-            android:tintMode="src_in"
-            android:scaleType="centerCrop"
-            android:layout_marginTop="2dp"/>
+        <TextView
+            android:id="@+id/tv_profile_completedChallenge_title"
+            android:layout_width="wrap_content"
+            android:layout_height="26dp"
+            android:text="최근 완주한 챌린지"
+            android:fontFamily="@font/font_style"
+            android:textFontWeight="600"
+            android:includeFontPadding="false"
+            android:textSize="18sp"/>
+
+        <!-- 최근 완주한 챌린지 더보기 -->
+        <LinearLayout
+            android:id="@+id/ll_profile_completedChallenge_more"
+            android:layout_width="52dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="140dp"
+            android:gravity="center_vertical"
+            app:layout_constraintStart_toEndOf="@+id/tv_profile_completedChallenge_title">
+
+            <TextView
+                android:layout_width="38dp"
+                android:layout_height="19dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="7dp"
+                android:layout_marginBottom="4dp"
+                android:fontFamily="@font/font_style"
+                android:includeFontPadding="false"
+                android:text="더보기"
+                android:textColor="@color/text_tertiary"
+                android:textFontWeight="500" />
+
+            <ImageView
+                android:layout_width="5dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="2dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/btn_arrow_right"
+                android:tintMode="src_in"
+                app:tint="@color/text_tertiary" />
+
+        </LinearLayout>
 
     </LinearLayout>
+
 
     <!-- 최근 완주한 챌린지 없을 때 -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_profile_completedChallenge_content_no"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/tv_profile_completedChallenge_title"
+        app:layout_constraintTop_toBottomOf="@+id/ll_profile_completedChallenge_title"
         android:layout_marginTop="15dp"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="16dp"
@@ -231,12 +235,10 @@
         android:layout_height="wrap_content"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/tv_profile_completedChallenge_title"
+        app:layout_constraintTop_toBottomOf="@+id/ll_profile_completedChallenge_title"
         android:layout_marginTop="15dp"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="1dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="16dp"
+        android:paddingHorizontal="8.5dp"
         tools:listitem="@layout/item_profile_completed_challenge"
         android:visibility="gone"
         android:clipToPadding="false"

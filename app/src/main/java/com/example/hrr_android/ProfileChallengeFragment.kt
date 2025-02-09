@@ -10,7 +10,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.hrr_android.databinding.FragmentProfileChallengeBinding
 
 class ProfileChallengeFragment : Fragment() {
-    private lateinit var binding: FragmentProfileChallengeBinding       //뷰 바인딩
+    private var _binding: FragmentProfileChallengeBinding? = null       //뷰 바인딩
+    private val binding get() = _binding!!
     private var participatingChallengeList = ArrayList<Challenge>()     //참가중인 챌린지 리스트
     private var completedChallengeList = ArrayList<Challenge>()         //최근 완주한 챌린지 리스트
 
@@ -18,14 +19,14 @@ class ProfileChallengeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentProfileChallengeBinding.inflate(inflater, container, false)
+        _binding = FragmentProfileChallengeBinding.inflate(inflater, container, false)
 
         //참가중인 챌린지 더미 데이터 - 테스트 시 주석 해제 or 설정
-        participatingChallengeList.apply {
-            add(Challenge("토익 800점", R.drawable.img_english_book, isCertified = false))
-            add(Challenge("토익 900점 찍기. 쫄?", R.drawable.img_english_book, isCertified = true))
-            add(Challenge("열 자 제한 테스트", R.drawable.img_english_book, isCertified = true))
-        }
+//        participatingChallengeList.apply {
+//            add(Challenge("토익 800점", R.drawable.img_english_book, isCertified = false))
+//            add(Challenge("토익 900점 찍기. 쫄?", R.drawable.img_english_book, isCertified = true))
+//            add(Challenge("열 자 제한 테스트", R.drawable.img_english_book, isCertified = true))
+//        }
 
         //최근 완주한 챌린지 더미 데이터 - 테스트 시 주석 해제 or 설정
         completedChallengeList.apply {
@@ -58,13 +59,18 @@ class ProfileChallengeFragment : Fragment() {
         binding.rvProfileCompletedChallengeContent.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
         //더보기 버튼 클릭 처리
-        binding.llProfileCompletedChallengeMore.setOnClickListener {
+        binding.llProfileCompletedChallengeTitle.setOnClickListener {
             val intent = Intent(requireContext(), ProfileMoreActivity::class.java)
             intent.putExtra("type", "challenge")
             startActivity(intent)
         }
 
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }
