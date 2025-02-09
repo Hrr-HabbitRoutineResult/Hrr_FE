@@ -51,9 +51,9 @@ class OtherProfileActivity : AppCompatActivity() {
         // 대표 뱃지 바인딩
         profileCommon.setupBadges(profileBinding, selectedBadges)
 
-        // 팔로우 목록 클릭 처리 - TODO: 팔로우 상세 화면을 Activity로 변경하면 구현 예정. 현재는 Fragment를 띄울 화면이 없어 바인딩 불가
-//        profileCommon.onFollowClicked(this, profileBinding.llProfileFollower, "follower")
-//        profileCommon.onFollowClicked(this, profileBinding.llProfileFollowing, "following")
+        // 팔로우 목록 클릭 처리
+        profileCommon.onFollowClicked(this, profileBinding.llProfileFollower, "follower")
+        profileCommon.onFollowClicked(this, profileBinding.llProfileFollowing, "following")
 
         // 팔로우 or 팔로잉 클릭 처리
         binding.ivOtherFollow.setOnClickListener {
