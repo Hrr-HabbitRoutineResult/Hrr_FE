@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".OtherProfileActivity"
-    android:fitsSystemWindows="true"
     android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -28,7 +27,7 @@
             android:src="@drawable/btn_arrow_left"
             app:tint="@color/white"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="45dp"
+            android:layout_marginTop="55dp"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="20dp"/>
 
@@ -40,9 +39,9 @@
             android:src="@drawable/btn_more_dot"
             app:tint="@color/white"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="35dp"
+            android:layout_marginTop="45dp"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="9dp"/>
+            android:layout_marginEnd="10dp"/>
 
         <ImageView
             android:id="@+id/iv_other_follow"
