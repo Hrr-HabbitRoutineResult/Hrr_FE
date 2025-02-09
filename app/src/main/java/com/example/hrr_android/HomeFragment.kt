@@ -8,14 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.example.hrr_android.access.ui.LoginActivity
 import com.example.hrr_android.databinding.FragmentHomeBinding
-import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import com.example.hrr_android.access.AuthViewModel
-import com.example.hrr_android.community.ui.fragment.CommunityFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.math.abs
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -25,6 +24,7 @@ class HomeFragment : Fragment() {
 
     private lateinit var categoryAdapter: CategoryRVAdapter
     private lateinit var challengeAdapter: ChallengeCardVPAdapter
+    private lateinit var challengeTodayAdapter: ChallengeTodayVPAdapter
     private lateinit var hotPostAdapter: HotPostRVAdapter
 
     private lateinit var authViewModel: AuthViewModel
@@ -60,9 +60,6 @@ class HomeFragment : Fragment() {
             adapter = categoryAdapter
         }
 
-        // 홈 화면에서만 사용하는 인기 챌린지 아이콘
-        binding.itemHomeChallengeSummary.ivChallengePopular.visibility = View.VISIBLE
-
         // 챌린지 데이터 리스트
         val challengeCardList = loadChallengeData() // 데이터 로드 함수 호출
 
@@ -70,7 +67,7 @@ class HomeFragment : Fragment() {
         challengeAdapter = ChallengeCardVPAdapter(challengeCardList)
 
         // 동적 인디케이터 설정
-        setupDynamicIndicator(challengeCardList)
+        setupChallengeIndicator(challengeCardList)
 
         // 뷰 페이저 미리보기 설정
         setupViewPagerPreview()
@@ -127,19 +124,21 @@ class HomeFragment : Fragment() {
             startActivity(intent)
         }
 
-        // 게시판으로 이동
-        binding.tvHomeMore.setOnClickListener {
-            findNavController().navigate(R.id.navi_community)
-//            val communityFragment = CommunityFragment()
-//
-//            requireActivity().supportFragmentManager.beginTransaction()
-//                .replace(R.id.main_frame, communityFragment)
-//                .commit()
-//
-//            // 바텀 네비게이션 아이템 변경 (뷰 바인딩 사용)
-//            val activityBinding = (requireActivity() as MainActivity).getBinding()
-//            activityBinding.mainBottomNavi.selectedItemId = R.id.navi_community
-        }
+        val challengeTodayList = listOf(
+            ChallengeToday("아침 조깅 챌린지", R.drawable.ic_challenge_today_health, "매일 30분 조깅", 45, 100, "매일", "6개월"),
+            ChallengeToday("독서 챌린지", R.drawable.ic_challenge_today_learn, "하루 10페이지 읽기", 80, 100, "매일", "3개월"),
+            ChallengeToday("물 2L 마시기", R.drawable.ic_challenge_today_routine, "건강한 수분 섭취", 60, 100, "매일", "1개월"),
+            ChallengeToday("일기 쓰기", R.drawable.ic_challenge_today_company, "매일 하루를 기록하기", 30, 100, "매일", "6개월"),
+            ChallengeToday("플랭크 챌린지", R.drawable.ic_challenge_today_health, "하루 3분 플랭크", 70, 100, "매일", "2개월")
+        )
+
+        challengeTodayAdapter = ChallengeTodayVPAdapter(challengeTodayList)
+
+        // 동적 인디케이터 설정
+        setupChallengeTodayIndicator(challengeTodayList)
+
+        // 뷰 페이저 미리보기 설정
+        setupTodayViewPagerPreview(binding.vpHomeChallengeToday, challengeTodayAdapter, challengeTodayList, 16, 32)
     }
 
     override fun onDestroyView() {
@@ -160,40 +159,38 @@ class HomeFragment : Fragment() {
         // return emptyList()
     }
 
-    private fun setupDynamicIndicator(challengeList: List<Challenge>) {
-        val indicatorContainer = binding.indicatorHomeChallengeCard
-        indicatorContainer.removeAllViews() // 초기화
+    // 커스텀 인디케이터 적용 함수
+    private fun setupIndicator(indicatorContainer: LinearLayout, itemCount: Int, viewPager: ViewPager2, activeSize: Int, inactiveSize: Int, margin: Int) {
+        indicatorContainer.removeAllViews() // 기존 인디케이터 초기화
 
-        // 실제 어댑터에 표시될 총 아이템 수 계산 (None 뷰 포함)
-        val totalItems = if (challengeList.size < 5) challengeList.size + 1 else 5
+        if (itemCount == 0) return // 데이터가 없으면 종료
 
-        // 동적으로 인디케이터 추가
-        for (i in 0 until totalItems) {
-            val dot = View(requireContext()).apply {
+        for (i in 0 until itemCount) {
+            val dot = View(indicatorContainer.context).apply {
                 layoutParams = LinearLayout.LayoutParams(
-                    if (i == 0) 80 else 16, 16 // 첫 번째 아이템은 Active 상태로 시작
+                    if (i == 0) activeSize else inactiveSize, inactiveSize // 첫 번째 아이템은 Active 상태로 시작
                 ).apply {
-                    marginEnd = 16 // 점 간격
+                    marginEnd = margin // 점 간격
                 }
                 setBackgroundResource(if (i == 0) R.drawable.indicator_active else R.drawable.indicator_inactive)
             }
             indicatorContainer.addView(dot)
         }
 
-        // ViewPager2 페이지 변경 시 인디케이터 상태 업데이트
-        binding.vpHomeChallenge.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
+                val realPosition = position % itemCount // 무한 스크롤 대비
                 for (i in 0 until indicatorContainer.childCount) {
                     val dot = indicatorContainer.getChildAt(i)
                     val layoutParams = dot.layoutParams as LinearLayout.LayoutParams
-                    if (i == position) {
+                    if (i == realPosition) {
                         dot.setBackgroundResource(R.drawable.indicator_active)
-                        layoutParams.width = 80 // Active 크기
-                        layoutParams.height = 16
+                        layoutParams.width = activeSize // Active 크기
+                        layoutParams.height = inactiveSize
                     } else {
                         dot.setBackgroundResource(R.drawable.indicator_inactive)
-                        layoutParams.width = 16 // Inactive 크기
-                        layoutParams.height = 16
+                        layoutParams.width = inactiveSize // Inactive 크기
+                        layoutParams.height = inactiveSize
                     }
                     dot.layoutParams = layoutParams
                 }
@@ -201,6 +198,18 @@ class HomeFragment : Fragment() {
         })
     }
 
+    // 오늘의 인기챌린지 인디케이터
+    private fun setupChallengeTodayIndicator(challengeList: List<ChallengeToday>) {
+        setupIndicator(binding.indicatorHomeChallengeToday, challengeList.size, binding.vpHomeChallengeToday, 80, 14, 14)
+    }
+
+    // 참여 중인 챌린지 인디케이터
+    private fun setupChallengeIndicator(challengeList: List<Challenge>) {
+        val totalItems = if (challengeList.size < 5) challengeList.size + 1 else 5
+        setupIndicator(binding.indicatorHomeChallengeCard, totalItems, binding.vpHomeChallenge, 80, 16, 16)
+    }
+
+    // 참여 중인 챌린지 뷰 페이저 미리보기
     private fun setupViewPagerPreview() {
         val pageMarginPx = resources.getDimensionPixelOffset(R.dimen.pageMargin)
         val pagerWidth = resources.getDimensionPixelOffset(R.dimen.pageWidth)
@@ -208,14 +217,51 @@ class HomeFragment : Fragment() {
         val offsetPx = screenWidth - pageMarginPx - pagerWidth
 
         binding.vpHomeChallenge.setPageTransformer { page, position ->
-            val scaleFactor = 0.70f + (1 - Math.abs(position)) * 0.30f // 중앙 아이템은 크게, 양옆은 작게
+            val scaleFactor = 0.70f + (1 - abs(position)) * 0.30f // 중앙 아이템은 크게, 양옆은 작게
             page.scaleY = scaleFactor
             page.scaleX = scaleFactor
             page.translationX = position * -offsetPx
-            page.alpha = 0.7f + (1 - Math.abs(position)) * 0.3f // 양옆 아이템 투명도 조절
+            page.alpha = 0.7f + (1 - abs(position)) * 0.3f // 양옆 아이템 투명도 조절
         }
 
         binding.vpHomeChallenge.offscreenPageLimit = 1  // 미리 로드할 페이지 수 설정
+    }
+
+    // 오늘의 인기 챌린지 뷰 페이저 미리보기 및 양끝이동
+    private fun setupTodayViewPagerPreview(viewPager: ViewPager2, adapter: RecyclerView.Adapter<*>, itemList: List<Any>, margin: Int, padding: Int) {
+        viewPager.apply {
+            this.adapter = adapter
+            visibility = if (itemList.isEmpty()) View.GONE else View.VISIBLE
+
+            val listSize = itemList.size
+            if (listSize > 1) {
+                setCurrentItem(listSize, false)
+
+                registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+                    override fun onPageSelected(position: Int) {
+                        post {
+                            if (position == 0) {
+                                setCurrentItem(listSize, false)
+                            } else if (position == listSize * 2 - 1) {
+                                setCurrentItem(listSize - 1, false)
+                            }
+                        }
+                    }
+                })
+            }
+
+            clipToPadding = false
+            clipChildren = false
+            setPadding(padding, 0, padding, 0) // ViewPager 자체 패딩 추가
+
+            addItemDecoration(HorizontalMarginItemDecoration(margin))
+
+            setPageTransformer { page, position ->
+                page.translationX = position * -2f // 너무 많이 이동하지 않도록 조정
+            }
+
+            offscreenPageLimit = 1
+        }
     }
 
     private fun logout() {

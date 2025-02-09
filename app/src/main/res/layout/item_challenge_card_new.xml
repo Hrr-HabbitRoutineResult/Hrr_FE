@@ -10,13 +10,6 @@
         android:layout_height="match_parent"
         android:src="@drawable/bg_home_gradation" />
 
-    <!-- 중앙의 남색배경 -->
-    <ImageView
-        android:layout_width="230dp"
-        android:layout_height="230dp"
-        android:layout_gravity="center"
-        android:src="@drawable/bg_circle_navy" />
-
     <!-- 캐릭터 이미지 -->
     <ImageView
         android:id="@+id/iv_home_character"
