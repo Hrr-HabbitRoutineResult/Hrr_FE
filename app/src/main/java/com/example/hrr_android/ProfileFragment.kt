@@ -38,7 +38,16 @@ class ProfileFragment : Fragment() {
                 myProfile = it  // 불러온 정보를 저장해놔서 다른 Fragment를 띄울 때 필요한 정보만 전달하여 불필요한 api 호출을 방지
                 //Todo: 프로필 사진 바인딩
                 binding.tvProfileUsername.text = it.nickname    // 이름
-                binding.tvProfileLevel.text = it.level.toString()// 레벨
+//                binding.tvProfileLevel.text = it.level // 레벨
+                binding.tvProfileLevel.text = when(it.level){
+                    "general" -> "일반"
+                    "bronze" -> "브론즈"
+                    "silver" -> "실버"
+                    "gold" -> "골드"
+                    "master" -> "마스터"
+                    "challenger" -> "챌린저"
+                    else -> ""
+                }
                 binding.tvProfileFollowerCount.text = it.followerCount.toString()  // 팔로워 수
                 binding.tvProfileFollowingCount.text = it.followingCount.toString() // 팔로잉 수
                 //Todo: 뱃지 관련 바인딩
