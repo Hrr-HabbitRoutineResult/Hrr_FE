@@ -74,7 +74,7 @@ class ProfileFragment : Fragment() {
         initClickListener()
 
         //레벨 달성률 게이지 바 구현
-        profileCommon.setupCircularProgressBar(binding, 76, 100)
+        profileCommon.setupCircularProgressBar(binding, myProfile.level, myProfile.points)
 
         //뱃지 더미 데이터 - 테스트 시 주석 해제 or 설정
         selectedBadges.clear()
