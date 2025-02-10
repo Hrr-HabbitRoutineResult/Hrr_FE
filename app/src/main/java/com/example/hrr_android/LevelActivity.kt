@@ -13,7 +13,7 @@ import androidx.core.content.ContextCompat
 
 class LevelActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLevelBinding     // 뷰 바인딩
-    private var myPoint: Int = 150        //현재 획득한 포인트
+    private var myPoint: Int = 0        //현재 획득한 포인트
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,6 +21,9 @@ class LevelActivity : AppCompatActivity() {
         // 바인딩 초기화
         binding = ActivityLevelBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // point 연동
+        myPoint = intent.getIntExtra("point", 0)
 
         //X 버튼 클릭 리스너
         binding.ivLevelClose.setOnClickListener {
@@ -32,7 +35,6 @@ class LevelActivity : AppCompatActivity() {
 
         //내 포인트 바인딩
         binding.tvLevelMypoint.text = "${myPoint}P"
-
     }
 
     private fun initLevelIcon(){

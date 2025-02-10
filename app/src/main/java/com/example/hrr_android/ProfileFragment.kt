@@ -21,6 +21,7 @@ class ProfileFragment : Fragment() {
     private var selectedBadges = ArrayList<Badge>()                 //대표 뱃지 리스트
     private val userViewModel: UserViewModel by viewModels()
     private val profileCommon = ProfileCommon()     //공통 로직 인스턴스 생성
+    private var myProfile: UserResponse = UserResponse()    // 로딩된 사용자 정보
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,6 +35,7 @@ class ProfileFragment : Fragment() {
         // LiveData 관찰 (데이터가 변경될 때 자동 업데이트되도록 설정)
         userViewModel.profile.observe(viewLifecycleOwner) { profile ->
             profile?.let {
+                myProfile = it  // 불러온 정보를 저장해놔서 다른 Fragment를 띄울 때 필요한 정보만 전달하여 불필요한 api 호출을 방지
                 //Todo: 프로필 사진 바인딩
                 binding.tvProfileUsername.text = it.nickname    // 이름
                 binding.tvProfileLevel.text = it.level.toString()// 레벨
@@ -112,6 +114,7 @@ class ProfileFragment : Fragment() {
         // 레벨 클릭 시 레벨 로드맵으로 전환
         binding.llProfileRank.setOnClickListener {
             val intent = Intent(requireContext(), LevelActivity::class.java)
+            intent.putExtra("point", myProfile.points)
             startActivity(intent)
         }
 
