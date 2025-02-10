@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
+import com.example.hrr_android.access.TokenManager
 import com.example.hrr_android.access.network.AuthService
 import com.example.hrr_android.access.model.EmailConfirmRequest
 import com.example.hrr_android.access.model.EmailVerificationRequest
@@ -13,15 +14,16 @@ import com.example.hrr_android.access.model.LoginRequest
 import com.example.hrr_android.access.model.LoginResponse
 import com.example.hrr_android.access.model.RegisterRequest
 import com.example.hrr_android.access.model.RegisterResponse
+import com.example.hrr_android.access.model.TokenResponse
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
-import com.google.gson.Gson
 
 @Singleton
 class AuthRepository @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val authService: AuthService
+    private val authService: AuthService,
+    private val tokenManager: TokenManager  // TokenManager를 주입받음
 ) {
     // EncryptedSharedPreferences 설정
     private val masterKey = MasterKey.Builder(context)
@@ -43,7 +45,10 @@ class AuthRepository @Inject constructor(
             if (response.isSuccessful) {
                 val loginResponse = response.body()
                 if (loginResponse != null) {
-                    loginResponse.success?.let { saveTokens(it.accessToken, it.refreshToken) }
+                    // 로그인 성공 시 TokenManager를 이용하여 토큰 저장
+                    loginResponse.success?.let {
+                        tokenManager.saveTokens(it.accessToken, it.refreshToken)
+                    }
                     Result.success(loginResponse)
                 } else {
                     Result.failure(Exception("로그인 실패: 서버 응답 본문이 null"))
@@ -56,7 +61,6 @@ class AuthRepository @Inject constructor(
             Result.failure(Exception("네트워크 오류: ${e.message}"))
         }
     }
-
 
     // 이메일 인증 코드 전송
     suspend fun sendVerificationCode(email: String): Result<String> {
@@ -124,53 +128,44 @@ class AuthRepository @Inject constructor(
         return try {
             val request = KakaoLoginRequest(kakaoAccessToken)
             val response = authService.loginWithKakao(request)
-
             if (response.isSuccessful) {
                 val responseBody = response.body()
                 if (responseBody != null) {
-                    saveTokens(responseBody.accessToken, responseBody.refreshToken)
+                    // TokenManager를 이용하여 토큰 저장
+                    tokenManager.saveTokens(responseBody.accessToken, responseBody.refreshToken)
                     Result.success(responseBody)
                 } else {
-                    Log.e("KakaoLogin", "서버 응답 오류: 응답 본문이 비어 있음")
-                    Result.failure(Exception("서버 응답 오류"))
+                    Result.failure(Exception("서버 응답 오류: 응답 본문이 비어 있음"))
                 }
             } else {
                 val errorBody = response.errorBody()?.string() ?: "알 수 없는 오류"
-                Log.e("KakaoLogin", "로그인 실패: $errorBody")
                 Result.failure(Exception("로그인 실패: $errorBody"))
             }
         } catch (e: Exception) {
-            Log.e("KakaoLogin", "네트워크 오류 발생: ${e.message}", e)
             Result.failure(Exception("네트워크 오류: ${e.message}"))
         }
     }
 
-    // EncryptedSharedPreferences를 사용하여 Token 저장
-    private fun saveTokens(accessToken: String, refreshToken: String) {
-        try {
-            encryptedSharedPreferences.edit()
-                .putString("ACCESS_TOKEN", accessToken)
-                .putString("REFRESH_TOKEN", refreshToken)
-                .apply()
+    // 토큰 갱신 요청
+    suspend fun refreshToken(refreshToken: String): Result<TokenResponse> {
+        return try {
+            val response = authService.refreshToken(refreshToken)
+
+            if (response.isSuccessful) {
+                val responseBody = response.body()
+                if (responseBody != null) {
+                    // 새로운 access token만 갱신하는 경우, refresh token은 그대로 유지
+                    tokenManager.saveAccessToken(responseBody.accessToken)
+                    Result.success(responseBody)
+                } else {
+                    Result.failure(Exception("토큰 갱신 실패: 서버 응답 본문이 null"))
+                }
+            } else {
+                val errorBody = response.errorBody()?.string() ?: "Unknown error"
+                Result.failure(Exception("토큰 갱신 실패: $errorBody"))
+            }
         } catch (e: Exception) {
-            e.printStackTrace()
+            Result.failure(Exception("네트워크 오류: ${e.message}"))
         }
-    }
-
-    // 저장된 JWT 토큰을 불러오는 함수 (자동 로그인용)
-    fun getAccessToken(): String? {
-        return encryptedSharedPreferences.getString("ACCESS_TOKEN", null)
-    }
-
-    fun getRefreshToken(): String? {
-        return encryptedSharedPreferences.getString("REFRESH_TOKEN", null)
-    }
-
-    // 로그아웃 시 JWT 삭제 (사용자가 로그아웃하면 호출)
-    fun clearTokens() {
-        encryptedSharedPreferences.edit()
-            .remove("ACCESS_TOKEN")
-            .remove("REFRESH_TOKEN")
-            .apply()
     }
 }
