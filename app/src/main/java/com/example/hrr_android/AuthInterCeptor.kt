@@ -1,6 +1,7 @@
 package com.example.hrr_android
 
 import android.util.Log
+import com.example.hrr_android.access.TokenManager
 import com.example.hrr_android.access.repository.AuthRepository
 import okhttp3.Interceptor
 import okhttp3.Response
@@ -10,7 +11,8 @@ import javax.inject.Inject
 import javax.inject.Provider
 
 class AuthInterceptor @Inject constructor(
-    private val authRepositoryProvider: Provider<AuthRepository>
+    private val authRepositoryProvider: Provider<AuthRepository>,
+    private val tokenManager: TokenManager
 ) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
@@ -39,7 +41,7 @@ class AuthInterceptor @Inject constructor(
 
 
         if (!isExcluded && originalRequest.header("Authorization") == null) {
-            val token = authRepository.getAccessToken()
+            val token = tokenManager.getAccessToken()
 
             if (!token.isNullOrEmpty()) {
                 requestBuilder.addHeader("Authorization", "Bearer $token")
