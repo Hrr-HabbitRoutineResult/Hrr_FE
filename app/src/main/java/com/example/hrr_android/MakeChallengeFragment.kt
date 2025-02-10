@@ -7,11 +7,15 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.hrr_android.databinding.FragmentMakeChallengeBinding
+import com.example.hrr_android.databinding.LayoutMakeChallengeHeaderBinding
 
 class MakeChallengeFragment : Fragment() {
 
     private var _binding: FragmentMakeChallengeBinding? = null
     private val binding get() = _binding!!
+
+    private var _headerBinding: LayoutMakeChallengeHeaderBinding? = null
+    private val headerBinding get() = _headerBinding!! // 헤더 바인딩 추가
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -26,6 +30,8 @@ class MakeChallengeFragment : Fragment() {
         setupCategorySelection()
         setupTypeSelection()
         setupButtonState()
+        setupApplyButtonClick()
+        setupBackButton()
     }
 
     private fun setupCategorySelection() {
@@ -123,6 +129,12 @@ class MakeChallengeFragment : Fragment() {
             } else if (binding.btnChooseTypeBasic.isSelected) {
                 navigateToFragment(MakeBasicChallengeFragment())
             }
+        }
+    }
+
+    private fun setupBackButton() {
+        headerBinding.btnMakeChallengeBack.setOnClickListener {
+            parentFragmentManager.popBackStack() // 이전 프래그먼트로 돌아가기
         }
     }
 
