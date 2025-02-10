@@ -64,7 +64,11 @@ class UserRepository @Inject constructor(
 
     // 사용자 정보 조회
     suspend fun loadProfile(): Result<UserResponse>{
-        return handleResponse { userService.getUserInfo() }
+        return handleResponse { userService.getUserInfo() } // 함수 자체를 전달하여 호출 즉시 실행 방지,
     }
 
+    // 챌린지 기록 조회
+    suspend fun getChallengeHistory(): Result<HistoryResponse>{
+        return  handleResponse { userService.getChallengeHistory() }
+    }
 }
