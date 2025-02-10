@@ -2,17 +2,26 @@ package com.example.hrr_android
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.hrr_android.databinding.FragmentProfileCertificationRecordBinding
+import dagger.hilt.android.AndroidEntryPoint
+import java.time.Instant
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 
+@AndroidEntryPoint
 class ProfileCertificationRecordFragment : Fragment() {
     private var _binding: FragmentProfileCertificationRecordBinding? = null     //뷰 바인딩
     private val binding get() = _binding!!
     private var certificationList = ArrayList<Certification>()                  //인증 기록
+    private val userViewModel: UserViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,11 +62,45 @@ class ProfileCertificationRecordFragment : Fragment() {
             intent.putExtra("type", "certification")
             startActivity(intent)
         }
+
+        // LiveData 관찰 (데이터가 변경될 때 자동 업데이트 되도록 설정)
+        userViewModel.history.observe(viewLifecycleOwner) { history ->
+            history?.let {
+                val hasLink = (it.textUrl != null)  // 링크 주소가 있다면 true
+                certificationList.add(Certification(it.name, it.title, dateFormat(it.createTime), R.drawable.img_running, hasLink))
+                //Todo: 이미지 처리 추가 예정
+            }
+        }
+
+        userViewModel.errorMessage.observe(viewLifecycleOwner) { errorMsg ->
+            errorMsg?.let {
+                val errorToUser = when {
+                    it.contains("IllegalStateException") -> "데이터를 불러오는 중 문제가 발생했습니다. 다시 시도해 주세요."
+                    it.contains("JsonSyntaxException") -> "서버 응답이 올바르지 않습니다. 업데이트를 확인해 주세요."
+                    it.contains("SocketTimeoutException") -> "서버 응답이 지연되고 있습니다. 잠시 후 다시 시도해 주세요."
+                    it.contains("IOException") -> "네트워크 연결을 확인해 주세요."
+                    else -> "알 수 없는 오류가 발생했습니다. 잠시 후 다시 시도해 주세요."
+                }
+
+                Toast.makeText(requireContext(), errorToUser, Toast.LENGTH_LONG).show()
+            }
+        }
+
+
+        // 유저 데이터 로드
+        userViewModel.getChallengeHistory()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    fun dateFormat(original: String): String {
+        val instant = Instant.parse(original)
+        val new = DateTimeFormatter.ofPattern("yyyy.MM.dd")
+            .withZone(ZoneId.of("UTC"))
+        return new.format(instant) // 변환된 날짜 문자열 반환
     }
 
 }
