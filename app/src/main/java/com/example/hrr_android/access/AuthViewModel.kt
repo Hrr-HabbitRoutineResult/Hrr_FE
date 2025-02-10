@@ -9,6 +9,7 @@ import com.example.hrr_android.access.model.KakaoLoginResponse
 import com.example.hrr_android.access.model.LoginResponse
 import com.example.hrr_android.access.model.RegisterRequest
 import com.example.hrr_android.access.model.RegisterResponse
+import com.example.hrr_android.access.model.TokenResponse
 import com.example.hrr_android.access.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -16,7 +17,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
+    private val tokenManager: TokenManager
 ) : ViewModel() {
 
     init {
@@ -42,6 +44,14 @@ class AuthViewModel @Inject constructor(
     // 카카오 로그인 결과 LiveData
     private val _kakaoLoginResult = MutableLiveData<Result<KakaoLoginResponse>>()
     val kakaoLoginResult: LiveData<Result<KakaoLoginResponse>> get() = _kakaoLoginResult
+
+    // 토큰 갱신 결과 LiveData
+    private val _refreshResult = MutableLiveData<Result<TokenResponse>>()
+    val refreshResult: LiveData<Result<TokenResponse>> get() = _refreshResult
+
+    // 로그인 상태를 나타내는 LiveData
+    private val _isLoggedIn = MutableLiveData<Boolean>()
+    val isLoggedIn: LiveData<Boolean> get() = _isLoggedIn
 
     // 로그인 요청
     fun login(email: String, password: String) {
@@ -102,18 +112,34 @@ class AuthViewModel @Inject constructor(
         }
     }
 
+    // 토큰 갱신
+    fun refreshToken() {
+        viewModelScope.launch {
+            // 저장된 refresh token을 가져옵니다.
+            val refreshToken = tokenManager.getRefreshToken()
+            if (refreshToken.isNullOrEmpty()) {
+                _refreshResult.value = Result.failure(Exception("저장된 refresh token이 없습니다."))
+            } else {
+                val result = authRepository.refreshToken(refreshToken)
+                _refreshResult.value = result
+            }
+        }
+    }
+
     // 저장된 JWT가 있으면 자동 로그인 가능
     fun hasSavedToken(): Boolean {
-        val token = authRepository.getAccessToken()
+        val token = getAccessToken()
         return token != null
     }
 
     // API 호출 시 accessToken 값을 사용할 때
-    fun getAccessToken(): String? {
-        return authRepository.getAccessToken()
+    private fun getAccessToken(): String? {
+        return tokenManager.getAccessToken()
     }
 
+    // 로그아웃 처리
     fun logout() {
-        authRepository.clearTokens()
+        tokenManager.clearTokens()
+        _isLoggedIn.value = false
     }
 }
