@@ -1,6 +1,8 @@
 package com.example.hrr_android
 
 import android.util.Log
+import com.example.hrr_android.access.TokenAuthenticator
+import com.example.hrr_android.access.TokenManager
 import com.example.hrr_android.access.network.AuthService
 import com.example.hrr_android.access.repository.AuthRepository
 import com.google.gson.GsonBuilder
@@ -13,19 +15,21 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import javax.inject.Singleton
 import java.util.concurrent.TimeUnit
+import javax.inject.Singleton
 import javax.inject.Provider
 
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
-    //private const val BASE_URL = BuildConfig.BASE_URL
-
     @Provides
     @Singleton
-    fun provideOkHttpClient(authRepositoryProvider: Provider<AuthRepository>): OkHttpClient {
+    fun provideOkHttpClient(
+        authRepositoryProvider: Provider<AuthRepository>,
+        tokenManager: TokenManager,
+        authServiceProvider: Provider<AuthService> // Provider로 받아 지연 주입
+    ): OkHttpClient {
         val loggingInterceptor = HttpLoggingInterceptor { message ->
             var filteredMessage = message
             val sensitiveKeys = listOf("password", "token", "auth")
@@ -39,13 +43,15 @@ object NetworkModule {
             else HttpLoggingInterceptor.Level.NONE
         }
 
-        val authInterceptor = AuthInterceptor(authRepositoryProvider)
+        val authInterceptor = AuthInterceptor(authRepositoryProvider, tokenManager)
 
         return OkHttpClient.Builder()
-            .connectionPool(ConnectionPool(5, 5, TimeUnit.MINUTES)) // 연결 재사용 가능하도록 설정
+            .connectionPool(ConnectionPool(5, 5, TimeUnit.MINUTES)) // 연결 재사용
             .retryOnConnectionFailure(true)
             .addInterceptor(loggingInterceptor)
             .addInterceptor(authInterceptor)
+            // TokenAuthenticator에 Provider<AuthService>를 전달하여 지연 주입
+            .authenticator(TokenAuthenticator(tokenManager, authServiceProvider))
             .connectTimeout(30, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
             .writeTimeout(30, TimeUnit.SECONDS)
@@ -58,17 +64,16 @@ object NetworkModule {
         val gson = GsonBuilder()
             .setLenient() // 유연한 파싱 허용
             .create()
-        return try{
+        return try {
             Retrofit.Builder()
                 .baseUrl(BuildConfig.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(okHttpClient)
                 .build()
-        }catch (e: Exception) {
+        } catch (e: Exception) {
             Log.e("NetworkModule", "Retrofit 생성 중 오류 발생: ${e.message}")
             throw RuntimeException("Retrofit 초기화 실패")
         }
-
     }
 
     @Provides
