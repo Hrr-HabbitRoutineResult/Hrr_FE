@@ -17,8 +17,14 @@ class ProfileCertificationRecordFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentProfileCertificationRecordBinding.inflate(inflater, container, false)
+
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         // 인증 기록 더미 데이터 - 테스트 시 주석 해제 or 설정
         certificationList.apply {
@@ -47,8 +53,6 @@ class ProfileCertificationRecordFragment : Fragment() {
             intent.putExtra("type", "certification")
             startActivity(intent)
         }
-
-        return binding.root
     }
 
     override fun onDestroyView() {
