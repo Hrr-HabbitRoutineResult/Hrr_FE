@@ -169,14 +169,14 @@ class AuthRepository @Inject constructor(
         return encryptedSharedPreferences.getString("REFRESH_TOKEN", null)
     }
 
-    private fun saveUserId(userId: String) {
+    private fun saveUserId(userId: Int) {
         val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        sharedPreferences.edit().putString("USER_ID", userId).apply()
+        sharedPreferences.edit().putInt("USER_ID", userId).apply()
     }
 
-    fun getUserId(): String? {
+    fun getUserId(): Int {
         val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        return sharedPreferences.getString("USER_ID", null)
+        return sharedPreferences.getInt("USER_ID", 0)
     }
 
     // 로그아웃 시 JWT 삭제 (사용자가 로그아웃하면 호출)

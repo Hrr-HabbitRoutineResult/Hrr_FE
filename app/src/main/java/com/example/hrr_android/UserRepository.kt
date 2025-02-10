@@ -1,6 +1,7 @@
 package com.example.hrr_android
 
 import android.util.Log
+import com.example.hrr_android.access.repository.AuthRepository
 import retrofit2.Response
 import java.io.IOException
 import javax.inject.Inject
@@ -8,7 +9,8 @@ import javax.inject.Singleton
 
 @Singleton
 class UserRepository @Inject constructor(
-    private val userService: UserService
+    private val userService: UserService,
+    private val authRepository: AuthRepository
 ) {
     // api 응답 처리 공통 로직
     private suspend fun <T> handleResponse(
@@ -64,7 +66,7 @@ class UserRepository @Inject constructor(
 
     // 사용자 정보 조회
     suspend fun loadProfile(): Result<UserResponse>{
-        return handleResponse { userService.getUserInfo() } // 함수 자체를 전달하여 호출 즉시 실행 방지,
+        return handleResponse { userService.getUserInfo(authRepository.getUserId()) } // 함수 자체를 전달하여 호출 즉시 실행 방지,
     }
 
     // 챌린지 기록 조회
