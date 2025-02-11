@@ -33,8 +33,8 @@ class UserViewModel @Inject constructor(
     }
 
     // 챌린지 기록 조회
-    private val _history = MutableLiveData<HistoryResponse?>()
-    val history: LiveData<HistoryResponse?> get() = _history
+    private val _history = MutableLiveData<List<HistoryResponse>?>()
+    val history: LiveData<List<HistoryResponse>?> get() = _history
 
     fun getChallengeHistory() {
         viewModelScope.launch {

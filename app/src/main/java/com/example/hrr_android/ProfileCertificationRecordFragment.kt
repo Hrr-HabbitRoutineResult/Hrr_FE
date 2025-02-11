@@ -64,11 +64,28 @@ class ProfileCertificationRecordFragment : Fragment() {
         }
 
         // LiveData 관찰 (데이터가 변경될 때 자동 업데이트 되도록 설정)
-        userViewModel.history.observe(viewLifecycleOwner) { history ->
-            history?.let {
-                val hasLink = (it.textUrl != null)  // 링크 주소가 있다면 true
-                certificationList.add(Certification(it.name, it.title, dateFormat(it.createTime), R.drawable.img_running, hasLink))
-                //Todo: 이미지 처리 추가 예정
+//        userViewModel.history.observe(viewLifecycleOwner) { history ->
+//            history?.let {
+//                val hasLink = (it.textUrl != null)  // 링크 주소가 있다면 true
+//                certificationList.add(Certification(it.name, it.title, dateFormat(it.createTime), R.drawable.img_running, hasLink))
+//                //Todo: 이미지 처리 추가 예정
+//            }
+//        }
+        userViewModel.history.observe(viewLifecycleOwner) { historyList ->
+            historyList?.map { history ->
+                Certification(
+                    history.name,
+                    history.title,
+                    dateFormat(history.createTime),
+                    R.drawable.img_running,
+                    history.textUrl != null // 링크 주소가 있다면 true
+                    //Todo: 이미지 처리 추가 예정
+                )
+            }?.let {
+                val previousSize = certificationList.size // 기존 데이터 크기
+                certificationList.addAll(it)
+                binding.rvProfileCertificationRecored.adapter?.notifyItemRangeInserted(previousSize, it.size) // 추가된 데이터만 갱신
+                Log.d("testThis", certificationList.toString())
             }
         }
 
@@ -86,7 +103,6 @@ class ProfileCertificationRecordFragment : Fragment() {
             }
         }
 
-
         // 유저 데이터 로드
         userViewModel.getChallengeHistory()
     }
@@ -96,11 +112,13 @@ class ProfileCertificationRecordFragment : Fragment() {
         _binding = null
     }
 
-    fun dateFormat(original: String): String {
+    private fun dateFormat(original: String): String {
         val instant = Instant.parse(original)
         val new = DateTimeFormatter.ofPattern("yyyy.MM.dd")
             .withZone(ZoneId.of("UTC"))
         return new.format(instant) // 변환된 날짜 문자열 반환
     }
+
+
 
 }

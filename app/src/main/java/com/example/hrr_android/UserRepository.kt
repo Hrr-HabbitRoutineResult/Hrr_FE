@@ -70,7 +70,7 @@ class UserRepository @Inject constructor(
     }
 
     // 챌린지 기록 조회
-    suspend fun getChallengeHistory(): Result<HistoryResponse>{
+    suspend fun getChallengeHistory(): Result<List<HistoryResponse>>{
         return  handleResponse { userService.getChallengeHistory() }
     }
 }

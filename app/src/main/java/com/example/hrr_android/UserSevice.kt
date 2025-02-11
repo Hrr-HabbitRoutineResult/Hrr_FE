@@ -11,5 +11,5 @@ interface UserService {
 
     // 챌린지 기록 조회
     @GET("/api/v1/users/challenges/verification/history")
-    suspend fun getChallengeHistory(): Response<ApiResponse<HistoryResponse>>
+    suspend fun getChallengeHistory(): Response<ApiResponse<List<HistoryResponse>>>
 }
