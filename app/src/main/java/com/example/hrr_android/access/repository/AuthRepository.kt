@@ -14,7 +14,7 @@ import com.example.hrr_android.access.model.LoginRequest
 import com.example.hrr_android.access.model.LoginResponse
 import com.example.hrr_android.access.model.RegisterRequest
 import com.example.hrr_android.access.model.RegisterResponse
-import com.example.hrr_android.access.model.TokenResponse
+import com.example.hrr_android.access.model.TokenRequest
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -147,25 +147,24 @@ class AuthRepository @Inject constructor(
     }
 
     // 토큰 갱신 요청
-    suspend fun refreshToken(refreshToken: String): Result<TokenResponse> {
-        return try {
-            val response = authService.refreshToken(refreshToken)
+    suspend fun refreshAccessToken(): String? {
+        val refreshToken = tokenManager.getRefreshToken() ?: return null
 
-            if (response.isSuccessful) {
-                val responseBody = response.body()
-                if (responseBody != null) {
-                    // 새로운 access token만 갱신하는 경우, refresh token은 그대로 유지
-                    tokenManager.saveAccessToken(responseBody.accessToken)
-                    Result.success(responseBody)
-                } else {
-                    Result.failure(Exception("토큰 갱신 실패: 서버 응답 본문이 null"))
+        return try {
+            val result = authService.refreshToken(TokenRequest(refreshToken))
+
+            if (result.isSuccessful) {
+                result.body()?.success?.accessToken?.also { newToken ->
+                    tokenManager.saveAccessToken(newToken)
                 }
             } else {
-                val errorBody = response.errorBody()?.string() ?: "Unknown error"
-                Result.failure(Exception("토큰 갱신 실패: $errorBody"))
+                Log.e("AuthRepository", "액세스 토큰 갱신 실패 - 응답 코드: ${result.code()}")
+                Log.e("AuthRepository", "액세스 토큰 갱신 실패 - 응답 바디: ${result.errorBody()?.string()}")
+                null
             }
         } catch (e: Exception) {
-            Result.failure(Exception("네트워크 오류: ${e.message}"))
+            Log.e("AuthRepository", "토큰 갱신 중 예외 발생: ${e.message}")
+            null
         }
     }
 }
