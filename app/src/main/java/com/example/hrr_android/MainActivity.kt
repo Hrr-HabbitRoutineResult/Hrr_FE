@@ -5,13 +5,13 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.hrr_android.access.AuthViewModel
 import com.example.hrr_android.access.ui.LoginActivity
 import com.example.hrr_android.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
-import com.example.hrr_android.message.ui.MessageFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 @AndroidEntryPoint
@@ -30,12 +30,11 @@ class MainActivity : AppCompatActivity() {
         //바텀 네비게이션 세팅
         initBottomNavigation()
 
-        // 로그인 상태 관찰: 로그인 상태가 false이면 LoginActivity로 전환
-        authViewModel.isLoggedIn.observe(this) { loggedIn ->
-            if (!loggedIn) {
-                navigateToLoginScreen()
-            }
-        }
+        // logoutEvent를 관찰하여 로그아웃 이벤트 발생 시 LoginActivity로 전환
+        authViewModel.logoutEvent.observe(this, Observer {
+            // 로그아웃 이벤트 수신 시 호출되는 콜백
+            navigateToLoginActivity()
+        })
     }
 
     private fun initBottomNavigation(){
@@ -54,7 +53,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     // 로그인 화면으로 전환하는 함수
-    private fun navigateToLoginScreen() {
+    private fun navigateToLoginActivity() {
         val intent = Intent(this, LoginActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
