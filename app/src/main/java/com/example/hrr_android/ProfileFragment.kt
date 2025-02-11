@@ -21,6 +21,7 @@ class ProfileFragment : Fragment() {
     private var selectedBadges = ArrayList<Badge>()                 //대표 뱃지 리스트
     private val userViewModel: UserViewModel by viewModels()
     private val profileCommon = ProfileCommon()     //공통 로직 인스턴스 생성
+    private var myProfile: UserResponse = UserResponse()    // 로딩된 사용자 정보
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,9 +44,19 @@ class ProfileFragment : Fragment() {
         // LiveData 관찰 (데이터가 변경될 때 자동 업데이트되도록 설정)
         userViewModel.profile.observe(viewLifecycleOwner) { profile ->
             profile?.let {
+                myProfile = it  // 불러온 정보를 저장해놔서 다른 Fragment를 띄울 때 필요한 정보만 전달하여 불필요한 api 호출을 방지
                 //Todo: 프로필 사진 바인딩
                 binding.tvProfileUsername.text = it.nickname    // 이름
-                binding.tvProfileLevel.text = it.level.toString()// 레벨
+//                binding.tvProfileLevel.text = it.level // 레벨
+                binding.tvProfileLevel.text = when(it.level){
+                    "general" -> "일반"
+                    "bronze" -> "브론즈"
+                    "silver" -> "실버"
+                    "gold" -> "골드"
+                    "master" -> "마스터"
+                    "challenger" -> "챌린저"
+                    else -> ""
+                }
                 binding.tvProfileFollowerCount.text = it.followerCount.toString()  // 팔로워 수
                 binding.tvProfileFollowingCount.text = it.followingCount.toString() // 팔로잉 수
                 //Todo: 뱃지 관련 바인딩
@@ -72,7 +83,7 @@ class ProfileFragment : Fragment() {
         userViewModel.loadProfile()
 
         //레벨 달성률 게이지 바 구현
-        profileCommon.setupCircularProgressBar(binding, 76, 100)
+        profileCommon.setupCircularProgressBar(binding, myProfile.level, myProfile.points)
 
         //뱃지 더미 데이터 - 테스트 시 주석 해제 or 설정
         selectedBadges.clear()
@@ -109,6 +120,7 @@ class ProfileFragment : Fragment() {
         // 레벨 클릭 시 레벨 로드맵으로 전환
         binding.llProfileRank.setOnClickListener {
             val intent = Intent(requireContext(), LevelActivity::class.java)
+            intent.putExtra("point", myProfile.points)
             startActivity(intent)
         }
 

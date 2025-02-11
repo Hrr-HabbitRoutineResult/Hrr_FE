@@ -46,7 +46,7 @@ class OtherProfileActivity : AppCompatActivity() {
         profileCommon.setupViewPager(profileBinding, this, false)
 
         // 레벨 달성 바 연결
-        profileCommon.setupCircularProgressBar(profileBinding, 76, 100)
+        profileCommon.setupCircularProgressBar(profileBinding, "gold", 160)     // 더미 데이터
 
         // 대표 뱃지 바인딩
         profileCommon.setupBadges(profileBinding, selectedBadges)

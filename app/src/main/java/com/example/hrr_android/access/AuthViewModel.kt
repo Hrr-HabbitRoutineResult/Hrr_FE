@@ -9,6 +9,7 @@ import com.example.hrr_android.access.model.KakaoLoginResponse
 import com.example.hrr_android.access.model.LoginResponse
 import com.example.hrr_android.access.model.RegisterRequest
 import com.example.hrr_android.access.model.RegisterResponse
+import com.example.hrr_android.access.model.TokenResponse
 import com.example.hrr_android.access.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -16,7 +17,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
+    private val tokenManager: TokenManager
 ) : ViewModel() {
 
     init {
@@ -42,6 +44,10 @@ class AuthViewModel @Inject constructor(
     // 카카오 로그인 결과 LiveData
     private val _kakaoLoginResult = MutableLiveData<Result<KakaoLoginResponse>>()
     val kakaoLoginResult: LiveData<Result<KakaoLoginResponse>> get() = _kakaoLoginResult
+
+    // AuthEventManager의 로그아웃 이벤트
+    val logoutEvent: LiveData<Unit>
+        get() = AuthEventManager.logoutEvent
 
     // 로그인 요청
     fun login(email: String, password: String) {
@@ -104,16 +110,17 @@ class AuthViewModel @Inject constructor(
 
     // 저장된 JWT가 있으면 자동 로그인 가능
     fun hasSavedToken(): Boolean {
-        val token = authRepository.getAccessToken()
+        val token = getAccessToken()
         return token != null
     }
 
     // API 호출 시 accessToken 값을 사용할 때
-    fun getAccessToken(): String? {
-        return authRepository.getAccessToken()
+    private fun getAccessToken(): String? {
+        return tokenManager.getAccessToken()
     }
 
+    // 로그아웃 처리
     fun logout() {
-        authRepository.clearTokens()
+        tokenManager.clearTokens()
     }
 }

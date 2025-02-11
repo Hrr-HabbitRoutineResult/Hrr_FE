@@ -1,22 +1,23 @@
 package com.example.hrr_android
 
 import android.util.Log
+import com.example.hrr_android.access.AuthEventManager
+import com.example.hrr_android.access.TokenManager
 import com.example.hrr_android.access.repository.AuthRepository
 import okhttp3.Interceptor
 import okhttp3.Response
-import okhttp3.ResponseBody.Companion.toResponseBody
-import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Provider
+import kotlinx.coroutines.runBlocking
 
 class AuthInterceptor @Inject constructor(
-    private val authRepositoryProvider: Provider<AuthRepository>
+    private val authRepositoryProvider: Provider<AuthRepository>,
+    private val tokenManager: TokenManager
 ) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val originalRequest = chain.request()
         val requestBuilder = originalRequest.newBuilder()
-        val authRepository = authRepositoryProvider.get()
 
         // Authorization이 필요 없는 api 경로들
         val excludedPatterns = listOf(  // 공통 경로로 묶을 수 있는 경우
@@ -39,7 +40,7 @@ class AuthInterceptor @Inject constructor(
 
 
         if (!isExcluded && originalRequest.header("Authorization") == null) {
-            val token = authRepository.getAccessToken()
+            val token = tokenManager.getAccessToken()
 
             if (!token.isNullOrEmpty()) {
                 requestBuilder.addHeader("Authorization", "Bearer $token")
@@ -60,20 +61,39 @@ class AuthInterceptor @Inject constructor(
             Log.d("AuthInterceptor", "Final Request Body: ${buffer.readUtf8()}")
         } ?: Log.e("AuthInterceptor", "요청 바디가 없습니다. (GET 요청이거나, 바디가 null일 가능성 있음)")
 
-        val response = chain.proceed(modifiedRequest)
+        var response = chain.proceed(modifiedRequest)
 
-        val responseBody = response.body ?: return response
+        // 토큰 만료 감지 로직
+        if (isAccessTokenExpired(response)) {
+            Log.d("AuthInterceptor", "토큰 만료 감지, 새 액세스 토큰 요청 시도")
 
-        val responseBodyString = responseBody.string()
+            // 첫 번째 refresh token 요청 시도
+            val newAccessToken = runBlocking {
+                val authRepository = authRepositoryProvider.get()
+                authRepository.refreshAccessToken()
+            }
+            if (!newAccessToken.isNullOrEmpty()) {
+                tokenManager.saveAccessToken(newAccessToken)
+                val newRequest = modifiedRequest.newBuilder()
+                    .header("Authorization", "Bearer $newAccessToken")
+                    .build()
+                response = chain.proceed(newRequest)
+            } else {
+                // 토큰 갱신 실패 시
+                tokenManager.clearTokens()
+                AuthEventManager.postLogoutEvent()  // UI에서 로그아웃 이벤트를 받아 LoginActivity로 전환
+            }
+        }
 
-        // 응답 내역 로그 출력 (확인용)
-        Log.d("AuthInterceptor", "✅ Response Body: $responseBodyString")
+        return response
+    }
 
-        // 응답 내역 복구
-        return response.newBuilder()
-            .body(responseBodyString.toResponseBody(responseBody.contentType()))
-            .build()
+    // 서버 응답에서 토큰 만료 여부 감지
+    private fun isAccessTokenExpired(response: Response): Boolean {
+        val responseBodyString = response.peekBody(Long.MAX_VALUE).string()
+        Log.d("AuthInterceptor", "서버 응답 상태 코드: ${response.code}")
+        Log.d("AuthInterceptor", "서버 응답 바디: $responseBodyString")
 
-
+        return responseBodyString.contains("Error: access token expired")
     }
 }
