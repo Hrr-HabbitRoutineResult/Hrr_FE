@@ -35,15 +35,6 @@ class ProfileCertificationRecordFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // 인증 기록 더미 데이터 - 테스트 시 주석 해제 or 설정
-        certificationList.apply {
-            add(Certification("챌린지명", "게시글 제목", "2024.12.31", R.drawable.img_running, true))
-            add(Certification("Run To You", "마지막 인증합니다~^^", "2024.12.31", R.drawable.img_running, true))
-            add(Certification("사진 없을 경우", "게시글 제목", "2025.01.01", hasLink = false))
-            add(Certification("링크 없을 경우", "1년 만에 인증합니다~^^", "2025.01.01", R.drawable.img_running, false))
-            add(Certification("인증 제목 없을 경우", "", "2025.01.01", R.drawable.img_running, false))
-        }
-
         //데이터 유무 판단하여 뷰 전환
         if(certificationList.size != 0){
             //인증 기록 존재
@@ -64,13 +55,6 @@ class ProfileCertificationRecordFragment : Fragment() {
         }
 
         // LiveData 관찰 (데이터가 변경될 때 자동 업데이트 되도록 설정)
-//        userViewModel.history.observe(viewLifecycleOwner) { history ->
-//            history?.let {
-//                val hasLink = (it.textUrl != null)  // 링크 주소가 있다면 true
-//                certificationList.add(Certification(it.name, it.title, dateFormat(it.createTime), R.drawable.img_running, hasLink))
-//                //Todo: 이미지 처리 추가 예정
-//            }
-//        }
         userViewModel.history.observe(viewLifecycleOwner) { historyList ->
             historyList?.map { history ->
                 Certification(
@@ -82,10 +66,17 @@ class ProfileCertificationRecordFragment : Fragment() {
                     //Todo: 이미지 처리 추가 예정
                 )
             }?.let {
-                val previousSize = certificationList.size // 기존 데이터 크기
+                certificationList.clear()
                 certificationList.addAll(it)
-                binding.rvProfileCertificationRecored.adapter?.notifyItemRangeInserted(previousSize, it.size) // 추가된 데이터만 갱신
-                Log.d("testThis", certificationList.toString())
+                binding.rvProfileCertificationRecored.adapter?.notifyDataSetChanged()
+
+                if (certificationList.isNotEmpty()) {
+                    binding.clProfileCertificationRecordContentNo.visibility = View.GONE
+                    binding.rvProfileCertificationRecored.visibility = View.VISIBLE
+                } else {
+                    binding.clProfileCertificationRecordContentNo.visibility = View.VISIBLE
+                    binding.rvProfileCertificationRecored.visibility = View.GONE
+                }
             }
         }
 
@@ -103,12 +94,16 @@ class ProfileCertificationRecordFragment : Fragment() {
             }
         }
 
-        // 유저 데이터 로드
-        userViewModel.getChallengeHistory()
+        // 유저 데이터 로드 - 프래그먼트 최초 진입 시 한번만 호출
+        if (savedInstanceState == null) {
+            userViewModel.getChallengeHistory()
+        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        Log.d("ProfileCertDebug", "onDestroyView() called")
+
         _binding = null
     }
 
@@ -118,7 +113,5 @@ class ProfileCertificationRecordFragment : Fragment() {
             .withZone(ZoneId.of("UTC"))
         return new.format(instant) // 변환된 날짜 문자열 반환
     }
-
-
 
 }
