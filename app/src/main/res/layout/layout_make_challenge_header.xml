@@ -15,7 +15,7 @@
 
         <!-- 뒤로가기 버튼 -->
         <ImageButton
-            android:id="@+id/btn_record_back"
+            android:id="@+id/btn_make_challenge_back"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="@null"
