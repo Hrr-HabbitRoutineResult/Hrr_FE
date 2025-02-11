@@ -1,7 +1,6 @@
 package com.example.hrr_android
 
 import android.util.Log
-import com.example.hrr_android.access.TokenAuthenticator
 import com.example.hrr_android.access.TokenManager
 import com.example.hrr_android.access.network.AuthService
 import com.example.hrr_android.access.repository.AuthRepository
@@ -27,8 +26,7 @@ object NetworkModule {
     @Singleton
     fun provideOkHttpClient(
         authRepositoryProvider: Provider<AuthRepository>,
-        tokenManager: TokenManager,
-        authServiceProvider: Provider<AuthService> // Provider로 받아 지연 주입
+        tokenManager: TokenManager
     ): OkHttpClient {
         val loggingInterceptor = HttpLoggingInterceptor { message ->
             var filteredMessage = message
@@ -50,8 +48,6 @@ object NetworkModule {
             .retryOnConnectionFailure(true)
             .addInterceptor(loggingInterceptor)
             .addInterceptor(authInterceptor)
-            // TokenAuthenticator에 Provider<AuthService>를 전달하여 지연 주입
-            .authenticator(TokenAuthenticator(tokenManager, authServiceProvider))
             .connectTimeout(30, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
             .writeTimeout(30, TimeUnit.SECONDS)
