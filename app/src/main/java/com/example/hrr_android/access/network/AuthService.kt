@@ -11,6 +11,8 @@ import com.example.hrr_android.access.model.LoginRequest
 import com.example.hrr_android.access.model.LoginResponse
 import com.example.hrr_android.access.model.RegisterRequest
 import com.example.hrr_android.access.model.RegisterResponse
+import com.example.hrr_android.access.model.TokenRequest
+import com.example.hrr_android.access.model.TokenResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.Headers
@@ -47,4 +49,10 @@ interface AuthService {
     suspend fun loginWithKakao(
         @Body request: KakaoLoginRequest
     ): Response<KakaoLoginResponse>
+
+    // 토큰 갱신 API
+    @POST("api/v1/auth/token")
+    suspend fun refreshToken(
+        @Body request: TokenRequest
+    ): Response<ApiResponse<TokenResponse>>
 }

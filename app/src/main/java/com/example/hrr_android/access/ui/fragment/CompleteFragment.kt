@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.hrr_android.databinding.FragmentCompleteBinding
+import com.example.hrr_android.onboarding.ui.IntroActivity
 import com.example.hrr_android.onboarding.ui.OnboardingActivity
 
 class CompleteFragment : Fragment() {
@@ -26,9 +27,9 @@ class CompleteFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // 다음 버튼 클릭 시 OnboardingActivity로 이동
+        // 다음 버튼 클릭 시 IntroActivity로 이동
         binding.btnCompleteNext.setOnClickListener {
-            val intent = Intent(requireContext(), OnboardingActivity::class.java).apply {
+            val intent = Intent(requireContext(), IntroActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK  // 뒤로가기를 눌렀을 때 의도적으로 앱 종료
             }
             startActivity(intent)
