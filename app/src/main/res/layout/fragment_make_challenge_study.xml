@@ -8,13 +8,13 @@
     tools:context=".MakeChallengeFragment">
 
     <include layout="@layout/layout_make_challenge_header"
-        android:id="@+id/layout_make_challenge_header"/>
+        android:id="@+id/layout_make_challenge_study_header"/>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/layout_make_challenge_header"
+        app:layout_constraintTop_toBottomOf="@id/layout_make_challenge_study_header"
         app:layout_constraintBottom_toTopOf="@id/ll_make_study_challenge">
 
         <LinearLayout
@@ -259,7 +259,7 @@
                 <FrameLayout
                     android:id="@+id/btn_study_authmean_picture"
                     android:layout_width="0dp"
-                    android:layout_height="110dp"
+                    android:layout_height="130dp"
                     android:layout_marginEnd="10dp"
                     android:layout_weight="1"
                     android:background="@drawable/btn_challenge_filter_radius15"
@@ -275,28 +275,25 @@
                         android:font="@font/noto_sans_kr_medium"
                         android:gravity="center"
                         android:text="사진"
-                        android:textColor="@color/text_tertiary"
-                        android:textSize="13sp" />
+                        android:textColor="@color/text_primary"
+                        android:textSize="15sp" />
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginStart="46dp"
+                        android:layout_marginTop="20dp"
+                        android:src="@drawable/ic_challenge_camera" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="18dp"
                         android:font="@font/noto_sans_kr_regular"
                         android:gravity="start"
-                        android:text="개인별로 자유롭게 인증을"
-                        android:textColor="@color/text_tertiary"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="26dp"
-                        android:font="@font/noto_sans_kr_regular"
-                        android:gravity="start"
-                        android:text="진행할 수 있습니다."
+                        android:text="어플리케이션에서 제공하는\n타임스탬프 카메라로
+인증\n할 수 있어요."
                         android:textColor="@color/text_tertiary"
                         android:textSize="12sp" />
 
@@ -305,7 +302,7 @@
                 <FrameLayout
                     android:id="@+id/btn_study_authmean_writing"
                     android:layout_width="0dp"
-                    android:layout_height="110dp"
+                    android:layout_height="130dp"
                     android:layout_weight="1"
                     android:background="@drawable/btn_challenge_filter_radius15"
                     android:clickable="true"
@@ -315,33 +312,30 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start"
-                        android:layout_marginStart="25dp"
-                        android:layout_marginTop="25dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="20dp"
                         android:font="@font/noto_sans_kr_medium"
                         android:gravity="center"
-                        android:text="수단"
-                        android:textColor="@color/text_tertiary"
-                        android:textSize="13sp" />
+                        android:text="글"
+                        android:textColor="@color/text_primary"
+                        android:textSize="15sp" />
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginStart="31dp"
+                        android:layout_marginTop="20dp"
+                        android:src="@drawable/ic_challenge_pen" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="18dp"
                         android:font="@font/noto_sans_kr_regular"
                         android:gravity="start"
-                        android:text="지정된 요일에 인증 후, "
-                        android:textColor="@color/text_tertiary"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="26dp"
-                        android:font="@font/noto_sans_kr_regular"
-                        android:gravity="start"
-                        android:text="스터디를 할 수 있습니다."
+                        android:text="블로그 링크 등을 첨부하고\n간단한 글을 작성해서
+인증\n할 수 있어요."
                         android:textColor="@color/text_tertiary"
                         android:textSize="12sp" />
 
@@ -385,7 +379,7 @@
                     android:layout_width="0dp"
                     android:layout_height="80dp"
                     android:layout_marginEnd="8dp"
-                    android:background="@drawable/btn_challenge_filter_day"
+                    android:background="@drawable/btn_challenge_filter_radius20"
                     android:clickable="true"
                     android:focusable="true"
                     android:layout_weight="1">
@@ -405,12 +399,12 @@
                 <FrameLayout
                     android:id="@+id/btn_study_week_tues"
                     android:layout_width="0dp"
-                    android:layout_height="80dp"
+                    android:layout_height="match_parent"
                     android:layout_marginEnd="8dp"
-                    android:background="@drawable/btn_challenge_filter_day"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_challenge_filter_radius20"
                     android:clickable="true"
-                    android:focusable="true"
-                    android:layout_weight="1">
+                    android:focusable="true">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -429,7 +423,7 @@
                     android:layout_width="0dp"
                     android:layout_height="80dp"
                     android:layout_marginEnd="8dp"
-                    android:background="@drawable/btn_challenge_filter_day"
+                    android:background="@drawable/btn_challenge_filter_radius20"
                     android:clickable="true"
                     android:focusable="true"
                     android:layout_weight="1">
@@ -451,7 +445,7 @@
                     android:layout_width="0dp"
                     android:layout_height="80dp"
                     android:layout_marginEnd="8dp"
-                    android:background="@drawable/btn_challenge_filter_day"
+                    android:background="@drawable/btn_challenge_filter_radius20"
                     android:clickable="true"
                     android:focusable="true"
                     android:layout_weight="1">
@@ -473,7 +467,7 @@
                     android:layout_width="0dp"
                     android:layout_height="80dp"
                     android:layout_marginEnd="8dp"
-                    android:background="@drawable/btn_challenge_filter_day"
+                    android:background="@drawable/btn_challenge_filter_radius20"
                     android:clickable="true"
                     android:focusable="true"
                     android:layout_weight="1">
@@ -495,7 +489,7 @@
                     android:layout_width="0dp"
                     android:layout_height="80dp"
                     android:layout_marginEnd="8dp"
-                    android:background="@drawable/btn_challenge_filter_day"
+                    android:background="@drawable/btn_challenge_filter_radius20"
                     android:clickable="true"
                     android:focusable="true"
                     android:layout_weight="1">
@@ -516,7 +510,7 @@
                     android:id="@+id/btn_study_week_sun"
                     android:layout_width="0dp"
                     android:layout_height="80dp"
-                    android:background="@drawable/btn_challenge_filter_day"
+                    android:background="@drawable/btn_challenge_filter_radius20"
                     android:clickable="true"
                     android:focusable="true"
                     android:layout_weight="1">

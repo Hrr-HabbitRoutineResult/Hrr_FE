@@ -8,13 +8,13 @@
     tools:context=".MakeChallengeFragment">
 
     <include layout="@layout/layout_make_challenge_header"
-        android:id="@+id/layout_make_challenge_header"/>
+        android:id="@+id/layout_make_challenge_basic_header"/>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/layout_make_challenge_header"
+        app:layout_constraintTop_toBottomOf="@id/layout_make_challenge_basic_header"
         app:layout_constraintBottom_toTopOf="@id/ll_make_basic_challenge">
 
         <LinearLayout
@@ -511,7 +511,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="18dp"
                         android:font="@font/noto_sans_kr_regular"
                         android:gravity="start"
                         android:text="어플리케이션에서 제공하는\n타임스탬프 카메라로
@@ -553,7 +553,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="18dp"
                         android:font="@font/noto_sans_kr_regular"
                         android:gravity="start"
                         android:text="블로그 링크 등을 첨부하고\n간단한 글을 작성해서
@@ -873,7 +873,6 @@
             android:layout_marginTop="13dp">
 
             <ImageView
-                android:id="@+id/iv_terms_next"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/bg_button_activate_deactivate" />
