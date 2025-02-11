@@ -3,5 +3,5 @@ package com.example.hrr_android.access.model
 import com.google.gson.annotations.SerializedName
 
 data class TokenRequest(
-    @SerializedName("refresh_token") val refreshToken: String
+    @SerializedName("refreshToken") val refreshToken: String
 )
