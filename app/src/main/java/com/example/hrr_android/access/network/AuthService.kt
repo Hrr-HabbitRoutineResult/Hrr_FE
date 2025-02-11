@@ -1,5 +1,6 @@
 package com.example.hrr_android.access.network
 
+import com.example.hrr_android.ApiResponse
 import com.example.hrr_android.access.model.EmailConfirmRequest
 import com.example.hrr_android.access.model.EmailConfirmResponse
 import com.example.hrr_android.access.model.EmailVerificationRequest
@@ -10,6 +11,7 @@ import com.example.hrr_android.access.model.LoginRequest
 import com.example.hrr_android.access.model.LoginResponse
 import com.example.hrr_android.access.model.RegisterRequest
 import com.example.hrr_android.access.model.RegisterResponse
+import com.example.hrr_android.access.model.TokenRequest
 import com.example.hrr_android.access.model.TokenResponse
 import retrofit2.Response
 import retrofit2.http.Body
@@ -49,8 +51,8 @@ interface AuthService {
     ): Response<KakaoLoginResponse>
 
     // 토큰 갱신 API
-    @POST("api/v1/auth/refresh-token")
+    @POST("api/v1/auth/token")
     suspend fun refreshToken(
-        @Body request: String
-    ): Response<TokenResponse>
+        @Body request: TokenRequest
+    ): Response<ApiResponse<TokenResponse>>
 }
