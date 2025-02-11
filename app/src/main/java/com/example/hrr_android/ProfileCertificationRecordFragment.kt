@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.hrr_android.databinding.FragmentProfileCertificationRecordBinding
@@ -21,7 +22,7 @@ class ProfileCertificationRecordFragment : Fragment() {
     private var _binding: FragmentProfileCertificationRecordBinding? = null     //뷰 바인딩
     private val binding get() = _binding!!
     private var certificationList = ArrayList<Certification>()                  //인증 기록
-    private val userViewModel: UserViewModel by viewModels()
+    private val userViewModel: UserViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
