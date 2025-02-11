@@ -45,13 +45,9 @@ class AuthViewModel @Inject constructor(
     private val _kakaoLoginResult = MutableLiveData<Result<KakaoLoginResponse>>()
     val kakaoLoginResult: LiveData<Result<KakaoLoginResponse>> get() = _kakaoLoginResult
 
-    // 토큰 갱신 결과 LiveData
-    private val _refreshResult = MutableLiveData<Result<TokenResponse>>()
-    val refreshResult: LiveData<Result<TokenResponse>> get() = _refreshResult
-
-    // 로그인 상태를 나타내는 LiveData
-    private val _isLoggedIn = MutableLiveData<Boolean>()
-    val isLoggedIn: LiveData<Boolean> get() = _isLoggedIn
+    // AuthEventManager의 로그아웃 이벤트
+    val logoutEvent: LiveData<Unit>
+        get() = AuthEventManager.logoutEvent
 
     // 로그인 요청
     fun login(email: String, password: String) {
@@ -112,20 +108,6 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-    // 토큰 갱신
-    fun refreshToken() {
-        viewModelScope.launch {
-            // 저장된 refresh token을 가져옵니다.
-            val refreshToken = tokenManager.getRefreshToken()
-            if (refreshToken.isNullOrEmpty()) {
-                _refreshResult.value = Result.failure(Exception("저장된 refresh token이 없습니다."))
-            } else {
-                val result = authRepository.refreshToken(refreshToken)
-                _refreshResult.value = result
-            }
-        }
-    }
-
     // 저장된 JWT가 있으면 자동 로그인 가능
     fun hasSavedToken(): Boolean {
         val token = getAccessToken()
@@ -140,6 +122,5 @@ class AuthViewModel @Inject constructor(
     // 로그아웃 처리
     fun logout() {
         tokenManager.clearTokens()
-        _isLoggedIn.value = false
     }
 }
