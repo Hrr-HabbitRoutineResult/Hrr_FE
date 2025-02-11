@@ -29,6 +29,15 @@ class ProfileFragment : Fragment() {
     ): View {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
 
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        //클릭 이벤트 처리 설정
+        initClickListener()
+
         //ViewPager2 Adapter 연결
         profileCommon.setupViewPager(binding, requireActivity(), true)
 
@@ -73,15 +82,6 @@ class ProfileFragment : Fragment() {
         // 유저 데이터 로드
         userViewModel.loadProfile()
 
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        //클릭 이벤트 처리 설정
-        initClickListener()
-
         //레벨 달성률 게이지 바 구현
         profileCommon.setupCircularProgressBar(binding, myProfile.level, myProfile.points)
 
@@ -96,9 +96,6 @@ class ProfileFragment : Fragment() {
 
         //설정한 대표 뱃지 개수에 따라 visibility 조정
         profileCommon.setupBadges(binding, selectedBadges)
-
-
-
     }
 
     override fun onDestroyView() {

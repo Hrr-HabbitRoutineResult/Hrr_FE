@@ -2,6 +2,7 @@ package com.example.hrr_android
 
 import android.util.Log
 import com.example.hrr_android.access.repository.AuthRepository
+import retrofit2.Response
 import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -11,17 +12,20 @@ class UserRepository @Inject constructor(
     private val userService: UserService,
     private val authRepository: AuthRepository
 ) {
-    suspend fun loadProfile(): Result<UserResponse> {
+    // api 응답 처리 공통 로직
+    private suspend fun <T> handleResponse(
+        responseAll: suspend () -> Response<ApiResponse<T>>
+    ): Result<T> {
         return try {
-            val response = userService.getUserInfo()
+            val response = responseAll()
 
             if (response.isSuccessful) {
                 val responseBody = response.body() ?: return Result.failure(Exception("서버 응답이 비어 있습니다."))
 
-                val userData = responseBody.success
+                val data = responseBody.success
 
-                return if (userData != null) {
-                    Result.success(userData)
+                return if (data != null) {
+                    Result.success(data)
                 } else {
                     Result.failure(Exception("서버 응답이 올바르지 않습니다."))
                 }
@@ -54,5 +58,38 @@ class UserRepository @Inject constructor(
         } catch (e: Exception) {
             Result.failure(Exception("알 수 없는 오류 발생: ${e.localizedMessage}"))
         }
+
+//    suspend fun loadProfile(): Result<UserResponse> {
+//        return try {
+//            val response = userService.getUserInfo()
+//
+//            if (response.isSuccessful) {
+//                val responseBody = response.body() ?: return Result.failure(Exception("서버 응답이 비어 있습니다."))
+//
+//                val userData = responseBody.success
+//
+//                return if (userData != null) {
+//                    Result.success(userData)
+//                } else {
+//                    Result.failure(Exception("서버 응답이 올바르지 않습니다."))
+//                }
+//            } else {
+//                Result.failure(Exception("서버 오류 발생: ${response.code()}"))
+//            }
+//        } catch (e: IOException) {
+//            Result.failure(Exception("네트워크 연결에 실패했습니다. 인터넷을 확인하세요."))
+//        } catch (e: Exception) {
+//            Result.failure(Exception("알 수 없는 오류가 발생했습니다: ${e.localizedMessage}"))
+//        }
+//    }
+
+    // 사용자 정보 조회
+    suspend fun loadProfile(): Result<UserResponse>{
+        return handleResponse { userService.getUserInfo(authRepository.getUserId()) } // 함수 자체를 전달하여 호출 즉시 실행 방지,
+    }
+
+    // 챌린지 기록 조회
+    suspend fun getChallengeHistory(): Result<List<HistoryResponse>>{
+        return  handleResponse { userService.getChallengeHistory() }
     }
 }

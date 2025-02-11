@@ -14,11 +14,12 @@ class UserViewModel @Inject constructor(
     private val userRepository: UserRepository
 ) : ViewModel() {
 
-    private val _profile = MutableLiveData<UserResponse?>()     // 내부 접근용
-    val profile: LiveData<UserResponse?> get() = _profile       // 외부 읽기용
+    private val _errorMessage = MutableLiveData<String?>()      // 내부 접근용
+    val errorMessage: LiveData<String?> get() = _errorMessage   // 외부 읽기용
 
-    private val _errorMessage = MutableLiveData<String?>()
-    val errorMessage: LiveData<String?> get() = _errorMessage
+    // 사용자 정보 조회
+    private val _profile = MutableLiveData<UserResponse?>()
+    val profile: LiveData<UserResponse?> get() = _profile
 
     private val _challengesOngoing = MutableLiveData<Result<List<ChallengesOngoing>>>()
     val challengesOngoing: LiveData<Result<List<ChallengesOngoing>>> get() = _challengesOngoing
@@ -31,7 +32,21 @@ class UserViewModel @Inject constructor(
             }.onFailure {
                 _errorMessage.postValue(result.exceptionOrNull()?.message) // 실패 시 에러 메시지 전달
             }
+        }
+    }
 
+    // 챌린지 기록 조회
+    private val _history = MutableLiveData<List<HistoryResponse>?>()
+    val history: LiveData<List<HistoryResponse>?> get() = _history
+
+    fun getChallengeHistory() {
+        viewModelScope.launch {
+            val result = userRepository.getChallengeHistory()
+            result.onSuccess{
+                _history.postValue(result.getOrNull()) // 성공 시 데이터 업데이트
+            }.onFailure {
+                _errorMessage.postValue(result.exceptionOrNull()?.message) // 실패 시 에러 메시지 전달
+            }
         }
     }
 

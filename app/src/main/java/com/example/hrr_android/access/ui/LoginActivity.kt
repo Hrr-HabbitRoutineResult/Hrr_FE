@@ -3,16 +3,22 @@ package com.example.hrr_android.access.ui
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import com.example.hrr_android.MainActivity
 import com.example.hrr_android.access.PasswordNavigator
 import com.example.hrr_android.databinding.ActivityLoginBinding
 import androidx.activity.viewModels
+import androidx.lifecycle.Observer
+import com.example.hrr_android.access.AuthEventManager
 import com.example.hrr_android.access.AuthViewModel
 import com.example.hrr_android.access.ValidUtils
 import com.example.hrr_android.databinding.CustomSnackbarBinding
@@ -23,15 +29,25 @@ import com.kakao.sdk.user.UserApiClient
 
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
-
     private lateinit var binding: ActivityLoginBinding
     private val authViewModel: AuthViewModel by viewModels()  // 뷰 모델 초기화
+    private var backPressedOnce = false     // 뒤로가기 버튼 상태 저장 변수
+    private val handler = Handler(Looper.getMainLooper())   // 시간 초과 처리
+
+    private var logoutObserver: Observer<Unit>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // AuthEventManager 로그아웃 이벤트 Observer 등록 (만약 등록되어 있다면)
+        logoutObserver = Observer {
+            Log.d("LoginActivity", "로그아웃 이벤트 수신됨")
+            // 이미 로그인 중이면 별도의 처리가 필요하지 않음
+        }
+        AuthEventManager.logoutEvent.observe(this, logoutObserver!!)
 
         // 로그인 버튼 클릭 리스너
         binding.btnLogin.setOnClickListener {
@@ -82,11 +98,31 @@ class LoginActivity : AppCompatActivity() {
                 Log.e("KakaoLogin", "로그인 실패: ${error.message}")
             }
         }
+
+        // 시스템 뒤로가기 버튼을 감지해서 두 번 눌렀을 때 종료 실행
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (backPressedOnce) {
+                    finish() // 앱 종료
+                } else {
+                    backPressedOnce = true
+                    Toast.makeText(this@LoginActivity, "\"뒤로\" 버튼 한 번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show()
+
+                    // 2초 후 다시 false로 변경하여 재입력 요구
+                    handler.postDelayed({ backPressedOnce = false }, 2000)
+                }
+            }
+        })
     }
 
     // 로그인 성공 시 MainActivity로 이동
     private fun moveToMainActivity() {
-        val intent = Intent(this, MainActivity::class.java)
+        // Observer 제거
+        logoutObserver?.let { AuthEventManager.logoutEvent.removeObserver(it) }
+
+        val intent = Intent(this, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
         startActivity(intent)
         finish()
     }

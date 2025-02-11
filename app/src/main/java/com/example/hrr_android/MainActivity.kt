@@ -1,14 +1,19 @@
 package com.example.hrr_android
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import androidx.activity.viewModels
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.example.hrr_android.access.AuthViewModel
+import com.example.hrr_android.access.ui.LoginActivity
 import com.example.hrr_android.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -19,6 +24,8 @@ class MainActivity : AppCompatActivity() {
     private var backPressedOnce = false     // 뒤로가기 버튼 상태 저장 변수
     private val handler = Handler(Looper.getMainLooper())   // 시간 초과 처리
 
+    private val authViewModel: AuthViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -28,6 +35,12 @@ class MainActivity : AppCompatActivity() {
         //바텀 네비게이션 세팅
         initBottomNavigation()
 
+        // logoutEvent를 관찰하여 로그아웃 이벤트 발생 시 LoginActivity로 전환
+        authViewModel.logoutEvent.observe(this, Observer {
+            // 로그아웃 이벤트 수신 시 호출되는 콜백
+            navigateToLoginActivity()
+        })
+        
         // 시스템 뒤로가기 버튼을 감지해서 두 번 눌렀을 때 종료 실행
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -42,7 +55,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         })
-
     }
 
     private fun initBottomNavigation(){
@@ -59,5 +71,18 @@ class MainActivity : AppCompatActivity() {
         bottomNavigationView.setupWithNavController(navController)
 
     }
+    
+    // 로그인 화면으로 전환하는 함수
+    private fun navigateToLoginActivity() {
+        val intent = Intent(this, LoginActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        startActivity(intent)
+        finish()
+    }
 
+    // 프래그먼트에서 접근할 수 있도록 추가
+    fun getBinding(): ActivityMainBinding {
+        return binding
+    }
 }

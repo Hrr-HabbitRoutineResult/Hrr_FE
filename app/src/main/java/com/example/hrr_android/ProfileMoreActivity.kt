@@ -3,7 +3,9 @@ package com.example.hrr_android
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.hrr_android.databinding.ActivityProfileMoreBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ProfileMoreActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityProfileMoreBinding    // 뷰 바인딩
