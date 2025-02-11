@@ -9,6 +9,7 @@ data class LoginResponse(
 )
 
 data class SuccessData(
+    @SerializedName("userId") val userId: String,
     @SerializedName("accessToken") val accessToken: String,
     @SerializedName("refreshToken") val refreshToken: String
 )

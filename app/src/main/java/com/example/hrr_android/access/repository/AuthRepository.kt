@@ -43,7 +43,11 @@ class AuthRepository @Inject constructor(
             if (response.isSuccessful) {
                 val loginResponse = response.body()
                 if (loginResponse != null) {
-                    loginResponse.success?.let { saveTokens(it.accessToken, it.refreshToken) }
+                    loginResponse.success?.let {
+                        saveTokens(it.accessToken, it.refreshToken)
+                        saveUserId(it.userId)
+                    }
+                    getUserId()?.let { Log.d("asdf", it) }
                     Result.success(loginResponse)
                 } else {
                     Result.failure(Exception("로그인 실패: 서버 응답 본문이 null"))
@@ -164,6 +168,16 @@ class AuthRepository @Inject constructor(
 
     fun getRefreshToken(): String? {
         return encryptedSharedPreferences.getString("REFRESH_TOKEN", null)
+    }
+
+    private fun saveUserId(userId: String) {
+        val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        sharedPreferences.edit().putString("USER_ID", userId).apply()
+    }
+
+    fun getUserId(): String? {
+        val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        return sharedPreferences.getString("USER_ID", null)
     }
 
     // 로그아웃 시 JWT 삭제 (사용자가 로그아웃하면 호출)
