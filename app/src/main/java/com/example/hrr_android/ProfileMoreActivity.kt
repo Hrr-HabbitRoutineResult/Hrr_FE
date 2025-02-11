@@ -25,6 +25,9 @@ class ProfileMoreActivity : AppCompatActivity() {
                 "challenge" -> "완주 챌린지"
                 "certification" -> "전체 인증기록"
                 "badge" -> "마이 뱃지"
+                "follower" -> "프로필"
+                "following" -> "프로필"
+                "setting" -> "설정"
                 else -> "완주 챌린지"        //기본적으로 챌린지 화면 사용
             }
 
@@ -32,6 +35,12 @@ class ProfileMoreActivity : AppCompatActivity() {
                 "challenge" -> ProfileChallengeMoreFragment()
                 "certification" -> ProfileRecordMoreFragment()
                 "badge" -> ProfileBadgeMoreFragment()
+                "follower", "following" -> ProfileFollowFragment().apply {
+                    arguments = Bundle().apply {
+                        putString("selected_tab", type)
+                    }
+                }
+                "setting" -> SettingFragment()
                 else -> ProfileChallengeMoreFragment() // 기본적으로 ProfileChallengeMoreFragment 사용
             }
 
@@ -41,7 +50,7 @@ class ProfileMoreActivity : AppCompatActivity() {
         }
 
         //뒤로가기 버튼 클릭 처리
-        binding.ivProfileMoreBack.setOnClickListener{
+        binding.llChallengeMoreTitle.setOnClickListener{
             finish()
         }
 

@@ -10,7 +10,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.hrr_android.databinding.FragmentProfileBadgeBinding
 
 class ProfileBadgeFragment : Fragment() {
-    private lateinit var binding: FragmentProfileBadgeBinding       //뷰 바인딩
+    private var _binding: FragmentProfileBadgeBinding? = null       //뷰 바인딩
+    private val binding get() = _binding!!
     private var typeBadgeList = ArrayList<Badge>()                  //유형 뱃지 리스트
     private var categoryBadgeList = ArrayList<Badge>()              //카테고리 뱃지 리스트
 
@@ -18,15 +19,15 @@ class ProfileBadgeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentProfileBadgeBinding.inflate(inflater, container, false)
+        _binding = FragmentProfileBadgeBinding.inflate(inflater, container, false)
 
         //유형 뱃지 더미 데이터 - 테스트 시 주석 해제 or 설정
         typeBadgeList.apply {
-            add(Badge("뱃지명", R.drawable.img_badge_challenge_01, type = "category"))
-            add(Badge("오늘부터 챌린저", R.drawable.img_badge_challenge_01, type = "category"))
-            add(Badge("뱃지 이름 테스트", R.drawable.img_badge_challenge_01, type = "category"))
-            add(Badge("뱃지명", R.drawable.img_badge_challenge_01, type = "category"))
-            add(Badge("뱃지명", R.drawable.img_badge_challenge_01, type = "category"))
+            add(Badge("뱃지명", R.drawable.badge_type_fromtoday_challenger, type = "category"))
+            add(Badge("오늘부터 챌린저", R.drawable.badge_type_fromtoday_challenger, type = "category"))
+            add(Badge("뱃지 이름 테스트", R.drawable.badge_type_fromtoday_challenger, type = "category"))
+            add(Badge("뱃지명", R.drawable.badge_type_fromtoday_challenger, type = "category"))
+            add(Badge("뱃지명", R.drawable.badge_type_fromtoday_challenger, type = "category"))
         }
 
         //유형 뱃지 RecyclerView 연결
@@ -36,11 +37,11 @@ class ProfileBadgeFragment : Fragment() {
 
         //카테고리 뱃지 더미 데이터 - 테스트 시 주석 해제 or 설정
         categoryBadgeList.apply {
-            add(Badge("뱃지명", R.drawable.img_badge_health_03, type = "category"))
-            add(Badge("프로 운동러", R.drawable.img_badge_health_03, type = "category"))
-            add(Badge("뱃지 이름 테스트", R.drawable.img_badge_health_03, type = "category"))
-            add(Badge("뱃지명", R.drawable.img_badge_health_03, type = "category"))
-            add(Badge("뱃지명", R.drawable.img_badge_health_03, type = "category"))
+            add(Badge("뱃지명", R.drawable.badge_category_pro_exercise, type = "category"))
+            add(Badge("프로 운동러", R.drawable.badge_category_pro_exercise, type = "category"))
+            add(Badge("뱃지 이름 테스트", R.drawable.badge_category_pro_exercise, type = "category"))
+            add(Badge("뱃지명", R.drawable.badge_category_pro_exercise, type = "category"))
+            add(Badge("뱃지명", R.drawable.badge_category_pro_exercise, type = "category"))
         }
 
         //카테고리 뱃지 RecyclerView 연결
@@ -76,13 +77,18 @@ class ProfileBadgeFragment : Fragment() {
         }
 
         //더보기 클릭 처리 구현
-        binding.llProfileBadgeMore.setOnClickListener{
+        binding.llProfileBadgeTitle.setOnClickListener{
             val intent = Intent(requireContext(), ProfileMoreActivity::class.java)
             intent.putExtra("type", "badge")
             startActivity(intent)
         }
 
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }

@@ -12,7 +12,7 @@
         android:id="@+id/iv_edit_badge_icon"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:src="@drawable/img_badge_challenge_01"
+        android:src="@drawable/badge_type_fromtoday_challenger"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>

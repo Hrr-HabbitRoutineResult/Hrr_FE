@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -53,20 +54,20 @@ class EditProfileActivity : AppCompatActivity(), OnBadgeClickListener {
         user = User("닉네임 테스트")
         userImg = binding.ivEditUserImage
         obtainedBadgeList.apply {
-            add(Badge("오늘부터 챌린저1", R.drawable.img_badge_challenge_01))
-            add(Badge("오늘부터 챌린저2", R.drawable.img_badge_challenge_01))
-            add(Badge("오늘부터 챌린저3", R.drawable.img_badge_challenge_01))
-            add(Badge("오늘부터 챌린저4", R.drawable.img_badge_challenge_01))
-            add(Badge("오늘부터 챌린저5", R.drawable.img_badge_challenge_01))
-            add(Badge("오늘부터 챌린저6", R.drawable.img_badge_challenge_01, isSelected = true))
-            add(Badge("오늘부터 챌린저7", R.drawable.img_badge_challenge_01))
-            add(Badge("오늘부터 챌린저8", R.drawable.img_badge_challenge_01))
-            add(Badge("오늘부터 챌린저9", R.drawable.img_badge_challenge_01))
-            add(Badge("오늘부터 챌린저10", R.drawable.img_badge_challenge_01, isSelected = true))
-            add(Badge("오늘부터 챌린저11", R.drawable.img_badge_challenge_01))
-            add(Badge("오늘부터 챌린저12", R.drawable.img_badge_challenge_01, isSelected = true))
-            add(Badge("오늘부터 챌린저13", R.drawable.img_badge_challenge_01))
-            add(Badge("오늘부터 챌린저14", R.drawable.img_badge_challenge_01))
+            add(Badge("오늘부터 챌린저1", R.drawable.badge_type_fromtoday_challenger))
+            add(Badge("오늘부터 챌린저2", R.drawable.badge_type_fromtoday_challenger))
+            add(Badge("오늘부터 챌린저3", R.drawable.badge_type_fromtoday_challenger))
+            add(Badge("오늘부터 챌린저4", R.drawable.badge_type_fromtoday_challenger))
+            add(Badge("오늘부터 챌린저5", R.drawable.badge_type_fromtoday_challenger))
+            add(Badge("오늘부터 챌린저6", R.drawable.badge_type_fromtoday_challenger, isSelected = true))
+            add(Badge("오늘부터 챌린저7", R.drawable.badge_type_fromtoday_challenger))
+            add(Badge("오늘부터 챌린저8", R.drawable.badge_type_fromtoday_challenger))
+            add(Badge("오늘부터 챌린저9", R.drawable.badge_type_fromtoday_challenger))
+            add(Badge("오늘부터 챌린저10", R.drawable.badge_type_fromtoday_challenger, isSelected = true))
+            add(Badge("오늘부터 챌린저11", R.drawable.badge_type_fromtoday_challenger))
+            add(Badge("오늘부터 챌린저12", R.drawable.badge_type_fromtoday_challenger, isSelected = true))
+            add(Badge("오늘부터 챌린저13", R.drawable.badge_type_fromtoday_challenger))
+            add(Badge("오늘부터 챌린저14", R.drawable.badge_type_fromtoday_challenger))
         }
         selectedBadgeList = mutableListOf()
         selectedBadgeList = obtainedBadgeList
@@ -92,12 +93,12 @@ class EditProfileActivity : AppCompatActivity(), OnBadgeClickListener {
         setSelectedBadges(selectedBadgeList, binding)
 
         // 취소 클릭 처리
-        binding.ivEditCancel.setOnClickListener {
+        binding.tvEditCancel.setOnClickListener {
             finish()
         }
 
         // 완료 클릭 처리
-        binding.ivEditComplete.setOnClickListener {
+        binding.tvEditComplete.setOnClickListener {
             // TODO: 사용자 정보 서버에 업데이트
             finish()
         }
@@ -115,12 +116,22 @@ class EditProfileActivity : AppCompatActivity(), OnBadgeClickListener {
         nickname.setOnClickListener {
             // 닉네임 부분 클릭 시 편집 모드 진입
             editMode(nameText, nameEdit)
+            binding.tvEditComplete.apply {
+                // "완료" 버튼 비활성화
+                isEnabled = false
+                setTextColor(Color.GRAY)
+            }
         }
 
         nameEdit.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
                 // EditText 포커스가 사라지면 저장 처리
                 changeSave(nameText, nameEdit)
+                binding.tvEditComplete.apply {
+                    // "완료" 버튼 비활성화
+                    isEnabled = true
+                    setTextColor(Color.WHITE)
+                }
             }
         }
 

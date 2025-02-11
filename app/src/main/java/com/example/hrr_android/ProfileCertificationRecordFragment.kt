@@ -10,14 +10,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.hrr_android.databinding.FragmentProfileCertificationRecordBinding
 
 class ProfileCertificationRecordFragment : Fragment() {
-    private lateinit var binding: FragmentProfileCertificationRecordBinding     //뷰 바인딩
+    private var _binding: FragmentProfileCertificationRecordBinding? = null     //뷰 바인딩
+    private val binding get() = _binding!!
     private var certificationList = ArrayList<Certification>()                  //인증 기록
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentProfileCertificationRecordBinding.inflate(inflater, container, false)
+        _binding = FragmentProfileCertificationRecordBinding.inflate(inflater, container, false)
 
         // 인증 기록 더미 데이터 - 테스트 시 주석 해제 or 설정
         certificationList.apply {
@@ -41,13 +42,18 @@ class ProfileCertificationRecordFragment : Fragment() {
         binding.rvProfileCertificationRecored.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
         //더보기 버튼 클릭 처리
-        binding.llProfileCertificationRecordMore.setOnClickListener{
+        binding.llProfileCertificationRecordTitle.setOnClickListener{
             val intent = Intent(requireContext(), ProfileMoreActivity::class.java)
             intent.putExtra("type", "certification")
             startActivity(intent)
         }
 
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }

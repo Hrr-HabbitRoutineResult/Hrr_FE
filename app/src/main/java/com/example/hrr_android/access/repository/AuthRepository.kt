@@ -48,6 +48,7 @@ class AuthRepository @Inject constructor(
                     // 로그인 성공 시 TokenManager를 이용하여 토큰 저장
                     loginResponse.success?.let {
                         tokenManager.saveTokens(it.accessToken, it.refreshToken)
+                        saveUserId(it.userId)
                     }
                     Result.success(loginResponse)
                 } else {
@@ -166,5 +167,23 @@ class AuthRepository @Inject constructor(
             Log.e("AuthRepository", "토큰 갱신 중 예외 발생: ${e.message}")
             null
         }
+    }
+
+    private fun saveUserId(userId: String) {
+        val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        sharedPreferences.edit().putString("USER_ID", userId).apply()
+    }
+
+    fun getUserId(): String? {
+        val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        return sharedPreferences.getString("USER_ID", null)
+    }
+
+    // 로그아웃 시 JWT 삭제 (사용자가 로그아웃하면 호출)
+    fun clearTokens() {
+        encryptedSharedPreferences.edit()
+            .remove("ACCESS_TOKEN")
+            .remove("REFRESH_TOKEN")
+            .apply()
     }
 }

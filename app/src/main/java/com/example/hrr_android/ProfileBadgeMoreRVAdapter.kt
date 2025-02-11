@@ -38,7 +38,6 @@ class ProfileBadgeMoreRVAdapter(
         fun bind(badge: Badge){
             binding.includeItemProfileBadge.ivProfileBadgeIcon.setImageResource(badge.icon)
             binding.includeItemProfileBadge.tvProfileBadgeName.text = badge.name
-            binding.includeItemProfileBadge.ivProfileBadgeIcon.setImageResource(badge.icon)
 
             //미획득 뱃지일 경우 흑백 처리
             if(!badge.isObtained){
