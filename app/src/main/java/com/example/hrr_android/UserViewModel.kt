@@ -20,6 +20,9 @@ class UserViewModel @Inject constructor(
     private val _errorMessage = MutableLiveData<String?>()
     val errorMessage: LiveData<String?> get() = _errorMessage
 
+    private val _challengesOngoing = MutableLiveData<Result<List<ChallengesOngoing>>>()
+    val challengesOngoing: LiveData<Result<List<ChallengesOngoing>>> get() = _challengesOngoing
+
     fun loadProfile() {
         viewModelScope.launch {
             val result = userRepository.loadProfile()
@@ -29,6 +32,15 @@ class UserViewModel @Inject constructor(
                 _errorMessage.postValue(result.exceptionOrNull()?.message) // 실패 시 에러 메시지 전달
             }
 
+        }
+    }
+
+    fun fetchChallengesOngoing() {
+        Log.d("asdf", "fetchChallengesOngoing() 호출됨") // 디버깅용 로그
+        viewModelScope.launch {
+            val result = userRepository.getChallengesOngoing()
+            Log.d("asdf", "API 응답: $result") // API 응답 데이터 확인
+            _challengesOngoing.value = result
         }
     }
 }
