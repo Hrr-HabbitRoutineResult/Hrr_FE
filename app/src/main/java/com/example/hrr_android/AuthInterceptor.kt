@@ -27,16 +27,16 @@ class AuthInterceptor @Inject constructor(
             Regex("^/api/v1/posts/\\d+$"),         // 게시글 불러오기
             Regex("^/api/v1/board/\\d+/hotness$")  // 게시판 내 HOT 게시글
         )
-        // Todo: 나중에 개별 경로 추가되면 여기에 추가해서 아래 코드 사용
-        /*val excludedEndpoints = setOf(  // 그 외 개별 경로
-
+        // Todo: 일단 쓰는 경로 중에서만 적어놨으니 계속 추가하기
+        val excludedEndpoints = setOf(  // 그 외 개별 경로
+            "/api/v1/users/{userId}"
         )
 
         // 권한 헤더가 필요 없는 api 경로를 제외하고 자동으로 헤더 추가
         val isExcluded = excludedEndpoints.contains(originalRequest.url.encodedPath) ||
-                excludedPatterns.any { it.matches(originalRequest.url.encodedPath) }*/
+                excludedPatterns.any { it.matches(originalRequest.url.encodedPath) }
 
-        val isExcluded = excludedPatterns.any { it.matches(originalRequest.url.encodedPath) }
+        //val isExcluded = excludedPatterns.any { it.matches(originalRequest.url.encodedPath) }
 
 
         if (!isExcluded && originalRequest.header("Authorization") == null) {

@@ -18,6 +18,7 @@ import com.example.hrr_android.access.model.TokenRequest
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
+import com.google.gson.Gson
 
 @Singleton
 class AuthRepository @Inject constructor(
@@ -62,6 +63,7 @@ class AuthRepository @Inject constructor(
             Result.failure(Exception("네트워크 오류: ${e.message}"))
         }
     }
+
 
     // 이메일 인증 코드 전송
     suspend fun sendVerificationCode(email: String): Result<String> {
@@ -129,6 +131,7 @@ class AuthRepository @Inject constructor(
         return try {
             val request = KakaoLoginRequest(kakaoAccessToken)
             val response = authService.loginWithKakao(request)
+
             if (response.isSuccessful) {
                 val responseBody = response.body()
                 if (responseBody != null) {
@@ -169,14 +172,14 @@ class AuthRepository @Inject constructor(
         }
     }
 
-    private fun saveUserId(userId: String) {
+    private fun saveUserId(userId: Int) {
         val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        sharedPreferences.edit().putString("USER_ID", userId).apply()
+        sharedPreferences.edit().putInt("USER_ID", userId).apply()
     }
 
-    fun getUserId(): String? {
+    fun getUserId(): Int {
         val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        return sharedPreferences.getString("USER_ID", null)
+        return sharedPreferences.getInt("USER_ID", 0)
     }
 
     // 로그아웃 시 JWT 삭제 (사용자가 로그아웃하면 호출)
