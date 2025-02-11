@@ -63,6 +63,7 @@ class SettingFragment : Fragment() {
 
     private fun moveToLoginActivity() {
         val intent = Intent(requireContext(), LoginActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
         requireActivity().finish() // 현재 액티비티 종료
     }

@@ -11,7 +11,6 @@ import kotlinx.coroutines.*
 
 @AndroidEntryPoint
 class SplashActivity : AppCompatActivity() {
-
     private val authViewModel: AuthViewModel by viewModels() // ViewModel 사용
 
     override fun onCreate(savedInstanceState: Bundle?) {
