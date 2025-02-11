@@ -1,4 +1,4 @@
-package com.example.hrr_android.makechallenge
+package com.example.hrr_android
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,15 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import com.example.hrr_android.R
+import androidx.fragment.app.commit
 import com.example.hrr_android.databinding.FragmentMakeChallengeBinding
 import com.example.hrr_android.databinding.LayoutMakeChallengeHeaderBinding
 
 class MakeChallengeFragment : Fragment() {
 
     private var _binding: FragmentMakeChallengeBinding? = null
-    private lateinit var makeChallengeHeaderBinding: LayoutMakeChallengeHeaderBinding //헤더바인딩
     private val binding get() = _binding!!
+
+    private var _headerBinding: LayoutMakeChallengeHeaderBinding? = null
+    private val headerBinding get() = _headerBinding!! // 헤더 바인딩 추가
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -29,6 +31,8 @@ class MakeChallengeFragment : Fragment() {
         setupCategorySelection()
         setupTypeSelection()
         setupButtonState()
+        setupApplyButtonClick()
+        setupBackButton()
     }
 
     private fun setupCategorySelection() {
@@ -129,11 +133,17 @@ class MakeChallengeFragment : Fragment() {
         }
     }
 
-    private fun navigateToFragment(fragment: Fragment) {
-        parentFragmentManager.commit {
-            replace(R.id.fragment_container, fragment)
-            addToBackStack(null)
+    private fun setupBackButton() {
+        headerBinding.btnMakeChallengeBack.setOnClickListener {
+            parentFragmentManager.popBackStack() // 이전 프래그먼트로 돌아가기
         }
+    }
+
+    private fun navigateToFragment(fragment: Fragment) {
+        parentFragmentManager.beginTransaction()
+            .replace(this.id, fragment)
+            .addToBackStack(null) // 뒤로 가기 버튼을 눌렀을 때 이전 화면으로 돌아갈 수 있도록 함
+            .commit()
     }
 
     override fun onDestroyView() {
