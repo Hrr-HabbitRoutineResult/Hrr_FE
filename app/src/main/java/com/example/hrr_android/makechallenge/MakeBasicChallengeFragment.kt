@@ -1,10 +1,7 @@
 package com.example.hrr_android.makechallenge
 
 import android.os.Bundle
-import android.app.Activity
-import android.content.Intent
 import android.net.Uri
-import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -25,7 +22,6 @@ class MakeBasicChallengeFragment : Fragment() {
     private var _headerBinding: LayoutMakeChallengeHeaderBinding? = null
     private val headerBinding get() = _headerBinding!!
 
-    // 버튼 그룹을 담는 리스트
     private lateinit var durationButtons: List<View>
     private lateinit var peopleButtons: List<View>
     private lateinit var authButtons: List<View>
@@ -33,18 +29,15 @@ class MakeBasicChallengeFragment : Fragment() {
 
     private var selectedImageUri: Uri? = null
 
-    //갤러리에서 사진 선태 기능
     private val imagePickerLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-        if (uri != null) {
-            binding.ivBasicChallengeProfile.setImageURI(uri)
-            selectedImageUri = uri
+        uri?.let {
+            binding.ivBasicChallengeProfile.setImageURI(it)
+            selectedImageUri = it
             updateApplyButtonState()
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentMakeChallengeBasicBinding.inflate(inflater, container, false)
         _headerBinding = LayoutMakeChallengeHeaderBinding.bind(binding.root)
         return binding.root
@@ -53,12 +46,19 @@ class MakeBasicChallengeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // 뒤로가기 버튼
+        setupBackButton()
+        setupButtonGroups()
+        setupTextWatchers()
+        setupProfileImageSelection()
+    }
+
+    private fun setupBackButton() {
         headerBinding.btnMakeChallengeBack.setOnClickListener {
             parentFragmentManager.popBackStack()
         }
+    }
 
-        // 버튼 그룹 초기화
+    private fun setupButtonGroups() {
         durationButtons = listOf(
             binding.btnBasicDuration1week, binding.btnBasicDuration2week,
             binding.btnBasicDuration3week, binding.btnBasicDuration1month,
@@ -86,12 +86,8 @@ class MakeBasicChallengeFragment : Fragment() {
         setupSingleSelection(peopleButtons)
         setupSingleSelection(frequencyButtons)
         setupAuthMethodSelection()
-
-        setupTextWatchers()
-
     }
 
-    // 한 그룹에서 하나의 버튼만 선택되도록 설정
     private fun setupSingleSelection(buttons: List<View>) {
         buttons.forEach { button ->
             button.setOnClickListener {
@@ -102,18 +98,13 @@ class MakeBasicChallengeFragment : Fragment() {
                 }
                 button.isSelected = true
                 button.isActivated = true
-                setButtonTextColor(button, R.color.white) // 선택된 버튼만 흰색 적용
+                setButtonTextColor(button, R.color.white)
                 updateApplyButtonState()
             }
         }
     }
 
-    // 인증 수단 버튼의 글자색 변경 방지
     private fun setupAuthMethodSelection() {
-        val authButtons = listOf(
-            binding.btnBasicAuthmeanPicture, binding.btnBasicAuthmeanWriting
-        )
-
         authButtons.forEach { button ->
             button.setOnClickListener {
                 authButtons.forEach { btn ->
@@ -127,7 +118,6 @@ class MakeBasicChallengeFragment : Fragment() {
         }
     }
 
-    // 버튼 내의 TextView 색상을 변경
     private fun setButtonTextColor(button: View, colorResId: Int) {
         if (button is ViewGroup) {
             for (i in 0 until button.childCount) {
@@ -139,8 +129,7 @@ class MakeBasicChallengeFragment : Fragment() {
         }
     }
 
-    // EditText 입력 감지
-     private fun setupTextWatchers() {
+    private fun setupTextWatchers() {
         val editTexts = listOf(
             binding.etBasicChallengeName,
             binding.etBasicChallengeDescription,
@@ -152,21 +141,18 @@ class MakeBasicChallengeFragment : Fragment() {
                 override fun afterTextChanged(s: Editable?) {
                     updateApplyButtonState()
                 }
-
                 override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             })
         }
     }
 
-    // ✅ 갤러리에서 사진 선택하는 기능 추가
     private fun setupProfileImageSelection() {
         binding.ivBasicChallengeProfile.setOnClickListener {
             imagePickerLauncher.launch("image/*")
         }
     }
 
-    // 버튼 활성화 상태 업데이트
     private fun updateApplyButtonState() {
         val isNameFilled = binding.etBasicChallengeName.text.isNotBlank()
         val isDescriptionFilled = binding.etBasicChallengeDescription.text.isNotBlank()
@@ -177,10 +163,10 @@ class MakeBasicChallengeFragment : Fragment() {
         val isAuthSelected = authButtons.any { it.isSelected }
         val isFrequencySelected = frequencyButtons.any { it.isSelected }
 
-        val isEnabled = isNameFilled && isDescriptionFilled && isRuleFilled &&
-                isDurationSelected && isPeopleSelected && isAuthSelected && isFrequencySelected
-
-        binding.btnMakeBasicChallenge.isEnabled = isEnabled
+        binding.btnMakeBasicChallenge.isEnabled = isNameFilled &&
+                isDescriptionFilled && isRuleFilled &&
+                isDurationSelected && isPeopleSelected &&
+                isAuthSelected && isFrequencySelected
     }
 
     override fun onDestroyView() {
