@@ -58,6 +58,7 @@ class UserRepository @Inject constructor(
         } catch (e: Exception) {
             Result.failure(Exception("알 수 없는 오류 발생: ${e.localizedMessage}"))
         }
+    }
 
 //    suspend fun loadProfile(): Result<UserResponse> {
 //        return try {
