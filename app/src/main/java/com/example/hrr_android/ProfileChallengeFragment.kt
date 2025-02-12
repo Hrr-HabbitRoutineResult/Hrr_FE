@@ -2,12 +2,15 @@ package com.example.hrr_android
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.hrr_android.access.ValidUtils
 import com.example.hrr_android.databinding.FragmentProfileChallengeBinding
 
 class ProfileChallengeFragment : Fragment() {
@@ -15,6 +18,7 @@ class ProfileChallengeFragment : Fragment() {
     private val binding get() = _binding!!
     private var participatingChallengeList = ArrayList<Challenge>()     //참가중인 챌린지 리스트
     private var completedChallengeList = ArrayList<Challenge>()         //최근 완주한 챌린지 리스트
+    private val userViewModel: UserViewModel by activityViewModels()
 
 
     override fun onCreateView(
@@ -28,6 +32,39 @@ class ProfileChallengeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // LiveData 관찰 (데이터가 변경될 때 자동 업데이트되도록 설정)
+        userViewModel.challengesOngoing.observe(viewLifecycleOwner) { result ->
+            Log.d("asdf", "ViewModel에서 받은 데이터: $result") // 디버깅용 로그 추가
+
+            result.onSuccess { challengeList ->
+                challengeList.map { challenge ->
+                    Challenge(
+                        challenge.name,
+                        ValidUtils.getDrawableResId(requireContext(), challenge.image),
+                        isCertified = challenge.verification
+                    )
+                    // Todo: 이미지 처리 추가 예정
+                }.let {
+                    participatingChallengeList.clear()
+                    participatingChallengeList.addAll(it)
+                    binding.rvProfileParticipatingChallengeContent.adapter?.notifyDataSetChanged()
+
+                    if (participatingChallengeList.isNotEmpty()) {
+                        binding.clProfileParticipatingChallengeContentNo.visibility = View.GONE
+                        binding.rvProfileParticipatingChallengeContent.visibility = View.VISIBLE
+                    } else {
+                        binding.clProfileParticipatingChallengeContentNo.visibility = View.VISIBLE
+                        binding.rvProfileParticipatingChallengeContent.visibility = View.GONE
+                    }
+                }
+            }.onFailure {
+                Log.e("HomeFragment", "API 데이터 로드 실패: ${it.message}") // 실패 시 로그 출력
+            }
+        }
+
+        // 참가중인 챌린지 데이터 로딩
+        userViewModel.fetchChallengesOngoing()
 
         //참가중인 챌린지 더미 데이터 - 테스트 시 주석 해제 or 설정
 //        participatingChallengeList.apply {
