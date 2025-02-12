@@ -24,4 +24,17 @@ interface UserService {
     suspend fun getChallengesEnd(
         @Path("userId") userId: Int
     ): Response<ApiResponse<ChallengeEndResponse>>
+
+    // 팔로워 리스트 조회
+    @GET("/api/v1/users/{userId}/follower")
+    suspend fun getFollowers(
+        @Path("userId") userId: Int
+    ): Response<ApiResponse<FollowResponse>>
+
+    // 팔로잉 리스트 조회
+    @GET("/api/v1/users/{userId}/following")
+    suspend fun getFollowings(
+        @Path("userId") userId: Int
+    ): Response<ApiResponse<FollowResponse>>
+
 }
