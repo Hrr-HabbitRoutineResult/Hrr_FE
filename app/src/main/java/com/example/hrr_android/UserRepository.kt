@@ -78,4 +78,15 @@ class UserRepository @Inject constructor(
         return handleResponse { userService.getChallengesEnd(userId) }
     }
 
+    // 팔로워 리스트 조회
+    suspend fun getFollowers(): Result<FollowResponse>{
+        val userId = authRepository.getUserId()
+        return handleResponse { userService.getFollowers(userId) }
+    }
+
+    // 팔로잉 리스트 조회
+    suspend fun getFollowings(): Result<FollowResponse>{
+        val userId = authRepository.getUserId()
+        return handleResponse { userService.getFollowings(userId) }
+    }
 }
