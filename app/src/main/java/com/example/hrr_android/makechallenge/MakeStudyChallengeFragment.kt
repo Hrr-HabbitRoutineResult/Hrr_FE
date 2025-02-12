@@ -2,19 +2,20 @@ package com.example.hrr_android.makechallenge
 
 import android.os.Bundle
 import android.net.Uri
-import androidx.activity.result.contract.ActivityResultContracts
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.setFragmentResultListener
-import androidx.navigation.fragment.findNavController
 import com.example.hrr_android.databinding.FragmentMakeChallengeStudyBinding
 import com.example.hrr_android.databinding.LayoutMakeChallengeHeaderBinding
 import java.text.SimpleDateFormat
 import java.util.*
-
 
 class MakeStudyChallengeFragment : Fragment() {
 
@@ -24,28 +25,36 @@ class MakeStudyChallengeFragment : Fragment() {
     private var _headerBinding: LayoutMakeChallengeHeaderBinding? = null
     private val headerBinding get() = _headerBinding!!
 
+    private lateinit var peopleButtons: List<View>
+    private lateinit var authButtons: List<View>
+    private lateinit var dayButtons: List<View>
+
     private var selectedStartDate: Long? = null
     private var selectedEndDate: Long? = null
     private var selectedImageUri: Uri? = null
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View {
+    private val imagePickerLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+        uri?.let {
+            binding.ivStudyChallengeProfile.setImageURI(it)
+            selectedImageUri = it
+            updateApplyButtonState()
+        }
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentMakeChallengeStudyBinding.inflate(inflater, container, false)
+        _headerBinding = LayoutMakeChallengeHeaderBinding.bind(binding.root)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupBackButton() //뒤로가기
-        setupPeopleSelection()
-        setupAuthMethodSelection() //글자색 변경x
-        setupDaySelection()
-        setupInputListeners()
-        setupChallengeDurationSelection()
-        getSelectedDatesFromCalendar() //선택한 날짜 받아오기
-        setupProfileImageSelection() // 갤러리에서 사진 선택 기능 추가
+        setupBackButton()
+        setupButtonGroups()
+        setupTextWatchers()
+        setupProfileImageSelection()
+        getSelectedDatesFromCalendar()
     }
 
     private fun setupBackButton() {
@@ -54,31 +63,54 @@ class MakeStudyChallengeFragment : Fragment() {
         }
     }
 
-    private fun setupPeopleSelection() {
-        val peopleButtons = listOf(
+    private fun setupButtonGroups() {
+        peopleButtons = listOf(
             binding.btnStudyPeople10, binding.btnStudyPeople20, binding.btnStudyPeople30
         )
 
-        peopleButtons.forEach { button ->
+        authButtons = listOf(
+            binding.btnStudyAuthmeanPicture, binding.btnStudyAuthmeanWriting
+        )
+
+        dayButtons = listOf(
+            binding.btnStudyWeekMon, binding.btnStudyWeekTues, binding.btnStudyWeekWed,
+            binding.btnStudyWeekThu, binding.btnStudyWeekFri, binding.btnStudyWeekSat,
+            binding.btnStudyWeekSun
+        )
+
+        setupSingleSelection(peopleButtons)
+        setupDaySelection()
+        setupAuthMethodSelection()
+    }
+
+    private fun setupSingleSelection(buttons: List<View>) {
+        buttons.forEach { button ->
             button.setOnClickListener {
-                peopleButtons.forEach { btn ->
+                buttons.forEach { btn ->
                     btn.isSelected = false
                     btn.isActivated = false
-                    (btn.getChildAt(0) as? TextView)?.setTextColor(resources.getColor(R.color.text_tertiary))
+                    setButtonTextColor(btn, R.color.text_tertiary)
                 }
                 button.isSelected = true
                 button.isActivated = true
-                (button.getChildAt(0) as? TextView)?.setTextColor(resources.getColor(R.color.white))
+                setButtonTextColor(button, R.color.white)
+                updateApplyButtonState()
+            }
+        }
+    }
+
+    private fun setupDaySelection() {
+        dayButtons.forEach { button ->
+            button.setOnClickListener {
+                button.isSelected = !button.isSelected
+                button.isActivated = button.isSelected
+                setButtonTextColor(button, if (button.isSelected) R.color.white else R.color.text_tertiary)
                 updateApplyButtonState()
             }
         }
     }
 
     private fun setupAuthMethodSelection() {
-        val authButtons = listOf(
-            binding.btnStudyAuthmeanPicture, binding.btnStudyAuthmeanWriting
-        )
-
         authButtons.forEach { button ->
             button.setOnClickListener {
                 authButtons.forEach { btn ->
@@ -92,49 +124,32 @@ class MakeStudyChallengeFragment : Fragment() {
         }
     }
 
-    private fun setupDaySelection() {
-        val dayButtons = listOf(
-            binding.btnStudyWeekMon, binding.btnStudyWeekTues, binding.btnStudyWeekWed,
-            binding.btnStudyWeekThu, binding.btnStudyWeekFri, binding.btnStudyWeekSat,
-            binding.btnStudyWeekSun
-        )
-
-        dayButtons.forEach { button ->
-            button.setOnClickListener {
-                button.isSelected = !button.isSelected
-                button.isActivated = button.isSelected
-                (button.getChildAt(0) as? TextView)?.setTextColor(
-                    if (button.isSelected) resources.getColor(R.color.white) else resources.getColor(R.color.text_tertiary)
-                )
-                updateApplyButtonState()
+    private fun setButtonTextColor(button: View, colorResId: Int) {
+        if (button is ViewGroup) {
+            for (i in 0 until button.childCount) {
+                val child = button.getChildAt(i)
+                if (child is TextView) {
+                    child.setTextColor(ContextCompat.getColor(requireContext(), colorResId))
+                }
             }
         }
     }
 
-    private fun setupInputListeners() {
+    private fun setupTextWatchers() {
         val editTexts = listOf(
-            binding.etStudyChallengeName, binding.etStudyChallengeDescription, binding.etStudyChallengeRule
+            binding.etStudyChallengeName,
+            binding.etStudyChallengeDescription,
+            binding.etStudyChallengeRule
         )
 
         editTexts.forEach { editText ->
-            editText.addTextChangedListener {
-                updateApplyButtonState()
-            }
-        }
-    }
-
-    private fun setupChallengeDurationSelection() {
-        binding.llStudyDuration.setOnClickListener {
-            findNavController().navigate(R.id.action_makeStudyChallengeFragment_to_makeChallengeCalendarFragment)
-        }
-    }
-
-    // ✅ 갤러리에서 사진 선택하는 기능 추가
-    private val imagePickerLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-        if (uri != null) {
-            binding.ivStudyChallengeProfile.setImageURI(uri)
-            selectedImageUri = uri
-            updateApplyButtonState()
+            editText.addTextChangedListener(object : TextWatcher {
+                override fun afterTextChanged(s: Editable?) {
+                    updateApplyButtonState()
+                }
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            })
         }
     }
 
@@ -148,27 +163,19 @@ class MakeStudyChallengeFragment : Fragment() {
         val isNameEntered = binding.etStudyChallengeName.text.isNotBlank()
         val isDescriptionEntered = binding.etStudyChallengeDescription.text.isNotBlank()
         val isRuleEntered = binding.etStudyChallengeRule.text.isNotBlank()
-        val isPeopleSelected = listOf(
-            binding.btnStudyPeople10, binding.btnStudyPeople20, binding.btnStudyPeople30
-        ).any { it.isSelected }
 
-        val isAuthSelected = listOf(
-            binding.btnStudyAuthmeanPicture, binding.btnStudyAuthmeanWriting
-        ).any { it.isSelected }
-
-        val isDaySelected = listOf(
-            binding.btnStudyWeekMon, binding.btnStudyWeekTues, binding.btnStudyWeekWed,
-            binding.btnStudyWeekThu, binding.btnStudyWeekFri, binding.btnStudyWeekSat,
-            binding.btnStudyWeekSun
-        ).any { it.isSelected }
-
+        val isPeopleSelected = peopleButtons.any { it.isSelected }
+        val isAuthSelected = authButtons.any { it.isSelected }
+        val isDaySelected = dayButtons.any { it.isSelected }
         val isStartDateSelected = selectedStartDate != null
         val isEndDateSelected = selectedEndDate != null
 
-        binding.btnMakeBasicChallenge.isEnabled =
-            isNameEntered && isDescriptionEntered && isRuleEntered && isPeopleSelected && isAuthSelected && isDaySelected && isStartDateSelected && isEndDateSelected
+        binding.btnMakeBasicChallenge.isEnabled = isNameEntered &&
+                isDescriptionEntered && isRuleEntered &&
+                isPeopleSelected && isAuthSelected &&
+                isDaySelected && isStartDateSelected &&
+                isEndDateSelected
     }
-
 
     private fun getSelectedDatesFromCalendar() {
         setFragmentResultListener("calendarSelection") { _, bundle ->
@@ -177,10 +184,8 @@ class MakeStudyChallengeFragment : Fragment() {
 
             if (selectedStartDate != -1L && selectedEndDate != -1L) {
                 val dateFormat = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
-
                 binding.tvStudyDurationStart.text = dateFormat.format(Date(selectedStartDate!!))
                 binding.tvStudyDurationEnd.text = dateFormat.format(Date(selectedEndDate!!))
-
                 updateApplyButtonState()
             }
         }
