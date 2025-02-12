@@ -25,7 +25,7 @@
             app:layout_constraintTop_toTopOf="parent"/>
 
         <ImageView
-            android:id="@+id/layout_challenge_today_category"
+            android:id="@+id/iv_challenge_today_category"
             android:layout_width="14dp"
             android:layout_height="14dp"
             android:layout_marginStart="6dp"
