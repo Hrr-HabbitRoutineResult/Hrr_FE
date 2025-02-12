@@ -12,7 +12,9 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.hrr_android.access.ValidUtils
 import com.example.hrr_android.databinding.FragmentProfileChallengeBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ProfileChallengeFragment : Fragment() {
     private var _binding: FragmentProfileChallengeBinding? = null       //뷰 바인딩
     private val binding get() = _binding!!
