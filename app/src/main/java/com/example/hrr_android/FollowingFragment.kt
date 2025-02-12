@@ -24,6 +24,12 @@ class FollowingFragment : Fragment(), OnFollowClickListener {
         // ViewBinding 초기화
         _binding = FragmentFollowingBinding.inflate(inflater, container, false)
 
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         //팔로워 더미 데이터
         followingList.apply {
             add(Follow("김흐르", "실버", R.drawable.ic_profile_default, false, true))
@@ -53,7 +59,6 @@ class FollowingFragment : Fragment(), OnFollowClickListener {
         // 스크롤 리스너 추가
         setupScrollListener()
 
-        return binding.root
     }
 
     override fun onDestroyView() {
@@ -77,6 +82,7 @@ class FollowingFragment : Fragment(), OnFollowClickListener {
 
     override fun onUserClicked(follow: Follow) {
         val intent = Intent(requireContext(), OtherProfileActivity::class.java).apply {
+            // Todo: id 넘기는 걸로 변경 필요
             putExtra("name", follow.name)   //추후 API 연결 시 이름으로 사용자의 정보를 받아와 바인딩 예정
         }
         startActivity(intent)
