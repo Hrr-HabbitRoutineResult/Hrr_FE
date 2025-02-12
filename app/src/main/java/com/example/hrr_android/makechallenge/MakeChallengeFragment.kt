@@ -6,9 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
 import com.example.hrr_android.databinding.FragmentMakeChallengeBinding
 import com.example.hrr_android.databinding.LayoutMakeChallengeHeaderBinding
+
+import com.example.hrr_android.makechallenge.MakeBasicChallengeFragment
+import com.example.hrr_android.makechallenge.MakeStudyChallengeFragment
 
 class MakeChallengeFragment : Fragment() {
 
@@ -28,11 +30,14 @@ class MakeChallengeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        headerBinding.btnMakeChallengeBack.setOnClickListener {
+            parentFragmentManager.popBackStack() // 이전 프래그먼트로 돌아가기
+        }
+
         setupCategorySelection()
         setupTypeSelection()
         setupButtonState()
         setupApplyButtonClick()
-        setupBackButton()
     }
 
     private fun setupCategorySelection() {
@@ -83,7 +88,6 @@ class MakeChallengeFragment : Fragment() {
                     // 모든 자식 TextView의 색상 변경
                     for (i in 0 until btn.childCount) {
                         val textView = btn.getChildAt(i) as? TextView
-                        textView?.setTextColor(resources.getColor(R.color.text_tertiary))
                     }
                     btn.refreshDrawableState()
                 }
@@ -133,12 +137,6 @@ class MakeChallengeFragment : Fragment() {
         }
     }
 
-    private fun setupBackButton() {
-        headerBinding.btnMakeChallengeBack.setOnClickListener {
-            parentFragmentManager.popBackStack() // 이전 프래그먼트로 돌아가기
-        }
-    }
-
     private fun navigateToFragment(fragment: Fragment) {
         parentFragmentManager.beginTransaction()
             .replace(this.id, fragment)
@@ -149,5 +147,6 @@ class MakeChallengeFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        _headerBinding = null
     }
 }

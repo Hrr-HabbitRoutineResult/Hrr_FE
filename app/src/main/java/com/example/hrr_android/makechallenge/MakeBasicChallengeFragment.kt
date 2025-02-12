@@ -68,10 +68,9 @@ class MakeBasicChallengeFragment : Fragment() {
 
         setupSingleSelection(durationButtons)
         setupSingleSelection(peopleButtons)
-        setupSingleSelection(authButtons)
         setupSingleSelection(frequencyButtons)
+        setupAuthMethodSelection()
 
-        // EditText 입력 감지
         setupTextWatchers()
 
     }
@@ -83,10 +82,30 @@ class MakeBasicChallengeFragment : Fragment() {
                 buttons.forEach { btn ->
                     btn.isSelected = false
                     btn.isActivated = false
+                    setButtonTextColor(btn, R.color.text_tertiary)
                 }
                 button.isSelected = true
                 button.isActivated = true
-                (button as? TextView)?.setTextColor(ContextCompat.getColor(requireContext(), R.color.white)) // 선택된 버튼만 흰색 적용
+                setButtonTextColor(button, R.color.white) // 선택된 버튼만 흰색 적용
+                updateApplyButtonState()
+            }
+        }
+    }
+
+    // 인증 수단 버튼의 글자색 변경 방지
+    private fun setupAuthMethodSelection() {
+        val authButtons = listOf(
+            binding.btnBasicAuthmeanPicture, binding.btnBasicAuthmeanWriting
+        )
+
+        authButtons.forEach { button ->
+            button.setOnClickListener {
+                authButtons.forEach { btn ->
+                    btn.isSelected = false
+                    btn.isActivated = false
+                }
+                button.isSelected = true
+                button.isActivated = true
                 updateApplyButtonState()
             }
         }

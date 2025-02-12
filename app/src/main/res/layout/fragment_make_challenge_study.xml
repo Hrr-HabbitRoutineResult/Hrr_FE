@@ -122,8 +122,57 @@
                     android:includeFontPadding="false"/>
             </LinearLayout>
 
-            <!-- 챌린지 기간 버튼 -->
-            <include layout = "@layout/item_study_duration"/>
+            <!-- 챌린지 기간 선택 -->
+            <LinearLayout
+                android:id="@+id/ll_study_duration"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:background="@drawable/bg_square_grey_15"
+                android:clickable="true">
+
+                <!-- 시작일 -->
+                <TextView
+                    android:id="@+id/tv_study_duration_start"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:hint="시작일"
+                    android:textSize="13sp"
+                    android:paddingStart="15dp"
+                    android:gravity="center_vertical"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/noto_sans_kr_regular"
+                    android:drawableStart="@drawable/ic_calendar"
+                    android:drawablePadding="14dp"
+                    android:includeFontPadding="false"/>
+
+                <!-- 구분자 (~) -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/noto_sans_kr_regular"
+                    android:gravity="center"
+                    android:hint="~"
+                    android:includeFontPadding="false"
+                    android:paddingHorizontal="8dp"
+                    android:textSize="13sp" />
+
+                <!-- 종료일 -->
+                <TextView
+                    android:id="@+id/tv_study_duration_end"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:hint="종료일"
+                    android:textSize="13sp"
+                    android:padding="14dp"
+                    android:gravity="center_vertical"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/noto_sans_kr_regular"
+                    android:includeFontPadding="false"/>
+            </LinearLayout>
 
 
             <!-- 제한 인원 제목 -->
@@ -323,7 +372,7 @@
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:layout_marginStart="31dp"
+                        android:layout_marginStart="32dp"
                         android:layout_marginTop="20dp"
                         android:src="@drawable/ic_challenge_pen" />
 

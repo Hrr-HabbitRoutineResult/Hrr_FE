@@ -6,8 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
+import androidx.navigation.fragment.findNavController
 import com.example.hrr_android.databinding.FragmentMakeChallengeStudyBinding
 import com.example.hrr_android.databinding.LayoutMakeChallengeHeaderBinding
+import java.text.SimpleDateFormat
+import java.util.*
+
 
 class MakeStudyChallengeFragment : Fragment() {
 
@@ -16,6 +21,10 @@ class MakeStudyChallengeFragment : Fragment() {
 
     private var _headerBinding: LayoutMakeChallengeHeaderBinding? = null
     private val headerBinding get() = _headerBinding!!
+
+    private var selectedStartDate: Long? = null
+    private var selectedEndDate: Long? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -27,11 +36,13 @@ class MakeStudyChallengeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupBackButton()
+        setupBackButton() //뒤로가기
         setupPeopleSelection()
-        setupAuthMethodSelection()
+        setupAuthMethodSelection() //글자색 변경x
         setupDaySelection()
         setupInputListeners()
+        setupChallengeDurationSelection()
+        getSelectedDatesFromCalendar() //선택한 날짜 받아오기
     }
 
     private fun setupBackButton() {
@@ -70,11 +81,9 @@ class MakeStudyChallengeFragment : Fragment() {
                 authButtons.forEach { btn ->
                     btn.isSelected = false
                     btn.isActivated = false
-                    (btn.getChildAt(0) as? TextView)?.setTextColor(resources.getColor(R.color.text_tertiary))
                 }
                 button.isSelected = true
                 button.isActivated = true
-                (button.getChildAt(0) as? TextView)?.setTextColor(resources.getColor(R.color.white))
                 updateApplyButtonState()
             }
         }
@@ -111,6 +120,12 @@ class MakeStudyChallengeFragment : Fragment() {
         }
     }
 
+    private fun setupChallengeDurationSelection() {
+        binding.layoutStudyDuration.setOnClickListener {
+            findNavController().navigate(R.id.action_makeStudyChallengeFragment_to_makeChallengeCalendarFragment)
+        }
+    }
+
     private fun updateApplyButtonState() {
         val isNameEntered = binding.etStudyChallengeName.text.isNotBlank()
         val isDescriptionEntered = binding.etStudyChallengeDescription.text.isNotBlank()
@@ -129,8 +144,28 @@ class MakeStudyChallengeFragment : Fragment() {
             binding.btnStudyWeekSun
         ).any { it.isSelected }
 
+        val isStartDateSelected = selectedStartDate != null
+        val isEndDateSelected = selectedEndDate != null
+
         binding.btnMakeBasicChallenge.isEnabled =
-            isNameEntered && isDescriptionEntered && isRuleEntered && isPeopleSelected && isAuthSelected && isDaySelected
+            isNameEntered && isDescriptionEntered && isRuleEntered && isPeopleSelected && isAuthSelected && isDaySelected && isStartDateSelected && isEndDateSelected
+    }
+
+
+    private fun getSelectedDatesFromCalendar() {
+        setFragmentResultListener("calendarSelection") { _, bundle ->
+            selectedStartDate = bundle.getLong("startDate", -1)
+            selectedEndDate = bundle.getLong("endDate", -1)
+
+            if (selectedStartDate != -1L && selectedEndDate != -1L) {
+                val dateFormat = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
+
+                binding.tvSelectedStartDate.text = dateFormat.format(Date(selectedStartDate!!))
+                binding.tvSelectedEndDate.text = dateFormat.format(Date(selectedEndDate!!))
+
+                updateApplyButtonState()
+            }
+        }
     }
 
     override fun onDestroyView() {
