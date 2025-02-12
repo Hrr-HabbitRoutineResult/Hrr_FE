@@ -16,6 +16,8 @@ import com.example.hrr_android.databinding.FragmentMakeChallengeStudyBinding
 import com.example.hrr_android.databinding.LayoutMakeChallengeHeaderBinding
 import java.text.SimpleDateFormat
 import java.util.*
+import com.example.hrr_android.R
+
 
 class MakeStudyChallengeFragment : Fragment() {
 

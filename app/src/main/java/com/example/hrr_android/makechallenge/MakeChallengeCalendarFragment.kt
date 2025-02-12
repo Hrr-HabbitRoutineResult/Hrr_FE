@@ -9,6 +9,8 @@ import androidx.fragment.app.Fragment
 import com.example.hrr_android.databinding.FragmentMakeChallengeCalendarBinding
 import com.example.hrr_android.databinding.LayoutMakeChallengeHeaderBinding
 import com.example.hrr_android.challenge.ui.record.progress.calendar.CustomCalendarView
+import com.example.hrr_android.R
+
 
 class MakeChallengeCalendarFragment : Fragment() {
 
@@ -54,23 +56,28 @@ class MakeChallengeCalendarFragment : Fragment() {
         val startCalendarView = binding.viewMakeChallengeCalendar1
         val endCalendarView = binding.viewMakeChallengeCalendar2
 
-        startCalendarView.setOnDateChangeListener { selectedDate ->
-            binding.viewMakeChallengeCalendar1.tag = selectedDate.timeInMillis
+        binding.viewMakeChallengeCalendar1.setOnClickListener {
+            val selectedStartDate = startCalendarView.getSelectedDate()
+            if (selectedStartDate != null) {
+                binding.viewMakeChallengeCalendar1.tag = selectedStartDate.timeInMillis
+            }
         }
 
-        endCalendarView.setOnDateChangeListener { selectedDate ->
-            binding.viewMakeChallengeCalendar2.tag = selectedDate.timeInMillis
+        binding.viewMakeChallengeCalendar2.setOnClickListener {
+            val selectedEndDate = endCalendarView.getSelectedDate()
+            if (selectedEndDate != null) {
+                binding.viewMakeChallengeCalendar2.tag = selectedEndDate.timeInMillis
+            }
         }
     }
 
     // 완료 버튼 클릭 시 선택한 날짜를 전달
     private fun setupCompleteButton() {
-        binding.btnMakeBasicChallenge.setOnClickListener {
-            val startDate = binding.viewMakeChallengeCalendar1.tag as? Long
-            val endDate = binding.viewMakeChallengeCalendar2.tag as? Long
+        binding.btnDurationSelected.setOnClickListener {
+            val startDate = (binding.viewMakeChallengeCalendar1.getSelectedDate()?.timeInMillis)
+            val endDate = (binding.viewMakeChallengeCalendar2.getSelectedDate()?.timeInMillis)
 
             if (startDate != null && endDate != null) {
-                // 선택한 날짜를 이전 Fragment로 전달
                 parentFragmentManager.setFragmentResult(
                     "calendarSelection",
                     Bundle().apply {
@@ -82,8 +89,10 @@ class MakeChallengeCalendarFragment : Fragment() {
             }
         }
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
         _headerBinding = null
     }
+}

@@ -13,6 +13,8 @@ import androidx.fragment.app.Fragment
 import androidx.activity.result.contract.ActivityResultContracts
 import com.example.hrr_android.databinding.FragmentMakeChallengeBasicBinding
 import com.example.hrr_android.databinding.LayoutMakeChallengeHeaderBinding
+import com.example.hrr_android.R
+
 
 class MakeBasicChallengeFragment : Fragment() {
 

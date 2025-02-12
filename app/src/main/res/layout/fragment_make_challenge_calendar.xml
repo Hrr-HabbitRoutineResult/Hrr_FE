@@ -77,7 +77,7 @@
             android:background="@color/text_line" />
 
         <FrameLayout
-            android:id="@+id/btn_make_basic_challenge"
+            android:id="@+id/btn_duration_selected"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:clickable="true"
@@ -95,7 +95,7 @@
                 android:layout_gravity="center"
                 android:fontFamily="@font/noto_sans_kr_medium"
                 android:gravity="center"
-                android:text="개설하기"
+                android:text="완료"
                 android:textColor="@color/text_tertiary"
                 android:textSize="16sp"
                 android:includeFontPadding="false"/>
