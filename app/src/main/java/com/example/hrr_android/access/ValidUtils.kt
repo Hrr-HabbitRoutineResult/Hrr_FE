@@ -80,4 +80,15 @@ object ValidUtils {
         snackbar.anchorView = anchorView  // 특정 버튼 위에 고정
         snackbar.show()
     }
+
+    // 리소스 파일의 이름으로 resId를 얻어오는 함수
+    fun getDrawableResId(context: Context, resourceName: String): Int {
+        return try {
+            val resId = context.resources.getIdentifier(resourceName, "drawable", context.packageName)
+            if (resId != 0) resId else throw IllegalArgumentException("Resource not found: $resourceName")
+        } catch (e: Exception) {
+            e.printStackTrace()
+            0 // 기본값 반환
+        }
+    }
 }
