@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import com.example.hrr_android.databinding.FragmentMakeChallengeCalendarBinding
 import com.example.hrr_android.databinding.LayoutMakeChallengeHeaderBinding
@@ -27,6 +28,21 @@ class MakeChallengeCalendarFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //  캘린더 배경 추가
+        binding.viewMakeChallengeCalendar1.parent.let { parentView ->
+            if (parentView is LinearLayout) {
+                parentView.setBackgroundResource(R.drawable.bg_make_challenge_calendar)
+                parentView.setPadding(0, 54, 0, 0)
+            }
+        }
+
+        binding.viewMakeChallengeCalendar2.parent.let { parentView ->
+            if (parentView is LinearLayout) {
+                parentView.setBackgroundResource(R.drawable.bg_make_challenge_calendar)
+                parentView.setPadding(0, 54, 0, 0)
+            }
+        }
+
         // 뒤로 가기 버튼
         headerBinding?.btnMakeChallengeBack?.setOnClickListener {
             parentFragmentManager.popBackStack()
@@ -40,32 +56,25 @@ class MakeChallengeCalendarFragment : Fragment() {
         val startCalendarView = binding.viewMakeChallengeCalendar1
         val endCalendarView = binding.viewMakeChallengeCalendar2
 
-        startCalendarView.setOnDateChangeListener { selectedDate ->
-            binding.viewMakeChallengeCalendar1.tag = selectedDate
-        }
-
-        endCalendarView.setOnDateChangeListener { selectedDate ->
-            binding.viewMakeChallengeCalendar2.tag = selectedDate
-        }
+        binding.viewMakeChallengeCalendar1.tag = startCalendarView.getSelectedDate()?.timeInMillis
+        binding.viewMakeChallengeCalendar2.tag = endCalendarView.getSelectedDate()?.timeInMillis
     }
 
     private fun setupCompleteButton() {
         binding.btnMakeBasicChallenge.setOnClickListener {
-            val startDate = binding.viewMakeChallengeCalendar1.tag as? String
-            val endDate = binding.viewMakeChallengeCalendar2.tag as? String
+            val startDate = binding.viewMakeChallengeCalendar1.tag as? Long
+            val endDate = binding.viewMakeChallengeCalendar2.tag as? Long
 
             if (startDate != null && endDate != null) {
                 // 선택한 날짜를 이전 Fragment로 전달
                 parentFragmentManager.popBackStack()
-            } else {
-                // 날짜를 선택하지 않으면 알림 표시 가능
             }
         }
-    }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-        _headerBinding = null
+        override fun onDestroyView() {
+            super.onDestroyView()
+            _binding = null
+            _headerBinding = null
+        }
     }
 }
