@@ -1,12 +1,15 @@
 package com.example.hrr_android
 
+import ChallengeCardVPAdapter
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
@@ -28,6 +31,7 @@ class HomeFragment : Fragment() {
     private lateinit var hotPostAdapter: HotPostRVAdapter
 
     private lateinit var authViewModel: AuthViewModel
+    private val userViewModel: UserViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,34 +64,13 @@ class HomeFragment : Fragment() {
             adapter = categoryAdapter
         }
 
-        // 챌린지 데이터 리스트
-        val challengeCardList = loadChallengeData() // 데이터 로드 함수 호출
+        userViewModel.fetchChallengesOngoing() // API 호출
 
-        // Adapter 초기화
-        challengeAdapter = ChallengeCardVPAdapter(challengeCardList)
-
-        // 동적 인디케이터 설정
-        setupChallengeIndicator(challengeCardList)
+        setupOngoingViewPager()
+        observeChallenges()
 
         // 뷰 페이저 미리보기 설정
         setupViewPagerPreview()
-
-        // ViewPager2 연결
-        binding.vpHomeChallenge.apply {
-            adapter = challengeAdapter
-
-            // 데이터가 없으면 visibility를 GONE으로 설정
-            visibility = if (challengeCardList.isEmpty()) View.GONE else View.VISIBLE
-        }
-
-        // 데이터가 있을 때 include 한 레이아웃 숨기고 인디케이터 표시
-        if (challengeCardList.isEmpty()) {
-            binding.itemHomeChallengeCardNew.root.visibility = View.VISIBLE
-            binding.indicatorHomeChallengeCard.visibility = View.GONE
-        } else {
-            binding.itemHomeChallengeCardNew.root.visibility = View.GONE
-            binding.indicatorHomeChallengeCard.visibility = View.VISIBLE
-        }
 
         // 더미데이터
         val hotPostList = listOf(
@@ -146,17 +129,44 @@ class HomeFragment : Fragment() {
         _binding = null
     }
 
-    // 챌린지 데이터 로드 함수
-    private fun loadChallengeData(): List<Challenge> {
-        // 참여한 챌린지가 있을 때
-        return listOf(
-            Challenge("공부합시당", R.drawable.img_study, "", true, true),
-            Challenge("달리기 하실 분", R.drawable.img_running, "", false, true),
-            Challenge("열 자가 최대라길래", R.drawable.img_cook, "", true, false)
-        )
+    private fun setupOngoingViewPager() {
+        challengeAdapter = ChallengeCardVPAdapter(emptyList())  // 초기 빈 리스트 설정
+        binding.vpHomeChallenge.adapter = challengeAdapter
+    }
 
-        // 참여한 챌린지가 없을 때
-        // return emptyList()
+    private fun observeChallenges() {
+        userViewModel.challengesOngoing.observe(viewLifecycleOwner) { result ->
+            Log.d("asdf", "ViewModel에서 받은 데이터: $result") // 디버깅용 로그 추가
+
+            result.onSuccess { challengeList ->
+                challengeAdapter = ChallengeCardVPAdapter(challengeList)
+                binding.vpHomeChallenge.adapter = challengeAdapter
+
+                val userName = "사용자" // 사용자 이름을 실제 데이터에서 가져오도록 변경
+
+                // 챌린지 개수에 따라 tv_home_subtitle 텍스트 변경
+                binding.tvHomeSubTitle.text = if (challengeList.isEmpty()) {
+                    "안녕하세요, ${userName}님! 챌린지에 참가해보세요."
+                } else {
+                    "안녕하세요, ${userName}님! 챌린지 인증을 진행해주세요."
+                }
+
+                // 챌린지 데이터가 없을 때 UI 처리
+                binding.vpHomeChallenge.visibility = if (challengeList.isEmpty()) View.GONE else View.VISIBLE
+                binding.itemHomeChallengeCardNew.root.visibility = if (challengeList.isEmpty()) View.VISIBLE else View.GONE
+                binding.indicatorHomeChallengeCard.visibility = if (challengeList.isEmpty()) View.GONE else View.VISIBLE
+
+                // 챌린지 목록 프래그먼트로 이동
+                binding.itemHomeChallengeCardNew.root.setOnClickListener {
+                    // TODO: 챌린지 목록 프래그먼트로 이동하는 클릭 이벤트 추가
+                }
+
+                // 인디케이터 설정
+                setupChallengeIndicator(challengeList)
+            }.onFailure {
+                Log.e("HomeFragment", "API 데이터 로드 실패: ${it.message}") // 실패 시 로그 출력
+            }
+        }
     }
 
     // 커스텀 인디케이터 적용 함수
@@ -204,7 +214,7 @@ class HomeFragment : Fragment() {
     }
 
     // 참여 중인 챌린지 인디케이터
-    private fun setupChallengeIndicator(challengeList: List<Challenge>) {
+    private fun setupChallengeIndicator(challengeList: List<ChallengesOngoing>) {
         val totalItems = if (challengeList.size < 5) challengeList.size + 1 else 5
         setupIndicator(binding.indicatorHomeChallengeCard, totalItems, binding.vpHomeChallenge, 80, 16, 16)
     }

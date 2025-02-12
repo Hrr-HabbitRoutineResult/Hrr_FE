@@ -1,13 +1,13 @@
-package com.example.hrr_android
-
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.example.hrr_android.ChallengesOngoing
 import com.example.hrr_android.databinding.ItemChallengeCardDefaultBinding
 import com.example.hrr_android.databinding.ItemChallengeCardMoreBinding
 
-class ChallengeCardVPAdapter(private val items: List<Challenge>) :
+class ChallengeCardVPAdapter(private val items: List<ChallengesOngoing>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
@@ -19,18 +19,20 @@ class ChallengeCardVPAdapter(private val items: List<Challenge>) :
     inner class ChallengeViewHolder(private val binding: ItemChallengeCardDefaultBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: Challenge) {
+        fun bind(item: ChallengesOngoing) {
             binding.apply {
-                tvChallengeCardTitle.text = item.title  // 제목 설정
-                ivChallengeCardCover.setImageResource(item.coverimg)  // 커버 이미지 설정
+                tvChallengeCardTitle.text = item.name  // 챌린지 제목 설정
+                Glide.with(root.context).load(item.image).into(ivChallengeCardCover)  // 챌린지 이미지 설정
 
-                if (item.isTypeBasic) {  // 챌린지 타입에 따른 텍스트
-                    tvChallengeCardType.text = "베이직"
-                } else {
-                    tvChallengeCardType.text = "스터디"
+                // 챌린지 타입 설정
+                tvChallengeCardType.text = when (item.type) {
+                    "basic" -> "베이직"
+                    "study" -> "스터디"
+                    else -> "기타"
                 }
 
-                    if (item.isCertified) {  // 인증 상태에 따른 아이콘
+                // 인증 상태 아이콘 표시
+                if (item.verification) {
                     icChallengeCardChecked.visibility = View.VISIBLE
                     icChallengeCardUnchecked.visibility = View.GONE
                 } else {
