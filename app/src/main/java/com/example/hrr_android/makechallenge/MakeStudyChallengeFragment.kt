@@ -1,6 +1,8 @@
 package com.example.hrr_android.makechallenge
 
 import android.os.Bundle
+import android.net.Uri
+import androidx.activity.result.contract.ActivityResultContracts
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,7 +26,7 @@ class MakeStudyChallengeFragment : Fragment() {
 
     private var selectedStartDate: Long? = null
     private var selectedEndDate: Long? = null
-
+    private var selectedImageUri: Uri? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -43,6 +45,7 @@ class MakeStudyChallengeFragment : Fragment() {
         setupInputListeners()
         setupChallengeDurationSelection()
         getSelectedDatesFromCalendar() //선택한 날짜 받아오기
+        setupProfileImageSelection() // 갤러리에서 사진 선택 기능 추가
     }
 
     private fun setupBackButton() {
@@ -121,8 +124,23 @@ class MakeStudyChallengeFragment : Fragment() {
     }
 
     private fun setupChallengeDurationSelection() {
-        binding.layoutStudyDuration.setOnClickListener {
+        binding.llStudyDuration.setOnClickListener {
             findNavController().navigate(R.id.action_makeStudyChallengeFragment_to_makeChallengeCalendarFragment)
+        }
+    }
+
+    // ✅ 갤러리에서 사진 선택하는 기능 추가
+    private val imagePickerLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+        if (uri != null) {
+            binding.ivStudyChallengeProfile.setImageURI(uri)
+            selectedImageUri = uri
+            updateApplyButtonState()
+        }
+    }
+
+    private fun setupProfileImageSelection() {
+        binding.ivStudyChallengeProfile.setOnClickListener {
+            imagePickerLauncher.launch("image/*")
         }
     }
 
@@ -160,8 +178,8 @@ class MakeStudyChallengeFragment : Fragment() {
             if (selectedStartDate != -1L && selectedEndDate != -1L) {
                 val dateFormat = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
 
-                binding.tvSelectedStartDate.text = dateFormat.format(Date(selectedStartDate!!))
-                binding.tvSelectedEndDate.text = dateFormat.format(Date(selectedEndDate!!))
+                binding.tvStudyDurationStart.text = dateFormat.format(Date(selectedStartDate!!))
+                binding.tvStudyDurationEnd.text = dateFormat.format(Date(selectedEndDate!!))
 
                 updateApplyButtonState()
             }
