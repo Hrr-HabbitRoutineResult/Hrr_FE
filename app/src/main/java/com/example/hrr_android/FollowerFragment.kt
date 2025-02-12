@@ -24,6 +24,12 @@ class FollowerFragment : Fragment(), OnFollowClickListener {
         // ViewBinding 초기화
         _binding = FragmentFollowerBinding.inflate(inflater, container, false)
 
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         //팔로워 더미 데이터
         followerList.apply {
             add(Follow("김흐르", "실버", R.drawable.ic_profile_default, true, false))
@@ -53,7 +59,6 @@ class FollowerFragment : Fragment(), OnFollowClickListener {
         // 스크롤 리스너 추가
         setupScrollListener()
 
-        return binding.root
     }
 
     override fun onDestroyView() {
