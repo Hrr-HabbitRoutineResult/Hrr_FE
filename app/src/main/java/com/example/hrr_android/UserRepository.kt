@@ -89,4 +89,16 @@ class UserRepository @Inject constructor(
         val userId = authRepository.getUserId()
         return handleResponse { userService.getFollowings(userId) }
     }
+
+    // 사용자 팔로우 처리
+    suspend fun follow(followedUserId: Int): Result<FollowResult>{
+        return handleResponse { userService.follow(followedUserId) }
+    }
+
+    // 사용자 언팔로우 처리
+    suspend fun unfollow(unfollowedUserId: Int): Result<FollowResult>{
+        return handleResponse { userService.unFollow(unfollowedUserId) }
+    }
+
+
 }
