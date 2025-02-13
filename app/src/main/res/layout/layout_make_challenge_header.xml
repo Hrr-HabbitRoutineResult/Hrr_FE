@@ -26,7 +26,7 @@
 
         <!-- 타이틀 -->
         <TextView
-            android:id="@+id/tv_record_title"
+            android:id="@+id/tv_make_challenge_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="챌린지 개설"
