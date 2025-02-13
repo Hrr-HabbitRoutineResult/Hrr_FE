@@ -103,4 +103,31 @@ class UserViewModel @Inject constructor(
             }
         }
     }
+
+    // 팔로우 실행 후 팔로워/팔로잉 리스트 업데이트
+    fun follow(userId: Int) {
+        viewModelScope.launch {
+            val result = userRepository.follow(userId)
+            result.onSuccess {
+                loadFollowers()  // 팔로워 리스트 갱신
+                loadFollowings() // 팔로잉 리스트 갱신
+            }.onFailure {
+                _errorMessage.postValue(result.exceptionOrNull()?.message) // 에러 메시지 전달
+            }
+        }
+    }
+
+    // 언팔로우 실행 후 팔로워/팔로잉 리스트 업데이트
+    fun unfollow(userId: Int) {
+        viewModelScope.launch {
+            val result = userRepository.unfollow(userId)
+            result.onSuccess {
+                loadFollowers()  // 팔로워 리스트 갱신
+                loadFollowings() // 팔로잉 리스트 갱신
+            }.onFailure {
+                _errorMessage.postValue(result.exceptionOrNull()?.message) // 에러 메시지 전달
+            }
+        }
+    }
+
 }
