@@ -1,7 +1,9 @@
 package com.example.hrr_android
 
 import retrofit2.Response
+import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface UserService {
@@ -36,5 +38,17 @@ interface UserService {
     suspend fun getFollowings(
         @Path("userId") userId: Int
     ): Response<ApiResponse<FollowResponse>>
+
+    // 사용자 팔로우 처리
+    @POST("/api/v1/users/{followedUserId}/follow")
+    suspend fun follow(
+        @Path("followedUserId") followedUserId: Int
+    ): Response<ApiResponse<FollowResult>>
+
+    // 사용자 언팔로우 처리
+    @DELETE("/api/v1/users/{unfollowedUserId}/unfollow")
+    suspend fun unFollow(
+        @Path("unfollowedUserId") unfollowedUserId: Int
+    ): Response<ApiResponse<FollowResult>>
 
 }
