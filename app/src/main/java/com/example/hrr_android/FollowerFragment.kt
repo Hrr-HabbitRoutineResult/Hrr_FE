@@ -29,6 +29,7 @@ class FollowerFragment : Fragment(), OnFollowClickListener {
     private var userIdToUnfollow: Int = 0
     private var followerLoadingCnt: Int = 0
     private var followingLoadingCnt: Int = 0
+    private var myId: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -130,7 +131,9 @@ class FollowerFragment : Fragment(), OnFollowClickListener {
 
 
         //팔로워 RecyclerView 연결
-        val followRVAdapter = FollowRVAdapter(followerList, this)
+        myId = arguments?.getInt("myId", 0)?:0
+        Log.d("myIdDebug", "FollowerFragment: $myId")
+        val followRVAdapter = FollowRVAdapter(followerList, this, myId)
         binding.rvFollower.apply {
             adapter = followRVAdapter
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
@@ -185,6 +188,8 @@ class FollowerFragment : Fragment(), OnFollowClickListener {
     override fun onUserClicked(follow: Follow) {
         val intent = Intent(requireContext(), OtherProfileActivity::class.java).apply {
             putExtra("id", follow.id)
+            putExtra("myId", myId)
+            Log.d("myIdDebug", "onUserClicked: $myId")
         }
         startActivity(intent)
     }

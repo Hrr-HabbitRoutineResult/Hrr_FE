@@ -59,6 +59,9 @@ class ProfileFragment : Fragment() {
                 binding.tvProfileFollowingCount.text = it.followingCount.toString() // 팔로잉 수
                 //Todo: 뱃지 관련 바인딩
                 profileCommon.setupCircularProgressBar(binding, myProfile.level, myProfile.points) // 레벨 달성률 게이지 바 구현
+                //팔로우 클릭 처리
+                profileCommon.onFollowClicked(requireActivity(), binding.llProfileFollower, "follower", myId = it.id!!)
+                profileCommon.onFollowClicked(requireActivity(), binding.llProfileFollowing, "following", myId = it.id)
             }
         }
 
@@ -119,10 +122,6 @@ class ProfileFragment : Fragment() {
             intent.putExtra("point", myProfile.points)
             startActivity(intent)
         }
-
-        //팔로우 클릭 처리
-        profileCommon.onFollowClicked(requireActivity(), binding.llProfileFollower, "follower")
-        profileCommon.onFollowClicked(requireActivity(), binding.llProfileFollowing, "following")
 
         // 대표 뱃지 클릭 시 뱃지 수정 화면으로 전환
         binding.llProfileBadge.setOnClickListener {

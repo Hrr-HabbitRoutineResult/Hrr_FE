@@ -67,7 +67,8 @@ class FollowingFragment() : Fragment(), OnFollowClickListener {
         userViewModel.loadFollowings()
 
         //팔로워 RecyclerView 연결
-        val followRVAdapter = FollowRVAdapter(followingList, this)
+        val myId = arguments?.getInt("myId", 0)?:0
+        val followRVAdapter = FollowRVAdapter(followingList, this, myId)
         binding.rvFollowing.apply {
             adapter = followRVAdapter
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)

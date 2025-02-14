@@ -118,8 +118,9 @@ class OtherProfileActivity : AppCompatActivity() {
         profileCommon.setupBadges(profileBinding, selectedBadges)
 
         // 팔로우 목록 클릭 처리
-        profileCommon.onFollowClicked(this, profileBinding.llProfileFollower, "follower", false, userId)
-        profileCommon.onFollowClicked(this, profileBinding.llProfileFollowing, "following", false, userId)
+        val myId = intent.getIntExtra("myId", 0)
+        profileCommon.onFollowClicked(this, profileBinding.llProfileFollower, "follower", false, userId, myId)
+        profileCommon.onFollowClicked(this, profileBinding.llProfileFollowing, "following", false, userId, myId)
 
         // 팔로우 or 팔로잉 클릭 처리
         binding.ivOtherFollow.setOnClickListener {

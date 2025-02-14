@@ -89,12 +89,14 @@ class ProfileCommon {
     }
 
     //팔로우 클릭 처리
-    fun onFollowClicked(activity: FragmentActivity, view: View, type: String, isMyProfile: Boolean=true, ownerId: Int=0){
+    fun onFollowClicked(activity: FragmentActivity, view: View, type: String, isMyProfile: Boolean=true, ownerId: Int=0, myId: Int=0){
         view.setOnClickListener {
             val intent = Intent(activity, ProfileMoreActivity::class.java)
             intent.putExtra("type", type)
             intent.putExtra("isMyProfile", isMyProfile)
-            intent.putExtra("id", ownerId)
+            intent.putExtra("ownerId", ownerId)
+            intent.putExtra("myId", myId)
+            Log.d("myIdDebug", "ProfileCommon: $myId")
             Log.d("otherDebug", "ProfileCommon - $ownerId")
             activity.startActivity(intent)
         }

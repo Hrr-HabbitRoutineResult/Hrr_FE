@@ -43,10 +43,13 @@ class ProfileMoreActivity : AppCompatActivity() {
                     arguments = Bundle().apply {
                         putString("selected_tab", type)
                         if(!isMyProfile){
-                            val otherId = intent.getIntExtra("id", 0)
+                            val otherId = intent.getIntExtra("ownerId", 0)
                             Log.d("otherDebug", "ProfileMoreActivity - $otherId")
                             putInt("ownerId", otherId)
                         }
+                        val myId = intent.getIntExtra("myId", 0)
+                        putInt("myId", myId)
+                        Log.d("myIdDebug", "ProfileMoreActivity: $myId")
                     }
                 }
                 "setting" -> SettingFragment()

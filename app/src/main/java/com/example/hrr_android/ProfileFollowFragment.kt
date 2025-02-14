@@ -25,7 +25,10 @@ class ProfileFollowFragment : Fragment() {
         //ViewPager2 Adapter 연결
         val ownerId = arguments?.getInt("ownerId", 0)?: 0
         Log.d("otherDebug", "ProfileFollowFragment - $ownerId")
-        val followVPAdapter = FollowVPAdapter(this, ownerId)
+        val myId = arguments?.getInt("myId", 0)?: 0
+
+        Log.d("myIdDebug", "ProfileFollowerFragment: $myId")
+        val followVPAdapter = FollowVPAdapter(this, ownerId, myId)
         binding.vpFollow.adapter = followVPAdapter
 
         //탭 제목 설정
