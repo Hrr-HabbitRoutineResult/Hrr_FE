@@ -23,6 +23,9 @@ class FollowerFragment : Fragment(), OnFollowClickListener {
     private var followingIdList = ArrayList<Int>()
     private var currentOverlayPosition: Int = RecyclerView.NO_POSITION
     private val userViewModel: UserViewModel by activityViewModels()
+    private var userIdToUnfollow: Int = 0
+    private var followerLoadingCnt: Int = 0
+    private var followingLoadingCnt: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,48 +48,19 @@ class FollowerFragment : Fragment(), OnFollowClickListener {
         userViewModel.apply {
             // 팔로워 리스트
             followers.observe(viewLifecycleOwner) { response ->
-                response?.followers?.map{follower->
-//                    val level = when(follower.level){
-//                        "general" -> "일반"
-//                        "bronze" -> "브론즈"
-//                        "silver" -> "실버"
-//                        "gold" -> "골드"
-//                        "master" -> "마스터"
-//                        "challenger" -> "챌린저"
-//                        else -> ""
-//                    }
-
-                    Follow(
-                        follower.nickname,
-                        "일반",
-                        R.drawable.ic_profile_default,          //Todo: 이미지 처리 추가
-                        isFollower = true,
-                        isFollowing = followingIdList.contains(follower.id))    // 팔로잉 리스트에 해당 id가 있으면 true
-                }.let {
-                    followerList.apply {
-                        clear()
-                        if (it != null) {
-                            addAll(it)
-                        }
-                    }
-                    binding.rvFollower.adapter?.notifyDataSetChanged()
-                }
+                followerLoadingCnt++
+                updateFollowerList(response)
             }
 
             // 팔로잉 리스트(나도 상대를 팔로우하고 있는지 판단하기 위함)
             followings.observe(viewLifecycleOwner) { response ->
-                response?.followings?.map{followings->
-                    followings.id
-                }.let {
-                    followingIdList.apply {
-                        clear()
-                        if (it != null) {
-                            addAll(it)
-                        }
-                    }
-                }
+                followingLoadingCnt++
+                updateFollowingList(response)
             }
+
+
         }
+
 
         userViewModel.errorMessage.observe(viewLifecycleOwner) { errorMsg ->
             errorMsg?.let {
@@ -107,20 +81,6 @@ class FollowerFragment : Fragment(), OnFollowClickListener {
         userViewModel.loadFollowers()
         userViewModel.loadFollowings()
 
-//        //팔로워 더미 데이터
-//        followerList.apply {
-//            add(Follow("김흐르", "실버", R.drawable.ic_profile_default, true, false))
-//            add(Follow("김흐르", "실버", R.drawable.ic_profile_default, true, false))
-//            add(Follow("김흐르", "실버", R.drawable.ic_profile_default, true, false))
-//            add(Follow("김흐르", "실버", R.drawable.ic_profile_default, true, false))
-//            add(Follow("조흐르", "실버", R.drawable.ic_profile_default, true, true))
-//            add(Follow("이흐르", "실버", R.drawable.ic_profile_default, true, true))
-//            add(Follow("김흐르", "실버", R.drawable.ic_profile_default, true, true))
-//            add(Follow("김흐르", "실버", R.drawable.ic_profile_default, true, true))
-//            add(Follow("김흐르", "실버", R.drawable.ic_profile_default, true, true))
-//            add(Follow("김흐르", "실버", R.drawable.ic_profile_default, true, true))
-//        }
-
         //팔로워 RecyclerView 연결
         val followRVAdapter = FollowRVAdapter(followerList, this)
         binding.rvFollower.apply {
@@ -130,12 +90,23 @@ class FollowerFragment : Fragment(), OnFollowClickListener {
 
         // 언팔로우 메시지 클릭 처리
         binding.flUnfollowView.setOnClickListener {
-            doUnfollow()
+            doUnfollow()    // 언팔로우 창 숨김
+            userViewModel.unfollow(userIdToUnfollow)    // 언팔로우 처리
+            // 정보 업데이트
+            followerList.find { it.id == userIdToUnfollow }?.let { follow ->
+                follow.isFollowing = false
+                binding.rvFollower.adapter?.notifyDataSetChanged()
+            }
         }
 
         // 스크롤 리스너 추가
         setupScrollListener()
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.rvFollower.adapter?.notifyDataSetChanged()
     }
 
     override fun onDestroyView() {
@@ -145,21 +116,27 @@ class FollowerFragment : Fragment(), OnFollowClickListener {
 
     override fun onFollowClicked(follow: Follow) {
         // 해당 유저 팔로우 시작 처리
+        userViewModel.follow(follow.id)
+        // 정보 업데이트
+        follow.isFollowing = true
+        binding.rvFollower.adapter?.notifyDataSetChanged()
     }
 
     override fun onFollowingClicked(position: Int, follow: Follow) {
-        //언팔로우 메시지 세팅
+        // 언팔로우 메시지 세팅
         binding.tvUnfollow.text = "${follow.name} 님 언팔로우하기"
 
-        // 해당 유저 팔로우 해제 처리
-        showOverlayAt(position)     //언팔로우 메시지 뷰 이동
+        // 언팔로우할 유저 id 할당
+        userIdToUnfollow = follow.id
 
+        // 언팔로우 메시지 뷰 이동
+        showOverlayAt(position)
 
     }
 
     override fun onUserClicked(follow: Follow) {
         val intent = Intent(requireContext(), OtherProfileActivity::class.java).apply {
-            putExtra("name", follow.name)   //추후 API 연결 시 이름으로 사용자의 정보를 받아와 바인딩 예정
+            putExtra("name", follow.name)   //Todo: 추후 API 연결 시 이름으로 사용자의 정보를 받아와 바인딩 예정
         }
         startActivity(intent)
     }
@@ -222,5 +199,68 @@ class FollowerFragment : Fragment(), OnFollowClickListener {
         binding.flUnfollowView.visibility = View.GONE
         currentOverlayPosition = RecyclerView.NO_POSITION
     }
+
+    // 팔로워 리스트 업데이트 함수
+    private fun updateFollowerList(response: FollowResponse?) {
+        response?.followers?.map{follower->
+//                    val level = when(follower.level){
+//                        "general" -> "일반"
+//                        "bronze" -> "브론즈"
+//                        "silver" -> "실버"
+//                        "gold" -> "골드"
+//                        "master" -> "마스터"
+//                        "challenger" -> "챌린저"
+//                        else -> ""
+//                    }
+
+            Follow(
+                follower.id,
+                follower.nickname,
+                "일반",
+                R.drawable.ic_profile_default,          //Todo: 이미지 처리 추가
+                isFollower = true,
+                isFollowing = followingIdList.contains(follower.id))    // 팔로잉 리스트에 해당 id가 있으면 true
+        }.let {
+            followerList.apply {
+                clear()
+                if (it != null) {
+                    addAll(it)
+                    if(followerLoadingCnt==1){
+                        // 팔로워 정보 업데이트
+                        followerList.forEach { follow ->
+                            follow.isFollowing = follow.id in followingIdList
+                        }
+                        // 최초 데이터 로드 시에만 UI 업데이트 하도록 함
+                        binding.rvFollower.adapter?.notifyDataSetChanged()
+                    }
+                }
+            }
+        }
+    }
+
+    // 팔로잉 리스트 업데이트 함수
+    private fun updateFollowingList(response: FollowResponse?) {
+        response?.followings?.map{followings->
+            followings.id
+        }.let {
+            followingIdList.apply {
+                clear()
+                if (it != null) {
+                    addAll(it)
+                    if(followingLoadingCnt==1){
+                        // 팔로워 정보 업데이트
+                        followerList.forEach { follow ->
+                            follow.isFollowing = follow.id in followingIdList
+                        }
+                        // 최초 데이터 로드 시에만 UI 업데이트 하도록 함
+                        binding.rvFollower.adapter?.notifyDataSetChanged()
+                    }
+
+                }
+            }
+        }
+    }
+
+
 
 }

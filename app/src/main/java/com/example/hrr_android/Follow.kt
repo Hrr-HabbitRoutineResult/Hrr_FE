@@ -1,6 +1,7 @@
 package com.example.hrr_android
 
 data class Follow(
+    val id: Int = 0,
     val name: String,
     val level: String,
     val img: Int,               //대표 이미지

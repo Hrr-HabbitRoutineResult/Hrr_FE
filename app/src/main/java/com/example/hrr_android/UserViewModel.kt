@@ -51,10 +51,8 @@ class UserViewModel @Inject constructor(
     }
 
     fun fetchChallengesOngoing() {
-        Log.d("asdf", "fetchChallengesOngoing() 호출됨") // 디버깅용 로그
         viewModelScope.launch {
             val result = userRepository.getChallengesOngoing()
-            Log.d("asdf", "API 응답: $result") // API 응답 데이터 확인
             _challengesOngoing.value = result
         }
     }
