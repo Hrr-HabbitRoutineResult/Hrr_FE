@@ -86,8 +86,7 @@ class UserRepository @Inject constructor(
     }
 
     // 팔로잉 리스트 조회
-    suspend fun getFollowings(): Result<FollowResponse>{
-        val userId = authRepository.getUserId()
+    suspend fun getFollowings(userId: Int): Result<FollowResponse>{
         return handleResponse { userService.getFollowings(userId) }
     }
 

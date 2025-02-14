@@ -93,9 +93,9 @@ class UserViewModel @Inject constructor(
     private val _followings = MutableLiveData<FollowResponse?>()
     val followings: LiveData<FollowResponse?> get() = _followings
 
-    fun loadFollowings(){
+    fun loadFollowings(userId: Int){
         viewModelScope.launch {
-            val result = userRepository.getFollowings()
+            val result = userRepository.getFollowings(userId)
             result.onSuccess{
                 _followings.postValue(result.getOrNull()) // 성공 시 데이터 업데이트
             }.onFailure {
@@ -110,7 +110,7 @@ class UserViewModel @Inject constructor(
             val result = userRepository.follow(userId)
             result.onSuccess {
                 loadFollowers(myId)  // 팔로워 리스트 갱신
-                loadFollowings() // 팔로잉 리스트 갱신
+                loadFollowings(myId) // 팔로잉 리스트 갱신
             }.onFailure {
                 _errorMessage.postValue(result.exceptionOrNull()?.message) // 에러 메시지 전달
             }
@@ -123,7 +123,7 @@ class UserViewModel @Inject constructor(
             val result = userRepository.unfollow(userId)
             result.onSuccess {
                 loadFollowers(myId)  // 팔로워 리스트 갱신
-                loadFollowings() // 팔로잉 리스트 갱신
+                loadFollowings(myId) // 팔로잉 리스트 갱신
             }.onFailure {
                 _errorMessage.postValue(result.exceptionOrNull()?.message) // 에러 메시지 전달
             }

@@ -66,7 +66,7 @@ class FollowingFragment : Fragment(), OnFollowClickListener {
         }
 
         // 팔로우 데이터 로드
-        userViewModel.loadFollowings()
+        userViewModel.loadFollowings(userId)
 
         //팔로워 RecyclerView 연결
         val followRVAdapter = FollowRVAdapter(followingList, this)
