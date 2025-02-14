@@ -21,7 +21,7 @@ interface UserService {
         @Path("userId") userId: Int
     ): Response<ApiResponse<ChallengesOngoingResponse>>
 
-    // 참가 중인 챌린지 조회
+    // 최근 완주한 챌린지 조회
     @GET("/api/v1/users/{userId}/challenges/completed")
     suspend fun getChallengesEnd(
         @Path("userId") userId: Int

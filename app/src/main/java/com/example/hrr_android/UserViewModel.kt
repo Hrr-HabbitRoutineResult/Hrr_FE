@@ -63,9 +63,9 @@ class UserViewModel @Inject constructor(
     private val _challengesEnd = MutableLiveData<ChallengeEndResponse?>()
     val challengesEnd: LiveData<ChallengeEndResponse?> get() = _challengesEnd
 
-    fun loadChallengesEnd(){
+    fun loadChallengesEnd(userId: Int){
         viewModelScope.launch {
-            val result = userRepository.getChallengesEnd()
+            val result = userRepository.getChallengesEnd(userId)
             result.onSuccess{
                 _challengesEnd.postValue(result.getOrNull()) // 성공 시 데이터 업데이트
             }.onFailure {

@@ -120,7 +120,7 @@ class ProfileChallengeFragment : Fragment() {
         }
 
         // 유저 데이터 로드
-        userViewModel.loadChallengesEnd()
+        userViewModel.loadChallengesEnd(userId)
 
         //최근 완주한 챌린지 더미 데이터 - 테스트 시 주석 해제 or 설정
 //        completedChallengeList.apply {

@@ -71,7 +71,7 @@ class ProfileChallengeMoreFragment : Fragment() {
         }
 
         // 유저 데이터 로드
-        userViewModel.loadChallengesEnd()
+        userViewModel.loadChallengesEnd(userViewModel.myId)
 
         val profileChallengerMoreRVAdapter = ProfileChallengerMoreRVAdapter(completedChallenges)
         binding.rvChallengeMore.apply {
