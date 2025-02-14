@@ -172,7 +172,7 @@ class HomeFragment : Fragment() {
                     binding.vpHomeChallengeToday,
                     challengeTodayAdapter,
                     challengeList,
-                    16,
+                    12,
                     32
                 )
             } ?: run {
