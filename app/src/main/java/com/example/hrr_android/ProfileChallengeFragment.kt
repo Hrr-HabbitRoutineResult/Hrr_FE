@@ -40,7 +40,7 @@ class ProfileChallengeFragment : Fragment() {
         * 참가중인 챌린지 연동
         * */
 
-        userId = userViewModel.myId
+        userId = 1
         // LiveData 관찰 (데이터가 변경될 때 자동 업데이트되도록 설정)
         userViewModel.challengesOngoing.observe(viewLifecycleOwner) { result ->
             Log.d("asdf", "ViewModel에서 받은 데이터: $result") // 디버깅용 로그 추가
@@ -72,7 +72,7 @@ class ProfileChallengeFragment : Fragment() {
         }
 
         // 참가중인 챌린지 데이터 로딩
-        userViewModel.fetchChallengesOngoing(userId)
+        userViewModel.fetchChallengesOngoing()
 
         /*
         * 최근 완주한 챌린지 연동
@@ -120,7 +120,7 @@ class ProfileChallengeFragment : Fragment() {
         }
 
         // 유저 데이터 로드
-        userViewModel.loadChallengesEnd(userId)
+        userViewModel.loadChallengesEnd()
 
         //최근 완주한 챌린지 더미 데이터 - 테스트 시 주석 해제 or 설정
 //        completedChallengeList.apply {

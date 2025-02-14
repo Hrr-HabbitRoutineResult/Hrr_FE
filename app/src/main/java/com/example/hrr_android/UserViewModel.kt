@@ -5,13 +5,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.hrr_android.access.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class UserViewModel @Inject constructor(
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val authRepository: AuthRepository
 ) : ViewModel() {
 
     private val _errorMessage = MutableLiveData<String?>()      // 내부 접근용
@@ -24,11 +26,9 @@ class UserViewModel @Inject constructor(
     private val _challengesOngoing = MutableLiveData<Result<List<ChallengesOngoing>>>()
     val challengesOngoing: LiveData<Result<List<ChallengesOngoing>>> get() = _challengesOngoing
 
-    val myId = userRepository.getMyId()
-
-    fun loadProfile(userId: Int) {
+    fun loadProfile() {
         viewModelScope.launch {
-            val result = userRepository.loadProfile(userId)
+            val result = userRepository.loadProfile(authRepository.getUserId())
             result.onSuccess{
                 _profile.postValue(result.getOrNull()) // 성공 시 데이터 업데이트
             }.onFailure {
@@ -52,9 +52,9 @@ class UserViewModel @Inject constructor(
         }
     }
 
-    fun fetchChallengesOngoing(userId: Int) {
+    fun fetchChallengesOngoing() {
         viewModelScope.launch {
-            val result = userRepository.getChallengesOngoing(userId)
+            val result = userRepository.getChallengesOngoing(authRepository.getUserId())
             _challengesOngoing.value = result
         }
     }
@@ -63,9 +63,9 @@ class UserViewModel @Inject constructor(
     private val _challengesEnd = MutableLiveData<ChallengeEndResponse?>()
     val challengesEnd: LiveData<ChallengeEndResponse?> get() = _challengesEnd
 
-    fun loadChallengesEnd(userId: Int){
+    fun loadChallengesEnd(){
         viewModelScope.launch {
-            val result = userRepository.getChallengesEnd(userId)
+            val result = userRepository.getChallengesEnd(authRepository.getUserId())
             result.onSuccess{
                 _challengesEnd.postValue(result.getOrNull()) // 성공 시 데이터 업데이트
             }.onFailure {
@@ -78,9 +78,9 @@ class UserViewModel @Inject constructor(
     private val _followers = MutableLiveData<FollowResponse?>()
     val followers: LiveData<FollowResponse?> get() = _followers
 
-    fun loadFollowers(userId: Int){
+    fun loadFollowers(){
         viewModelScope.launch {
-            val result = userRepository.getFollowers(userId)
+            val result = userRepository.getFollowers(authRepository.getUserId())
             result.onSuccess{
                 _followers.postValue(result.getOrNull()) // 성공 시 데이터 업데이트
             }.onFailure {
@@ -93,9 +93,9 @@ class UserViewModel @Inject constructor(
     private val _followings = MutableLiveData<FollowResponse?>()
     val followings: LiveData<FollowResponse?> get() = _followings
 
-    fun loadFollowings(userId: Int){
+    fun loadFollowings(){
         viewModelScope.launch {
-            val result = userRepository.getFollowings(userId)
+            val result = userRepository.getFollowings(authRepository.getUserId())
             result.onSuccess{
                 _followings.postValue(result.getOrNull()) // 성공 시 데이터 업데이트
             }.onFailure {
@@ -105,12 +105,12 @@ class UserViewModel @Inject constructor(
     }
 
     // 팔로우 실행 후 팔로워/팔로잉 리스트 업데이트
-    fun follow(myId:Int, userId: Int) {
+    fun follow(userId: Int) {
         viewModelScope.launch {
             val result = userRepository.follow(userId)
             result.onSuccess {
-                loadFollowers(myId)  // 팔로워 리스트 갱신
-                loadFollowings(myId) // 팔로잉 리스트 갱신
+                loadFollowers()  // 팔로워 리스트 갱신
+                loadFollowings() // 팔로잉 리스트 갱신
             }.onFailure {
                 _errorMessage.postValue(result.exceptionOrNull()?.message) // 에러 메시지 전달
             }
@@ -118,12 +118,12 @@ class UserViewModel @Inject constructor(
     }
 
     // 언팔로우 실행 후 팔로워/팔로잉 리스트 업데이트
-    fun unfollow(myId:Int, userId: Int) {
+    fun unfollow(userId: Int) {
         viewModelScope.launch {
             val result = userRepository.unfollow(userId)
             result.onSuccess {
-                loadFollowers(myId)  // 팔로워 리스트 갱신
-                loadFollowings(myId) // 팔로잉 리스트 갱신
+                loadFollowers()  // 팔로워 리스트 갱신
+                loadFollowings() // 팔로잉 리스트 갱신
             }.onFailure {
                 _errorMessage.postValue(result.exceptionOrNull()?.message) // 에러 메시지 전달
             }

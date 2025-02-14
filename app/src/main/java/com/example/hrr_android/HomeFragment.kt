@@ -64,7 +64,7 @@ class HomeFragment : Fragment() {
             adapter = categoryAdapter
         }
 
-        userViewModel.fetchChallengesOngoing(userViewModel.myId) // API 호출
+        userViewModel.fetchChallengesOngoing() // API 호출
 
         setupOngoingViewPager()
         observeChallenges()
