@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.viewModels
 import com.example.hrr_android.databinding.ActivityOtherProfileBinding
 import com.example.hrr_android.databinding.DialogBottomSheetBinding
 import com.example.hrr_android.databinding.FragmentProfileBinding
@@ -20,6 +21,7 @@ class OtherProfileActivity : AppCompatActivity() {
     private val profileCommon = ProfileCommon()     //공통 로직 인스턴스 생성
     private var selectedBadges = ArrayList<Badge>()                 //대표 뱃지 리스트
     private var userId:Int = 0
+    private val userViewModel: UserViewModel by viewModels()
     private val otherUserViewModel: OtherUserViewModel by viewModels()
     private var myProfile: UserResponse = UserResponse()    // 로딩된 사용자 정보
 
@@ -72,9 +74,22 @@ class OtherProfileActivity : AppCompatActivity() {
             }
         }
 
-
         // 유저 데이터 로드
         otherUserViewModel.loadProfile(userId)
+
+        // 팔로잉하는 사람인지 확인
+        userViewModel.followings.observe(this) { followingList ->
+            val isFollowing = followingList?.followings?.any { it.id == myProfile.id } ?: false
+            
+            if (isFollowing) {
+                binding.ivOtherFollow.visibility = View.GONE
+                binding.ivOtherFollowing.visibility = View.VISIBLE
+            } else {
+                binding.ivOtherFollow.visibility = View.VISIBLE
+                binding.ivOtherFollowing.visibility = View.GONE
+            }
+        }
+        userViewModel.loadFollowings()  // 계정 주인의 팔로잉 목록 불러오기
 
 
         // 더미 데이터
@@ -108,7 +123,9 @@ class OtherProfileActivity : AppCompatActivity() {
         binding.ivOtherFollow.setOnClickListener {
             //"팔로우" 상태 아이콘 클릭 시
             binding.ivOtherFollow.visibility = View.GONE
-            binding.ivOtherFollowing.visibility = View.VISIBLE    //팔로우 시작
+            binding.ivOtherFollowing.visibility = View.VISIBLE
+            //팔로우 시작
+            userViewModel.follow(myProfile.id?: 0)
         }
         binding.ivOtherFollowing.setOnClickListener {
             //"팔로잉" 상태 아이콘 클릭 시
@@ -117,7 +134,9 @@ class OtherProfileActivity : AppCompatActivity() {
         binding.flUnfollowView.setOnClickListener {
             binding.flUnfollowView.visibility = View.GONE
             binding.ivOtherFollow.visibility = View.VISIBLE
-            binding.ivOtherFollowing.visibility = View.GONE    //팔로우 해제
+            binding.ivOtherFollowing.visibility = View.GONE
+            //팔로우 해제
+            userViewModel.unfollow(myProfile.id?: 0)
 
         }
 
