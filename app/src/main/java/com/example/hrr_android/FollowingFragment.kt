@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hrr_android.databinding.FragmentFollowingBinding
@@ -22,8 +23,10 @@ class FollowingFragment() : Fragment(), OnFollowClickListener {
     private var followingList = ArrayList<Follow>()
     private var currentOverlayPosition: Int = RecyclerView.NO_POSITION
     private val userViewModel: UserViewModel by activityViewModels()
+    private val otherUserViewModel: OtherUserViewModel by viewModels()
     private var userIdToUnfollow: Int = 0
     private var followingLoadingCnt: Int = 0
+    private var myId: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,36 +41,71 @@ class FollowingFragment() : Fragment(), OnFollowClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // 넘겨받은 값이 없거나, 0이라면 계정 주인의 팔로워를 띄운다
+        val userId = arguments?.getInt("ownerId", 0)?:0
+        val isMine: Boolean = (userId == 0)
+        Log.d("otherDebug", "FollowerFragment - $userId")
+        /*
+        * 내 팔로워, 팔로잉 리스트 연동
+        * */
+        if(isMine){
+            // LiveData 관찰 (데이터가 변경될 때 자동 업데이트되도록 설정)
+            userViewModel.followings.observe(viewLifecycleOwner) { response ->
+                followingLoadingCnt++
+                updateFollowingList(response)
+            }
+
+            userViewModel.errorMessage.observe(viewLifecycleOwner) { errorMsg ->
+                errorMsg?.let {
+                    val errorToUser = when {
+                        it.contains("IllegalStateException") -> "데이터를 불러오는 중 문제가 발생했습니다. 다시 시도해 주세요."
+                        it.contains("JsonSyntaxException") -> "서버 응답이 올바르지 않습니다. 업데이트를 확인해 주세요."
+                        it.contains("SocketTimeoutException") -> "서버 응답이 지연되고 있습니다. 잠시 후 다시 시도해 주세요."
+                        it.contains("IOException") -> "네트워크 연결을 확인해 주세요."
+                        else -> "알 수 없는 오류가 발생했습니다. 잠시 후 다시 시도해 주세요."
+                    }
+
+                    Toast.makeText(requireContext(), errorToUser, Toast.LENGTH_LONG).show()
+                    Log.e("ProfileFragmentVM", "오류 발생: $errorMsg")
+                }
+            }
+
+            // 팔로우 데이터 로드
+            userViewModel.loadFollowings()
+        }
         /*
         * 팔로잉 리스트 연동
         * */
-
-        // LiveData 관찰 (데이터가 변경될 때 자동 업데이트되도록 설정)
-        userViewModel.followings.observe(viewLifecycleOwner) { response ->
-            followingLoadingCnt++
-            updateFollowingList(response)
-        }
-
-        userViewModel.errorMessage.observe(viewLifecycleOwner) { errorMsg ->
-            errorMsg?.let {
-                val errorToUser = when {
-                    it.contains("IllegalStateException") -> "데이터를 불러오는 중 문제가 발생했습니다. 다시 시도해 주세요."
-                    it.contains("JsonSyntaxException") -> "서버 응답이 올바르지 않습니다. 업데이트를 확인해 주세요."
-                    it.contains("SocketTimeoutException") -> "서버 응답이 지연되고 있습니다. 잠시 후 다시 시도해 주세요."
-                    it.contains("IOException") -> "네트워크 연결을 확인해 주세요."
-                    else -> "알 수 없는 오류가 발생했습니다. 잠시 후 다시 시도해 주세요."
-                }
-
-                Toast.makeText(requireContext(), errorToUser, Toast.LENGTH_LONG).show()
-                Log.e("ProfileFragmentVM", "오류 발생: $errorMsg")
+        else{
+            // LiveData 관찰 (데이터가 변경될 때 자동 업데이트되도록 설정)
+            otherUserViewModel.followings.observe(viewLifecycleOwner) { response ->
+                followingLoadingCnt++
+                updateFollowingList(response)
             }
+
+            otherUserViewModel.errorMessage.observe(viewLifecycleOwner) { errorMsg ->
+                errorMsg?.let {
+                    val errorToUser = when {
+                        it.contains("IllegalStateException") -> "데이터를 불러오는 중 문제가 발생했습니다. 다시 시도해 주세요."
+                        it.contains("JsonSyntaxException") -> "서버 응답이 올바르지 않습니다. 업데이트를 확인해 주세요."
+                        it.contains("SocketTimeoutException") -> "서버 응답이 지연되고 있습니다. 잠시 후 다시 시도해 주세요."
+                        it.contains("IOException") -> "네트워크 연결을 확인해 주세요."
+                        else -> "알 수 없는 오류가 발생했습니다. 잠시 후 다시 시도해 주세요."
+                    }
+
+                    Toast.makeText(requireContext(), errorToUser, Toast.LENGTH_LONG).show()
+                    Log.e("ProfileFragmentVM", "오류 발생: $errorMsg")
+                }
+            }
+
+            // 팔로우 데이터 로드
+            otherUserViewModel.loadFollowings(userId)
         }
 
-        // 팔로우 데이터 로드
-        userViewModel.loadFollowings()
+
 
         //팔로워 RecyclerView 연결
-        val myId = arguments?.getInt("myId", 0)?:0
+        myId = arguments?.getInt("myId", 0)?:0
         val followRVAdapter = FollowRVAdapter(followingList, this, myId)
         binding.rvFollowing.apply {
             adapter = followRVAdapter
@@ -115,6 +153,7 @@ class FollowingFragment() : Fragment(), OnFollowClickListener {
     override fun onUserClicked(follow: Follow) {
         val intent = Intent(requireContext(), OtherProfileActivity::class.java).apply {
             putExtra("id", follow.id)
+            putExtra("myId", myId)
         }
         startActivity(intent)
     }

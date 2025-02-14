@@ -21,6 +21,7 @@ class FollowVPAdapter(fragment: Fragment, private var ownerId: Int = 0, private 
             }
             1 -> FollowingFragment().apply {
                 arguments = Bundle().apply {
+                    putInt("ownerId", ownerId)
                     putInt("myId", myId)
                 }
             }
