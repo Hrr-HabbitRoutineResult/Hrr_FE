@@ -24,9 +24,11 @@ class UserViewModel @Inject constructor(
     private val _challengesOngoing = MutableLiveData<Result<List<ChallengesOngoing>>>()
     val challengesOngoing: LiveData<Result<List<ChallengesOngoing>>> get() = _challengesOngoing
 
-    fun loadProfile() {
+    val myId = userRepository.getMyId()
+
+    fun loadProfile(userId: Int) {
         viewModelScope.launch {
-            val result = userRepository.loadProfile()
+            val result = userRepository.loadProfile(userId)
             result.onSuccess{
                 _profile.postValue(result.getOrNull()) // 성공 시 데이터 업데이트
             }.onFailure {

@@ -22,6 +22,7 @@ class ProfileFragment : Fragment() {
     private val userViewModel: UserViewModel by viewModels()
     private val profileCommon = ProfileCommon()     //공통 로직 인스턴스 생성
     private var myProfile: UserResponse = UserResponse()    // 로딩된 사용자 정보
+    private var userId: Int = 0     // 유저 아이디
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,6 +42,7 @@ class ProfileFragment : Fragment() {
         //ViewPager2 Adapter 연결
         profileCommon.setupViewPager(binding, requireActivity(), true)
 
+        userId = userViewModel.myId
         // LiveData 관찰 (데이터가 변경될 때 자동 업데이트되도록 설정)
         userViewModel.profile.observe(viewLifecycleOwner) { profile ->
             profile?.let {
@@ -80,7 +82,7 @@ class ProfileFragment : Fragment() {
 
 
         // 유저 데이터 로드
-        userViewModel.loadProfile()
+        userViewModel.loadProfile(userId)
 
         //레벨 달성률 게이지 바 구현
         profileCommon.setupCircularProgressBar(binding, myProfile.level, myProfile.points)

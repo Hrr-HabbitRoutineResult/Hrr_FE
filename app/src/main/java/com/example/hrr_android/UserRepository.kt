@@ -39,9 +39,13 @@ class UserRepository @Inject constructor(
         }
     }
 
+    fun getMyId(): Int{
+        return authRepository.getUserId()
+    }
+
     // 사용자 정보 조회
-    suspend fun loadProfile(): Result<UserResponse>{
-        return handleResponse { userService.getUserInfo(authRepository.getUserId()) } // 함수 자체를 전달하여 호출 즉시 실행 방지,
+    suspend fun loadProfile(userId: Int): Result<UserResponse>{
+        return handleResponse { userService.getUserInfo(userId) } // 함수 자체를 전달하여 호출 즉시 실행 방지,
     }
 
     // 챌린지 기록 조회
