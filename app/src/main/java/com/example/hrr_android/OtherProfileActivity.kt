@@ -15,9 +15,12 @@ class OtherProfileActivity : AppCompatActivity() {
     private lateinit var profileBinding: FragmentProfileBinding     //include로 불러온 뷰 사용을 위한 바인딩
     private val profileCommon = ProfileCommon()     //공통 로직 인스턴스 생성
     private var selectedBadges = ArrayList<Badge>()                 //대표 뱃지 리스트
+    private var userId:Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        userId = intent.getIntExtra("id", 0)    // 넘겨받은 id를 배정
 
         binding = ActivityOtherProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)

@@ -138,7 +138,7 @@ class FollowerFragment : Fragment(), OnFollowClickListener {
 
     override fun onUserClicked(follow: Follow) {
         val intent = Intent(requireContext(), OtherProfileActivity::class.java).apply {
-            putExtra("name", follow.name)   //Todo: 추후 API 연결 시 이름으로 사용자의 정보를 받아와 바인딩 예정
+            putExtra("id", follow.id)
         }
         startActivity(intent)
     }
