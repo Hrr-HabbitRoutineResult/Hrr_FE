@@ -29,6 +29,7 @@ class OtherProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         userId = intent.getIntExtra("id", 0)    // 넘겨받은 id를 배정
+        Log.d("otherDebug", "OtherProfileActivity - $userId")
 
         binding = ActivityOtherProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -41,6 +42,7 @@ class OtherProfileActivity : AppCompatActivity() {
         otherUserViewModel.profile.observe(this) { profile ->
             profile?.let {
                 myProfile = it  // 불러온 정보를 저장해놔서 다른 Fragment를 띄울 때 필요한 정보만 전달하여 불필요한 api 호출을 방지
+                userId = it.id?:0
                 //Todo: 프로필 사진 바인딩
                 profileBinding.tvProfileUsername.text = it.nickname    // 이름
                 profileBinding.tvProfileLevel.text = when(it.level){

@@ -44,6 +44,7 @@ class ProfileMoreActivity : AppCompatActivity() {
                         putString("selected_tab", type)
                         if(!isMyProfile){
                             val otherId = intent.getIntExtra("id", 0)
+                            Log.d("otherDebug", "ProfileMoreActivity - $otherId")
                             putInt("ownerId", otherId)
                         }
                     }

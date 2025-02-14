@@ -33,4 +33,38 @@ class OtherUserViewModel@Inject constructor(
         }
     }
 
+    /*
+    * 팔로워 리스트 조회
+    * */
+    private val _followers = MutableLiveData<FollowResponse?>()
+    val followers: LiveData<FollowResponse?> get() = _followers
+
+    fun loadFollowers(userId: Int){
+        viewModelScope.launch {
+            val result = userRepository.getFollowers(userId)
+            result.onSuccess{
+                _followers.postValue(result.getOrNull()) // 성공 시 데이터 업데이트
+            }.onFailure {
+                _errorMessage.postValue(result.exceptionOrNull()?.message) // 실패 시 에러 메시지 전달
+            }
+        }
+    }
+
+    /*
+    * 팔로잉 리스트 조회
+    * */
+    private val _followings = MutableLiveData<FollowResponse?>()
+    val followings: LiveData<FollowResponse?> get() = _followings
+
+    fun loadFollowings(userId: Int){
+        viewModelScope.launch {
+            val result = userRepository.getFollowings(userId)
+            result.onSuccess{
+                _followings.postValue(result.getOrNull()) // 성공 시 데이터 업데이트
+            }.onFailure {
+                _errorMessage.postValue(result.exceptionOrNull()?.message) // 실패 시 에러 메시지 전달
+            }
+        }
+    }
+
 }

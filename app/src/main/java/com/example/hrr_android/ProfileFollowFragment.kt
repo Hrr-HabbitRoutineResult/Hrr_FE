@@ -23,7 +23,7 @@ class ProfileFollowFragment : Fragment() {
         _binding = FragmentProfileFollowBinding.inflate(inflater, container, false)
 
         //ViewPager2 Adapter 연결
-        val ownerId = arguments?.getInt("id", 0)?: 0
+        val ownerId = arguments?.getInt("ownerId", 0)?: 0
         Log.d("otherDebug", "ProfileFollowFragment - $ownerId")
         val followVPAdapter = FollowVPAdapter(this, ownerId)
         binding.vpFollow.adapter = followVPAdapter

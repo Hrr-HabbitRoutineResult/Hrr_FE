@@ -14,7 +14,7 @@ class ProfileCommon {
 
     //ViewPager2 연결
     fun setupViewPager(binding: FragmentProfileBinding, activity: FragmentActivity, isMyProfile: Boolean) {
-        val tabs = if (isMyProfile) arrayListOf("챌린지", "인증기록", "뱃지") else arrayListOf("챌린지", "인증기록")
+        val tabs = if (isMyProfile) arrayListOf("챌린지", "인증기록", "뱃지") else arrayListOf("챌린지", "뱃지")
 
         val profileVPAdapter = ProfileVPAdapter(activity, isMyProfile)
         binding.vpProfile.adapter = profileVPAdapter
