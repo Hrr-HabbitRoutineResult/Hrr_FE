@@ -78,9 +78,9 @@ class UserViewModel @Inject constructor(
     private val _followers = MutableLiveData<FollowResponse?>()
     val followers: LiveData<FollowResponse?> get() = _followers
 
-    fun loadFollowers(){
+    fun loadFollowers(userId: Int){
         viewModelScope.launch {
-            val result = userRepository.getFollowers()
+            val result = userRepository.getFollowers(userId)
             result.onSuccess{
                 _followers.postValue(result.getOrNull()) // 성공 시 데이터 업데이트
             }.onFailure {
@@ -105,11 +105,11 @@ class UserViewModel @Inject constructor(
     }
 
     // 팔로우 실행 후 팔로워/팔로잉 리스트 업데이트
-    fun follow(userId: Int) {
+    fun follow(myId:Int, userId: Int) {
         viewModelScope.launch {
             val result = userRepository.follow(userId)
             result.onSuccess {
-                loadFollowers()  // 팔로워 리스트 갱신
+                loadFollowers(myId)  // 팔로워 리스트 갱신
                 loadFollowings() // 팔로잉 리스트 갱신
             }.onFailure {
                 _errorMessage.postValue(result.exceptionOrNull()?.message) // 에러 메시지 전달
@@ -118,11 +118,11 @@ class UserViewModel @Inject constructor(
     }
 
     // 언팔로우 실행 후 팔로워/팔로잉 리스트 업데이트
-    fun unfollow(userId: Int) {
+    fun unfollow(myId:Int, userId: Int) {
         viewModelScope.launch {
             val result = userRepository.unfollow(userId)
             result.onSuccess {
-                loadFollowers()  // 팔로워 리스트 갱신
+                loadFollowers(myId)  // 팔로워 리스트 갱신
                 loadFollowings() // 팔로잉 리스트 갱신
             }.onFailure {
                 _errorMessage.postValue(result.exceptionOrNull()?.message) // 에러 메시지 전달

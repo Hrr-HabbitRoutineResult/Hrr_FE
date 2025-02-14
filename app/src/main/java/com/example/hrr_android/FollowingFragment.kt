@@ -24,6 +24,7 @@ class FollowingFragment : Fragment(), OnFollowClickListener {
     private val userViewModel: UserViewModel by activityViewModels()
     private var userIdToUnfollow: Int = 0
     private var followingLoadingCnt: Int = 0
+    private var userId: Int = 0     // 유저 아이디
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,6 +43,7 @@ class FollowingFragment : Fragment(), OnFollowClickListener {
         * 팔로잉 리스트 연동
         * */
 
+        userId = userViewModel.myId
         // LiveData 관찰 (데이터가 변경될 때 자동 업데이트되도록 설정)
         userViewModel.followings.observe(viewLifecycleOwner) { response ->
             followingLoadingCnt++
@@ -76,7 +78,7 @@ class FollowingFragment : Fragment(), OnFollowClickListener {
         // 언팔로우 메시지 클릭 처리
         binding.flUnfollowView.setOnClickListener {
             doUnfollow()
-            userViewModel.unfollow(userIdToUnfollow)    // 언팔로우 처리
+            userViewModel.unfollow(userId, userIdToUnfollow)    // 언팔로우 처리
         }
 
         // 스크롤 리스너 추가

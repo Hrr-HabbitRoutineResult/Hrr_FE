@@ -26,6 +26,7 @@ class FollowerFragment : Fragment(), OnFollowClickListener {
     private var userIdToUnfollow: Int = 0
     private var followerLoadingCnt: Int = 0
     private var followingLoadingCnt: Int = 0
+    private var userId: Int = 0     // 유저 아이디
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,6 +45,7 @@ class FollowerFragment : Fragment(), OnFollowClickListener {
         * 팔로워, 팔로잉 리스트 연동
         * */
 
+        userId = userViewModel.myId
         // LiveData 관찰 (데이터가 변경될 때 자동 업데이트되도록 설정)
         userViewModel.apply {
             // 팔로워 리스트
@@ -78,7 +80,7 @@ class FollowerFragment : Fragment(), OnFollowClickListener {
         }
 
         // 팔로우 데이터 로드
-        userViewModel.loadFollowers()
+        userViewModel.loadFollowers(userId)
         userViewModel.loadFollowings()
 
         //팔로워 RecyclerView 연결
@@ -91,7 +93,7 @@ class FollowerFragment : Fragment(), OnFollowClickListener {
         // 언팔로우 메시지 클릭 처리
         binding.flUnfollowView.setOnClickListener {
             doUnfollow()    // 언팔로우 창 숨김
-            userViewModel.unfollow(userIdToUnfollow)    // 언팔로우 처리
+            userViewModel.unfollow(userId, userIdToUnfollow)    // 언팔로우 처리
             // 정보 업데이트
             followerList.find { it.id == userIdToUnfollow }?.let { follow ->
                 follow.isFollowing = false
@@ -116,7 +118,7 @@ class FollowerFragment : Fragment(), OnFollowClickListener {
 
     override fun onFollowClicked(follow: Follow) {
         // 해당 유저 팔로우 시작 처리
-        userViewModel.follow(follow.id)
+        userViewModel.follow(userId, follow.id)
         // 정보 업데이트
         follow.isFollowing = true
         binding.rvFollower.adapter?.notifyDataSetChanged()
