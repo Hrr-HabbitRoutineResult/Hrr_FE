@@ -52,9 +52,9 @@ class UserViewModel @Inject constructor(
         }
     }
 
-    fun fetchChallengesOngoing() {
+    fun fetchChallengesOngoing(userId: Int) {
         viewModelScope.launch {
-            val result = userRepository.getChallengesOngoing()
+            val result = userRepository.getChallengesOngoing(userId)
             _challengesOngoing.value = result
         }
     }

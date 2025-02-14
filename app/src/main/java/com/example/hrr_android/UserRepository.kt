@@ -54,8 +54,7 @@ class UserRepository @Inject constructor(
     }
 
     // 진행중인 챌린지 조회
-    suspend fun getChallengesOngoing(): Result<List<ChallengesOngoing>> {
-        val userId = authRepository.getUserId()
+    suspend fun getChallengesOngoing(userId: Int): Result<List<ChallengesOngoing>> {
         return try {
             val response = userService.getChallengesOngoing(userId)
 

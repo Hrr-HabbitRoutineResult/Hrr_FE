@@ -21,6 +21,7 @@ class ProfileChallengeFragment : Fragment() {
     private var participatingChallengeList = ArrayList<Challenge>()     //참가중인 챌린지 리스트
     private var completedChallengeList = ArrayList<Challenge>()         //최근 완주한 챌린지 리스트
     private val userViewModel: UserViewModel by activityViewModels()
+    private var userId: Int = 0     // 유저 아이디
 
 
     override fun onCreateView(
@@ -39,6 +40,7 @@ class ProfileChallengeFragment : Fragment() {
         * 참가중인 챌린지 연동
         * */
 
+        userId = userViewModel.myId
         // LiveData 관찰 (데이터가 변경될 때 자동 업데이트되도록 설정)
         userViewModel.challengesOngoing.observe(viewLifecycleOwner) { result ->
             Log.d("asdf", "ViewModel에서 받은 데이터: $result") // 디버깅용 로그 추가
@@ -70,7 +72,7 @@ class ProfileChallengeFragment : Fragment() {
         }
 
         // 참가중인 챌린지 데이터 로딩
-        userViewModel.fetchChallengesOngoing()
+        userViewModel.fetchChallengesOngoing(userId)
 
         /*
         * 최근 완주한 챌린지 연동
