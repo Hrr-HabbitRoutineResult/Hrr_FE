@@ -36,7 +36,14 @@ class ProfileMoreActivity : AppCompatActivity() {
             }
 
             val fragment = when (type) {
-                "challenge" -> ProfileChallengeMoreFragment()
+                "challenge" -> ProfileChallengeMoreFragment().apply {
+                    arguments = Bundle().apply {
+                        if(!isMyProfile){
+                            val otherId = intent.getIntExtra("ownerId", 0)
+                            putInt("ownerId", otherId)
+                        }
+                    }
+                }
                 "certification" -> ProfileRecordMoreFragment()
                 "badge" -> ProfileBadgeMoreFragment()
                 "follower", "following" -> ProfileFollowFragment().apply {

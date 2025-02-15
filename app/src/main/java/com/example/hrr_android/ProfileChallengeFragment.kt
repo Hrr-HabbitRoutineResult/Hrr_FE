@@ -231,6 +231,8 @@ class ProfileChallengeFragment : Fragment() {
         binding.llProfileCompletedChallengeTitle.setOnClickListener {
             val intent = Intent(requireContext(), ProfileMoreActivity::class.java)
             intent.putExtra("type", "challenge")
+            intent.putExtra("ownerId", ownerId)
+            intent.putExtra("isMyProfile", false)
             startActivity(intent)
         }
 
