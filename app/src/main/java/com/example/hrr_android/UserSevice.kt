@@ -51,4 +51,16 @@ interface UserService {
         @Path("unfollowedUserId") unfollowedUserId: Int
     ): Response<ApiResponse<FollowResult>>
 
+    // 특정 사용자 차단
+    @POST("/api/v1/users/{userId}/block")
+    suspend fun blockUser(
+        @Path("userId") userId: Int
+    ): Response<ApiResponse<BlockResponse>>
+
+    // 특정 사용자 차단 해제
+    @POST("/api/v1/users/{userId}/unblock")
+    suspend fun unblockUser(
+        @Path("userId") userId: Int
+    ): Response<ApiResponse<BlockResponse>>
+
 }
