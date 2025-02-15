@@ -23,6 +23,7 @@ class UserViewModel @Inject constructor(
     private val _profile = MutableLiveData<UserResponse?>()
     val profile: LiveData<UserResponse?> get() = _profile
 
+    // 참가 중인 챌린지 조회
     private val _challengesOngoing = MutableLiveData<Result<List<ChallengesOngoing>>>()
     val challengesOngoing: LiveData<Result<List<ChallengesOngoing>>> get() = _challengesOngoing
 
@@ -52,10 +53,15 @@ class UserViewModel @Inject constructor(
         }
     }
 
+    // 참가 중인 챌린지 조회
     fun fetchChallengesOngoing() {
         viewModelScope.launch {
             val result = userRepository.getChallengesOngoing(authRepository.getUserId())
             _challengesOngoing.value = result
+
+            result.onFailure { error ->
+                _errorMessage.value = error.localizedMessage ?: "Unknown error"
+            }
         }
     }
 
