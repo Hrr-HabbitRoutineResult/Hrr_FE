@@ -20,7 +20,8 @@ class UserRepository @Inject constructor(
             val response = responseAll()
 
             if (response.isSuccessful) {
-                val responseBody = response.body() ?: return Result.failure(Exception("서버 응답이 비어 있습니다."))
+                val responseBody =
+                    response.body() ?: return Result.failure(Exception("서버 응답이 비어 있습니다."))
 
                 val data = responseBody.success
 
@@ -40,13 +41,13 @@ class UserRepository @Inject constructor(
     }
 
     // 사용자 정보 조회
-    suspend fun loadProfile(userId: Int): Result<UserResponse>{
+    suspend fun loadProfile(userId: Int): Result<UserResponse> {
         return handleResponse { userService.getUserInfo(userId) } // 함수 자체를 전달하여 호출 즉시 실행 방지,
     }
 
     // 챌린지 기록 조회
-    suspend fun getChallengeHistory(): Result<List<HistoryResponse>>{
-        return  handleResponse { userService.getChallengeHistory() }
+    suspend fun getChallengeHistory(): Result<List<HistoryResponse>> {
+        return handleResponse { userService.getChallengeHistory() }
     }
 
     // 진행중인 챌린지 조회
@@ -70,42 +71,39 @@ class UserRepository @Inject constructor(
         }
     }
 
-    }
-
     // 최근 완주한 챌린지 조회
-    suspend fun getChallengesEnd(userId: Int): Result<ChallengeEndResponse>{
+    suspend fun getChallengesEnd(userId: Int): Result<ChallengeEndResponse> {
         return handleResponse { userService.getChallengesEnd(userId) }
     }
 
     // 팔로워 리스트 조회
-    suspend fun getFollowers(userId: Int): Result<FollowResponse>{
+    suspend fun getFollowers(userId: Int): Result<FollowResponse> {
         return handleResponse { userService.getFollowers(userId) }
     }
 
     // 팔로잉 리스트 조회
-    suspend fun getFollowings(userId: Int): Result<FollowResponse>{
+    suspend fun getFollowings(userId: Int): Result<FollowResponse> {
         return handleResponse { userService.getFollowings(userId) }
     }
 
     // 사용자 팔로우 처리
-    suspend fun follow(followedUserId: Int): Result<FollowResult>{
+    suspend fun follow(followedUserId: Int): Result<FollowResult> {
         return handleResponse { userService.follow(followedUserId) }
     }
 
     // 사용자 언팔로우 처리
-    suspend fun unfollow(unfollowedUserId: Int): Result<FollowResult>{
+    suspend fun unfollow(unfollowedUserId: Int): Result<FollowResult> {
         return handleResponse { userService.unFollow(unfollowedUserId) }
     }
 
     // 사용자 차단 처리
-    suspend fun blockUser(blockUserId: Int): Result<BlockResponse>{
+    suspend fun blockUser(blockUserId: Int): Result<BlockResponse> {
         return handleResponse { userService.blockUser(blockUserId) }
     }
 
     // 사용자 차단 해제 처리
-    suspend fun unblockUser(blockedUserId: Int): Result<BlockResponse>{
+    suspend fun unblockUser(blockedUserId: Int): Result<BlockResponse> {
         return handleResponse { userService.unblockUser(blockedUserId) }
     }
-
 
 }
