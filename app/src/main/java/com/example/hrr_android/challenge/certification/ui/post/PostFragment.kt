@@ -11,6 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.hrr_android.R
 import com.example.hrr_android.challenge.certification.ui.post.adapter.CommentAdapter
+import com.example.hrr_android.challenge.ui.common.decoration.CenterDividerItemDecoration
 import com.example.hrr_android.databinding.DialogBottomSheetBinding
 import com.example.hrr_android.databinding.FragmentPostBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -53,6 +54,7 @@ class PostFragment : Fragment() {
         binding.rvComments.apply {
             adapter = commentAdapter
             layoutManager = LinearLayoutManager(requireContext())
+            addItemDecoration(CenterDividerItemDecoration(resources))
         }
     }
 
