@@ -171,12 +171,13 @@ class MakeStudyChallengeFragment : Fragment() {
         val isDaySelected = dayButtons.any { it.isSelected }
         val isStartDateSelected = selectedStartDate != null
         val isEndDateSelected = selectedEndDate != null
+        val isProfileImageSelected = selectedImageUri != null
 
         binding.btnMakeBasicChallenge.isEnabled = isNameEntered &&
                 isDescriptionEntered && isRuleEntered &&
                 isPeopleSelected && isAuthSelected &&
                 isDaySelected && isStartDateSelected &&
-                isEndDateSelected
+                isEndDateSelected && isProfileImageSelected
     }
 
     private fun getSelectedDatesFromCalendar() {

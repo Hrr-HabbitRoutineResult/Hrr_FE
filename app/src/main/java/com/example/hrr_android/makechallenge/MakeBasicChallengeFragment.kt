@@ -164,11 +164,13 @@ class MakeBasicChallengeFragment : Fragment() {
         val isPeopleSelected = peopleButtons.any { it.isSelected }
         val isAuthSelected = authButtons.any { it.isSelected }
         val isFrequencySelected = frequencyButtons.any { it.isSelected }
+        val isProfileImageSelected = selectedImageUri != null
 
         binding.btnMakeBasicChallenge.isEnabled = isNameFilled &&
                 isDescriptionFilled && isRuleFilled &&
                 isDurationSelected && isPeopleSelected &&
-                isAuthSelected && isFrequencySelected
+                isAuthSelected && isFrequencySelected &&
+                isProfileImageSelected
     }
 
     override fun onDestroyView() {
