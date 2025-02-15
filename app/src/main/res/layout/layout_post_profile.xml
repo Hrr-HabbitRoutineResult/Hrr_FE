@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    android:background="@color/white">
+
+    <!-- 프로필 이미지 -->
+    <ImageView
+        android:id="@+id/iv_post_profile_image"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/img_profile"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <!-- 작성자 닉네임 -->
+    <TextView
+        android:id="@+id/tv_post_profile_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="김흐르"
+        android:textSize="13sp"
+        android:fontFamily="@font/font_style"
+        android:textFontWeight="500"
+        android:textColor="@color/text_primary"
+        android:includeFontPadding="false"
+        android:layout_marginStart="10dp"
+        app:layout_constraintStart_toEndOf="@id/iv_post_profile_image"
+        app:layout_constraintTop_toTopOf="@id/iv_post_profile_image" />
+
+    <!-- 레벨 -->
+    <TextView
+        android:id="@+id/tv_post_profile_level"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="실버"
+        android:textSize="13sp"
+        android:fontFamily="@font/font_style"
+        android:textFontWeight="400"
+        android:textColor="@color/text_secondary"
+        android:includeFontPadding="false"
+        android:layout_marginStart="5dp"
+        app:layout_constraintStart_toEndOf="@id/tv_post_profile_name"
+        app:layout_constraintTop_toTopOf="@id/tv_post_profile_name" />
+
+    <!-- 작성 시간 -->
+    <TextView
+        android:id="@+id/tv_post_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="25/01/15 02:54"
+        android:textSize="13sp"
+        android:fontFamily="@font/font_style"
+        android:textFontWeight="400"
+        android:textColor="@color/text_secondary"
+        android:includeFontPadding="false"
+        app:layout_constraintStart_toStartOf="@id/tv_post_profile_name"
+        app:layout_constraintTop_toBottomOf="@id/tv_post_profile_name" />
+
+    <!-- 더보기 버튼 -->
+    <ImageButton
+        android:id="@+id/btn_post_more"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/btn_more_dot_black"
+        android:background="@null"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
