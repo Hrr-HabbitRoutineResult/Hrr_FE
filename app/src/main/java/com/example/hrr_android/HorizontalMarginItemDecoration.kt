@@ -8,7 +8,7 @@ class HorizontalMarginItemDecoration(private val margin: Int) : RecyclerView.Ite
     override fun getItemOffsets(
         outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State
     ) {
-        outRect.left = margin / 2
-        outRect.right = margin / 2
+        outRect.left = margin
+        outRect.right = margin
     }
 }
