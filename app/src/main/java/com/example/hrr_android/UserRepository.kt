@@ -96,5 +96,15 @@ class UserRepository @Inject constructor(
         return handleResponse { userService.unFollow(unfollowedUserId) }
     }
 
+    // 사용자 차단 처리
+    suspend fun blockUser(blockUserId: Int): Result<BlockResponse>{
+        return handleResponse { userService.blockUser(blockUserId) }
+    }
+
+    // 사용자 차단 해제 처리
+    suspend fun unblockUser(blockedUserId: Int): Result<BlockResponse>{
+        return handleResponse { userService.unblockUser(blockedUserId) }
+    }
+
 
 }
