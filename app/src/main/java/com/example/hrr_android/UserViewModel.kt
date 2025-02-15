@@ -130,4 +130,28 @@ class UserViewModel @Inject constructor(
         }
     }
 
+    // 특정 사용자 차단
+    fun blockUser(blockUserId: Int){
+        viewModelScope.launch {
+            val result = userRepository.blockUser(blockUserId)
+            result.onSuccess {
+
+            }.onFailure {
+                _errorMessage.postValue(result.exceptionOrNull()?.message) // 에러 메시지 전달
+            }
+        }
+    }
+
+    // 특정 사용자 차단 해제
+    fun unblockUser(blockedUserId: Int){
+        viewModelScope.launch {
+            val result = userRepository.unblockUser(blockedUserId)
+            result.onSuccess {
+
+            }.onFailure {
+                _errorMessage.postValue(result.exceptionOrNull()?.message) // 에러 메시지 전달
+            }
+        }
+    }
+
 }
