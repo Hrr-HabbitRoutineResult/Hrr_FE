@@ -66,8 +66,8 @@
     <!-- 더보기 버튼 -->
     <ImageButton
         android:id="@+id/btn_post_more"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:src="@drawable/btn_more_dot_black"
         android:background="@null"
         android:layout_marginEnd="16dp"
