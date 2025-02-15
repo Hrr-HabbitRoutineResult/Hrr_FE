@@ -1,12 +1,16 @@
 package com.example.hrr_android
 
+import ChallengeCardVPAdapter
 import android.content.Intent
 import android.os.Bundle
+import android.provider.ContactsContract
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
@@ -28,6 +32,8 @@ class HomeFragment : Fragment() {
     private lateinit var hotPostAdapter: HotPostRVAdapter
 
     private lateinit var authViewModel: AuthViewModel
+    private val userViewModel: UserViewModel by viewModels()
+    private val challengeViewModel: ChallengeViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,34 +66,16 @@ class HomeFragment : Fragment() {
             adapter = categoryAdapter
         }
 
-        // 챌린지 데이터 리스트
-        val challengeCardList = loadChallengeData() // 데이터 로드 함수 호출
+        userViewModel.fetchChallengesOngoing() // API 호출
 
-        // Adapter 초기화
-        challengeAdapter = ChallengeCardVPAdapter(challengeCardList)
-
-        // 동적 인디케이터 설정
-        setupChallengeIndicator(challengeCardList)
-
-        // 뷰 페이저 미리보기 설정
+        setupOngoingViewPager()
+        observeChallenges()
         setupViewPagerPreview()
 
-        // ViewPager2 연결
-        binding.vpHomeChallenge.apply {
-            adapter = challengeAdapter
+        challengeViewModel.fetchChallengesHotness() // API 호출
 
-            // 데이터가 없으면 visibility를 GONE으로 설정
-            visibility = if (challengeCardList.isEmpty()) View.GONE else View.VISIBLE
-        }
-
-        // 데이터가 있을 때 include 한 레이아웃 숨기고 인디케이터 표시
-        if (challengeCardList.isEmpty()) {
-            binding.itemHomeChallengeCardNew.root.visibility = View.VISIBLE
-            binding.indicatorHomeChallengeCard.visibility = View.GONE
-        } else {
-            binding.itemHomeChallengeCardNew.root.visibility = View.GONE
-            binding.indicatorHomeChallengeCard.visibility = View.VISIBLE
-        }
+        observeChallenges()
+        observeChallengesHotness()
 
         // 더미데이터
         val hotPostList = listOf(
@@ -123,22 +111,6 @@ class HomeFragment : Fragment() {
             val intent = Intent(requireContext(), NotificationActivity::class.java)
             startActivity(intent)
         }
-
-        val challengeTodayList = listOf(
-            ChallengeToday("아침 조깅 챌린지", R.drawable.ic_challenge_today_health, "매일 30분 조깅", 45, 100, "매일", "6개월"),
-            ChallengeToday("독서 챌린지", R.drawable.ic_challenge_today_learn, "하루 10페이지 읽기", 80, 100, "매일", "3개월"),
-            ChallengeToday("물 2L 마시기", R.drawable.ic_challenge_today_routine, "건강한 수분 섭취", 60, 100, "매일", "1개월"),
-            ChallengeToday("일기 쓰기", R.drawable.ic_challenge_today_company, "매일 하루를 기록하기", 30, 100, "매일", "6개월"),
-            ChallengeToday("플랭크 챌린지", R.drawable.ic_challenge_today_health, "하루 3분 플랭크", 70, 100, "매일", "2개월")
-        )
-
-        challengeTodayAdapter = ChallengeTodayVPAdapter(challengeTodayList)
-
-        // 동적 인디케이터 설정
-        setupChallengeTodayIndicator(challengeTodayList)
-
-        // 뷰 페이저 미리보기 설정
-        setupTodayViewPagerPreview(binding.vpHomeChallengeToday, challengeTodayAdapter, challengeTodayList, 16, 32)
     }
 
     override fun onDestroyView() {
@@ -146,18 +118,69 @@ class HomeFragment : Fragment() {
         _binding = null
     }
 
-    // 챌린지 데이터 로드 함수
-    private fun loadChallengeData(): List<Challenge> {
-        // 참여한 챌린지가 있을 때
-        return listOf(
-            Challenge("공부합시당", R.drawable.img_study, "", true, true),
-            Challenge("달리기 하실 분", R.drawable.img_running, "", false, true),
-            Challenge("열 자가 최대라길래", R.drawable.img_cook, "", true, false)
-        )
-
-        // 참여한 챌린지가 없을 때
-        // return emptyList()
+    private fun setupOngoingViewPager() {
+        challengeAdapter = ChallengeCardVPAdapter(emptyList())  // 초기 빈 리스트 설정
+        binding.vpHomeChallenge.adapter = challengeAdapter
     }
+
+    private fun observeChallenges() {
+        userViewModel.challengesOngoing.observe(viewLifecycleOwner) { result ->
+            Log.d("asdf", "ViewModel에서 받은 데이터: $result") // 디버깅용 로그 추가
+
+            result.onSuccess { challengeList ->
+                challengeAdapter = ChallengeCardVPAdapter(challengeList)
+                binding.vpHomeChallenge.adapter = challengeAdapter
+
+                // 챌린지 개수에 따라 tv_home_subtitle 텍스트 변경
+                binding.tvHomeSubTitle.text = if (challengeList.isEmpty()) {
+                    "안녕하세요, 흐르르 따라 챌린지에 참가해보세요."
+                } else {
+                    "안녕하세요, 흐르르 따라 챌린지 인증을 진행해주세요."
+                }
+
+                // 챌린지 데이터가 없을 때 UI 처리
+                binding.vpHomeChallenge.visibility = if (challengeList.isEmpty()) View.GONE else View.VISIBLE
+                binding.itemHomeChallengeCardNew.root.visibility = if (challengeList.isEmpty()) View.VISIBLE else View.GONE
+                binding.indicatorHomeChallengeCard.visibility = if (challengeList.isEmpty()) View.GONE else View.VISIBLE
+
+                // 챌린지 목록 프래그먼트로 이동
+                binding.itemHomeChallengeCardNew.root.setOnClickListener {
+                    // TODO: 챌린지 목록 프래그먼트로 이동하는 클릭 이벤트 추가
+                }
+
+                // 인디케이터 설정
+                setupChallengeIndicator(challengeList)
+            }.onFailure {
+                Log.e("HomeFragment", "API 데이터 로드 실패: ${it.message}") // 실패 시 로그 출력
+            }
+        }
+    }
+
+
+    private fun observeChallengesHotness() {
+        challengeViewModel.challengesHotness.observe(viewLifecycleOwner) { result ->
+
+            result?.let { challengeList ->
+                challengeTodayAdapter = ChallengeTodayVPAdapter(challengeList)
+                binding.vpHomeChallengeToday.adapter = challengeTodayAdapter
+
+                // 인디케이터 설정
+                setupChallengeTodayIndicator(challengeList)
+
+                // 뷰 페이저 미리보기 설정
+                setupTodayViewPagerPreview(
+                    binding.vpHomeChallengeToday,
+                    challengeTodayAdapter,
+                    challengeList,
+                    12,
+                    32
+                )
+            } ?: run {
+                Log.e("HomeFragment", "API 데이터 로드 실패: 챌린지 데이터가 없습니다.")
+            }
+        }
+    }
+
 
     // 커스텀 인디케이터 적용 함수
     private fun setupIndicator(indicatorContainer: LinearLayout, itemCount: Int, viewPager: ViewPager2, activeSize: Int, inactiveSize: Int, margin: Int) {
@@ -198,13 +221,17 @@ class HomeFragment : Fragment() {
         })
     }
 
-    // 오늘의 인기챌린지 인디케이터
-    private fun setupChallengeTodayIndicator(challengeList: List<ChallengeToday>) {
-        setupIndicator(binding.indicatorHomeChallengeToday, challengeList.size, binding.vpHomeChallengeToday, 80, 14, 14)
+    // 오늘의 인기 챌린지 인디케이터
+    private fun setupChallengeTodayIndicator(challengeList: Result<List<ChallengeHotness>>) {
+        challengeList.onSuccess { list ->
+            setupIndicator(binding.indicatorHomeChallengeToday, list.size, binding.vpHomeChallengeToday, 80, 14, 14)
+        }.onFailure {
+            setupIndicator(binding.indicatorHomeChallengeToday, 0, binding.vpHomeChallengeToday, 80, 14, 14)
+        }
     }
 
     // 참여 중인 챌린지 인디케이터
-    private fun setupChallengeIndicator(challengeList: List<Challenge>) {
+    private fun setupChallengeIndicator(challengeList: List<ChallengesOngoing>) {
         val totalItems = if (challengeList.size < 5) challengeList.size + 1 else 5
         setupIndicator(binding.indicatorHomeChallengeCard, totalItems, binding.vpHomeChallenge, 80, 16, 16)
     }
@@ -227,40 +254,49 @@ class HomeFragment : Fragment() {
         binding.vpHomeChallenge.offscreenPageLimit = 1  // 미리 로드할 페이지 수 설정
     }
 
-    // 오늘의 인기 챌린지 뷰 페이저 미리보기 및 양끝이동
-    private fun setupTodayViewPagerPreview(viewPager: ViewPager2, adapter: RecyclerView.Adapter<*>, itemList: List<Any>, margin: Int, padding: Int) {
-        viewPager.apply {
-            this.adapter = adapter
-            visibility = if (itemList.isEmpty()) View.GONE else View.VISIBLE
+    // 오늘의 인기 챌린지 뷰 페이저 미리보기 및 양끝 이동
+    private fun setupTodayViewPagerPreview(
+        viewPager: ViewPager2,
+        adapter: RecyclerView.Adapter<*>,
+        itemList: Result<List<ChallengeHotness>>,
+        margin: Int,
+        padding: Int
+    ) {
+        itemList.onSuccess { list ->
+            viewPager.apply {
+                this.adapter = adapter
+                visibility = if (list.isEmpty()) View.GONE else View.VISIBLE
 
-            val listSize = itemList.size
-            if (listSize > 1) {
-                setCurrentItem(listSize, false)
+                val listSize = list.size
+                if (listSize > 1) {
+                    setCurrentItem(listSize, false)
 
-                registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-                    override fun onPageSelected(position: Int) {
-                        post {
-                            if (position == 0) {
-                                setCurrentItem(listSize, false)
-                            } else if (position == listSize * 2 - 1) {
-                                setCurrentItem(listSize - 1, false)
+                    registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+                        override fun onPageSelected(position: Int) {
+                            post {
+                                if (position == 0) {
+                                    setCurrentItem(listSize, false)
+                                } else if (position == listSize * 2 - 1) {
+                                    setCurrentItem(listSize - 1, false)
+                                }
                             }
                         }
-                    }
-                })
+                    })
+                }
+
+                clipToPadding = false
+                clipChildren = false
+                setPadding(padding, 0, padding, 0) // ViewPager 자체 패딩 추가
+                addItemDecoration(HorizontalMarginItemDecoration(margin))
+
+                setPageTransformer { page, position ->
+                    page.translationX = position * -2f // 너무 많이 이동하지 않도록 조정
+                }
+
+                offscreenPageLimit = 1
             }
-
-            clipToPadding = false
-            clipChildren = false
-            setPadding(padding, 0, padding, 0) // ViewPager 자체 패딩 추가
-
-            addItemDecoration(HorizontalMarginItemDecoration(margin))
-
-            setPageTransformer { page, position ->
-                page.translationX = position * -2f // 너무 많이 이동하지 않도록 조정
-            }
-
-            offscreenPageLimit = 1
+        }.onFailure {
+            viewPager.visibility = View.GONE // 데이터가 없을 경우 뷰페이저 숨기기
         }
     }
 

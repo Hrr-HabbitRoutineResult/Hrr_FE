@@ -13,10 +13,10 @@ import com.mikhaellopez.circularprogressbar.CircularProgressBar
 class ProfileCommon {
 
     //ViewPager2 연결
-    fun setupViewPager(binding: FragmentProfileBinding, activity: FragmentActivity, isMyProfile: Boolean) {
-        val tabs = if (isMyProfile) arrayListOf("챌린지", "인증기록", "뱃지") else arrayListOf("챌린지", "인증기록")
+    fun setupViewPager(binding: FragmentProfileBinding, activity: FragmentActivity, isMyProfile: Boolean, ownerId: Int=0) {
+        val tabs = if (isMyProfile) arrayListOf("챌린지", "인증기록", "뱃지") else arrayListOf("챌린지", "뱃지")
 
-        val profileVPAdapter = ProfileVPAdapter(activity, isMyProfile)
+        val profileVPAdapter = ProfileVPAdapter(activity, isMyProfile, ownerId)
         binding.vpProfile.adapter = profileVPAdapter
 
         TabLayoutMediator(binding.tlProfile, binding.vpProfile) { tab, position ->
@@ -89,10 +89,15 @@ class ProfileCommon {
     }
 
     //팔로우 클릭 처리
-    fun onFollowClicked(activity: FragmentActivity, view: View, type: String){
+    fun onFollowClicked(activity: FragmentActivity, view: View, type: String, isMyProfile: Boolean=true, ownerId: Int=0, myId: Int=0){
         view.setOnClickListener {
             val intent = Intent(activity, ProfileMoreActivity::class.java)
             intent.putExtra("type", type)
+            intent.putExtra("isMyProfile", isMyProfile)
+            intent.putExtra("ownerId", ownerId)
+            intent.putExtra("myId", myId)
+            Log.d("myIdDebug", "ProfileCommon: $myId")
+            Log.d("otherDebug", "ProfileCommon - $ownerId")
             activity.startActivity(intent)
         }
     }

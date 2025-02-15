@@ -9,8 +9,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
-import com.example.hrr_android.access.ValidUtils
 import com.example.hrr_android.databinding.FragmentProfileBinding
+import com.google.android.material.tabs.TabLayoutMediator
+import com.mikhaellopez.circularprogressbar.CircularProgressBar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -46,24 +47,22 @@ class ProfileFragment : Fragment() {
                 myProfile = it  // 불러온 정보를 저장해놔서 다른 Fragment를 띄울 때 필요한 정보만 전달하여 불필요한 api 호출을 방지
                 //Todo: 프로필 사진 바인딩
                 binding.tvProfileUsername.text = it.nickname    // 이름
-                binding.tvProfileLevel.text = when(it.level){   // 레벨
+                binding.tvProfileLevel.text = when(it.level){
                     "general" -> "일반"
                     "bronze" -> "브론즈"
                     "silver" -> "실버"
                     "gold" -> "골드"
                     "master" -> "마스터"
                     "challenger" -> "챌린저"
-                    else -> "일반"
+                    else -> ""
                 }
                 binding.tvProfileFollowerCount.text = it.followerCount.toString()  // 팔로워 수
                 binding.tvProfileFollowingCount.text = it.followingCount.toString() // 팔로잉 수
-
-                selectedBadges.clear()  // 대표 뱃지 변화 있을 시 초기화 수 새 데이터 주입
-                val badges = listOfNotNull(it.userBadge1, it.userBadge2, it.userBadge3)
-                    .map { badge -> Badge(badge.name, ValidUtils.getDrawableResId(requireContext(), badge.icon)) }
-
-                selectedBadges.addAll(badges)   // 뱃지
-                profileCommon.setupBadges(binding, selectedBadges)      // UI 업데이트
+                //Todo: 뱃지 관련 바인딩
+                profileCommon.setupCircularProgressBar(binding, myProfile.level, myProfile.points) // 레벨 달성률 게이지 바 구현
+                //팔로우 클릭 처리
+                profileCommon.onFollowClicked(requireActivity(), binding.llProfileFollower, "follower", myId = it.id!!)
+                profileCommon.onFollowClicked(requireActivity(), binding.llProfileFollowing, "following", myId = it.id)
             }
         }
 
@@ -82,13 +81,20 @@ class ProfileFragment : Fragment() {
             }
         }
 
+
         // 유저 데이터 로드
         userViewModel.loadProfile()
 
-        //레벨 달성률 게이지 바 구현
-        profileCommon.setupCircularProgressBar(binding, myProfile.level, myProfile.points)
+        //뱃지 더미 데이터 - 테스트 시 주석 해제 or 설정
+        selectedBadges.clear()
 
-        //대표 뱃지 개수에 따라 visibility 조정
+        selectedBadges.apply {
+            add(Badge("프로 챌린저", R.drawable.badge_type_fromtoday_challenger))
+            add(Badge("수준급 스터디언", R.drawable.badge_type_fromtoday_challenger))
+            add(Badge("운동 스타터", R.drawable.badge_type_fromtoday_challenger))
+        }
+
+        //설정한 대표 뱃지 개수에 따라 visibility 조정
         profileCommon.setupBadges(binding, selectedBadges)
     }
 
@@ -117,10 +123,6 @@ class ProfileFragment : Fragment() {
             intent.putExtra("point", myProfile.points)
             startActivity(intent)
         }
-
-        //팔로우 클릭 처리
-        profileCommon.onFollowClicked(requireActivity(), binding.llProfileFollower, "follower")
-        profileCommon.onFollowClicked(requireActivity(), binding.llProfileFollowing, "following")
 
         // 대표 뱃지 클릭 시 뱃지 수정 화면으로 전환
         binding.llProfileBadge.setOnClickListener {

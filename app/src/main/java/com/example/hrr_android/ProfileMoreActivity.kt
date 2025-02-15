@@ -1,6 +1,7 @@
 package com.example.hrr_android
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.hrr_android.databinding.ActivityProfileMoreBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -19,6 +20,7 @@ class ProfileMoreActivity : AppCompatActivity() {
 
         //Intent에서 데이터 수신
         val type = intent.getStringExtra("type") ?: ""
+        val isMyProfile = intent.getBooleanExtra("isMyProfile", true)
 
         //클릭이 인식된 부분에 따라 뷰를 다르게 구성
         if (savedInstanceState == null) {
@@ -34,12 +36,27 @@ class ProfileMoreActivity : AppCompatActivity() {
             }
 
             val fragment = when (type) {
-                "challenge" -> ProfileChallengeMoreFragment()
+                "challenge" -> ProfileChallengeMoreFragment().apply {
+                    arguments = Bundle().apply {
+                        if(!isMyProfile){
+                            val otherId = intent.getIntExtra("ownerId", 0)
+                            putInt("ownerId", otherId)
+                        }
+                    }
+                }
                 "certification" -> ProfileRecordMoreFragment()
                 "badge" -> ProfileBadgeMoreFragment()
                 "follower", "following" -> ProfileFollowFragment().apply {
                     arguments = Bundle().apply {
                         putString("selected_tab", type)
+                        if(!isMyProfile){
+                            val otherId = intent.getIntExtra("ownerId", 0)
+                            Log.d("otherDebug", "ProfileMoreActivity - $otherId")
+                            putInt("ownerId", otherId)
+                        }
+                        val myId = intent.getIntExtra("myId", 0)
+                        putInt("myId", myId)
+                        Log.d("myIdDebug", "ProfileMoreActivity: $myId")
                     }
                 }
                 "setting" -> SettingFragment()

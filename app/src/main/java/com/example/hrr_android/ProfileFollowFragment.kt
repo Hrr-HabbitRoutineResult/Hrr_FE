@@ -1,13 +1,16 @@
 package com.example.hrr_android
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.hrr_android.databinding.FragmentProfileFollowBinding
 import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ProfileFollowFragment : Fragment() {
     private var _binding: FragmentProfileFollowBinding? = null
     private val binding get() = _binding!!
@@ -20,7 +23,12 @@ class ProfileFollowFragment : Fragment() {
         _binding = FragmentProfileFollowBinding.inflate(inflater, container, false)
 
         //ViewPager2 Adapter 연결
-        val followVPAdapter = FollowVPAdapter(this)
+        val ownerId = arguments?.getInt("ownerId", 0)?: 0
+        Log.d("otherDebug", "ProfileFollowFragment - $ownerId")
+        val myId = arguments?.getInt("myId", 0)?: 0
+
+        Log.d("myIdDebug", "ProfileFollowerFragment: $myId")
+        val followVPAdapter = FollowVPAdapter(this, ownerId, myId)
         binding.vpFollow.adapter = followVPAdapter
 
         //탭 제목 설정
