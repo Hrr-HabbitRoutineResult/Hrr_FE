@@ -135,16 +135,15 @@ class FollowerFragment : Fragment(), OnFollowClickListener {
                         if (it != null) {
                             addAll(it)
                         }
-                        if(myFollowingLoadingCnt==1){
-                            // 팔로워 정보 업데이트
-                            followerList.forEach { follow ->
-                                follow.isFollowing = follow.id in myFollowingIdList
-                                Log.d("myIdDebug", "FollowerFragment: $followerList")
-                            }
+                    }
+                    if(myFollowingLoadingCnt==1){
+                        // 팔로워 정보 업데이트
+                        followerList.forEach { follow ->
+                            follow.isFollowing = myFollowingIdList.contains(follow.id)
                             Log.d("myIdDebug", "FollowerFragment: $followerList")
-                            // 최초 데이터 로드 시에만 UI 업데이트 하도록 함
-                            binding.rvFollower.adapter?.notifyDataSetChanged()
                         }
+                        // 최초 데이터 로드 시에만 UI 업데이트 하도록 함
+                        binding.rvFollower.adapter?.notifyDataSetChanged()
                     }
                 }
             }
