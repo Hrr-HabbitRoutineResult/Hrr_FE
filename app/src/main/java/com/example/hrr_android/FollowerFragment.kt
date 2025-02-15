@@ -59,13 +59,11 @@ class FollowerFragment : Fragment(), OnFollowClickListener {
             userViewModel.apply {
                 // 팔로워 리스트
                 followers.observe(viewLifecycleOwner) { response ->
-                    followerLoadingCnt++
                     updateFollowerList(response)
                 }
 
                 // 팔로잉 리스트(나도 상대를 팔로우하고 있는지 판단하기 위함)
                 followings.observe(viewLifecycleOwner) { response ->
-                    followingLoadingCnt++
                     updateFollowingList(response)
                 }
 
@@ -99,7 +97,6 @@ class FollowerFragment : Fragment(), OnFollowClickListener {
             otherUserViewModel.apply {
                 // 팔로워 리스트
                 followers.observe(viewLifecycleOwner) { response ->
-                    followerLoadingCnt++
                     updateFollowerList(response)
                 }
             }
@@ -125,8 +122,6 @@ class FollowerFragment : Fragment(), OnFollowClickListener {
             // 다른 사람의 팔로우가 내 팔로잉에 속한 사람인지 판단 필요
             userViewModel.followings.observe(viewLifecycleOwner){response->
                 Log.d("myIdDebug", "FollowerFragment - followings changed: $response")
-
-                myFollowingLoadingCnt++
                 response?.followings?.map{followings->
                     followings.id
                 }.let {
@@ -134,17 +129,17 @@ class FollowerFragment : Fragment(), OnFollowClickListener {
                         clear()
                         if (it != null) {
                             addAll(it)
+                            myFollowingLoadingCnt++
                         }
                     }
-                    if(myFollowingLoadingCnt==1){
-                        // 팔로워 정보 업데이트
-                        followerList.forEach { follow ->
-                            follow.isFollowing = myFollowingIdList.contains(follow.id)
-                            Log.d("myIdDebug", "FollowerFragment: $followerList")
-                        }
-                        // 최초 데이터 로드 시에만 UI 업데이트 하도록 함
-                        binding.rvFollower.adapter?.notifyDataSetChanged()
+                    // 팔로워 정보 업데이트
+                    followerList.forEach { follow ->
+                        follow.isFollowing = myFollowingIdList.contains(follow.id)
+                        Log.d("myIdDebug", "FollowerFragment: $followerList")
                     }
+                    // 최초 데이터 로드 시에만 UI 업데이트 하도록 함
+                    binding.rvFollower.adapter?.notifyDataSetChanged()
+
                 }
             }
 
@@ -186,7 +181,6 @@ class FollowerFragment : Fragment(), OnFollowClickListener {
             // 정보 업데이트
             followerList.find { it.id == userIdToUnfollow }?.let { follow ->
                 follow.isFollowing = false
-                binding.rvFollower.adapter?.notifyDataSetChanged()
             }
             Log.d("myIdDebug", "FollowerFragment1: $followerList")
         }
@@ -320,14 +314,15 @@ class FollowerFragment : Fragment(), OnFollowClickListener {
                 clear()
                 if (it != null) {
                     addAll(it)
-                    if(followerLoadingCnt==1){
-                        // 팔로워 정보 업데이트
-                        followerList.forEach { follow ->
-                            follow.isFollowing = follow.id in followingIdList
-                        }
-                        // 최초 데이터 로드 시에만 UI 업데이트 하도록 함
-                        binding.rvFollower.adapter?.notifyDataSetChanged()
+                    followerLoadingCnt++
+                }
+                if(followerLoadingCnt==1){
+                    // 팔로워 정보 업데이트
+                    followerList.forEach { follow ->
+                        follow.isFollowing = follow.id in followingIdList
                     }
+                    // 최초 데이터 로드 시에만 UI 업데이트 하도록 함
+                    binding.rvFollower.adapter?.notifyDataSetChanged()
                 }
             }
         }
@@ -342,15 +337,15 @@ class FollowerFragment : Fragment(), OnFollowClickListener {
                 clear()
                 if (it != null) {
                     addAll(it)
-                    if(followingLoadingCnt==1){
-                        // 팔로워 정보 업데이트
-                        followerList.forEach { follow ->
-                            follow.isFollowing = follow.id in followingIdList
-                        }
-                        // 최초 데이터 로드 시에만 UI 업데이트 하도록 함
-                        binding.rvFollower.adapter?.notifyDataSetChanged()
+                    followingLoadingCnt++
+                }
+                if(followingLoadingCnt==1){
+                    // 팔로워 정보 업데이트
+                    followerList.forEach { follow ->
+                        follow.isFollowing = follow.id in followingIdList
                     }
-
+                    // 최초 데이터 로드 시에만 UI 업데이트 하도록 함
+                    binding.rvFollower.adapter?.notifyDataSetChanged()
                 }
             }
         }

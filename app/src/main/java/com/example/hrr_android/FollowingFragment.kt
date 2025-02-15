@@ -53,7 +53,6 @@ class FollowingFragment() : Fragment(), OnFollowClickListener {
         if(isMine){
             // LiveData 관찰 (데이터가 변경될 때 자동 업데이트되도록 설정)
             userViewModel.followings.observe(viewLifecycleOwner) { response ->
-                followingLoadingCnt++
                 updateFollowingList(response)
             }
 
@@ -83,6 +82,52 @@ class FollowingFragment() : Fragment(), OnFollowClickListener {
             otherUserViewModel.followings.observe(viewLifecycleOwner) { response ->
                 followingLoadingCnt++
                 updateFollowingList(response)
+                // 다른 사람의 팔로우가 내 팔로잉에 속한 사람인지 판단 필요
+                userViewModel.followings.observe(viewLifecycleOwner){response->
+                    Log.d("myIdDebug", "FollowingFragment - followings changed: $response")
+
+                    response?.followings?.map{followings->
+                        followings.id
+                    }.let {
+                        myFollowingIdList.apply {
+                            clear()
+                            if (it != null) {
+                                addAll(it)
+                                myFollowingLoadingCnt++
+                            }
+                        }
+                        Log.d("DebugCheck", "myFollowingLoadingCnt 값: $myFollowingLoadingCnt")
+
+
+                        Log.d("myIdDebug", "followingList 크기: ${followingList.size}")
+
+                        // 팔로워 정보 업데이트
+                        followingList.forEach { follow ->
+                            follow.isFollowing = myFollowingIdList.contains(follow.id)
+                            Log.d("myIdDebug", "FollowingFragment: $followingList")
+                        }
+                        // 최초 데이터 로드 시에만 UI 업데이트 하도록 함
+                        binding.rvFollowing.adapter?.notifyDataSetChanged()
+
+                    }
+                }
+
+                userViewModel.errorMessage.observe(viewLifecycleOwner) { errorMsg ->
+                    errorMsg?.let {
+                        val errorToUser = when {
+                            it.contains("IllegalStateException") -> "데이터를 불러오는 중 문제가 발생했습니다. 다시 시도해 주세요."
+                            it.contains("JsonSyntaxException") -> "서버 응답이 올바르지 않습니다. 업데이트를 확인해 주세요."
+                            it.contains("SocketTimeoutException") -> "서버 응답이 지연되고 있습니다. 잠시 후 다시 시도해 주세요."
+                            it.contains("IOException") -> "네트워크 연결을 확인해 주세요."
+                            else -> "알 수 없는 오류가 발생했습니다. 잠시 후 다시 시도해 주세요."
+                        }
+
+                        Toast.makeText(requireContext(), errorToUser, Toast.LENGTH_LONG).show()
+                        Log.e("ProfileFragmentVM", "오류 발생: $errorMsg")
+                    }
+                }
+
+                userViewModel.loadFollowings()
             }
 
             otherUserViewModel.errorMessage.observe(viewLifecycleOwner) { errorMsg ->
@@ -103,51 +148,7 @@ class FollowingFragment() : Fragment(), OnFollowClickListener {
             // 팔로우 데이터 로드
             otherUserViewModel.loadFollowings(userId)
 
-            // 다른 사람의 팔로우가 내 팔로잉에 속한 사람인지 판단 필요
-            userViewModel.followings.observe(viewLifecycleOwner){response->
-                Log.d("myIdDebug", "FollowingFragment - followings changed: $response")
 
-                response?.followings?.map{followings->
-                    followings.id
-                }.let {
-                    myFollowingIdList.apply {
-                        clear()
-                        if (it != null) {
-                            addAll(it)
-                        }
-                    }
-                    Log.d("DebugCheck", "myFollowingLoadingCnt 값: $myFollowingLoadingCnt")
-
-                    if(myFollowingLoadingCnt==1){
-                        Log.d("DebugCheck", "followingList 크기: ${followingList.size}")
-
-                        // 팔로워 정보 업데이트
-                        followingList.forEach { follow ->
-                            follow.isFollowing = myFollowingIdList.contains(follow.id)
-                            Log.d("myIdDebug", "FollowingFragment: $followingList")
-                        }
-                        // 최초 데이터 로드 시에만 UI 업데이트 하도록 함
-                        binding.rvFollowing.adapter?.notifyDataSetChanged()
-                    }
-                }
-            }
-
-            userViewModel.errorMessage.observe(viewLifecycleOwner) { errorMsg ->
-                errorMsg?.let {
-                    val errorToUser = when {
-                        it.contains("IllegalStateException") -> "데이터를 불러오는 중 문제가 발생했습니다. 다시 시도해 주세요."
-                        it.contains("JsonSyntaxException") -> "서버 응답이 올바르지 않습니다. 업데이트를 확인해 주세요."
-                        it.contains("SocketTimeoutException") -> "서버 응답이 지연되고 있습니다. 잠시 후 다시 시도해 주세요."
-                        it.contains("IOException") -> "네트워크 연결을 확인해 주세요."
-                        else -> "알 수 없는 오류가 발생했습니다. 잠시 후 다시 시도해 주세요."
-                    }
-
-                    Toast.makeText(requireContext(), errorToUser, Toast.LENGTH_LONG).show()
-                    Log.e("ProfileFragmentVM", "오류 발생: $errorMsg")
-                }
-            }
-
-            userViewModel.loadFollowings()
         }
 
 
@@ -167,7 +168,6 @@ class FollowingFragment() : Fragment(), OnFollowClickListener {
             // 정보 업데이트
             followingList.find { it.id == userIdToUnfollow }?.let { follow ->
                 follow.isFollowing = false
-                binding.rvFollowing.adapter?.notifyDataSetChanged()
             }
         }
 
@@ -180,6 +180,7 @@ class FollowingFragment() : Fragment(), OnFollowClickListener {
         super.onResume()
         followingLoadingCnt = 0
         myFollowingLoadingCnt = 0
+
         binding.rvFollowing.adapter?.notifyDataSetChanged()
     }
 
@@ -299,14 +300,12 @@ class FollowingFragment() : Fragment(), OnFollowClickListener {
                 clear()
                 if (it != null) {
                     addAll(it)
-                    myFollowingLoadingCnt++
-
-                    Log.d("DebugCheck", "followingList 업데이트 완료: $followingList")
-
-                    if(followingLoadingCnt==1){
-                        // 최초 데이터 로드 시에만 UI 업데이트 하도록 함
-                        binding.rvFollowing.adapter?.notifyDataSetChanged()
-                    }
+                    followingLoadingCnt++
+                    Log.d("myIdDebug", "followingList 업데이트 완료: $followingList")
+                }
+                if(followingLoadingCnt==1){
+                    // 최초 데이터 로드 시에만 UI 업데이트 하도록 함
+                    binding.rvFollowing.adapter?.notifyDataSetChanged()
                 }
             }
         }
