@@ -172,7 +172,7 @@ class HomeFragment : Fragment() {
                     binding.vpHomeChallengeToday,
                     challengeTodayAdapter,
                     challengeList,
-                    12,
+                    8,
                     32
                 )
             } ?: run {
@@ -254,7 +254,6 @@ class HomeFragment : Fragment() {
         binding.vpHomeChallenge.offscreenPageLimit = 1  // 미리 로드할 페이지 수 설정
     }
 
-    // 오늘의 인기 챌린지 뷰 페이저 미리보기 및 양끝 이동
     private fun setupTodayViewPagerPreview(
         viewPager: ViewPager2,
         adapter: RecyclerView.Adapter<*>,
@@ -287,6 +286,11 @@ class HomeFragment : Fragment() {
                 clipToPadding = false
                 clipChildren = false
                 setPadding(padding, 0, padding, 0) // ViewPager 자체 패딩 추가
+
+                // 기존 아이템 데코레이션을 제거하고 다시 추가
+                while (itemDecorationCount > 0) {
+                    removeItemDecorationAt(0)
+                }
                 addItemDecoration(HorizontalMarginItemDecoration(margin))
 
                 setPageTransformer { page, position ->

@@ -70,8 +70,6 @@ class UserRepository @Inject constructor(
         }
     }
 
-    }
-
     // 최근 완주한 챌린지 조회
     suspend fun getChallengesEnd(userId: Int): Result<ChallengeEndResponse>{
         return handleResponse { userService.getChallengesEnd(userId) }
