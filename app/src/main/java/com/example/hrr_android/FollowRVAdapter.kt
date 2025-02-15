@@ -14,7 +14,9 @@ interface OnFollowClickListener{
 
 class FollowRVAdapter (
     private val followList : ArrayList<Follow>,
-    private val listener: OnFollowClickListener)
+    private val listener: OnFollowClickListener,
+    private val myId: Int
+)
     : RecyclerView.Adapter<FollowRVAdapter.ViewHolder>() {
     override fun onCreateViewHolder(
         viewGroup: ViewGroup,
@@ -50,6 +52,12 @@ class FollowRVAdapter (
                     binding.ivFollowerBtn.visibility = View.VISIBLE
                     binding.ivFollowingBtn.visibility = View.GONE
                 }
+            }
+
+            if(myId == follow.id){
+                // 다른 사람의 팔로우 목록에서 나는 제외
+                binding.ivFollowerBtn.visibility = View.GONE
+                binding.ivFollowingBtn.visibility = View.GONE
             }
 
             //클릭 이벤트 처리

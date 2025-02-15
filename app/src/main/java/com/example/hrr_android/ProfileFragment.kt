@@ -41,13 +41,11 @@ class ProfileFragment : Fragment() {
         //ViewPager2 Adapter 연결
         profileCommon.setupViewPager(binding, requireActivity(), true)
 
-        // LiveData 관찰 (데이터가 변경될 때 자동 업데이트되도록 설정)
         userViewModel.profile.observe(viewLifecycleOwner) { profile ->
             profile?.let {
                 myProfile = it  // 불러온 정보를 저장해놔서 다른 Fragment를 띄울 때 필요한 정보만 전달하여 불필요한 api 호출을 방지
                 //Todo: 프로필 사진 바인딩
                 binding.tvProfileUsername.text = it.nickname    // 이름
-//                binding.tvProfileLevel.text = it.level // 레벨
                 binding.tvProfileLevel.text = when(it.level){
                     "general" -> "일반"
                     "bronze" -> "브론즈"
@@ -60,6 +58,10 @@ class ProfileFragment : Fragment() {
                 binding.tvProfileFollowerCount.text = it.followerCount.toString()  // 팔로워 수
                 binding.tvProfileFollowingCount.text = it.followingCount.toString() // 팔로잉 수
                 //Todo: 뱃지 관련 바인딩
+                profileCommon.setupCircularProgressBar(binding, myProfile.level, myProfile.points) // 레벨 달성률 게이지 바 구현
+                //팔로우 클릭 처리
+                profileCommon.onFollowClicked(requireActivity(), binding.llProfileFollower, "follower", myId = it.id!!)
+                profileCommon.onFollowClicked(requireActivity(), binding.llProfileFollowing, "following", myId = it.id)
             }
         }
 
@@ -81,9 +83,6 @@ class ProfileFragment : Fragment() {
 
         // 유저 데이터 로드
         userViewModel.loadProfile()
-
-        //레벨 달성률 게이지 바 구현
-        profileCommon.setupCircularProgressBar(binding, myProfile.level, myProfile.points)
 
         //뱃지 더미 데이터 - 테스트 시 주석 해제 or 설정
         selectedBadges.clear()
@@ -123,10 +122,6 @@ class ProfileFragment : Fragment() {
             intent.putExtra("point", myProfile.points)
             startActivity(intent)
         }
-
-        //팔로우 클릭 처리
-        profileCommon.onFollowClicked(requireActivity(), binding.llProfileFollower, "follower")
-        profileCommon.onFollowClicked(requireActivity(), binding.llProfileFollowing, "following")
 
         // 대표 뱃지 클릭 시 뱃지 수정 화면으로 전환
         binding.llProfileBadge.setOnClickListener {
