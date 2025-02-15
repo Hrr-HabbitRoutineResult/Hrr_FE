@@ -106,4 +106,10 @@ class UserRepository @Inject constructor(
         return handleResponse { userService.unblockUser(blockedUserId) }
     }
 
+    // 사용자 뱃지 조회
+    suspend fun getMyBadges(userId: Int): Result<BadgeResponse> {
+        return handleResponse { userService.getMyBadges(userId) }
+    }
+
+
 }
