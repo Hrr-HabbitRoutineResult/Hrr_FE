@@ -58,7 +58,7 @@ interface UserService {
     ): Response<ApiResponse<BlockResponse>>
 
     // 특정 사용자 차단 해제
-    @POST("/api/v1/users/{userId}/unblock")
+    @DELETE("/api/v1/users/{userId}/unblock")
     suspend fun unblockUser(
         @Path("userId") userId: Int
     ): Response<ApiResponse<BlockResponse>>

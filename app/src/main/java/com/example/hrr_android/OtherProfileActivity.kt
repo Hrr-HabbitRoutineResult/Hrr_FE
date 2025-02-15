@@ -157,7 +157,8 @@ class OtherProfileActivity : AppCompatActivity() {
 
             // 버튼 클릭 리스너 설정
             dialogBinding.tvBlock.setOnClickListener {
-                Toast.makeText(this, "차단하기 선택됨", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "차단이 완료되었습니다.", Toast.LENGTH_SHORT).show()
+                userViewModel.blockUser(userId)
                 dialog.dismiss()
             }
 
