@@ -80,4 +80,22 @@ object RadioGroupUtils {
         }
         return false
     }
+
+    fun getSelectedRadioButton(radioGroup: RadioGroup): RadioButton? {
+        for (i in 0 until radioGroup.childCount) {
+            val child = radioGroup.getChildAt(i)
+            if (child is LinearLayout) {
+                for (j in 0 until child.childCount) {
+                    val button = child.getChildAt(j)
+                    if (button is RadioButton && button.isChecked) {
+                        return button
+                    }
+                }
+            } else if (child is RadioButton && child.isChecked) {
+                return child
+            }
+        }
+        return null
+    }
+
 }

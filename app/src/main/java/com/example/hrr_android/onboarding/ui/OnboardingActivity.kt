@@ -92,8 +92,16 @@ class OnboardingActivity : AppCompatActivity() {
         val currentFragment = supportFragmentManager.findFragmentById(binding.layoutOnboardingFragmentContainer.id)
 
         when (currentFragment) {
-            is InfoSelectFragment -> if (currentFragment.isValidSelection()) changeFragment(CategoryFragment())
-            is CategoryFragment -> if (currentFragment.isValidSelection()) changeFragment(GoalFragment())
+            is InfoSelectFragment -> if (currentFragment.isValidSelection()) {
+                changeFragment(CategoryFragment())
+            }
+
+            is CategoryFragment -> if (currentFragment.isValidSelection()) {
+                val selectedCategory = currentFragment.getSelectedCategory()
+                android.util.Log.d("Onboarding", "선택된 카테고리: $selectedCategory") // 선택된 버튼 로그 출력
+                changeFragment(GoalFragment())
+            }
+
             is GoalFragment -> if (currentFragment.isValidSelection()) {
                 val intent = Intent(this, LoadingActivity::class.java)
                 intent.putExtra("fromOnboarding", true)
