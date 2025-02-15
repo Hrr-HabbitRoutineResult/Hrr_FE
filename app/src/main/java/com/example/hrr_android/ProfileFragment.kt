@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import com.example.hrr_android.access.ValidUtils
 import com.example.hrr_android.databinding.FragmentProfileBinding
 import com.google.android.material.tabs.TabLayoutMediator
 import com.mikhaellopez.circularprogressbar.CircularProgressBar
@@ -41,6 +42,10 @@ class ProfileFragment : Fragment() {
         //ViewPager2 Adapter 연결
         profileCommon.setupViewPager(binding, requireActivity(), true)
 
+        /*
+        * 사용자 기본 정보
+        * */
+
         // LiveData 관찰 (데이터가 변경될 때 자동 업데이트되도록 설정)
         userViewModel.profile.observe(viewLifecycleOwner) { profile ->
             profile?.let {
@@ -59,12 +64,29 @@ class ProfileFragment : Fragment() {
                 binding.tvProfileFollowerCount.text = it.followerCount.toString()  // 팔로워 수
                 binding.tvProfileFollowingCount.text = it.followingCount.toString() // 팔로잉 수
                 //Todo: 뱃지 관련 바인딩
+                selectedBadges.clear()  // 기존 리스트 초기화
+
+                listOfNotNull(it.userBadge1, it.userBadge2, it.userBadge3)  // null인 항목 제거
+                    .forEach { badge ->
+                        selectedBadges.add(
+                            Badge(
+                                badge.name,
+                                ValidUtils.getDrawableResId(requireContext(), badge.icon)
+                            )
+                        )
+                    }
+
+                // 뱃지 UI 업데이트
+                profileCommon.setupBadges(binding, selectedBadges)
+
                 profileCommon.setupCircularProgressBar(binding, myProfile.level, myProfile.points) // 레벨 달성률 게이지 바 구현
                 //팔로우 클릭 처리
                 profileCommon.onFollowClicked(requireActivity(), binding.llProfileFollower, "follower", myId = it.id!!)
                 profileCommon.onFollowClicked(requireActivity(), binding.llProfileFollowing, "following", myId = it.id)
             }
         }
+
+
 
         userViewModel.errorMessage.observe(viewLifecycleOwner) { errorMsg ->
             errorMsg?.let {
@@ -85,17 +107,16 @@ class ProfileFragment : Fragment() {
         // 유저 데이터 로드
         userViewModel.loadProfile()
 
-        //뱃지 더미 데이터 - 테스트 시 주석 해제 or 설정
-        selectedBadges.clear()
+//        //뱃지 더미 데이터 - 테스트 시 주석 해제 or 설정
+//        selectedBadges.clear()
+//
+//        selectedBadges.apply {
+//            add(Badge("프로 챌린저", R.drawable.badge_type_fromtoday_challenger))
+//            add(Badge("수준급 스터디언", R.drawable.badge_type_fromtoday_challenger))
+//            add(Badge("운동 스타터", R.drawable.badge_type_fromtoday_challenger))
+//        }
 
-        selectedBadges.apply {
-            add(Badge("프로 챌린저", R.drawable.badge_type_fromtoday_challenger))
-            add(Badge("수준급 스터디언", R.drawable.badge_type_fromtoday_challenger))
-            add(Badge("운동 스타터", R.drawable.badge_type_fromtoday_challenger))
-        }
 
-        //설정한 대표 뱃지 개수에 따라 visibility 조정
-        profileCommon.setupBadges(binding, selectedBadges)
     }
 
     override fun onDestroyView() {
