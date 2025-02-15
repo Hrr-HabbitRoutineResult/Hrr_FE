@@ -160,4 +160,21 @@ class UserViewModel @Inject constructor(
         }
     }
 
+    /*
+    * 사용자 뱃지 목록
+    * */
+    private val _badges = MutableLiveData<BadgeResponse?>()
+    val badges: LiveData<BadgeResponse?> get() = _badges
+
+    fun loadBadges(){
+        viewModelScope.launch {
+            val result = userRepository.getMyBadges(authRepository.getUserId())
+            result.onSuccess{
+                _badges.postValue(result.getOrNull()) // 성공 시 데이터 업데이트
+            }.onFailure {
+                _errorMessage.postValue(result.exceptionOrNull()?.message) // 실패 시 에러 메시지 전달
+            }
+        }
+    }
+
 }
