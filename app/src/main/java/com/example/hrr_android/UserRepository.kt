@@ -71,8 +71,6 @@ class UserRepository @Inject constructor(
         }
     }
 
-    }
-
     // 최근 완주한 챌린지 조회
     suspend fun getChallengesEnd(): Result<ChallengeEndResponse>{
         val userId = authRepository.getUserId()
