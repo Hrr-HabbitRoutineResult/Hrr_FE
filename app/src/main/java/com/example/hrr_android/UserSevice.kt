@@ -63,4 +63,10 @@ interface UserService {
         @Path("userId") userId: Int
     ): Response<ApiResponse<BlockResponse>>
 
+    // 사용자 뱃지 조회
+    @GET("/api/v1/users/{userId}/badges")
+    suspend fun getMyBadges(
+        @Path("userId") userId: Int
+    ): Response<ApiResponse<BadgeResponse>>
+
 }
