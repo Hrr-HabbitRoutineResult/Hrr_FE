@@ -9,6 +9,8 @@ import com.example.hrr_android.access.model.KakaoLoginRequest
 import com.example.hrr_android.access.model.KakaoLoginResponse
 import com.example.hrr_android.access.model.LoginRequest
 import com.example.hrr_android.access.model.LoginResponse
+import com.example.hrr_android.access.model.NicknameCheckRequest
+import com.example.hrr_android.access.model.NicknameCheckResponse
 import com.example.hrr_android.access.model.RegisterRequest
 import com.example.hrr_android.access.model.RegisterResponse
 import com.example.hrr_android.access.model.TokenRequest
@@ -35,7 +37,13 @@ interface AuthService {
     @POST("api/v1/auth/check-email-verification-code")
     suspend fun confirmVerificationCode(
         @Body request: EmailConfirmRequest
-    ): Response<EmailConfirmResponse>
+    ): Response<ApiResponse<EmailConfirmResponse>>
+
+    // 닉네임 중복 확인 API
+    @POST("api/v1/auth/check-nickname")
+    suspend fun checkNickname(
+        @Body request: NicknameCheckRequest
+    ): Response<NicknameCheckResponse>
 
     // 회원가입 API
     @POST("api/v1/auth/register")
