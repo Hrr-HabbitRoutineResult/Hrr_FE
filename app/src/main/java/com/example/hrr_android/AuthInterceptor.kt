@@ -97,7 +97,7 @@ class AuthInterceptor @Inject constructor(
         Log.d("AuthInterceptor", "서버 응답 상태 코드: ${response.code}")
         Log.d("AuthInterceptor", "서버 응답 바디: $responseBodyString")
 
-        return response.code == 403
+        return response.code == 401
     }
 
     // 서버 응답에서 리프레시 토큰 만료 여부 감지
@@ -106,6 +106,6 @@ class AuthInterceptor @Inject constructor(
         Log.d("AuthInterceptor", "서버 응답 상태 코드: ${response.code}")
         Log.d("AuthInterceptor", "서버 응답 바디: $responseBodyString")
 
-        return response.code == 401
+        return response.code == 403
     }
 }
