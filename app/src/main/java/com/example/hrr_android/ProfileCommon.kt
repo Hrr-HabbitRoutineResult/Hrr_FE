@@ -13,10 +13,10 @@ import com.mikhaellopez.circularprogressbar.CircularProgressBar
 class ProfileCommon {
 
     //ViewPager2 연결
-    fun setupViewPager(binding: FragmentProfileBinding, activity: FragmentActivity, isMyProfile: Boolean) {
+    fun setupViewPager(binding: FragmentProfileBinding, activity: FragmentActivity, isMyProfile: Boolean, ownerId: Int=0) {
         val tabs = if (isMyProfile) arrayListOf("챌린지", "인증기록", "뱃지") else arrayListOf("챌린지", "뱃지")
 
-        val profileVPAdapter = ProfileVPAdapter(activity, isMyProfile)
+        val profileVPAdapter = ProfileVPAdapter(activity, isMyProfile, ownerId)
         binding.vpProfile.adapter = profileVPAdapter
 
         TabLayoutMediator(binding.tlProfile, binding.vpProfile) { tab, position ->

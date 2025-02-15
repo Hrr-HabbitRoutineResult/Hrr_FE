@@ -67,4 +67,18 @@ class OtherUserViewModel@Inject constructor(
         }
     }
 
+    /*
+    * 참가 중인 챌린지 조회
+    * */
+
+    private val _challengesOngoing = MutableLiveData<Result<List<ChallengesOngoing>>>()
+    val challengesOngoing: LiveData<Result<List<ChallengesOngoing>>> get() = _challengesOngoing
+
+    fun fetchChallengesOngoing(userId: Int) {
+        viewModelScope.launch {
+            val result = userRepository.getChallengesOngoing(userId)
+            _challengesOngoing.value = result
+        }
+    }
+
 }

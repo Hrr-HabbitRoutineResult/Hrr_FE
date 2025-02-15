@@ -112,7 +112,7 @@ class OtherProfileActivity : AppCompatActivity() {
         binding.ivOtherFollowing.visibility = View.GONE
 
         // ViewPager 연결
-        profileCommon.setupViewPager(profileBinding, this, false)
+        profileCommon.setupViewPager(profileBinding, this, false, userId)
 
         // 대표 뱃지 바인딩
         profileCommon.setupBadges(profileBinding, selectedBadges)
