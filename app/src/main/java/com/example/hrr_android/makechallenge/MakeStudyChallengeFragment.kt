@@ -45,7 +45,10 @@ class MakeStudyChallengeFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentMakeChallengeStudyBinding.inflate(inflater, container, false)
-        _headerBinding = LayoutMakeChallengeHeaderBinding.bind(binding.root)
+
+        val headerView = binding.root.findViewById<View>(R.id.layout_make_challenge_study_header)
+        _headerBinding = LayoutMakeChallengeHeaderBinding.bind(headerView)
+
         return binding.root
     }
 
@@ -173,11 +176,25 @@ class MakeStudyChallengeFragment : Fragment() {
         val isEndDateSelected = selectedEndDate != null
         val isProfileImageSelected = selectedImageUri != null
 
-        binding.btnMakeBasicChallenge.isEnabled = isNameEntered &&
+        val isEnabled = isNameEntered &&
                 isDescriptionEntered && isRuleEntered &&
                 isPeopleSelected && isAuthSelected &&
                 isDaySelected && isStartDateSelected &&
                 isEndDateSelected && isProfileImageSelected
+
+        binding.btnMakeStudyChallenge.post {  //
+            binding.btnMakeStudyChallenge.isEnabled = isEnabled
+            if (isEnabled) {
+                binding.btnMakeStudyChallenge.setBackgroundResource(R.drawable.bg_button_activate_10)
+                binding.btnMakeStudyChallenge.findViewById<TextView>(R.id.tv_make_study_challenge_apply)
+                    .setTextColor(resources.getColor(R.color.white))
+            } else {
+                binding.btnMakeStudyChallenge.setBackgroundResource(R.drawable.bg_button_deactivate_10)
+                binding.btnMakeStudyChallenge.findViewById<TextView>(R.id.tv_make_study_challenge_apply)
+                    .setTextColor(resources.getColor(R.color.text_tertiary))
+            }
+            binding.btnMakeStudyChallenge.invalidate()
+        }
     }
 
     private fun getSelectedDatesFromCalendar() {

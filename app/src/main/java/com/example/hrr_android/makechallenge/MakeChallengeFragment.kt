@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.hrr_android.databinding.FragmentMakeChallengeBinding
@@ -24,6 +25,8 @@ class MakeChallengeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMakeChallengeBinding.inflate(inflater, container, false)
+        val headerView = binding.root.findViewById<View>(R.id.layout_make_challenge_header)
+        _headerBinding = LayoutMakeChallengeHeaderBinding.bind(headerView)
         return binding.root
     }
 
@@ -112,19 +115,33 @@ class MakeChallengeFragment : Fragment() {
 
     private fun updateButtonState() {
         // 카테고리와 유형 중 하나라도 선택된 경우 확인
-        val isCategorySelected = binding.btnChooseCategoryExercise.isSelected ||
-                binding.btnChooseCategoryStudy.isSelected ||
-                binding.btnChooseCategoryEmployment.isSelected ||
-                binding.btnChooseCategoryHabit.isSelected ||
-                binding.btnChooseCategoryHobby.isSelected
+        val isCategorySelected = listOf(
+            binding.btnChooseCategoryExercise,
+            binding.btnChooseCategoryStudy,
+            binding.btnChooseCategoryEmployment,
+            binding.btnChooseCategoryHabit,
+            binding.btnChooseCategoryHobby
+        ).any { it.isActivated } //
 
-        val isTypeSelected = binding.btnChooseTypeStudy.isSelected ||
-                binding.btnChooseTypeBasic.isSelected
+        val isTypeSelected = listOf(
+            binding.btnChooseTypeStudy,
+            binding.btnChooseTypeBasic
+        ).any { it.isActivated } //
 
-        // 카테고리와 유형이 모두 선택된 경우에만 btnApply 활성화
+        // 카테고리 & 유형이 모두 선택된 경우에만 활성화
         val isEnabled = isCategorySelected && isTypeSelected
-        binding.btnApply.isEnabled = isEnabled
-        binding.btnApply.refreshDrawableState()
+
+        binding.btnApply.post {
+            binding.btnApply.isEnabled = isEnabled
+            if (isEnabled) {
+                binding.btnApply.setBackgroundResource(R.drawable.bg_button_activate_10)
+                binding.btnApply.findViewById<TextView>(R.id.tv_make_challenge_apply).setTextColor(resources.getColor(R.color.white))
+            } else {
+                binding.btnApply.setBackgroundResource(R.drawable.bg_button_deactivate_10)
+                binding.btnApply.findViewById<TextView>(R.id.tv_make_challenge_apply).setTextColor(resources.getColor(R.color.text_tertiary))
+            }
+            binding.btnApply.invalidate()
+        }
     }
 
     private fun setupApplyButtonClick() {
@@ -140,7 +157,7 @@ class MakeChallengeFragment : Fragment() {
     private fun navigateToFragment(fragment: Fragment) {
         parentFragmentManager.beginTransaction()
             .replace(this.id, fragment)
-            .addToBackStack(null) // 뒤로 가기 버튼을 눌렀을 때 이전 화면으로 돌아갈 수 있도록 함
+            .addToBackStack(null)
             .commit()
     }
 

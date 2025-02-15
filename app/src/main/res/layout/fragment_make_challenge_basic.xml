@@ -62,7 +62,8 @@
                     android:includeFontPadding="false"
                     android:textColorHint="@color/text_tertiary"
                     android:textColor="@color/text_primary"
-                    android:textCursorDrawable="@drawable/cursor_custom" />
+                    android:textCursorDrawable="@drawable/cursor_custom"
+                    android:maxLength="10"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -97,7 +98,8 @@
                     android:includeFontPadding="false"
                     android:textColorHint="@color/text_tertiary"
                     android:textColor="@color/text_primary"
-                    android:textCursorDrawable="@drawable/cursor_custom" />
+                    android:textCursorDrawable="@drawable/cursor_custom"
+                    android:maxLength="120"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -154,7 +156,7 @@
                         android:layout_width="0dp"
                         android:layout_height="33dp"
                         android:layout_marginEnd="10dp"
-                        android:background="@drawable/btn_challenge_filter"
+                        android:background="@drawable/btn_challenge_filter2"
                         android:clickable="true"
                         android:focusable="true"
                         android:layout_weight="1">
@@ -175,7 +177,7 @@
                         android:layout_width="0dp"
                         android:layout_height="33dp"
                         android:layout_marginEnd="10dp"
-                        android:background="@drawable/btn_challenge_filter"
+                        android:background="@drawable/btn_challenge_filter2"
                         android:clickable="true"
                         android:focusable="true"
                         android:layout_weight="1">
@@ -195,7 +197,7 @@
                         android:id="@+id/btn_basic_duration_3week"
                         android:layout_width="0dp"
                         android:layout_height="33dp"
-                        android:background="@drawable/btn_challenge_filter"
+                        android:background="@drawable/btn_challenge_filter2"
                         android:clickable="true"
                         android:focusable="true"
                         android:layout_weight="1">
@@ -222,7 +224,7 @@
                         android:layout_width="0dp"
                         android:layout_height="33dp"
                         android:layout_marginEnd="10dp"
-                        android:background="@drawable/btn_challenge_filter"
+                        android:background="@drawable/btn_challenge_filter2"
                         android:clickable="true"
                         android:focusable="true"
                         android:layout_weight="1">
@@ -243,7 +245,7 @@
                         android:layout_width="0dp"
                         android:layout_height="33dp"
                         android:layout_marginEnd="10dp"
-                        android:background="@drawable/btn_challenge_filter"
+                        android:background="@drawable/btn_challenge_filter2"
                         android:clickable="true"
                         android:focusable="true"
                         android:layout_weight="1">
@@ -263,7 +265,7 @@
                         android:id="@+id/btn_basic_duration_6month"
                         android:layout_width="0dp"
                         android:layout_height="33dp"
-                        android:background="@drawable/btn_challenge_filter"
+                        android:background="@drawable/btn_challenge_filter2"
                         android:clickable="true"
                         android:focusable="true"
                         android:layout_weight="1">
@@ -289,7 +291,7 @@
                         android:layout_width="0dp"
                         android:layout_height="33dp"
                         android:layout_marginEnd="20dp"
-                        android:background="@drawable/btn_challenge_filter"
+                        android:background="@drawable/btn_challenge_filter2"
                         android:clickable="true"
                         android:focusable="true"
                         android:layout_weight="1">
@@ -351,7 +353,7 @@
                         android:layout_width="0dp"
                         android:layout_height="33dp"
                         android:layout_marginEnd="10dp"
-                        android:background="@drawable/btn_challenge_filter"
+                        android:background="@drawable/btn_challenge_filter2"
                         android:clickable="true"
                         android:focusable="true"
                         android:layout_weight="1">
@@ -372,7 +374,7 @@
                         android:layout_width="0dp"
                         android:layout_height="33dp"
                         android:layout_marginEnd="10dp"
-                        android:background="@drawable/btn_challenge_filter"
+                        android:background="@drawable/btn_challenge_filter2"
                         android:clickable="true"
                         android:focusable="true"
                         android:layout_weight="1">
@@ -392,7 +394,7 @@
                         android:id="@+id/btn_basic_people_30"
                         android:layout_width="0dp"
                         android:layout_height="33dp"
-                        android:background="@drawable/btn_challenge_filter"
+                        android:background="@drawable/btn_challenge_filter2"
                         android:clickable="true"
                         android:focusable="true"
                         android:layout_weight="1">
@@ -419,7 +421,7 @@
                         android:layout_width="0dp"
                         android:layout_height="33dp"
                         android:layout_marginEnd="10dp"
-                        android:background="@drawable/btn_challenge_filter"
+                        android:background="@drawable/btn_challenge_filter2"
                         android:clickable="true"
                         android:focusable="true"
                         android:layout_weight="1">
@@ -440,7 +442,7 @@
                         android:layout_width="0dp"
                         android:layout_height="33dp"
                         android:layout_marginEnd="10dp"
-                        android:background="@drawable/btn_challenge_filter"
+                        android:background="@drawable/btn_challenge_filter2"
                         android:clickable="true"
                         android:focusable="true"
                         android:layout_weight="1">
@@ -498,7 +500,7 @@
                     android:layout_height="130dp"
                     android:layout_marginEnd="10dp"
                     android:layout_weight="1"
-                    android:background="@drawable/btn_challenge_filter_radius15"
+                    android:background="@drawable/btn_challenge_filter_radius15_2"
                     android:clickable="true"
                     android:focusable="true">
 
@@ -539,7 +541,7 @@
                     android:layout_width="0dp"
                     android:layout_height="130dp"
                     android:layout_weight="1"
-                    android:background="@drawable/btn_challenge_filter_radius15"
+                    android:background="@drawable/btn_challenge_filter_radius15_2"
                     android:clickable="true"
                     android:focusable="true">
 
@@ -620,7 +622,7 @@
                         android:layout_width="0dp"
                         android:layout_height="33dp"
                         android:layout_marginEnd="10dp"
-                        android:background="@drawable/btn_challenge_filter"
+                        android:background="@drawable/btn_challenge_filter2"
                         android:clickable="true"
                         android:focusable="true"
                         android:layout_weight="1">
@@ -641,7 +643,7 @@
                         android:layout_width="0dp"
                         android:layout_height="33dp"
                         android:layout_marginEnd="10dp"
-                        android:background="@drawable/btn_challenge_filter"
+                        android:background="@drawable/btn_challenge_filter2"
                         android:clickable="true"
                         android:focusable="true"
                         android:layout_weight="1">
@@ -661,7 +663,7 @@
                         android:id="@+id/btn_basic_frequency_3perweek"
                         android:layout_width="0dp"
                         android:layout_height="33dp"
-                        android:background="@drawable/btn_challenge_filter"
+                        android:background="@drawable/btn_challenge_filter2"
                         android:clickable="true"
                         android:focusable="true"
                         android:layout_weight="1">
@@ -688,7 +690,7 @@
                         android:layout_width="0dp"
                         android:layout_height="33dp"
                         android:layout_marginEnd="10dp"
-                        android:background="@drawable/btn_challenge_filter"
+                        android:background="@drawable/btn_challenge_filter2"
                         android:clickable="true"
                         android:focusable="true"
                         android:layout_weight="1">
@@ -709,7 +711,7 @@
                         android:layout_width="0dp"
                         android:layout_height="33dp"
                         android:layout_marginEnd="10dp"
-                        android:background="@drawable/btn_challenge_filter"
+                        android:background="@drawable/btn_challenge_filter2"
                         android:clickable="true"
                         android:focusable="true"
                         android:layout_weight="1">
@@ -729,7 +731,7 @@
                         android:id="@+id/btn_basic_frequency_weekend"
                         android:layout_width="0dp"
                         android:layout_height="33dp"
-                        android:background="@drawable/btn_challenge_filter"
+                        android:background="@drawable/btn_challenge_filter2"
                         android:clickable="true"
                         android:focusable="true"
                         android:layout_weight="1">
@@ -880,16 +882,14 @@
             android:id="@+id/btn_make_basic_challenge"
             android:layout_width="match_parent"
             android:layout_height="45dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="13dp"
             android:clickable="true"
             android:focusable="true"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="13dp">
+            android:background="@drawable/bg_button_deactivate_10">
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/bg_button_activate_deactivate" />
             <TextView
+                android:id="@+id/tv_make_basic_challenge_apply"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -897,8 +897,7 @@
                 android:gravity="center"
                 android:text="개설하기"
                 android:textColor="@color/text_tertiary"
-                android:textSize="16sp"
-                android:includeFontPadding="false"/>
+                android:textSize="16sp" />
         </FrameLayout>
     </LinearLayout>
 

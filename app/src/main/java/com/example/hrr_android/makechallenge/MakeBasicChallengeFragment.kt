@@ -41,7 +41,10 @@ class MakeBasicChallengeFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentMakeChallengeBasicBinding.inflate(inflater, container, false)
-        _headerBinding = LayoutMakeChallengeHeaderBinding.bind(binding.root)
+
+        val headerView = binding.root.findViewById<View>(R.id.layout_make_challenge_basic_header)
+        _headerBinding = LayoutMakeChallengeHeaderBinding.bind(headerView)
+
         return binding.root
     }
 
@@ -166,11 +169,25 @@ class MakeBasicChallengeFragment : Fragment() {
         val isFrequencySelected = frequencyButtons.any { it.isSelected }
         val isProfileImageSelected = selectedImageUri != null
 
-        binding.btnMakeBasicChallenge.isEnabled = isNameFilled &&
+        val isEnabled = isNameFilled &&
                 isDescriptionFilled && isRuleFilled &&
                 isDurationSelected && isPeopleSelected &&
                 isAuthSelected && isFrequencySelected &&
                 isProfileImageSelected
+
+        binding.btnMakeBasicChallenge.post {
+            binding.btnMakeBasicChallenge.isEnabled = isEnabled
+            if (isEnabled) {
+                binding.btnMakeBasicChallenge.setBackgroundResource(R.drawable.bg_button_activate_10)
+                binding.btnMakeBasicChallenge.findViewById<TextView>(R.id.tv_make_basic_challenge_apply)
+                    .setTextColor(resources.getColor(R.color.white))
+            } else {
+                binding.btnMakeBasicChallenge.setBackgroundResource(R.drawable.bg_button_deactivate_10)
+                binding.btnMakeBasicChallenge.findViewById<TextView>(R.id.tv_make_basic_challenge_apply)
+                    .setTextColor(resources.getColor(R.color.text_tertiary))
+            }
+            binding.btnMakeBasicChallenge.invalidate()
+        }
     }
 
     override fun onDestroyView() {
