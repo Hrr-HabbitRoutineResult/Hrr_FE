@@ -81,4 +81,21 @@ class OtherUserViewModel@Inject constructor(
         }
     }
 
+    /*
+    * 최근 완주한 챌린지 조회
+    * */
+    private val _challengesEnd = MutableLiveData<ChallengeEndResponse?>()
+    val challengesEnd: LiveData<ChallengeEndResponse?> get() = _challengesEnd
+
+    fun loadChallengesEnd(userId: Int){
+        viewModelScope.launch {
+            val result = userRepository.getChallengesEnd(userId)
+            result.onSuccess{
+                _challengesEnd.postValue(result.getOrNull()) // 성공 시 데이터 업데이트
+            }.onFailure {
+                _errorMessage.postValue(result.exceptionOrNull()?.message) // 실패 시 에러 메시지 전달
+            }
+        }
+    }
+
 }

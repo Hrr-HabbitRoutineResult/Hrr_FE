@@ -74,9 +74,38 @@ class ProfileChallengeFragment : Fragment() {
                     Log.e("HomeFragment", "API 데이터 로드 실패: ${it.message}") // 실패 시 로그 출력
                 }
             }
+            userViewModel.fetchChallengesOngoing()  // 참가중인 챌린지 데이터 로딩
 
-            // 참가중인 챌린지 데이터 로딩
-            userViewModel.fetchChallengesOngoing()
+            /*
+            * 최근 완주한 챌린지 연동
+            * */
+
+            // LiveData 관찰 (데이터가 변경될 때 자동 업데이트되도록 설정)
+            userViewModel.challengesEnd.observe(viewLifecycleOwner) { challenges ->
+                challenges?.completedChallenges?.map{challengeEnd->
+                    Challenge(
+                        challengeEnd.name,
+                        challengeEnd.imageUrl.toInt(),      // 이미지 처리 구현 전이라 오류 방지를 위해 임시로 Int로 전환해서 사용
+                        challengeEnd.description)
+
+                }.let {
+                    completedChallengeList.apply {
+                        clear()
+                        if (it != null) {
+                            addAll(it)
+                        }
+
+                        if (completedChallengeList.isNotEmpty()) {
+                            binding.clProfileCompletedChallengeContentNo.visibility = View.GONE
+                            binding.rvProfileCompletedChallengeContent.visibility = View.VISIBLE
+                        } else {
+                            binding.clProfileCompletedChallengeContentNo.visibility = View.VISIBLE
+                            binding.rvProfileCompletedChallengeContent.visibility = View.GONE
+                        }
+                    }
+                }
+            }
+            userViewModel.loadChallengesEnd()       // 최근 완주한 챌린지 로드
         }
 
         else{
@@ -116,37 +145,33 @@ class ProfileChallengeFragment : Fragment() {
 
             // 참가중인 챌린지 데이터 로딩
             otherUserViewModel.fetchChallengesOngoing(ownerId)
-        }
 
+            // LiveData 관찰 (데이터가 변경될 때 자동 업데이트되도록 설정)
+            otherUserViewModel.challengesEnd.observe(viewLifecycleOwner) { challenges ->
+                challenges?.completedChallenges?.map{challengeEnd->
+                    Challenge(
+                        challengeEnd.name,
+                        challengeEnd.imageUrl.toInt(),      // 이미지 처리 구현 전이라 오류 방지를 위해 임시로 Int로 전환해서 사용
+                        challengeEnd.description)
 
-        /*
-        * 최근 완주한 챌린지 연동
-        * */
+                }.let {
+                    completedChallengeList.apply {
+                        clear()
+                        if (it != null) {
+                            addAll(it)
+                        }
 
-        // LiveData 관찰 (데이터가 변경될 때 자동 업데이트되도록 설정)
-        userViewModel.challengesEnd.observe(viewLifecycleOwner) { challenges ->
-            challenges?.completedChallenges?.map{challengeEnd->
-                Challenge(
-                    challengeEnd.name,
-                    challengeEnd.imageUrl.toInt(),      // 이미지 처리 구현 전이라 오류 방지를 위해 임시로 Int로 전환해서 사용
-                    challengeEnd.description)
-
-            }.let {
-                completedChallengeList.apply {
-                    clear()
-                    if (it != null) {
-                        addAll(it)
-                    }
-
-                    if (completedChallengeList.isNotEmpty()) {
-                        binding.clProfileCompletedChallengeContentNo.visibility = View.GONE
-                        binding.rvProfileCompletedChallengeContent.visibility = View.VISIBLE
-                    } else {
-                        binding.clProfileCompletedChallengeContentNo.visibility = View.VISIBLE
-                        binding.rvProfileCompletedChallengeContent.visibility = View.GONE
+                        if (completedChallengeList.isNotEmpty()) {
+                            binding.clProfileCompletedChallengeContentNo.visibility = View.GONE
+                            binding.rvProfileCompletedChallengeContent.visibility = View.VISIBLE
+                        } else {
+                            binding.clProfileCompletedChallengeContentNo.visibility = View.VISIBLE
+                            binding.rvProfileCompletedChallengeContent.visibility = View.GONE
+                        }
                     }
                 }
             }
+            otherUserViewModel.loadChallengesEnd(ownerId)       // 최근 완주한 챌린지 로드
         }
 
         userViewModel.errorMessage.observe(viewLifecycleOwner) { errorMsg ->
@@ -178,9 +203,6 @@ class ProfileChallengeFragment : Fragment() {
                 Log.e("ProfileFragmentVM", "오류 발생: $errorMsg")
             }
         }
-
-        // 유저 데이터 로드
-        userViewModel.loadChallengesEnd()
 
         //데이터 유무 판단하여 뷰 전환
         if(participatingChallengeList.size != 0){
