@@ -49,7 +49,7 @@ interface AuthService {
     @POST("api/v1/auth/register")
     suspend fun registerUser(
         @Body request: RegisterRequest
-    ): Response<RegisterResponse>
+    ): Response<ApiResponse<RegisterResponse>>
 
     // 카카오 로그인 API
     @POST("api/v1/auth/login/kakao")

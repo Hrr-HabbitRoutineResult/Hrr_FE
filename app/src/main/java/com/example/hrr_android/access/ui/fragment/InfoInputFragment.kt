@@ -95,38 +95,13 @@ class InfoInputFragment : Fragment() {
 
     private fun observeRegistrationResult() {
         authViewModel.registrationResult.observe(viewLifecycleOwner) { result ->
-            result.onSuccess { registerResponse ->
-                saveUserInfo(registerResponse)
-
+            result.onSuccess {
                 // CompleteFragment로 이동
                 (activity as? SignUpActivity)?.changeFragment(CompleteFragment())
             }.onFailure {
                 ValidUtils.hideKeyboard(requireContext(), requireView())
                 ValidUtils.showSnackbar(requireView(), "회원가입에 실패하였습니다.", binding.lineInfoInput)
             }
-        }
-    }
-
-    private fun saveUserInfo(registerResponse: RegisterResponse) {
-        val user = registerResponse.createdUser
-        // MasterKey 생성
-        val masterKey = MasterKey.Builder(requireContext())
-            .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
-            .build()
-        // EncryptedSharedPreferences 인스턴스 생성
-        val sharedPreferences = EncryptedSharedPreferences.create(
-            requireContext(),
-            "user_prefs",
-            masterKey,
-            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-        )
-        // 사용자 정보 저장
-        sharedPreferences.edit().apply {
-            putInt("user_id", user.id)
-            putString("user_email", user.email)
-            putString("user_nickname", user.nickname)
-            apply()
         }
     }
 

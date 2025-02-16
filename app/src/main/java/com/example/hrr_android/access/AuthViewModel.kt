@@ -146,7 +146,13 @@ class AuthViewModel @Inject constructor(
     fun registerUser(request: RegisterRequest) {
         viewModelScope.launch {
             val result = authRepository.registerUser(request)
-            _registrationResult.value = result
+
+            result.onSuccess { apiResponse ->
+                apiResponse.success?.let { createdUser ->
+                    tokenManager.saveTokens(createdUser.accessToken, createdUser.refreshToken)
+                }
+            }
+            _registrationResult.value = result.mapCatching { it.success ?: throw Exception("회원가입 응답이 올바르지 않음") }
         }
     }
 
