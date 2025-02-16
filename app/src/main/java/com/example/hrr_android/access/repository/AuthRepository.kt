@@ -130,12 +130,16 @@ class AuthRepository @Inject constructor(
     }
 
     // 회원가입 요청
-    suspend fun registerUser(request: RegisterRequest): Result<RegisterResponse> {
+    suspend fun registerUser(request: RegisterRequest): Result<ApiResponse<RegisterResponse>> {
         return try {
             val response = authService.registerUser(request)
             if (response.isSuccessful) {
                 val responseBody = response.body()
                 if (responseBody != null) {
+                    // 토큰 및 userId 저장
+                    responseBody.success?.let { tokenManager.saveTokens(responseBody.success.accessToken, it.refreshToken) }
+                    responseBody.success?.let { saveUserId(it.userId) }
+
                     Result.success(responseBody)
                 } else {
                     Result.failure(Exception("응답 본문이 비어있음"))
