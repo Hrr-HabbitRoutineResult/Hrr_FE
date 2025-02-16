@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.ksp)     //hilt
     alias(libs.plugins.hilt)    //hilt
     id("kotlin-kapt")
+    id("kotlin-parcelize")
 }
 
 android {
