@@ -68,6 +68,7 @@ interface UserService {
         @Path("userId") userId: Int
     ): Response<ApiResponse<BlockResponse>>
 
+    // 사용자 맞춤 추천
     @PUT("/api/v1/users/interests/category")
     suspend fun getOnboardingChallenge(
         @Body request: OnboardingRequest
