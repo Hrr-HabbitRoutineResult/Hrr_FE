@@ -10,12 +10,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
 import com.example.hrr_android.access.AuthViewModel
 import com.example.hrr_android.access.ui.LoginActivity
+import com.example.hrr_android.databinding.BottomSheetWithdrawalBinding
+import com.example.hrr_android.databinding.DialogBottomSheetBinding
 import com.example.hrr_android.databinding.DialogLogoutBinding
 import com.example.hrr_android.databinding.FragmentSettingAccountBinding
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -38,7 +42,6 @@ class SettingAccountFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initClickListener()
-
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner,
             object : OnBackPressedCallback(true) {
@@ -68,6 +71,32 @@ class SettingAccountFragment : Fragment() {
         // 로그아웃 처리
         binding.llSettingLogout.setOnClickListener {
             showLinkDialog()
+        }
+
+        // 탈퇴 다이얼로그
+        binding.llSettingWithdrawal.setOnClickListener {
+            val dialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialog)
+            val dialogBinding = BottomSheetWithdrawalBinding.inflate(layoutInflater) // 뷰 바인딩 객체 생성
+
+            dialog.setContentView(dialogBinding.root)
+
+            // 버튼 클릭 리스너 설정
+            dialogBinding.llWithdrawalTitle.setOnClickListener {
+                Toast.makeText(requireContext(), "뒤로가기 버튼", Toast.LENGTH_SHORT).show()
+                dialog.dismiss()
+            }
+
+            dialogBinding.btnNoWithdrawal.setOnClickListener {
+                Toast.makeText(requireContext(), "돌아가기", Toast.LENGTH_SHORT).show()
+                dialog.dismiss()
+            }
+
+            dialogBinding.btnWithdrawal.setOnClickListener {
+                Toast.makeText(requireContext(), "탈퇴하기", Toast.LENGTH_SHORT).show()
+                dialog.dismiss()
+            }
+
+            dialog.show()
         }
 
 
