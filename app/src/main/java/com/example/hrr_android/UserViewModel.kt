@@ -160,4 +160,16 @@ class UserViewModel @Inject constructor(
         }
     }
 
+    // 회원 탈퇴
+    fun withdrawal(){
+        viewModelScope.launch {
+            val result = userRepository.withdrawal()
+            result.onSuccess {
+
+            }.onFailure {
+                _errorMessage.postValue(result.exceptionOrNull()?.message) // 에러 메시지 전달
+            }
+        }
+    }
+
 }

@@ -105,5 +105,10 @@ class UserRepository @Inject constructor(
         return handleResponse { userService.unblockUser(blockedUserId) }
     }
 
+    // 회원 탈퇴
+    suspend fun withdrawal(): Result<QuitResponse>{
+        return handleResponse { userService.withdrawal() }
+    }
+
 
 }

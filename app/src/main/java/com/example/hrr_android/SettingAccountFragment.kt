@@ -27,7 +27,7 @@ class SettingAccountFragment : Fragment() {
     private var _binding: FragmentSettingAccountBinding? = null
     private val binding get() = _binding!!
     private val authViewModel: AuthViewModel by viewModels()
-
+    private val userViewModel: UserViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,6 +59,21 @@ class SettingAccountFragment : Fragment() {
                     (activity as? ProfileMoreActivity)?.setTitle("설정")
                 }
             })
+
+        userViewModel.errorMessage.observe(viewLifecycleOwner) { errorMsg ->
+            errorMsg?.let {
+                val errorToUser = when {
+                    it.contains("IllegalStateException") -> "데이터를 불러오는 중 문제가 발생했습니다. 다시 시도해 주세요."
+                    it.contains("JsonSyntaxException") -> "서버 응답이 올바르지 않습니다. 업데이트를 확인해 주세요."
+                    it.contains("SocketTimeoutException") -> "서버 응답이 지연되고 있습니다. 잠시 후 다시 시도해 주세요."
+                    it.contains("IOException") -> "네트워크 연결을 확인해 주세요."
+                    else -> "알 수 없는 오류가 발생했습니다. 잠시 후 다시 시도해 주세요."
+                }
+
+                Toast.makeText(requireContext(), errorToUser, Toast.LENGTH_LONG).show()
+                Log.e("ProfileFragmentVM", "오류 발생: $errorMsg")
+            }
+        }
     }
 
     override fun onDestroyView() {
@@ -82,17 +97,16 @@ class SettingAccountFragment : Fragment() {
 
             // 버튼 클릭 리스너 설정
             dialogBinding.llWithdrawalTitle.setOnClickListener {
-                Toast.makeText(requireContext(), "뒤로가기 버튼", Toast.LENGTH_SHORT).show()
                 dialog.dismiss()
             }
 
             dialogBinding.btnNoWithdrawal.setOnClickListener {
-                Toast.makeText(requireContext(), "돌아가기", Toast.LENGTH_SHORT).show()
                 dialog.dismiss()
             }
 
             dialogBinding.btnWithdrawal.setOnClickListener {
-                Toast.makeText(requireContext(), "탈퇴하기", Toast.LENGTH_SHORT).show()
+                userViewModel.withdrawal()  // 회원 탈퇴
+                moveToLoginActivity()
                 dialog.dismiss()
             }
 

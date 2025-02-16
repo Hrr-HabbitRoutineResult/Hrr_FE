@@ -3,6 +3,7 @@ package com.example.hrr_android
 import retrofit2.Response
 import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Path
 
@@ -62,5 +63,8 @@ interface UserService {
     suspend fun unblockUser(
         @Path("userId") userId: Int
     ): Response<ApiResponse<BlockResponse>>
+
+    @PATCH("/api/v1/users/quit")
+    suspend fun withdrawal(): Response<ApiResponse<QuitResponse>>
 
 }
