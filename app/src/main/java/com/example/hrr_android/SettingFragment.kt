@@ -50,6 +50,9 @@ class SettingFragment : Fragment() {
             parentFragmentManager.beginTransaction()
                 .replace(R.id.fl_profile_more_fragment_container, SettingAccountFragment())
                 .commit()
+
+            (activity as? ProfileMoreActivity)?.setTitle("계정 설정")
+
         }
 
 

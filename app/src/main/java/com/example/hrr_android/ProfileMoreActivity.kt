@@ -74,4 +74,8 @@ class ProfileMoreActivity : AppCompatActivity() {
         }
 
     }
+
+    fun setTitle(title: String){
+        binding.tvProfileMoreTitle.text = title
+    }
 }
