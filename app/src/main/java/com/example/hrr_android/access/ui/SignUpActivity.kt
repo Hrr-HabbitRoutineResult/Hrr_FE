@@ -53,7 +53,7 @@ class SignUpActivity : AppCompatActivity() {
     private fun handleBackPressed() {
         val dialog = DialogNoTitle(
             context = this,
-            message = "가입을 취소하고 로그인 화면으로 돌아가시겠습니까?",
+            message = "로그인 화면으로 돌아가시겠습니까?",
             yesText = "네",
             noText = "아니오",
             object : DialogNoTitle.DialogListener {
