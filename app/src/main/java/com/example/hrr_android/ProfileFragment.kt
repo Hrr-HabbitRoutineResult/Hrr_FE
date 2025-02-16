@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.example.hrr_android.access.ValidUtils
 import com.example.hrr_android.databinding.FragmentProfileBinding
@@ -20,7 +21,7 @@ class ProfileFragment : Fragment() {
     private var _binding: FragmentProfileBinding? = null            //뷰 바인딩
     private val binding get() = _binding!!
     private var selectedBadges = ArrayList<Badge>()                 //대표 뱃지 리스트
-    private val userViewModel: UserViewModel by viewModels()
+    private val userViewModel: UserViewModel by activityViewModels()
     private val profileCommon = ProfileCommon()     //공통 로직 인스턴스 생성
     private var myProfile: UserResponse = UserResponse()    // 로딩된 사용자 정보
 
@@ -147,8 +148,12 @@ class ProfileFragment : Fragment() {
 
         // 대표 뱃지 클릭 시 뱃지 수정 화면으로 전환
         binding.llProfileBadge.setOnClickListener {
+            val badgeNames = ArrayList(selectedBadges.map { it.name }) // 뱃지 이름만 리스트로 변환
+
             val intent = Intent(requireContext(), EditProfileActivity::class.java)
             intent.putExtra("clicked", "badge")
+            intent.putStringArrayListExtra("badgeNames", badgeNames)
+
             startActivity(intent)
 
         }

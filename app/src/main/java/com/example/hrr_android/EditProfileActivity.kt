@@ -20,21 +20,25 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.example.hrr_android.access.ValidUtils
 import com.example.hrr_android.databinding.ActivityEditProfileBinding
 import com.example.hrr_android.databinding.DialogProfileEditBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
+@AndroidEntryPoint
 class EditProfileActivity : AppCompatActivity(), OnBadgeClickListener {
     private lateinit var binding: ActivityEditProfileBinding        // 뷰 바인딩
     private lateinit var user: User     // 유저 데이터 - 수정된 정보로 업데이트하여 서버에 전달
@@ -45,6 +49,7 @@ class EditProfileActivity : AppCompatActivity(), OnBadgeClickListener {
     private lateinit var editBadgeRVAdapter: EditBadgeRVAdapter
     private var cameraPhotoUri: Uri? = null     // 이미지 uri
     private var onCalled: (() -> Unit)? = null
+    private val userViewModel: UserViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,31 +58,55 @@ class EditProfileActivity : AppCompatActivity(), OnBadgeClickListener {
         binding = ActivityEditProfileBinding.inflate(layoutInflater)
         user = User("닉네임 테스트")
         userImg = binding.ivEditUserImage
-        obtainedBadgeList.apply {
-            add(Badge("오늘부터 챌린저1", R.drawable.badge_type_fromtoday_challenger))
-            add(Badge("오늘부터 챌린저2", R.drawable.badge_type_fromtoday_challenger))
-            add(Badge("오늘부터 챌린저3", R.drawable.badge_type_fromtoday_challenger))
-            add(Badge("오늘부터 챌린저4", R.drawable.badge_type_fromtoday_challenger))
-            add(Badge("오늘부터 챌린저5", R.drawable.badge_type_fromtoday_challenger))
-            add(Badge("오늘부터 챌린저6", R.drawable.badge_type_fromtoday_challenger, isSelected = true))
-            add(Badge("오늘부터 챌린저7", R.drawable.badge_type_fromtoday_challenger))
-            add(Badge("오늘부터 챌린저8", R.drawable.badge_type_fromtoday_challenger))
-            add(Badge("오늘부터 챌린저9", R.drawable.badge_type_fromtoday_challenger))
-            add(Badge("오늘부터 챌린저10", R.drawable.badge_type_fromtoday_challenger, isSelected = true))
-            add(Badge("오늘부터 챌린저11", R.drawable.badge_type_fromtoday_challenger))
-            add(Badge("오늘부터 챌린저12", R.drawable.badge_type_fromtoday_challenger, isSelected = true))
-            add(Badge("오늘부터 챌린저13", R.drawable.badge_type_fromtoday_challenger))
-            add(Badge("오늘부터 챌린저14", R.drawable.badge_type_fromtoday_challenger))
-        }
-        selectedBadgeList = mutableListOf()
-        selectedBadgeList = obtainedBadgeList
-            .filter { it.isSelected }
-            .map { it.name to it.icon }
-            .toMutableList()
 
-        if(selectedBadgeList.size==3){
-            addPossible = false
+        // Intent에서 넘어온 뱃지 이름 리스트 가져오기
+        val selectedBadgeNames = intent.getStringArrayListExtra("badgeNames") ?: arrayListOf()
+
+        userViewModel.badges.observe(this) { response ->
+            obtainedBadgeList = ArrayList(
+                (response?.typeBadges.orEmpty() + response?.categoryBadges.orEmpty()) // 모든 뱃지를 합침
+                    .filter { it.isObtained } // 획득한 배지만 필터링
+                    .map { badge ->
+                        Badge(
+                            name = badge.name,
+                            icon = ValidUtils.getDrawableResId(this, badge.icon),
+                            isObtained = true,
+                            isSelected = badge.name in selectedBadgeNames
+                        )
+                    }
+            )
+
+            selectedBadgeList = mutableListOf()
+            selectedBadgeList = obtainedBadgeList
+                .filter { it.isSelected }
+                .map { it.name to it.icon }
+                .toMutableList()
+
+            if(selectedBadgeList.size==3){
+                addPossible = false
+            }
+
+            // 대표 뱃지 바인딩
+            setSelectedBadges(selectedBadgeList, binding)
         }
+
+//        obtainedBadgeList.apply {
+//            add(Badge("오늘부터 챌린저1", R.drawable.badge_type_fromtoday_challenger))
+//            add(Badge("오늘부터 챌린저2", R.drawable.badge_type_fromtoday_challenger))
+//            add(Badge("오늘부터 챌린저3", R.drawable.badge_type_fromtoday_challenger))
+//            add(Badge("오늘부터 챌린저4", R.drawable.badge_type_fromtoday_challenger))
+//            add(Badge("오늘부터 챌린저5", R.drawable.badge_type_fromtoday_challenger))
+//            add(Badge("오늘부터 챌린저6", R.drawable.badge_type_fromtoday_challenger, isSelected = true))
+//            add(Badge("오늘부터 챌린저7", R.drawable.badge_type_fromtoday_challenger))
+//            add(Badge("오늘부터 챌린저8", R.drawable.badge_type_fromtoday_challenger))
+//            add(Badge("오늘부터 챌린저9", R.drawable.badge_type_fromtoday_challenger))
+//            add(Badge("오늘부터 챌린저10", R.drawable.badge_type_fromtoday_challenger, isSelected = true))
+//            add(Badge("오늘부터 챌린저11", R.drawable.badge_type_fromtoday_challenger))
+//            add(Badge("오늘부터 챌린저12", R.drawable.badge_type_fromtoday_challenger, isSelected = true))
+//            add(Badge("오늘부터 챌린저13", R.drawable.badge_type_fromtoday_challenger))
+//            add(Badge("오늘부터 챌린저14", R.drawable.badge_type_fromtoday_challenger))
+//        }
+
 
         setContentView(binding.root)
 
@@ -88,9 +117,6 @@ class EditProfileActivity : AppCompatActivity(), OnBadgeClickListener {
                 binding.llEditBadge.performClick() // 뱃지 편집 모드 강제 실행
             }
         }
-
-        // 대표 뱃지 바인딩
-        setSelectedBadges(selectedBadgeList, binding)
 
         // 취소 클릭 처리
         binding.tvEditCancel.setOnClickListener {
