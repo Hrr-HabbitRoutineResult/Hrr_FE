@@ -2,11 +2,14 @@ package com.example.hrr_android.onboarding.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.example.hrr_android.LoadingActivity
+import com.example.hrr_android.UserViewModel
 import com.example.hrr_android.access.ValidUtils
 import com.example.hrr_android.databinding.ActivityOnboardingBinding
 import com.example.hrr_android.onboarding.OnboardingStep
@@ -17,6 +20,9 @@ import com.example.hrr_android.onboarding.ui.fragment.InfoSelectFragment
 class OnboardingActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityOnboardingBinding
+    private val userViewModel: UserViewModel by viewModels()
+
+    private var selectedCategory: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -97,18 +103,28 @@ class OnboardingActivity : AppCompatActivity() {
             }
 
             is CategoryFragment -> if (currentFragment.isValidSelection()) {
-                val selectedCategory = currentFragment.getSelectedCategory()
-                android.util.Log.d("Onboarding", "선택된 카테고리: $selectedCategory") // 선택된 버튼 로그 출력
-                changeFragment(GoalFragment())
+                selectedCategory = currentFragment.getSelectedCategory()
+                Log.d("Onboarding", "선택된 카테고리: $selectedCategory")
+                changeFragment(GoalFragment().apply {
+                    arguments = Bundle().apply {
+                        putString("selectedCategory", selectedCategory)
+                    }
+                })
             }
 
             is GoalFragment -> if (currentFragment.isValidSelection()) {
-                val intent = Intent(this, LoadingActivity::class.java)
-                intent.putExtra("fromOnboarding", true)
-                startActivity(intent)
-                finish()
+                startLoadingActivity()
             }
         }
+    }
+
+    private fun startLoadingActivity() {
+        val intent = Intent(this, LoadingActivity::class.java).apply {
+            putExtra("fromOnboarding", true)
+            putExtra("selectedCategory", selectedCategory)
+        }
+        startActivity(intent)
+        finish() // 온보딩 액티비티 종료
     }
 
     // 현재 프래그먼트의 상태에 따라 버튼 활성화/비활성화 업데이트
