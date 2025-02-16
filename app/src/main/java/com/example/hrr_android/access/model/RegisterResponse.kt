@@ -3,13 +3,10 @@ package com.example.hrr_android.access.model
 import com.google.gson.annotations.SerializedName
 
 data class RegisterResponse(
-    val message: String,
-    @SerializedName("created_user")
-    val createdUser: CreatedUser
-) {
-    data class CreatedUser(
-        val id: Int,
-        val email: String,
-        val nickname: String
-    )
-}
+    @SerializedName("id") val id: Int,
+    @SerializedName("email") val email: String,
+    @SerializedName("nickname") val nickname: String,
+    @SerializedName("userId") val userId: Int,
+    @SerializedName("accessToken") val accessToken: String,
+    @SerializedName("refreshToken") val refreshToken: String
+)
