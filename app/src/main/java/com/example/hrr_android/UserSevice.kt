@@ -2,6 +2,7 @@ package com.example.hrr_android
 
 import com.example.hrr_android.onboarding.model.OnboardingRequest
 import com.example.hrr_android.onboarding.model.OnboardingResponse
+import com.example.hrr_android.onboarding.model.OnboardingSuccess
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -70,6 +71,5 @@ interface UserService {
     @PUT("/api/v1/users/interests/category")
     suspend fun getOnboardingChallenge(
         @Body request: OnboardingRequest
-    ): Response<ApiResponse<OnboardingResponse>>
-
+    ): Response<OnboardingResponse<OnboardingSuccess>>
 }
