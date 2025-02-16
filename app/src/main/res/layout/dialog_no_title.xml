@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:background="@drawable/bg_radius_15_white">
 
-    <!-- URL 입력 영역 -->
+    <!-- 본문 내용 -->
     <TextView
         android:id="@+id/tv_dialog_no_title_content"
         android:layout_width="match_parent"
