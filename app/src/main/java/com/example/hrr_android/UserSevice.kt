@@ -1,9 +1,14 @@
 package com.example.hrr_android
 
+import com.example.hrr_android.onboarding.model.OnboardingRequest
+import com.example.hrr_android.onboarding.model.OnboardingResponse
+import com.example.hrr_android.onboarding.model.OnboardingSuccess
 import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface UserService {
@@ -63,4 +68,9 @@ interface UserService {
         @Path("userId") userId: Int
     ): Response<ApiResponse<BlockResponse>>
 
+    // 사용자 맞춤 추천
+    @PUT("/api/v1/users/interests/category")
+    suspend fun getOnboardingChallenge(
+        @Body request: OnboardingRequest
+    ): Response<OnboardingResponse<OnboardingSuccess>>
 }

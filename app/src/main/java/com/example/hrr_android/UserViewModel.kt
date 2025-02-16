@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.hrr_android.access.repository.AuthRepository
+import com.example.hrr_android.onboarding.model.OnboardingSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -156,6 +157,22 @@ class UserViewModel @Inject constructor(
 
             }.onFailure {
                 _errorMessage.postValue(result.exceptionOrNull()?.message) // 에러 메시지 전달
+            }
+        }
+    }
+
+    // Onboarding API 응답을 담을 LiveData
+    private val _onboardingResult = MutableLiveData<List<OnboardingSuccess>?>()
+    val onboardingResult: LiveData<List<OnboardingSuccess>?> get() = _onboardingResult
+
+    // Onboarding API 호출
+    fun fetchOnboardingChallenge(category: String) {
+        viewModelScope.launch {
+            val result = userRepository.getOnboardingChallenge(category)
+            result.onSuccess { data ->
+                _onboardingResult.postValue(data) // `List<OnboardingSuccess>` 저장
+            }.onFailure { exception ->
+                _errorMessage.postValue(exception.message ?: "알 수 없는 오류 발생")
             }
         }
     }
