@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        tools:context=".SettingAccountFragment">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="12dp"
+            android:paddingStart="24dp"
+            android:paddingEnd="25dp">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            <LinearLayout
+                    android:id="@+id/ll_setting_reset_pwd"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
+                    android:paddingVertical="17.5dp"
+                    android:paddingHorizontal="4.5dp">
+
+                <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="비밀번호 재설정"
+                        android:fontFamily="@font/font_style"
+                        android:textFontWeight="500"
+                        android:includeFontPadding="false"
+                        android:textSize="15sp"
+                        android:textColor="@color/text_primary"
+                        android:layout_weight="1"/>
+
+                <ImageView
+                        android:layout_width="6dp"
+                        android:layout_height="12dp"
+                        android:src="@drawable/btn_setting_more"
+                        app:tint="@color/text_tertiary"
+                        android:layout_gravity="end|center_vertical"/>
+
+            </LinearLayout>
+
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/text_line"/>
+
+            <LinearLayout
+                    android:id="@+id/ll_setting_logout"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
+                    android:paddingVertical="17.5dp"
+                    android:paddingHorizontal="4.5dp">
+
+                <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="로그아웃"
+                        android:fontFamily="@font/font_style"
+                        android:textFontWeight="500"
+                        android:includeFontPadding="false"
+                        android:textSize="15sp"
+                        android:textColor="@color/text_primary"
+                        android:layout_weight="1"/>
+
+                <ImageView
+                        android:layout_width="6dp"
+                        android:layout_height="12dp"
+                        android:src="@drawable/btn_setting_more"
+                        app:tint="@color/text_tertiary"
+                        android:layout_gravity="end|center_vertical"/>
+
+            </LinearLayout>
+
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/text_line"/>
+
+            <LinearLayout
+                    android:id="@+id/ll_setting_withdrawal"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
+                    android:paddingVertical="17.5dp"
+                    android:paddingHorizontal="4.5dp">
+
+                <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="회원 탈퇴"
+                        android:fontFamily="@font/font_style"
+                        android:textFontWeight="500"
+                        android:includeFontPadding="false"
+                        android:textSize="15sp"
+                        android:textColor="@color/text_primary"
+                        android:layout_weight="1"/>
+
+                <ImageView
+                        android:layout_width="6dp"
+                        android:layout_height="12dp"
+                        android:src="@drawable/btn_setting_more"
+                        app:tint="@color/text_tertiary"
+                        android:layout_gravity="end|center_vertical"/>
+
+            </LinearLayout>
+
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/text_line"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>
