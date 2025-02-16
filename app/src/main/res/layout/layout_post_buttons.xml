@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="348dp"
+    android:layout_height="40dp"
+    android:orientation="horizontal"
+    android:weightSum="3">
+
+    <!-- 좋아요 버튼 -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <ImageButton
+            android:id="@+id/btn_post_like"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_post_like"
+            android:background="@null"/>
+
+        <TextView
+            android:id="@+id/tv_post_like_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="9dp"
+            android:text="0"
+            android:textSize="12sp"
+            android:fontFamily="@font/font_style"
+            android:textFontWeight="400"
+            android:textColor="@color/text_secondary"
+            android:includeFontPadding="false" />
+
+    </LinearLayout>
+
+    <!-- 댓글 버튼 -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <ImageButton
+            android:id="@+id/btn_post_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_post_comment"
+            android:background="@null"/>
+
+        <TextView
+            android:id="@+id/tv_post_comment_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="9dp"
+            android:text="0"
+            android:textSize="12sp"
+            android:fontFamily="@font/font_style"
+            android:textFontWeight="400"
+            android:textColor="@color/text_secondary"
+            android:includeFontPadding="false" />
+
+    </LinearLayout>
+
+    <!-- 북마크 버튼 -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <ImageButton
+            android:id="@+id/btn_post_bookmark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_post_bookmark"
+            android:background="@null"/>
+
+        <TextView
+            android:id="@+id/tv_bookmark_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="9dp"
+            android:text="0"
+            android:textSize="12sp"
+            android:fontFamily="@font/font_style"
+            android:textFontWeight="400"
+            android:textColor="@color/text_secondary"
+            android:includeFontPadding="false" />
+
+    </LinearLayout>
+
+</LinearLayout>
