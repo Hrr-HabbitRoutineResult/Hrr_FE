@@ -44,5 +44,8 @@
     <action
         android:id="@+id/action_textCertificationFragment_to_postFragment"
         app:destination="@id/postFragment" />
+    <action
+        android:id="@+id/action_photoCertificationFragment_to_postFragment"
+        app:destination="@id/postFragment" />
 
 </navigation>
