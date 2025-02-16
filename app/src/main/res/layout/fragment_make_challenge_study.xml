@@ -1,0 +1,750 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MakeChallengeFragment">
+
+    <include layout="@layout/layout_make_challenge_header"
+        android:id="@+id/layout_make_challenge_study_header"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layout_make_challenge_study_header"
+        app:layout_constraintBottom_toTopOf="@id/ll_make_study_challenge">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="20dp"
+            android:weightSum="1">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginBottom="33dp">
+
+                <ImageView
+                    android:id="@+id/iv_study_challenge_profile"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/bg_radius20_textline"
+                    android:scaleType="centerCrop"/>
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="33dp"
+                    android:layout_marginTop="33.5dp"
+                    android:layout_marginStart="31dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_challenge_camera2"/>
+            </FrameLayout>
+
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:id="@+id/et_study_challenge_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="22dp"
+                    android:hint="챌린지 이름을 입력해주세요. (최대 10자)"
+                    android:background="@color/white"
+                    android:textSize="15sp"
+                    android:fontFamily="@font/noto_sans_kr_medium"
+                    android:includeFontPadding="false"
+                    android:textColorHint="@color/text_tertiary"
+                    android:textColor="@color/text_primary"
+                    android:textCursorDrawable="@drawable/cursor_custom"
+                    android:maxLength="10"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="*"
+                    android:textColor="@color/sub_01"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/noto_sans_kr_semi_bold"
+                    android:layout_marginStart="4dp"
+                    android:includeFontPadding="false"
+                    android:layout_gravity="center_vertical|end"/>
+            </FrameLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/text_line"
+                android:layout_marginVertical="10dp"/>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/et_study_challenge_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="17dp"
+                    android:hint="챌린지에 대한 한 줄 소개를 작성해주세요. (120자 이내)"
+                    android:background="@color/white"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/noto_sans_kr_regular"
+                    android:includeFontPadding="false"
+                    android:textColorHint="@color/text_tertiary"
+                    android:textColor="@color/text_primary"
+                    android:textCursorDrawable="@drawable/cursor_custom"
+                    android:maxLength="120"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="*"
+                    android:textColor="@color/sub_01"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/noto_sans_kr_semi_bold"
+                    android:layout_marginStart="4dp"
+                    android:includeFontPadding="false"
+                    android:layout_gravity="center_vertical|end"/>
+            </FrameLayout>
+
+            <!-- 챌린지 기간 제목 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="78dp"
+                android:layout_marginBottom="12dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/noto_sans_kr_semi_bold"
+                    android:text="챌린지 기간"
+                    android:textColor="@color/text_primary"
+                    android:textSize="16sp"
+                    android:includeFontPadding="false"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/noto_sans_kr_semi_bold"
+                    android:text=" *"
+                    android:textColor="@color/sub_01"
+                    android:textSize="16sp"
+                    android:includeFontPadding="false"/>
+            </LinearLayout>
+
+            <!-- 챌린지 기간 선택 -->
+            <LinearLayout
+                android:id="@+id/ll_study_duration"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:background="@drawable/bg_square_grey_15"
+                android:clickable="true">
+
+                <!-- 시작일 -->
+                <TextView
+                    android:id="@+id/tv_study_duration_start"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:hint="시작일"
+                    android:textSize="13sp"
+                    android:paddingStart="15dp"
+                    android:gravity="center_vertical"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/noto_sans_kr_regular"
+                    android:drawableStart="@drawable/ic_calendar"
+                    android:drawablePadding="14dp"
+                    android:includeFontPadding="false"/>
+
+                <!-- 구분자 (~) -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/noto_sans_kr_regular"
+                    android:gravity="center"
+                    android:hint="~"
+                    android:includeFontPadding="false"
+                    android:paddingHorizontal="8dp"
+                    android:textSize="13sp" />
+
+                <!-- 종료일 -->
+                <TextView
+                    android:id="@+id/tv_study_duration_end"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:hint="종료일"
+                    android:textSize="13sp"
+                    android:padding="14dp"
+                    android:gravity="center_vertical"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/noto_sans_kr_regular"
+                    android:includeFontPadding="false"/>
+            </LinearLayout>
+
+
+            <!-- 제한 인원 제목 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="50dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/noto_sans_kr_semi_bold"
+                    android:text="제한 인원"
+                    android:textColor="@color/text_primary"
+                    android:textSize="16sp"
+                    android:includeFontPadding="false"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/noto_sans_kr_semi_bold"
+                    android:text=" *"
+                    android:textColor="@color/sub_01"
+                    android:textSize="16sp"
+                    android:includeFontPadding="false"/>
+            </LinearLayout>
+
+            <!-- 제한 인원 버튼 -->
+            <LinearLayout
+                android:id="@+id/ll_study_choose_people"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="3"
+                android:layout_marginTop="12dp">
+
+                <FrameLayout
+                    android:id="@+id/btn_study_people_10"
+                    android:layout_width="0dp"
+                    android:layout_height="33dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/btn_challenge_filter"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:font="@font/noto_sans_kr_medium"
+                        android:gravity="center"
+                        android:text="10명"
+                        android:textColor="@color/text_tertiary"
+                        android:textSize="13sp" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/btn_study_people_20"
+                    android:layout_width="0dp"
+                    android:layout_height="33dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/btn_challenge_filter"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:font="@font/noto_sans_kr_medium"
+                        android:gravity="center"
+                        android:text="20명"
+                        android:textColor="@color/text_tertiary"
+                        android:textSize="13sp" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/btn_study_people_30"
+                    android:layout_width="0dp"
+                    android:layout_height="33dp"
+                    android:background="@drawable/btn_challenge_filter"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:font="@font/noto_sans_kr_medium"
+                        android:gravity="center"
+                        android:text="30명"
+                        android:textColor="@color/text_tertiary"
+                        android:textSize="13sp" />
+                </FrameLayout>
+            </LinearLayout>
+
+
+            <!-- 인증 수단 제목 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="50dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/noto_sans_kr_semi_bold"
+                    android:text="인증 수단"
+                    android:textColor="@color/text_primary"
+                    android:textSize="16sp"
+                    android:includeFontPadding="false"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/noto_sans_kr_semi_bold"
+                    android:text=" *"
+                    android:textColor="@color/sub_01"
+                    android:textSize="16sp"
+                    android:includeFontPadding="false"/>
+            </LinearLayout>
+
+            <!-- 인증 수단 버튼-->
+            <LinearLayout
+                android:id="@+id/ll_choose_basic_authmean"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="8dp"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <FrameLayout
+                    android:id="@+id/btn_study_authmean_picture"
+                    android:layout_width="0dp"
+                    android:layout_height="130dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_challenge_filter_radius15_2"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="20dp"
+                        android:font="@font/noto_sans_kr_medium"
+                        android:gravity="center"
+                        android:text="사진"
+                        android:textColor="@color/text_primary"
+                        android:textSize="15sp" />
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginStart="46dp"
+                        android:layout_marginTop="20dp"
+                        android:src="@drawable/ic_challenge_camera" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="18dp"
+                        android:font="@font/noto_sans_kr_regular"
+                        android:gravity="start"
+                        android:text="어플리케이션에서 제공하는\n타임스탬프 카메라로
+인증\n할 수 있어요."
+                        android:textColor="@color/text_tertiary"
+                        android:textSize="12sp" />
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/btn_study_authmean_writing"
+                    android:layout_width="0dp"
+                    android:layout_height="130dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_challenge_filter_radius15_2"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="20dp"
+                        android:font="@font/noto_sans_kr_medium"
+                        android:gravity="center"
+                        android:text="글"
+                        android:textColor="@color/text_primary"
+                        android:textSize="15sp" />
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="20dp"
+                        android:src="@drawable/ic_challenge_pen" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="18dp"
+                        android:font="@font/noto_sans_kr_regular"
+                        android:gravity="start"
+                        android:text="블로그 링크 등을 첨부하고\n간단한 글을 작성해서
+인증\n할 수 있어요."
+                        android:textColor="@color/text_tertiary"
+                        android:textSize="12sp" />
+
+                </FrameLayout>
+            </LinearLayout>
+
+            <!-- 인증 요일 선택 제목 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="50dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/noto_sans_kr_semi_bold"
+                    android:text="인증 요일 선택"
+                    android:textColor="@color/text_primary"
+                    android:textSize="16sp"
+                    android:includeFontPadding="false"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/noto_sans_kr_semi_bold"
+                    android:text=" *"
+                    android:textColor="@color/sub_01"
+                    android:textSize="16sp"
+                    android:includeFontPadding="false"/>
+            </LinearLayout>
+
+            <!-- 인증 빈도 선택 버튼 -->
+            <LinearLayout
+                android:id="@+id/ll_choose_study_day"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="7"
+                android:layout_marginTop="12dp">
+
+                <FrameLayout
+                    android:id="@+id/btn_study_week_mon"
+                    android:layout_width="0dp"
+                    android:layout_height="80dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/btn_challenge_filter_radius20"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:font="@font/noto_sans_kr_regular"
+                        android:gravity="center"
+                        android:text="월"
+                        android:textColor="@color/text_tertiary"
+                        android:textSize="15sp" />
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/btn_study_week_tues"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_challenge_filter_radius20"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:font="@font/noto_sans_kr_regular"
+                        android:gravity="center"
+                        android:text="화"
+                        android:textColor="@color/text_tertiary"
+                        android:textSize="15sp" />
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/btn_study_week_wed"
+                    android:layout_width="0dp"
+                    android:layout_height="80dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/btn_challenge_filter_radius20"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:font="@font/noto_sans_kr_regular"
+                        android:gravity="center"
+                        android:text="수"
+                        android:textColor="@color/text_tertiary"
+                        android:textSize="15sp" />
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/btn_study_week_thu"
+                    android:layout_width="0dp"
+                    android:layout_height="80dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/btn_challenge_filter_radius20"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:font="@font/noto_sans_kr_regular"
+                        android:gravity="center"
+                        android:text="목"
+                        android:textColor="@color/text_tertiary"
+                        android:textSize="15sp" />
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/btn_study_week_fri"
+                    android:layout_width="0dp"
+                    android:layout_height="80dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/btn_challenge_filter_radius20"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:font="@font/noto_sans_kr_regular"
+                        android:gravity="center"
+                        android:text="금"
+                        android:textColor="@color/text_tertiary"
+                        android:textSize="15sp" />
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/btn_study_week_sat"
+                    android:layout_width="0dp"
+                    android:layout_height="80dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/btn_challenge_filter_radius20"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:font="@font/noto_sans_kr_regular"
+                        android:gravity="center"
+                        android:text="토"
+                        android:textColor="@color/text_tertiary"
+                        android:textSize="15sp" />
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/btn_study_week_sun"
+                    android:layout_width="0dp"
+                    android:layout_height="80dp"
+                    android:background="@drawable/btn_challenge_filter_radius20"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:font="@font/noto_sans_kr_regular"
+                        android:gravity="center"
+                        android:text="일"
+                        android:textColor="@color/text_tertiary"
+                        android:textSize="15sp" />
+
+                </FrameLayout>
+
+
+            </LinearLayout>
+
+            <!-- 챌린지 규칙 제목 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="50dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/noto_sans_kr_semi_bold"
+                    android:text="챌린지 규칙"
+                    android:textColor="@color/text_primary"
+                    android:textSize="16sp"
+                    android:includeFontPadding="false"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/noto_sans_kr_semi_bold"
+                    android:text=" *"
+                    android:textColor="@color/sub_01"
+                    android:textSize="16sp"
+                    android:includeFontPadding="false"/>
+            </LinearLayout>
+
+            <!--챌린지 규칙 입력란-->
+            <EditText
+                android:id="@+id/et_study_challenge_rule"
+                android:layout_width="match_parent"
+                android:layout_height="217dp"
+                android:hint="챌린지를 함께할 유저들이 인증하기 전 확인하는 규칙이므로 신중하고 간결하게 작성해주세요."
+                android:background="@drawable/bg_square_grey_10"
+                android:paddingHorizontal="15dp"
+                android:paddingVertical="16dp"
+                android:textSize="13sp"
+                android:fontFamily="@font/noto_sans_kr_regular"
+                android:includeFontPadding="false"
+                android:layout_marginTop="12dp"
+                android:textColorHint="@color/text_tertiary"
+                android:textColor="@color/text_primary"
+                android:textCursorDrawable="@drawable/cursor_custom"
+                android:gravity="top"/>
+
+            <!-- 키워드 입력 제목 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/noto_sans_kr_semi_bold"
+                android:text="키워드 입력"
+                android:textColor="@color/text_primary"
+                android:textSize="16sp"
+                android:includeFontPadding="false"
+                android:layout_marginTop="50dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/noto_sans_kr_regular"
+                android:text="설정한 키워드에 따라 해당 챌린지를 더욱 많은 챌린저들이 방문할\n 수 있습니다. (최대 3개 입력)"
+                android:textColor="@color/text_secondary"
+                android:textSize="12sp"
+                android:layout_marginTop="6dp"
+                android:includeFontPadding="false"/>
+
+            <!-- 키워드 입력란-->
+            <EditText
+                android:id="@+id/et_study_keyword1"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="키워드"
+                android:background="@drawable/bg_square_grey_10"
+                android:padding="14dp"
+                android:textSize="13sp"
+                android:fontFamily="@font/noto_sans_kr_regular"
+                android:includeFontPadding="false"
+                android:textColorHint="@color/text_tertiary"
+                android:textColor="@color/text_primary"
+                android:textCursorDrawable="@drawable/cursor_custom"
+                android:layout_marginTop="13dp"
+                android:layout_marginBottom="13dp"/>
+
+            <EditText
+                android:id="@+id/et_study_keyword2"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="키워드"
+                android:background="@drawable/bg_square_grey_10"
+                android:padding="14dp"
+                android:textSize="13sp"
+                android:fontFamily="@font/noto_sans_kr_regular"
+                android:includeFontPadding="false"
+                android:textColorHint="@color/text_tertiary"
+                android:textColor="@color/text_primary"
+                android:textCursorDrawable="@drawable/cursor_custom"
+                android:layout_marginBottom="13dp"/>
+
+            <EditText
+                android:id="@+id/et_study_keyword3"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="키워드"
+                android:background="@drawable/bg_square_grey_10"
+                android:padding="14dp"
+                android:textSize="13sp"
+                android:fontFamily="@font/noto_sans_kr_regular"
+                android:includeFontPadding="false"
+                android:textColorHint="@color/text_tertiary"
+                android:textColor="@color/text_primary"
+                android:textCursorDrawable="@drawable/cursor_custom"
+                android:layout_marginBottom="45dp"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- 개설하기 버튼 -->
+    <LinearLayout
+        android:id="@+id/ll_make_study_challenge"
+        android:layout_width="match_parent"
+        android:layout_height="79dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="vertical"
+        android:background="@color/white">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/text_line" />
+
+        <FrameLayout
+            android:id="@+id/btn_make_study_challenge"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="13dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="@drawable/bg_button_deactivate_10">
+
+            <TextView
+                android:id="@+id/tv_make_study_challenge_apply"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/noto_sans_kr_medium"
+                android:gravity="center"
+                android:text="개설하기"
+                android:textColor="@color/text_tertiary"
+                android:textSize="16sp" />
+        </FrameLayout>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

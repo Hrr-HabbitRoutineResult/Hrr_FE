@@ -211,6 +211,12 @@ class CustomCalendarView @JvmOverloads constructor(
         setupDayClickListener(dayTextView, nextMonth, nextMonthDay)
     }
 
+    private var onDateSelectedListener: ((Calendar) -> Unit)? = null
+
+    fun setOnDateSelectedListener(listener: (Calendar) -> Unit) {
+        onDateSelectedListener = listener
+    }
+
     /**
      * 날짜 클릭 리스너 설정
      * 날짜 클릭 시 이전 선택을 해제하고 새로운 날짜를 선택 상태로 변경
@@ -224,6 +230,8 @@ class CustomCalendarView @JvmOverloads constructor(
             selectedDate = (calendar.clone() as Calendar).apply {
                 set(Calendar.DAY_OF_MONTH, day)
             }
+
+            selectedDate?.let { onDateSelectedListener?.invoke(it) }
 
             // UI 업데이트: 배경 변경 및 텍스트 색상을 흰색으로 변경
             textView.apply {

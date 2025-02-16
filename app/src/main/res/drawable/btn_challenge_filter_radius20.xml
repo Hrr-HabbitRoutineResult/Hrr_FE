@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 클릭되었을 때 -->
+    <item android:state_selected="true">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/sub_01" />
+            <corners android:radius="20dp" />
+        </shape>
+    </item>
+
+    <!-- 기본 상태 -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/white" />
+            <stroke
+                android:width="1dp"
+                android:color="@color/text_line" />
+            <corners android:radius="20dp" />
+        </shape>
+    </item>
+</selector>
