@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.example.hrr_android.DialogNoTitle
 import com.example.hrr_android.access.ui.fragment.CompleteFragment
 import com.example.hrr_android.access.ui.fragment.InfoInputFragment
 import com.example.hrr_android.access.ui.fragment.NicknameFragment
@@ -50,18 +51,29 @@ class SignUpActivity : AppCompatActivity() {
     }
 
     private fun handleBackPressed() {
-        val currentFragment = supportFragmentManager.findFragmentById(binding.layoutSignupFragment.id) ?: return
-        if (currentFragment is TermsFragment) {  // 약관동의 화면에서는 로그인 화면으로 이동
-            val intent = Intent(this@SignUpActivity, LoginActivity::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+        val dialog = DialogNoTitle(
+            context = this,
+            message = "가입을 취소하고 로그인 화면으로 돌아가시겠습니까?",
+            yesText = "네",
+            noText = "아니오",
+            object : DialogNoTitle.DialogListener {
+                override fun onYesClicked() {
+                    val intent = Intent(this@SignUpActivity, LoginActivity::class.java).apply {
+                        flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+                    }
+                    startActivity(intent)
+                    finish()
+                }
+
+                override fun onNoClicked() {
+                    // 다이얼로그 닫기 (기본적으로 dismiss()가 호출됨)
+                }
             }
-            startActivity(intent)
-            finish()
-        } else {  // 그 외의 경우에는 프래그먼트로 뒤로가기
-            supportFragmentManager.popBackStack()
-            updateSignUpFragment()
-        }
+        )
+        dialog.show()
     }
+
+
 
     // 프래그먼트 전환 함수
     fun changeFragment(fragment: Fragment) {
