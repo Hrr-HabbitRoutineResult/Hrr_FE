@@ -1,17 +1,10 @@
 package com.example.hrr_android
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.viewModels
-import androidx.appcompat.widget.SwitchCompat
-import androidx.core.content.ContextCompat
-import androidx.fragment.app.viewModels
-import com.example.hrr_android.access.AuthViewModel
-import com.example.hrr_android.access.ui.LoginActivity
 import com.example.hrr_android.databinding.FragmentSettingBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -36,7 +29,10 @@ class SettingFragment : Fragment() {
 
         initClickListener()
 
+    }
 
+    override fun onResume() {
+        super.onResume()
     }
 
     override fun onDestroyView() {
@@ -47,9 +43,15 @@ class SettingFragment : Fragment() {
     private fun initClickListener() {
         // 계정 설정
         binding.llSettingAccount.setOnClickListener {
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.fl_profile_more_fragment_container, SettingAccountFragment())
-                .commit()
+            parentFragmentManager.beginTransaction().apply {
+                // 현재 보여지고 있는 Fragment 숨기기
+                parentFragmentManager.findFragmentById(R.id.fl_profile_more_fragment_container)?.let { hide(it) }
+
+                // 새로운 Fragment 추가
+                add(R.id.fl_profile_more_fragment_container, SettingAccountFragment())
+                addToBackStack(null) // 뒤로 가기 지원
+                commit()
+            }
 
             (activity as? ProfileMoreActivity)?.setTitle("계정 설정")
 

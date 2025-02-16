@@ -2,6 +2,7 @@ package com.example.hrr_android
 
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import com.example.hrr_android.databinding.ActivityProfileMoreBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -70,9 +71,31 @@ class ProfileMoreActivity : AppCompatActivity() {
 
         //뒤로가기 버튼 클릭 처리
         binding.llChallengeMoreTitle.setOnClickListener{
-            finish()
+            onBackPressedCallback.handleOnBackPressed()
         }
 
+        // 뒤로 가기 동작 정의
+        onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
+
+
+    }
+
+    // 뒤로 가기 동작 정의
+    private val onBackPressedCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            if (supportFragmentManager.backStackEntryCount >= 1) {
+                supportFragmentManager.popBackStack() // 추가 Fragment가 있을 때느 이전 Fragment로 돌아감
+
+                // 가장 최근에 추가된 Fragment를 다시 보이도록 설정
+                val currentFragment = supportFragmentManager.fragments.lastOrNull()
+                currentFragment?.let {
+                    supportFragmentManager.beginTransaction().show(it).commit()
+                }
+
+            } else {
+                finish() // Fragment가 1개 뿐이면 Activity 종료
+            }
+        }
     }
 
     fun setTitle(title: String){
