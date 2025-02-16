@@ -17,7 +17,8 @@ import com.example.hrr_android.databinding.LayoutMakeChallengeHeaderBinding
 import java.text.SimpleDateFormat
 import java.util.*
 import com.example.hrr_android.R
-
+import com.example.hrr_android.challenge.ui.detail.ChallengeFragment
+import com.example.hrr_android.makechallenge.MakeChallengeCalendarFragment
 
 class MakeStudyChallengeFragment : Fragment() {
 
@@ -59,7 +60,9 @@ class MakeStudyChallengeFragment : Fragment() {
         setupButtonGroups()
         setupTextWatchers()
         setupProfileImageSelection()
+        setupCalendarClick()
         getSelectedDatesFromCalendar()
+        setupApplyButtonClick()
     }
 
     private fun setupBackButton() {
@@ -164,6 +167,31 @@ class MakeStudyChallengeFragment : Fragment() {
         }
     }
 
+    //기간 클릭시 MakeChallengeCalendarFragment로 이동
+    private fun setupCalendarClick() {
+        binding.llStudyDuration.setOnClickListener {
+            val calendarFragment = MakeChallengeCalendarFragment()
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.main_frame, calendarFragment)
+                .addToBackStack(null)
+                .commit()
+        }
+    }
+
+    private fun getSelectedDatesFromCalendar() {
+        setFragmentResultListener("calendarSelection") { _, bundle ->
+            selectedStartDate = bundle.getLong("startDate", -1)
+            selectedEndDate = bundle.getLong("endDate", -1)
+
+            if (selectedStartDate != -1L && selectedEndDate != -1L) {
+                val dateFormat = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
+                binding.tvStudyDurationStart.text = dateFormat.format(Date(selectedStartDate!!))
+                binding.tvStudyDurationEnd.text = dateFormat.format(Date(selectedEndDate!!))
+                updateApplyButtonState()
+            }
+        }
+    }
+
     private fun updateApplyButtonState() {
         val isNameEntered = binding.etStudyChallengeName.text.isNotBlank()
         val isDescriptionEntered = binding.etStudyChallengeDescription.text.isNotBlank()
@@ -197,17 +225,19 @@ class MakeStudyChallengeFragment : Fragment() {
         }
     }
 
-    private fun getSelectedDatesFromCalendar() {
-        setFragmentResultListener("calendarSelection") { _, bundle ->
-            selectedStartDate = bundle.getLong("startDate", -1)
-            selectedEndDate = bundle.getLong("endDate", -1)
+    // "개설하기" 버튼 클릭 시 ChallengeFragment로 이동하며 다이얼로그 띄우기
+    private fun setupApplyButtonClick() {
+        binding.btnMakeStudyChallenge.setOnClickListener {
+            val challengeFragment = ChallengeFragment()
 
-            if (selectedStartDate != -1L && selectedEndDate != -1L) {
-                val dateFormat = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
-                binding.tvStudyDurationStart.text = dateFormat.format(Date(selectedStartDate!!))
-                binding.tvStudyDurationEnd.text = dateFormat.format(Date(selectedEndDate!!))
-                updateApplyButtonState()
-            }
+            val args = Bundle()
+            args.putBoolean("showCreateDialog", true)
+            challengeFragment.arguments = args
+
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.main_frame, challengeFragment)
+                .addToBackStack(null)
+                .commit()
         }
     }
 

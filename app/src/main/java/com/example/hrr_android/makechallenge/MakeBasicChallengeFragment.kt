@@ -14,7 +14,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import com.example.hrr_android.databinding.FragmentMakeChallengeBasicBinding
 import com.example.hrr_android.databinding.LayoutMakeChallengeHeaderBinding
 import com.example.hrr_android.R
-
+import com.example.hrr_android.challenge.ui.detail.ChallengeFragment
 
 class MakeBasicChallengeFragment : Fragment() {
 
@@ -55,6 +55,7 @@ class MakeBasicChallengeFragment : Fragment() {
         setupButtonGroups()
         setupTextWatchers()
         setupProfileImageSelection()
+        setupApplyButtonClick()
     }
 
     private fun setupBackButton() {
@@ -187,6 +188,22 @@ class MakeBasicChallengeFragment : Fragment() {
                     .setTextColor(resources.getColor(R.color.text_tertiary))
             }
             binding.btnMakeBasicChallenge.invalidate()
+        }
+    }
+
+    // "개설하기" 버튼 클릭 시 ChallengeFragment로 이동하며 다이얼로그 띄우기
+    private fun setupApplyButtonClick() {
+        binding.btnMakeBasicChallenge.setOnClickListener {
+            val challengeFragment = ChallengeFragment()
+
+            val args = Bundle()
+            args.putBoolean("showCreateDialog", true)
+            challengeFragment.arguments = args
+
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.main_frame, challengeFragment)
+                .addToBackStack(null)
+                .commit()
         }
     }
 
