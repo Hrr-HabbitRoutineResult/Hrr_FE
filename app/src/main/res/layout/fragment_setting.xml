@@ -26,7 +26,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="프로필 및 계정"
+                android:text="계정 설정"
                 android:fontFamily="@font/font_style"
                 android:textFontWeight="600"
                 android:includeFontPadding="false"
@@ -48,22 +48,6 @@
             android:layout_height="1dp"
             android:background="@color/text_line"
             android:layout_marginTop="15dp"/>
-
-        <TextView
-            android:id="@+id/tv_logout"
-            android:layout_width="60dp"
-            android:layout_height="25dp"
-            android:text="로그아웃"
-            android:fontFamily="@font/font_style"
-            android:textFontWeight="500"
-            android:includeFontPadding="false"
-            android:textSize="12sp"
-            android:textColor="@color/white"
-            android:background="@drawable/bg_circle_orange"
-            android:gravity="center"
-            android:layout_gravity="end"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="-30dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -101,94 +85,6 @@
                     android:textColor="@color/text_primary"
                     android:layout_weight="1"/>
 
-                <androidx.appcompat.widget.SwitchCompat
-                    android:id="@+id/switchCompat"
-                    android:layout_width="50dp"
-                    android:layout_height="25dp"
-                    android:layout_gravity="center_vertical"
-                    style="@style/custom_toggle"
-                    android:padding="3dp"/>
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/text_line"/>
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="45dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="저장"
-                android:fontFamily="@font/font_style"
-                android:textFontWeight="600"
-                android:includeFontPadding="false"
-                android:textSize="18sp"
-                android:textColor="@color/text_primary" />
-
-            <LinearLayout
-                android:id="@+id/ll_setting_challenge"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp"
-                android:paddingVertical="19dp"
-                android:paddingHorizontal="4.5dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="챌린지"
-                    android:fontFamily="@font/font_style"
-                    android:textFontWeight="500"
-                    android:includeFontPadding="false"
-                    android:textSize="15sp"
-                    android:textColor="@color/text_primary"
-                    android:layout_weight="1"/>
-
-                <ImageView
-                    android:layout_width="6dp"
-                    android:layout_height="12dp"
-                    android:src="@drawable/btn_setting_more"
-                    app:tint="@color/text_tertiary"
-                    android:layout_gravity="end|center_vertical"/>
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/text_line"/>
-
-            <LinearLayout
-                android:id="@+id/ll_setting_post"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp"
-                android:paddingVertical="19dp"
-                android:paddingHorizontal="4.5dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="게시글"
-                    android:fontFamily="@font/font_style"
-                    android:textFontWeight="500"
-                    android:includeFontPadding="false"
-                    android:textSize="15sp"
-                    android:textColor="@color/text_primary"
-                    android:layout_weight="1"/>
-
                 <ImageView
                     android:layout_width="6dp"
                     android:layout_height="12dp"
@@ -215,7 +111,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="내 활동"
+                android:text="게시글"
                 android:fontFamily="@font/font_style"
                 android:textFontWeight="600"
                 android:includeFontPadding="false"
@@ -223,41 +119,7 @@
                 android:textColor="@color/text_primary" />
 
             <LinearLayout
-                android:id="@+id/ll_setting_like"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp"
-                android:paddingVertical="19dp"
-                android:paddingHorizontal="4.5dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="좋아요"
-                    android:fontFamily="@font/font_style"
-                    android:textFontWeight="500"
-                    android:includeFontPadding="false"
-                    android:textSize="15sp"
-                    android:textColor="@color/text_primary"
-                    android:layout_weight="1"/>
-
-                <ImageView
-                    android:layout_width="6dp"
-                    android:layout_height="12dp"
-                    android:src="@drawable/btn_setting_more"
-                    app:tint="@color/text_tertiary"
-                    android:layout_gravity="end|center_vertical"/>
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/text_line"/>
-
-            <LinearLayout
-                android:id="@+id/ll_setting_comment"
+                android:id="@+id/ll_setting_post_comment"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:orientation="horizontal"
@@ -290,6 +152,213 @@
                 android:layout_height="1dp"
                 android:background="@color/text_line"/>
 
+            <LinearLayout
+                android:id="@+id/ll_setting_post_save"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:paddingVertical="19dp"
+                android:paddingHorizontal="4.5dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="저장"
+                    android:fontFamily="@font/font_style"
+                    android:textFontWeight="500"
+                    android:includeFontPadding="false"
+                    android:textSize="15sp"
+                    android:textColor="@color/text_primary"
+                    android:layout_weight="1"/>
+
+                <ImageView
+                    android:layout_width="6dp"
+                    android:layout_height="12dp"
+                    android:src="@drawable/btn_setting_more"
+                    app:tint="@color/text_tertiary"
+                    android:layout_gravity="end|center_vertical"/>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/text_line"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="45dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="챌린지"
+                android:fontFamily="@font/font_style"
+                android:textFontWeight="600"
+                android:includeFontPadding="false"
+                android:textSize="18sp"
+                android:textColor="@color/text_primary" />
+
+            <LinearLayout
+                android:id="@+id/ll_setting_challenge_like"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:paddingVertical="19dp"
+                android:paddingHorizontal="4.5dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="찜한 챌린지"
+                    android:fontFamily="@font/font_style"
+                    android:textFontWeight="500"
+                    android:includeFontPadding="false"
+                    android:textSize="15sp"
+                    android:textColor="@color/text_primary"
+                    android:layout_weight="1"/>
+
+                <ImageView
+                    android:layout_width="6dp"
+                    android:layout_height="12dp"
+                    android:src="@drawable/btn_setting_more"
+                    app:tint="@color/text_tertiary"
+                    android:layout_gravity="end|center_vertical"/>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/text_line"/>
+
+            <LinearLayout
+                android:id="@+id/ll_setting_challenge_comment"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:paddingVertical="19dp"
+                android:paddingHorizontal="4.5dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="댓글"
+                    android:fontFamily="@font/font_style"
+                    android:textFontWeight="500"
+                    android:includeFontPadding="false"
+                    android:textSize="15sp"
+                    android:textColor="@color/text_primary"
+                    android:layout_weight="1"/>
+
+                <ImageView
+                    android:layout_width="6dp"
+                    android:layout_height="12dp"
+                    android:src="@drawable/btn_setting_more"
+                    app:tint="@color/text_tertiary"
+                    android:layout_gravity="end|center_vertical"/>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/text_line"/>
+
+            <LinearLayout
+                    android:id="@+id/ll_setting_challenge_save"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
+                    android:paddingVertical="19dp"
+                    android:paddingHorizontal="4.5dp">
+
+                <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="저장"
+                        android:fontFamily="@font/font_style"
+                        android:textFontWeight="500"
+                        android:includeFontPadding="false"
+                        android:textSize="15sp"
+                        android:textColor="@color/text_primary"
+                        android:layout_weight="1"/>
+
+                <ImageView
+                        android:layout_width="6dp"
+                        android:layout_height="12dp"
+                        android:src="@drawable/btn_setting_more"
+                        app:tint="@color/text_tertiary"
+                        android:layout_gravity="end|center_vertical"/>
+
+            </LinearLayout>
+
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/text_line"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="45dp">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="내 활동"
+                    android:fontFamily="@font/font_style"
+                    android:textFontWeight="600"
+                    android:includeFontPadding="false"
+                    android:textSize="18sp"
+                    android:textColor="@color/text_primary" />
+
+            <LinearLayout
+                    android:id="@+id/ll_setting_bloacklist"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
+                    android:paddingVertical="19dp"
+                    android:paddingHorizontal="4.5dp">
+
+                <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="차단한 사용자"
+                        android:fontFamily="@font/font_style"
+                        android:textFontWeight="500"
+                        android:includeFontPadding="false"
+                        android:textSize="15sp"
+                        android:textColor="@color/text_primary"
+                        android:layout_weight="1"/>
+
+                <ImageView
+                        android:layout_width="6dp"
+                        android:layout_height="12dp"
+                        android:src="@drawable/btn_setting_more"
+                        app:tint="@color/text_tertiary"
+                        android:layout_gravity="end|center_vertical"/>
+
+            </LinearLayout>
+
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/text_line"/>
 
         </LinearLayout>
 
