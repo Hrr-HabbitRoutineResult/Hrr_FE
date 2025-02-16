@@ -4,13 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
+import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResult
+import com.example.hrr_android.R
 import com.example.hrr_android.databinding.FragmentMakeChallengeCalendarBinding
 import com.example.hrr_android.databinding.LayoutMakeChallengeHeaderBinding
-import com.example.hrr_android.challenge.ui.record.progress.calendar.CustomCalendarView
-import com.example.hrr_android.R
-
 
 class MakeChallengeCalendarFragment : Fragment() {
 
@@ -20,22 +20,26 @@ class MakeChallengeCalendarFragment : Fragment() {
     private var _headerBinding: LayoutMakeChallengeHeaderBinding? = null
     private val headerBinding get() = _headerBinding!!
 
+    private var selectedStartDate: Long? = null
+    private var selectedEndDate: Long? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMakeChallengeCalendarBinding.inflate(inflater, container, false)
+
+        val headerView = binding.root.findViewById<View>(R.id.layout_make_challenge_calendar_header)
+        _headerBinding = LayoutMakeChallengeHeaderBinding.bind(headerView)
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //  캘린더 배경 추가
-        applyCalendarBackground(binding.viewMakeChallengeCalendar1)
-        applyCalendarBackground(binding.viewMakeChallengeCalendar2)
+        applyCalendarBackground()
 
-        // 뒤로 가기 버튼
-        headerBinding?.btnMakeChallengeBack?.setOnClickListener {
+        headerBinding.btnMakeChallengeBack.setOnClickListener {
             parentFragmentManager.popBackStack()
         }
 
@@ -43,49 +47,61 @@ class MakeChallengeCalendarFragment : Fragment() {
         setupCompleteButton()
     }
 
-    private fun applyCalendarBackground(calendarView: CustomCalendarView) {
-        calendarView.parent.let { parentView ->
-            if (parentView is LinearLayout) {
-                parentView.setBackgroundResource(R.drawable.bg_make_challenge_calendar)
-                parentView.setPadding(0, 54, 0, 0)
-            }
+    private fun applyCalendarBackground() {
+        binding.viewMakeChallengeCalendar1.findViewById<View>(R.id.ll_calendar)?.apply {
+            setBackgroundResource(R.drawable.bg_make_challenge_calendar)
+        }
+        binding.viewMakeChallengeCalendar2.findViewById<View>(R.id.ll_calendar)?.apply {
+            setBackgroundResource(R.drawable.bg_make_challenge_calendar)
         }
     }
 
+    // 캘린더에서 날짜 선택 감지 → 즉시 버튼 상태 업데이트
     private fun setupCalendarSelection() {
-        val startCalendarView = binding.viewMakeChallengeCalendar1
-        val endCalendarView = binding.viewMakeChallengeCalendar2
-
-        binding.viewMakeChallengeCalendar1.setOnClickListener {
-            val selectedStartDate = startCalendarView.getSelectedDate()
-            if (selectedStartDate != null) {
-                binding.viewMakeChallengeCalendar1.tag = selectedStartDate.timeInMillis
-            }
+        binding.viewMakeChallengeCalendar1.setOnDateSelectedListener { selectedDate ->
+            selectedStartDate = selectedDate.timeInMillis
+            updateCompleteButtonState()
         }
 
-        binding.viewMakeChallengeCalendar2.setOnClickListener {
-            val selectedEndDate = endCalendarView.getSelectedDate()
-            if (selectedEndDate != null) {
-                binding.viewMakeChallengeCalendar2.tag = selectedEndDate.timeInMillis
-            }
+        binding.viewMakeChallengeCalendar2.setOnDateSelectedListener { selectedDate ->
+            selectedEndDate = selectedDate.timeInMillis
+            updateCompleteButtonState()
         }
     }
 
-    // 완료 버튼 클릭 시 선택한 날짜를 전달
+    // 완료 버튼 활성화. (종료일이 시작일보다 빠를 시 비활성화)
+    private fun updateCompleteButtonState() {
+        val isBothDatesSelected = selectedStartDate != null && selectedEndDate != null
+        val isEndDateAfterStartDate = selectedStartDate != null && selectedEndDate != null &&
+                selectedEndDate!! >= selectedStartDate!!
+
+        val isButtonEnabled = isBothDatesSelected && isEndDateAfterStartDate
+
+        binding.btnDurationSelected.isEnabled = isButtonEnabled
+        if (isButtonEnabled) {
+            binding.btnDurationSelected.setBackgroundResource(R.drawable.bg_button_activate_10)
+            binding.btnDurationSelected.findViewById<TextView>(R.id.tv_calendar_apply)
+                .setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+        } else {
+            binding.btnDurationSelected.setBackgroundResource(R.drawable.bg_button_deactivate_10)
+            binding.btnDurationSelected.findViewById<TextView>(R.id.tv_calendar_apply)
+                .setTextColor(ContextCompat.getColor(requireContext(), R.color.text_tertiary))
+        }
+        binding.btnDurationSelected.invalidate()
+    }
+
+    // "완료" 버튼 클릭 시 날짜 전달 후 이전 화면으로 이동
     private fun setupCompleteButton() {
         binding.btnDurationSelected.setOnClickListener {
-            val startDate = (binding.viewMakeChallengeCalendar1.getSelectedDate()?.timeInMillis)
-            val endDate = (binding.viewMakeChallengeCalendar2.getSelectedDate()?.timeInMillis)
-
-            if (startDate != null && endDate != null) {
-                parentFragmentManager.setFragmentResult(
+            if (selectedStartDate != null && selectedEndDate != null) {
+                setFragmentResult(
                     "calendarSelection",
                     Bundle().apply {
-                        putLong("startDate", startDate)
-                        putLong("endDate", endDate)
+                        putLong("startDate", selectedStartDate!!)
+                        putLong("endDate", selectedEndDate!!)
                     }
                 )
-                parentFragmentManager.popBackStack() // 이전 화면으로 돌아가기
+                parentFragmentManager.popBackStack()
             }
         }
     }

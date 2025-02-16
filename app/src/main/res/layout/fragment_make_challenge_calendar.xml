@@ -53,7 +53,8 @@
                 android:id="@+id/view_make_challenge_calendar2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="41dp"/>
 
         </LinearLayout>
 
@@ -76,20 +77,19 @@
             android:layout_height="1dp"
             android:background="@color/text_line" />
 
+
         <FrameLayout
             android:id="@+id/btn_duration_selected"
             android:layout_width="match_parent"
             android:layout_height="45dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="13dp"
             android:clickable="true"
             android:focusable="true"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="13dp">
+            android:background="@drawable/bg_button_deactivate_10">
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/bg_button_activate_deactivate" />
             <TextView
+                android:id="@+id/tv_calendar_apply"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -97,9 +97,9 @@
                 android:gravity="center"
                 android:text="완료"
                 android:textColor="@color/text_tertiary"
-                android:textSize="16sp"
-                android:includeFontPadding="false"/>
+                android:textSize="16sp" />
         </FrameLayout>
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
