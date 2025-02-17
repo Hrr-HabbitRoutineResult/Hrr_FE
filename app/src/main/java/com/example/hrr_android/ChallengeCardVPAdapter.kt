@@ -4,11 +4,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.hrr_android.ChallengesOngoing
+import com.example.hrr_android.OnChallengeClickListener
 import com.example.hrr_android.databinding.ItemChallengeCardDefaultBinding
 import com.example.hrr_android.databinding.ItemChallengeCardMoreBinding
 
-class ChallengeCardVPAdapter(private val items: List<ChallengesOngoing>) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ChallengeCardVPAdapter(
+    private val items: List<ChallengesOngoing>,
+    private val itemClickListener: OnChallengeClickListener
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
         private const val VIEW_TYPE_NORMAL = 0  // ItemChallengeCardDefault를 나타내는 뷰 타입
@@ -39,12 +42,23 @@ class ChallengeCardVPAdapter(private val items: List<ChallengesOngoing>) :
                     icChallengeCardChecked.visibility = View.GONE
                     icChallengeCardUnchecked.visibility = View.VISIBLE
                 }
+
+                // 챌린지 클릭 시 챌린지 ID 전달
+                root.setOnClickListener {
+                    itemClickListener.onItemClick(item.challengeId)
+                }
             }
         }
     }
 
     inner class EmptyViewHolder(binding: ItemChallengeCardMoreBinding) :
-        RecyclerView.ViewHolder(binding.root)
+        RecyclerView.ViewHolder(binding.root) {
+            init {
+                binding.root.setOnClickListener {
+                    itemClickListener.onMoreClick()
+                }
+            }
+        }
 
     override fun getItemViewType(position: Int): Int {
         return if (position < items.size) VIEW_TYPE_NORMAL else VIEW_TYPE_EMPTY
