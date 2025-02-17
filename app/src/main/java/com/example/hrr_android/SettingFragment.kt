@@ -126,6 +126,21 @@ class SettingFragment : Fragment() {
             (activity as? ProfileMoreActivity)?.setTitle("저장한 글")
         }
 
+        // 차단한 사용자 목록 이동
+        binding.llSettingChallengeComment.setOnClickListener {
+            parentFragmentManager.beginTransaction().apply {
+                // 현재 보여지고 있는 Fragment 숨기기
+                parentFragmentManager.findFragmentById(R.id.fl_profile_more_fragment_container)?.let { hide(it) }
+
+                // 새로운 Fragment 추가
+                add(R.id.fl_profile_more_fragment_container, SettingBlockListFragment())
+                addToBackStack(null) // 뒤로 가기 지원
+                commit()
+            }
+
+            (activity as? ProfileMoreActivity)?.setTitle("차단한 사용자")
+        }
+
 
     }
 
