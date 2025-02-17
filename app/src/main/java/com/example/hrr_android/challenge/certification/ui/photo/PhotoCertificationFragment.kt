@@ -252,8 +252,8 @@ class PhotoCertificationFragment : BaseCertificationFragment<FragmentPhotoCertif
         }
 
         // 위치 계산, dp를 px로 변환
-        val leftPadding = 100f * resources.displayMetrics.density
-        val bottomPadding = 65f * resources.displayMetrics.density
+        val leftPadding = 50f * resources.displayMetrics.density
+        val bottomPadding = 90f * resources.displayMetrics.density
         val lineSpacing = 5f * resources.displayMetrics.density
 
         // 텍스트 위치 계산
