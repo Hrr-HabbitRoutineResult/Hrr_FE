@@ -1,6 +1,7 @@
 package com.example.hrr_android.challenge.ui.detail
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -52,6 +53,12 @@ class ChallengeFragment : Fragment(), ChallengeDialogInterface {
         val showDialog = arguments?.getBoolean("showCreateDialog", false) ?: false
         if (showDialog) {
             showCreateDialog()
+        }
+
+        val challengeId = arguments?.getInt("challenge_id", -1)
+
+        if (challengeId != -1) {
+            Log.d("ChallengeId", "Received challenge ID: $challengeId")
         }
 
     }
