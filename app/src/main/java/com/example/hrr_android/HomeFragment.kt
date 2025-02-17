@@ -127,8 +127,6 @@ class HomeFragment : Fragment(), OnChallengeClickListener {
 
     private fun observeChallenges() {
         userViewModel.challengesOngoing.observe(viewLifecycleOwner) { result ->
-            Log.d("asdf", "ViewModel에서 받은 데이터: $result") // 디버깅용 로그 추가
-
             result.onSuccess { challengeList ->
                 challengeAdapter = ChallengeCardVPAdapter(challengeList, this)
                 binding.vpHomeChallenge.adapter = challengeAdapter
