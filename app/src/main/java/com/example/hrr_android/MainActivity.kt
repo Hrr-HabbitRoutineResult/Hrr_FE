@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.view.View
 import androidx.activity.viewModels
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
@@ -55,6 +56,13 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         })
+
+        val navigateTo = intent.getStringExtra("navigate_to")
+        val challengeId = intent.getIntExtra("challenge_id", -1)
+
+        if (navigateTo == "challengeFragment") {
+            navigateToChallengeFragment(challengeId)
+        }
     }
 
     private fun initBottomNavigation(){
@@ -70,6 +78,12 @@ class MainActivity : AppCompatActivity() {
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.main_bottom_navi)
         bottomNavigationView.setupWithNavController(navController)
 
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.challengeFragment -> bottomNavigationView.visibility = View.GONE
+                else -> bottomNavigationView.visibility = View.VISIBLE
+            }
+        }
     }
     
     // 로그인 화면으로 전환하는 함수
@@ -79,6 +93,18 @@ class MainActivity : AppCompatActivity() {
         }
         startActivity(intent)
         finish()
+    }
+
+    private fun navigateToChallengeFragment(challengeId: Int) {
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.main_frame) as? NavHostFragment
+        val navController = navHostFragment?.navController
+
+        if (navController != null) {
+            val bundle = Bundle().apply {
+                putInt("challenge_id", challengeId)
+            }
+            navController.navigate(R.id.challengeFragment, bundle) // ChallengeFragment로 이동
+        }
     }
 
     // 프래그먼트에서 접근할 수 있도록 추가

@@ -10,7 +10,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
@@ -21,7 +23,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.abs
 
 @AndroidEntryPoint
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), OnChallengeClickListener {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
@@ -78,16 +80,16 @@ class HomeFragment : Fragment() {
         observeChallengesHotness()
 
         // 더미데이터
-        val hotPostList = listOf(
+/*        val hotPostList = listOf(
             HotPost("운동게시판", "어제 PT 갔거든? 근데 피티쌤이"),
             HotPost("학업게시판", "교수님이 아무래도 내가 자기 수업만 듣는 줄 아는 것 같아 그렇지 않고서야"),
             HotPost("취업준비게시판", "IT 계열인데 서류는 통과했어"),
             HotPost("생활습관게시판", "우리 챌린지 방 스터디가 잘 운영이 안되는 것 같아"),
             HotPost("공공기관/공무원/정출연 취준생", "해커스 공기업 NCS 통합 봉모 주황이 1회차")
-        )
+        )*/
 
         // 더미 데이터가 없는 상태
-        // val hotPostList = listOf<HotPost>()
+        val hotPostList = listOf<HotPost>()
 
         // 데이터 확인 후 visibility 조정
         if (hotPostList.isEmpty()) {
@@ -119,16 +121,14 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupOngoingViewPager() {
-        challengeAdapter = ChallengeCardVPAdapter(emptyList())  // 초기 빈 리스트 설정
+        challengeAdapter = ChallengeCardVPAdapter(emptyList(), this)  // 초기 빈 리스트 설정
         binding.vpHomeChallenge.adapter = challengeAdapter
     }
 
     private fun observeChallenges() {
         userViewModel.challengesOngoing.observe(viewLifecycleOwner) { result ->
-            Log.d("asdf", "ViewModel에서 받은 데이터: $result") // 디버깅용 로그 추가
-
             result.onSuccess { challengeList ->
-                challengeAdapter = ChallengeCardVPAdapter(challengeList)
+                challengeAdapter = ChallengeCardVPAdapter(challengeList, this)
                 binding.vpHomeChallenge.adapter = challengeAdapter
 
                 // 챌린지 개수에 따라 tv_home_subtitle 텍스트 변경
@@ -161,7 +161,7 @@ class HomeFragment : Fragment() {
         challengeViewModel.challengesHotness.observe(viewLifecycleOwner) { result ->
 
             result?.let { challengeList ->
-                challengeTodayAdapter = ChallengeTodayVPAdapter(challengeList)
+                challengeTodayAdapter = ChallengeTodayVPAdapter(challengeList, this)
                 binding.vpHomeChallengeToday.adapter = challengeTodayAdapter
 
                 // 인디케이터 설정
@@ -313,5 +313,19 @@ class HomeFragment : Fragment() {
         val intent = Intent(requireContext(), LoginActivity::class.java)
         startActivity(intent)
         requireActivity().finish() // 현재 액티비티 종료
+    }
+
+    override fun onItemClick(challengeId: Int) {
+        val navController = findNavController() // 현재 프래그먼트의 네비게이션 컨트롤러 가져오기
+
+        val bundle = Bundle().apply {
+            putInt("challenge_id", challengeId) // 챌린지 ID 전달
+        }
+        navController.navigate(R.id.action_homeFragment_to_challengeFragment, bundle) // 이동할 프래그먼트 ID 설정
+    }
+
+    override fun onMoreClick() {
+        Toast.makeText(requireContext(), "더보기를 클릭했습니다", Toast.LENGTH_SHORT).show() // 클릭 확인용
+        // TODO: 챌린지 목록 프래그먼트로 이동하는 클릭 이벤트 추가
     }
 }

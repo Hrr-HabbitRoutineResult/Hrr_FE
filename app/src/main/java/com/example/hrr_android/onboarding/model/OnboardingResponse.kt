@@ -12,7 +12,7 @@ data class OnboardingResponse<T>(
 
 @Parcelize
 data class OnboardingSuccess(
-    @SerializedName("challenge_id") val id: Int,
+    @SerializedName("challenge_id") val challengeId: Int,
     @SerializedName("name") val name: String,
     @SerializedName("description") val description: String,
     @SerializedName("challengeImage") val challengeImage: String,
