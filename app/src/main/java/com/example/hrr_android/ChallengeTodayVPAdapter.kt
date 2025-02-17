@@ -5,8 +5,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hrr_android.databinding.ItemChallengeTodayBinding
 
-class ChallengeTodayVPAdapter(private val challengeList: Result<List<ChallengeHotness>>) :
-    RecyclerView.Adapter<ChallengeTodayVPAdapter.ViewHolder>() {
+class ChallengeTodayVPAdapter(
+    private val challengeList: Result<List<ChallengeHotness>>,
+    private val itemClickListener: OnChallengeClickListener
+) : RecyclerView.Adapter<ChallengeTodayVPAdapter.ViewHolder>() {
 
     inner class ViewHolder(private val binding: ItemChallengeTodayBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -29,6 +31,10 @@ class ChallengeTodayVPAdapter(private val challengeList: Result<List<ChallengeHo
 
                 tvChallengeTodayPeriod.text = getChallengeDuration(item.challengeDuration)
                 tvChallengeTodayCycle.text = certFreqText
+
+                root.setOnClickListener {
+                    itemClickListener.onItemClick(item.id)
+                }
             }
         }
     }
