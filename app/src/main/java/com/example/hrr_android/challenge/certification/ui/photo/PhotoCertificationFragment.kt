@@ -231,7 +231,8 @@ class PhotoCertificationFragment : BaseCertificationFragment<FragmentPhotoCertif
 
         // sp를 px로 변환
         val scale = resources.displayMetrics.scaledDensity
-        val textSizeInPx = 35 * scale
+        // 비트맵의 크기에 비례하여 텍스트 크기 계산
+        val textSizeInPx = (originalBitmap.width * 0.04f).toFloat() // 비트맵 너비의 4% 정도로 설정
 
         // 날짜, 시간 포맷팅
         val date = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
@@ -254,7 +255,7 @@ class PhotoCertificationFragment : BaseCertificationFragment<FragmentPhotoCertif
         // 위치 계산, dp를 px로 변환
         val leftPadding = 50f * resources.displayMetrics.density
         val bottomPadding = 90f * resources.displayMetrics.density
-        val lineSpacing = 5f * resources.displayMetrics.density
+        val lineSpacing = 10f * resources.displayMetrics.density
 
         // 텍스트 위치 계산
         val xPos = leftPadding
