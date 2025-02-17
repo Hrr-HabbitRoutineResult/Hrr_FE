@@ -81,6 +81,21 @@ class SettingFragment : Fragment() {
             navigateToBoardActivity("저장한 글", null, "CommunityTabContentFragment")
         }
 
+        // 찜한 챌린지 이동
+        binding.llSettingChallengeLike.setOnClickListener {
+            parentFragmentManager.beginTransaction().apply {
+                // 현재 보여지고 있는 Fragment 숨기기
+                parentFragmentManager.findFragmentById(R.id.fl_profile_more_fragment_container)?.let { hide(it) }
+
+                // 새로운 Fragment 추가
+                add(R.id.fl_profile_more_fragment_container, SettingLikeChallengeFragment())
+                addToBackStack(null) // 뒤로 가기 지원
+                commit()
+            }
+
+            (activity as? ProfileMoreActivity)?.setTitle("찜한 챌린지")
+        }
+
 
     }
 
