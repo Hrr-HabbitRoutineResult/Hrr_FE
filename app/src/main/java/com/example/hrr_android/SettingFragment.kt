@@ -112,7 +112,7 @@ class SettingFragment : Fragment() {
         }
 
         // 저장한 단 챌린지 이동
-        binding.llSettingChallengeComment.setOnClickListener {
+        binding.llSettingChallengeSave.setOnClickListener {
             parentFragmentManager.beginTransaction().apply {
                 // 현재 보여지고 있는 Fragment 숨기기
                 parentFragmentManager.findFragmentById(R.id.fl_profile_more_fragment_container)?.let { hide(it) }
@@ -127,7 +127,7 @@ class SettingFragment : Fragment() {
         }
 
         // 차단한 사용자 목록 이동
-        binding.llSettingChallengeComment.setOnClickListener {
+        binding.llSettingBloacklist.setOnClickListener {
             parentFragmentManager.beginTransaction().apply {
                 // 현재 보여지고 있는 Fragment 숨기기
                 parentFragmentManager.findFragmentById(R.id.fl_profile_more_fragment_container)?.let { hide(it) }
