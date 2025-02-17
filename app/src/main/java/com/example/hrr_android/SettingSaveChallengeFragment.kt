@@ -6,17 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
-import com.example.hrr_android.databinding.FragmentSettingCommentChallengeBinding
+import com.example.hrr_android.databinding.FragmentSettingSaveChallengeBinding
 
-class SettingCommentChallengeFragment : Fragment() {
-    private var _binding: FragmentSettingCommentChallengeBinding? = null
+class SettingSaveChallengeFragment : Fragment() {
+    private var _binding: FragmentSettingSaveChallengeBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentSettingCommentChallengeBinding.inflate(inflater, container, false)
+        _binding = FragmentSettingSaveChallengeBinding.inflate(inflater, container, false)
 
         return binding.root
     }
@@ -48,7 +48,4 @@ class SettingCommentChallengeFragment : Fragment() {
         (activity as? ProfileMoreActivity)?.setTitle("설정")
         _binding = null
     }
-
-
-
 }

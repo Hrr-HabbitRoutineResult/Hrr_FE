@@ -103,12 +103,27 @@ class SettingFragment : Fragment() {
                 parentFragmentManager.findFragmentById(R.id.fl_profile_more_fragment_container)?.let { hide(it) }
 
                 // 새로운 Fragment 추가
-                add(R.id.fl_profile_more_fragment_container, SettingLikeChallengeFragment())
+                add(R.id.fl_profile_more_fragment_container, SettingCommentChallengeFragment())
                 addToBackStack(null) // 뒤로 가기 지원
                 commit()
             }
 
             (activity as? ProfileMoreActivity)?.setTitle("댓글 단 글")
+        }
+
+        // 저장한 단 챌린지 이동
+        binding.llSettingChallengeComment.setOnClickListener {
+            parentFragmentManager.beginTransaction().apply {
+                // 현재 보여지고 있는 Fragment 숨기기
+                parentFragmentManager.findFragmentById(R.id.fl_profile_more_fragment_container)?.let { hide(it) }
+
+                // 새로운 Fragment 추가
+                add(R.id.fl_profile_more_fragment_container, SettingSaveChallengeFragment())
+                addToBackStack(null) // 뒤로 가기 지원
+                commit()
+            }
+
+            (activity as? ProfileMoreActivity)?.setTitle("저장한 글")
         }
 
 
