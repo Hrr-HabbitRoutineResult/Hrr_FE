@@ -14,7 +14,9 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
 import com.example.hrr_android.access.AuthViewModel
+import com.example.hrr_android.access.PasswordNavigator
 import com.example.hrr_android.access.ui.LoginActivity
+import com.example.hrr_android.access.ui.PasswordActivity
 import com.example.hrr_android.databinding.BottomSheetWithdrawalBinding
 import com.example.hrr_android.databinding.DialogBottomSheetBinding
 import com.example.hrr_android.databinding.DialogLogoutBinding
@@ -83,6 +85,11 @@ class SettingAccountFragment : Fragment() {
     }
 
     private fun initClickListener() {
+        // 비밀번호 재설정
+        binding.llSettingResetPwd.setOnClickListener {
+            navigateToPasswordActivity(PasswordNavigator.RESET)
+        }
+
         // 로그아웃 처리
         binding.llSettingLogout.setOnClickListener {
             showLinkDialog()
@@ -151,5 +158,11 @@ class SettingAccountFragment : Fragment() {
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
         requireActivity().finish() // 현재 액티비티 종료
+    }
+
+    private fun navigateToPasswordActivity(fragment: PasswordNavigator) {
+        val intent = Intent(requireContext(), PasswordActivity::class.java)
+        intent.putExtra("fragment_to_load", fragment.fragmentName) // Enum에서 fragmentName 사용
+        startActivity(intent)
     }
 }
