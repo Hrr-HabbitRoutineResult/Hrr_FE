@@ -31,6 +31,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.example.hrr_android.MainActivity
 import com.example.hrr_android.R
 import com.example.hrr_android.challenge.certification.ui.base.BaseCertificationFragment
 import com.example.hrr_android.databinding.CustomSnackbarBinding
@@ -230,7 +231,7 @@ class PhotoCertificationFragment : BaseCertificationFragment<FragmentPhotoCertif
 
         // sp를 px로 변환
         val scale = resources.displayMetrics.scaledDensity
-        val textSizeInPx = 7 * scale
+        val textSizeInPx = 35 * scale
 
         // 날짜, 시간 포맷팅
         val date = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
@@ -250,10 +251,10 @@ class PhotoCertificationFragment : BaseCertificationFragment<FragmentPhotoCertif
             isAntiAlias = true
         }
 
-        // 위치 계산
-        val leftPadding = 17f
-        val bottomPadding = 16f
-        val lineSpacing = 3f // 줄 간격
+        // 위치 계산, dp를 px로 변환
+        val leftPadding = 100f * resources.displayMetrics.density
+        val bottomPadding = 65f * resources.displayMetrics.density
+        val lineSpacing = 5f * resources.displayMetrics.density
 
         // 텍스트 위치 계산
         val xPos = leftPadding
