@@ -1,10 +1,12 @@
 package com.example.hrr_android
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.hrr_android.community.ui.BoardActivity
 import com.example.hrr_android.databinding.FragmentSettingBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -69,7 +71,26 @@ class SettingFragment : Fragment() {
 
         }
 
+        // 댓글 단 게시글 이동
+        binding.llSettingPostComment.setOnClickListener {
+            navigateToBoardActivity("댓글 단 글", null, "CommunityTabContentFragment")
+        }
 
+        // 저장한 게시글 이동
+        binding.llSettingPostSave.setOnClickListener {
+            navigateToBoardActivity("저장한 글", null, "CommunityTabContentFragment")
+        }
+
+
+    }
+
+    private fun navigateToBoardActivity(baseCategory: String, subTitle: String?, fragment: String) {
+        val intent = Intent(requireContext(), BoardActivity::class.java).apply {
+            putExtra("baseCategory", baseCategory) // 타이틀
+            putExtra("subTitle", subTitle ?: "")  // 서브타이틀 (없으면 공백)
+            putExtra("fragment", fragment)        // 표시할 프래그먼트
+        }
+        startActivity(intent)
     }
 
 }
