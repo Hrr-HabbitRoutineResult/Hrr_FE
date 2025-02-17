@@ -8,9 +8,12 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import com.example.hrr_android.DialogNoTitle
 import com.example.hrr_android.LoadingActivity
+import com.example.hrr_android.MainActivity
 import com.example.hrr_android.UserViewModel
 import com.example.hrr_android.access.ValidUtils
+import com.example.hrr_android.access.ui.LoginActivity
 import com.example.hrr_android.databinding.ActivityOnboardingBinding
 import com.example.hrr_android.onboarding.OnboardingStep
 import com.example.hrr_android.onboarding.ui.fragment.CategoryFragment
@@ -64,23 +67,26 @@ class OnboardingActivity : AppCompatActivity() {
 
     // 뒤로가기 동작 처리
     private fun handleBackPressed() {
-        val currentFragment = supportFragmentManager.findFragmentById(binding.layoutOnboardingFragmentContainer.id) ?: return
-        if (currentFragment is InfoSelectFragment) { // 처음 단계에서 뒤로가기 시 종료
-            val intent = Intent(this, IntroActivity::class.java)
-            startActivity(intent)
-            finish()
-        } else { // 이전 단계로 이동
-            supportFragmentManager.popBackStack()
-
-            // 백스택 변경을 감지한 후 업데이트 실행
-            supportFragmentManager.addOnBackStackChangedListener(object : FragmentManager.OnBackStackChangedListener {
-                override fun onBackStackChanged() {
-                    supportFragmentManager.removeOnBackStackChangedListener(this) // 리스너 제거
-                    updateCurrentFragment()
-                    updateNextButtonState(null)
+        val dialog = DialogNoTitle(
+            context = this,
+            message = "진행 중인 작업을 건너뛰고\n홈화면으로 이동하시겠습니까?",
+            yesText = "네",
+            noText = "아니오",
+            object : DialogNoTitle.DialogListener {
+                override fun onYesClicked() {
+                    val intent = Intent(this@OnboardingActivity, MainActivity::class.java).apply {
+                        flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+                    }
+                    startActivity(intent)
+                    finish()
                 }
-            })
-        }
+
+                override fun onNoClicked() {
+                    // 다이얼로그 닫기 (기본적으로 dismiss()가 호출됨)
+                }
+            }
+        )
+        dialog.show()
     }
 
     // 프래그먼트 전환 함수
