@@ -3,6 +3,7 @@ package com.example.hrr_android.challenge.certification.ui.photo
 import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -16,6 +17,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -204,8 +206,21 @@ class PhotoCertificationFragment : BaseCertificationFragment<FragmentPhotoCertif
         }
 
     private fun openCamera() {
-        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        cameraLauncher.launch(intent)
+        // 카메라로 찍은 이미지를 저장할 URI 생성
+        val imageUri = requireContext().contentResolver.insert(
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+            ContentValues()
+        )
+
+        // 카메라 인텐트 생성 및 고화질 이미지를 위한 URI 설정
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE).apply {
+            putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
+        }
+
+        imageUri?.let {
+            this.imageUri = it  // 촬영한 이미지의 URI를 변수에 저장
+            cameraLauncher.launch(intent)
+        }
     }
 
     // 비트맵 이미지에 타임스탬프 추가
@@ -255,12 +270,18 @@ class PhotoCertificationFragment : BaseCertificationFragment<FragmentPhotoCertif
     // 촬영한 사진 결과 처리
     private val cameraLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
-            val originalBitmap = result.data?.extras?.get("data") as Bitmap
-            val timestampedBitmap = addTimestampToBitmap(originalBitmap)
-            binding.ivPhotoPreview.setImageBitmap(timestampedBitmap)
-            hasPhoto = true
-            showPreviewMode()
-            updateCompleteButton()
+            imageUri?.let { uri ->
+                // 저장된 이미지를 비트맵으로 가져오기
+                val bitmap = MediaStore.Images.Media.getBitmap(requireContext().contentResolver, uri)
+                // 비트맵에 타임스탬프 추가
+                val timestampedBitmap = addTimestampToBitmap(bitmap)
+                // 이미지를 프리뷰에 표시
+                binding.ivPhotoPreview.setImageBitmap(timestampedBitmap)
+
+                hasPhoto = true
+                showPreviewMode()
+                updateCompleteButton()
+            }
         }
     }
 
