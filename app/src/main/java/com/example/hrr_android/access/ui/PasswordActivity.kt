@@ -1,7 +1,10 @@
 package com.example.hrr_android.access.ui
 
+import android.content.Intent
 import android.os.Bundle
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
+import com.example.hrr_android.DialogNoTitle
 import com.example.hrr_android.access.PasswordNavigator
 import com.example.hrr_android.access.ui.fragment.PasswordResetFragment
 import com.example.hrr_android.R
@@ -20,10 +23,17 @@ class PasswordActivity : AppCompatActivity() {
         binding = ActivityPasswordBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // 뒤로 가기
+        // 앱의 뒤로 가기 버튼 동작
         binding.btnPasswordBack.setOnClickListener {
-            finish()
+            handleBackPressed()
         }
+
+        // 휴대폰 자체의 뒤로 가기 동작
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                handleBackPressed()
+            }
+        })
 
         // Intent로부터 전달받은 fragmentName을 기반으로 PasswordFragment를 가져옴
         val fragmentName = intent.getStringExtra("fragment_to_load")
@@ -41,6 +51,29 @@ class PasswordActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.layout_password_fragment, fragment)
             .commit()
+    }
+
+    private fun handleBackPressed() {
+        val dialog = DialogNoTitle(
+            context = this,
+            message = "진행 중인 작업을 중단하고\n로그인 화면으로 이동하시겠습니까?",
+            yesText = "네",
+            noText = "아니오",
+            object : DialogNoTitle.DialogListener {
+                override fun onYesClicked() {
+                    val intent = Intent(this@PasswordActivity, LoginActivity::class.java).apply {
+                        flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+                    }
+                    startActivity(intent)
+                    finish()
+                }
+
+                override fun onNoClicked() {
+                    // 다이얼로그 닫기 (기본적으로 dismiss()가 호출됨)
+                }
+            }
+        )
+        dialog.show()
     }
 }
 
