@@ -77,4 +77,8 @@ interface UserService {
         @Body request: ProfileUpdateRequest
     ): Response<ApiResponse<ProfileUpdateResponse>>
 
+    // 최근 획득한 뱃지 조회
+    @GET("/api/v1/users/badges/lately")
+    suspend fun getRecentBadge(): Response<ApiResponse<RecentBadge>>
+
 }

@@ -192,4 +192,22 @@ class UserViewModel @Inject constructor(
         }
     }
 
+    /*
+    * 최근 획득한 뱃지 조회
+    * */
+
+    private val _recentBadge = MutableLiveData<RecentBadge?>()
+    val recentBadge: LiveData<RecentBadge?> get() = _recentBadge
+
+    fun getRecentBadge(){
+        viewModelScope.launch {
+            val result = userRepository.getRecentBadge()
+            result.onSuccess{
+                _recentBadge.postValue(result.getOrNull()) // 성공 시 데이터 업데이트
+            }.onFailure {
+                _errorMessage.postValue(result.exceptionOrNull()?.message) // 실패 시 에러 메시지 전달
+            }
+        }
+    }
+
 }

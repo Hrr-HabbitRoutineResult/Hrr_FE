@@ -85,6 +85,14 @@ class ProfileBadgeMoreFragment : Fragment(), OnBadgeMoreClickListener {
 
         }
 
+        userViewModel.recentBadge.observe(viewLifecycleOwner) { response->
+            response?.apply {
+                binding.ivRecentIcon.setImageResource(ValidUtils.getDrawableResId(requireContext(),icon))
+                binding.tvRecentName.text = name
+                binding.tvRecentType.text = if(type=="type") "유형" else "카테고리"
+            }
+        }
+
         userViewModel.errorMessage.observe(viewLifecycleOwner) { errorMsg ->
             errorMsg?.let {
                 val errorToUser = when {
@@ -99,7 +107,10 @@ class ProfileBadgeMoreFragment : Fragment(), OnBadgeMoreClickListener {
                 Log.e("ProfileFragmentVM", "오류 발생: $errorMsg")
             }
         }
-        userViewModel.loadBadges()  // 유저 데이터 로드
+
+        // 유저 데이터 로드
+        userViewModel.loadBadges()
+        userViewModel.getRecentBadge()
 
     }
 

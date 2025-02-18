@@ -115,4 +115,9 @@ class UserRepository @Inject constructor(
     suspend fun updateProfile(profileUpdateRequest: ProfileUpdateRequest): Result<ProfileUpdateResponse>{
         return handleResponse { userService.updateProfile(profileUpdateRequest) }
     }
+
+    // 최근 획득한 뱃지 조회
+    suspend fun getRecentBadge(): Result<RecentBadge>{
+        return handleResponse { userService.getRecentBadge() }
+    }
 }
