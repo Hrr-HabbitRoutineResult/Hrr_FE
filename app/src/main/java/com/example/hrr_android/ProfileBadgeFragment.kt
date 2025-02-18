@@ -28,28 +28,10 @@ class ProfileBadgeFragment : Fragment() {
     ): View {
         _binding = FragmentProfileBadgeBinding.inflate(inflater, container, false)
 
-//        //유형 뱃지 더미 데이터 - 테스트 시 주석 해제 or 설정
-//        typeBadgeList.apply {
-//            add(Badge("뱃지명", R.drawable.badge_type_fromtoday_challenger, type = "category"))
-//            add(Badge("오늘부터 챌린저", R.drawable.badge_type_fromtoday_challenger, type = "category"))
-//            add(Badge("뱃지 이름 테스트", R.drawable.badge_type_fromtoday_challenger, type = "category"))
-//            add(Badge("뱃지명", R.drawable.badge_type_fromtoday_challenger, type = "category"))
-//            add(Badge("뱃지명", R.drawable.badge_type_fromtoday_challenger, type = "category"))
-//        }
-
         //유형 뱃지 RecyclerView 연결
         val typeBadgeRVAdapter = ProfileBadgeRVAdapter(typeBadgeList)
         binding.rvProfileBadgeType.adapter = typeBadgeRVAdapter
         binding.rvProfileBadgeType.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-
-//        //카테고리 뱃지 더미 데이터 - 테스트 시 주석 해제 or 설정
-//        categoryBadgeList.apply {
-//            add(Badge("뱃지명", R.drawable.badge_category_pro_exercise, type = "category"))
-//            add(Badge("프로 운동러", R.drawable.badge_category_pro_exercise, type = "category"))
-//            add(Badge("뱃지 이름 테스트", R.drawable.badge_category_pro_exercise, type = "category"))
-//            add(Badge("뱃지명", R.drawable.badge_category_pro_exercise, type = "category"))
-//            add(Badge("뱃지명", R.drawable.badge_category_pro_exercise, type = "category"))
-//        }
 
         //카테고리 뱃지 RecyclerView 연결
         val categoryBadgeRVAdapter = ProfileBadgeRVAdapter(categoryBadgeList)
@@ -60,31 +42,34 @@ class ProfileBadgeFragment : Fragment() {
         * 획득한 뱃지 로딩
         * */
         userViewModel.badges.observe(viewLifecycleOwner) { response->
-            typeBadgeList = response?.typeBadges
-                ?.filter { it.isObtained } // 획득한 배지만 필터링
-                ?.map { badge ->
-                    Badge(
-                        name = badge.name,
-                        icon = ValidUtils.getDrawableResId(requireContext(), badge.icon)
-                    )
-                }
-                ?.let { ArrayList(it) } ?: arrayListOf()
+            typeBadgeList.clear()
+            typeBadgeList.addAll(
+                response?.typeBadges?.filter { it.isObtained }
+                    ?.map { badge ->
+                        Badge(
+                            name = badge.name,
+                            icon = ValidUtils.getDrawableResId(requireContext(), badge.icon)
+                        )
+                    } ?: emptyList()
+            )
 
-            categoryBadgeList = response?.categoryBadges
-                ?.filter { it.isObtained } // 획득한 배지만 필터링
-                ?.map { badge ->
-                    Badge(
-                        name = badge.name,
-                        icon = ValidUtils.getDrawableResId(requireContext(), badge.icon)
-                    )
-                }
-                ?.let { ArrayList(it) } ?: arrayListOf()
+            categoryBadgeList.clear()
+            categoryBadgeList.addAll(
+                response?.categoryBadges?.filter { it.isObtained }
+                    ?.map { badge ->
+                        Badge(
+                            name = badge.name,
+                            icon = ValidUtils.getDrawableResId(requireContext(), badge.icon)
+                        )
+                    } ?: emptyList()
+            )
 
-            //데이터 유무 판단하여 뷰 전환
-            setBadgeVisibility()
             binding.rvProfileBadgeType.adapter?.notifyDataSetChanged()
             binding.rvProfileBadgeCategory.adapter?.notifyDataSetChanged()
 
+
+            //데이터 유무 판단하여 뷰 전환
+            setBadgeVisibility()
         }
 
         userViewModel.errorMessage.observe(viewLifecycleOwner) { errorMsg ->
@@ -119,27 +104,56 @@ class ProfileBadgeFragment : Fragment() {
     }
 
     private fun setBadgeVisibility() {
-        if (typeBadgeList.size != 0 || categoryBadgeList.size != 0) {
-            //뱃지 획득 시
+        Log.d("mybadgeDebug", "typeBadgeList: $typeBadgeList")
+        Log.d("mybadgeDebug", "categoryBadgeList: $categoryBadgeList")
+//        if (typeBadgeList.size != 0 || categoryBadgeList.size != 0) {
+//            //뱃지 획득 시
+//            binding.clProfileBadgeContentNo.visibility = View.GONE
+//            binding.clProfileBadgeMy.visibility = View.VISIBLE
+//
+//            if (typeBadgeList.size != 0 && categoryBadgeList.size != 0) {
+//                //유형, 카테고리 뱃지 모두 획득 시
+//                binding.rvProfileBadgeType.visibility = View.VISIBLE
+//                binding.rvProfileBadgeCategory.visibility = View.VISIBLE
+//                binding.clProfileBadgeTypeNo.visibility = View.GONE
+//                binding.clProfileBadgeCategoryNo.visibility = View.GONE
+//            } else if (typeBadgeList.size != 0 && categoryBadgeList.size == 0) {
+//                //유형 뱃지 획득 시
+//                binding.rvProfileBadgeType.visibility = View.VISIBLE
+//                binding.clProfileBadgeTypeNo.visibility = View.GONE
+//            } else if (typeBadgeList.size == 0 && categoryBadgeList.size != 0) {
+//                //카테고리 뱃지 획득 시
+//                binding.rvProfileBadgeCategory.visibility = View.VISIBLE
+//                binding.clProfileBadgeCategoryNo.visibility = View.GONE
+//            }
+//        }
+        if (typeBadgeList.isNotEmpty() || categoryBadgeList.isNotEmpty()) {
+            // 뱃지 획득 시
             binding.clProfileBadgeContentNo.visibility = View.GONE
             binding.clProfileBadgeMy.visibility = View.VISIBLE
 
-            if (typeBadgeList.size != 0 && categoryBadgeList.size != 0) {
-                //유형, 카테고리 뱃지 모두 획득 시
-                binding.rvProfileBadgeType.visibility = View.VISIBLE
-                binding.rvProfileBadgeCategory.visibility = View.VISIBLE
-                binding.clProfileBadgeTypeNo.visibility = View.GONE
-                binding.clProfileBadgeCategoryNo.visibility = View.GONE
-            } else if (typeBadgeList.size != 0 && categoryBadgeList.size == 0) {
-                //유형 뱃지 획득 시
+            // ✅ 유형과 카테고리 뱃지를 각각 체크하여 visibility 설정
+            if (typeBadgeList.isNotEmpty()) {
                 binding.rvProfileBadgeType.visibility = View.VISIBLE
                 binding.clProfileBadgeTypeNo.visibility = View.GONE
-            } else if (typeBadgeList.size == 0 && categoryBadgeList.size != 0) {
-                //카테고리 뱃지 획득 시
-                binding.rvProfileBadgeCategory.visibility = View.VISIBLE
-                binding.clProfileBadgeCategoryNo.visibility = View.GONE
+            } else {
+                binding.rvProfileBadgeType.visibility = View.GONE
+                binding.clProfileBadgeTypeNo.visibility = View.VISIBLE
             }
+
+            if (categoryBadgeList.isNotEmpty()) {
+                binding.rvProfileBadgeCategory.visibility = View.VISIBLE
+                binding.clProfileBadgeCategoryNo.visibility = View.GONE
+            } else {
+                binding.rvProfileBadgeCategory.visibility = View.GONE
+                binding.clProfileBadgeCategoryNo.visibility = View.VISIBLE
+            }
+        } else {
+            // ✅ 뱃지가 하나도 없는 경우
+            binding.clProfileBadgeContentNo.visibility = View.VISIBLE
+            binding.clProfileBadgeMy.visibility = View.GONE
         }
+
     }
 
 }

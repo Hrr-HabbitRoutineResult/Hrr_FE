@@ -97,25 +97,49 @@ class ProfileBadgeMoreFragment : Fragment(), OnBadgeMoreClickListener {
         * 획득한 뱃지 로딩
         * */
         userViewModel.badges.observe(viewLifecycleOwner) { response->
-            typeBadgeList = response?.typeBadges
-                ?.map { badge ->
-                    Badge(
-                        name = badge.name,
-                        icon = ValidUtils.getDrawableResId(requireContext(), badge.icon),
-                        isObtained = badge.isObtained
-                    )
-                }
-                ?.let { ArrayList(it) } ?: arrayListOf()
+//            typeBadgeList = response?.typeBadges
+//                ?.map { badge ->
+//                    Badge(
+//                        name = badge.name,
+//                        icon = ValidUtils.getDrawableResId(requireContext(), badge.icon),
+//                        isObtained = badge.isObtained
+//                    )
+//                }
+//                ?.let { ArrayList(it) } ?: arrayListOf()
+//
+//            categoryBadgeList = response?.categoryBadges
+//                ?.map { badge ->
+//                    Badge(
+//                        name = badge.name,
+//                        icon = ValidUtils.getDrawableResId(requireContext(), badge.icon),
+//                        isObtained = badge.isObtained
+//                    )
+//                }
+//                ?.let { ArrayList(it) } ?: arrayListOf()
 
-            categoryBadgeList = response?.categoryBadges
-                ?.map { badge ->
-                    Badge(
-                        name = badge.name,
-                        icon = ValidUtils.getDrawableResId(requireContext(), badge.icon),
-                        isObtained = badge.isObtained
-                    )
-                }
-                ?.let { ArrayList(it) } ?: arrayListOf()
+            typeBadgeList.clear()
+            typeBadgeList.addAll(
+                response?.typeBadges
+                    ?.map { badge ->
+                        Badge(
+                            name = badge.name,
+                            icon = ValidUtils.getDrawableResId(requireContext(), badge.icon),
+                            isObtained = badge.isObtained
+                        )
+                    } ?: emptyList()
+            )
+
+            categoryBadgeList.clear()
+            categoryBadgeList.addAll(
+                response?.categoryBadges
+                    ?.map { badge ->
+                        Badge(
+                            name = badge.name,
+                            icon = ValidUtils.getDrawableResId(requireContext(), badge.icon),
+                            isObtained = badge.isObtained
+                        )
+                    } ?: emptyList()
+            )
 
             //데이터 유무 판단하여 뷰 전환
             binding.rvBadgeMoreType.adapter?.notifyDataSetChanged()
