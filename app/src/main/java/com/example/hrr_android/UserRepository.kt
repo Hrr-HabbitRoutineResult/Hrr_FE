@@ -111,5 +111,8 @@ class UserRepository @Inject constructor(
         return handleResponse { userService.getMyBadges(userId) }
     }
 
-
+    // 사용자 정보 수정
+    suspend fun updateProfile(profileUpdateRequest: ProfileUpdateRequest): Result<ProfileUpdateResponse>{
+        return handleResponse { userService.updateProfile(profileUpdateRequest) }
+    }
 }

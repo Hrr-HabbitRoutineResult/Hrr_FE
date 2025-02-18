@@ -1,9 +1,11 @@
 package com.example.hrr_android
 
 import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface UserService {
@@ -68,5 +70,11 @@ interface UserService {
     suspend fun getMyBadges(
         @Path("userId") userId: Int
     ): Response<ApiResponse<BadgeResponse>>
+
+    // 사용자 정보 수정
+    @PUT("/api/v1/users/me")
+    suspend fun updateProfile(
+        @Body request: ProfileUpdateRequest
+    ): Response<ApiResponse<ProfileUpdateResponse>>
 
 }

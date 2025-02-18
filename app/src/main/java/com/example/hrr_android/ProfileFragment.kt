@@ -37,9 +37,6 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //클릭 이벤트 처리 설정
-        initClickListener()
-
         //ViewPager2 Adapter 연결
         profileCommon.setupViewPager(binding, requireActivity(), true)
 
@@ -77,6 +74,8 @@ class ProfileFragment : Fragment() {
                         )
                     }
 
+                Log.d("myDebug", "selectedBadges: ${selectedBadges}")
+
                 // 뱃지 UI 업데이트
                 profileCommon.setupBadges(binding, selectedBadges)
 
@@ -84,6 +83,9 @@ class ProfileFragment : Fragment() {
                 //팔로우 클릭 처리
                 profileCommon.onFollowClicked(requireActivity(), binding.llProfileFollower, "follower", myId = it.id!!)
                 profileCommon.onFollowClicked(requireActivity(), binding.llProfileFollowing, "following", myId = it.id)
+
+                //클릭 이벤트 처리 설정
+                initClickListener()
             }
         }
 
@@ -108,16 +110,12 @@ class ProfileFragment : Fragment() {
         // 유저 데이터 로드
         userViewModel.loadProfile()
 
-//        //뱃지 더미 데이터 - 테스트 시 주석 해제 or 설정
-//        selectedBadges.clear()
-//
-//        selectedBadges.apply {
-//            add(Badge("프로 챌린저", R.drawable.badge_type_fromtoday_challenger))
-//            add(Badge("수준급 스터디언", R.drawable.badge_type_fromtoday_challenger))
-//            add(Badge("운동 스타터", R.drawable.badge_type_fromtoday_challenger))
-//        }
+    }
 
-
+    override fun onResume() {
+        super.onResume()
+        userViewModel.loadProfile()
+        Log.d("myDebug", "여긴데")
     }
 
     override fun onDestroyView() {
@@ -135,7 +133,12 @@ class ProfileFragment : Fragment() {
 
         // 프로필 수정 모드
         binding.tvProfileEdit.setOnClickListener {
+            val badgeNames = ArrayList(selectedBadges.map { it.name }) // 뱃지 이름만 리스트로 변환
+
             val intent = Intent(requireContext(), EditProfileActivity::class.java)
+            intent.putExtra("name", myProfile.nickname)
+            Log.d("myDebug", "myProfile.nickname: ${myProfile.nickname}")
+            intent.putStringArrayListExtra("badgeNames", badgeNames)
             startActivity(intent)
         }
 
@@ -153,6 +156,8 @@ class ProfileFragment : Fragment() {
             val intent = Intent(requireContext(), EditProfileActivity::class.java)
             intent.putExtra("clicked", "badge")
             intent.putStringArrayListExtra("badgeNames", badgeNames)
+            intent.putExtra("name", myProfile.nickname)
+            Log.d("myDebug", "myProfile.nickname: ${myProfile.nickname}")
 
             startActivity(intent)
 

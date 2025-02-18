@@ -32,6 +32,7 @@ import com.example.hrr_android.access.ValidUtils
 import com.example.hrr_android.databinding.ActivityEditProfileBinding
 import com.example.hrr_android.databinding.DialogProfileEditBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 import java.text.SimpleDateFormat
@@ -50,13 +51,14 @@ class EditProfileActivity : AppCompatActivity(), OnBadgeClickListener {
     private var cameraPhotoUri: Uri? = null     // 이미지 uri
     private var onCalled: (() -> Unit)? = null
     private val userViewModel: UserViewModel by viewModels()
+    private var selectedBadgeIdList: MutableList<Int> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         // 변수 초기화
         binding = ActivityEditProfileBinding.inflate(layoutInflater)
-        user = User("닉네임 테스트")
+        user = User(intent.getStringExtra("name")?:"로딩 중..")
         userImg = binding.ivEditUserImage
 
         // Intent에서 넘어온 뱃지 이름 리스트 가져오기
@@ -64,6 +66,8 @@ class EditProfileActivity : AppCompatActivity(), OnBadgeClickListener {
         Log.d("badgeDebug", "selectedBadgeNames: $selectedBadgeNames")
 
         userViewModel.badges.observe(this) { response ->
+            Log.d("badgeDebug", "response?.typeBadges: ${response?.typeBadges}")
+            Log.d("badgeDebug", "response?.categoryBadges: ${response?.categoryBadges}")
             obtainedBadgeList = ArrayList(
                 (response?.typeBadges.orEmpty() + response?.categoryBadges.orEmpty()) // 모든 뱃지를 합침
                     .filter { it.isObtained } // 획득한 배지만 필터링
@@ -72,7 +76,8 @@ class EditProfileActivity : AppCompatActivity(), OnBadgeClickListener {
                             name = badge.name,
                             icon = ValidUtils.getDrawableResId(this, badge.icon),
                             isObtained = true,
-                            isSelected = badge.name in selectedBadgeNames
+                            isSelected = badge.name in selectedBadgeNames,
+                            id = badge.badgeId
                         )
                     }
             )
@@ -81,6 +86,11 @@ class EditProfileActivity : AppCompatActivity(), OnBadgeClickListener {
             selectedBadgeList = obtainedBadgeList
                 .filter { it.isSelected }
                 .map { it.name to it.icon }
+                .toMutableList()
+
+            selectedBadgeIdList = obtainedBadgeList
+                .filter { it.isSelected } // 선택된 배지만 필터링
+                .map { it.id } // null 값 제거 후 ID만 저장
                 .toMutableList()
 
             if(selectedBadgeList.size==3){
@@ -143,6 +153,12 @@ class EditProfileActivity : AppCompatActivity(), OnBadgeClickListener {
         // 완료 클릭 처리
         binding.tvEditComplete.setOnClickListener {
             // TODO: 사용자 정보 서버에 업데이트
+            val profileToUpdate = ProfileUpdateRequest(
+                name = binding.tvEditUsername.text.toString(),
+                profilePhoto = "",      // Todo: 이미지 처리
+                badges = selectedBadgeIdList + List(3 - selectedBadgeIdList.size) { null } // 부족한 부분을 null로 채움
+            )
+            userViewModel.updateProfile(profileToUpdate)
             finish()
         }
 
@@ -456,6 +472,7 @@ class EditProfileActivity : AppCompatActivity(), OnBadgeClickListener {
             // 대표 뱃지를 선택한 경우, 대표 리스트에서 제거
             selectedBadgeList = selectedBadgeList.filterNot { it.first == badge.name }.toMutableList()
             badge.isSelected = false
+            selectedBadgeIdList.remove(badge.id)
         }
         else{
             // 새로 선택됐을 경우, 대표 리스트에 추가
@@ -463,6 +480,9 @@ class EditProfileActivity : AppCompatActivity(), OnBadgeClickListener {
                 // 뱃지 개수 3개로 제한
                 selectedBadgeList.add(badge.name to badge.icon)
                 badge.isSelected = true
+                if (!selectedBadgeIdList.contains(badge.id)) {
+                    selectedBadgeIdList.add(badge.id)
+                }
             }
             else{
                 Toast.makeText(this, "뱃지는 최대 3개 선택 가능합니다.", Toast.LENGTH_SHORT).show()
@@ -474,6 +494,7 @@ class EditProfileActivity : AppCompatActivity(), OnBadgeClickListener {
 
     // 대표 뱃지 바인딩
     private fun setSelectedBadges(selectedBadgeList: MutableList<Pair<String, Int>>, binding: ActivityEditProfileBinding){
+        Log.d("badgeDebug", "selectedBadgeList: ${selectedBadgeList}")
         //설정한 대표 뱃지 개수에 따라 visibility 조정
         when(selectedBadgeList.size){
             //first: 이름, second: 아이콘 ID

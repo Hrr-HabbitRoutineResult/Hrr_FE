@@ -177,4 +177,19 @@ class UserViewModel @Inject constructor(
         }
     }
 
+    /*
+    * 사용자 정보 수정
+    * */
+
+    fun updateProfile(profileUpdateRequest: ProfileUpdateRequest){
+        viewModelScope.launch {
+            val result = userRepository.updateProfile(profileUpdateRequest)
+            result.onSuccess{
+
+            }.onFailure {
+                _errorMessage.postValue(result.exceptionOrNull()?.message) // 실패 시 에러 메시지 전달
+            }
+        }
+    }
+
 }
