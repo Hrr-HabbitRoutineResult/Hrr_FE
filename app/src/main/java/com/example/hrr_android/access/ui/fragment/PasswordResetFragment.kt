@@ -140,6 +140,9 @@ class PasswordResetFragment : Fragment() {
 
     private fun setupNextButton() {
         binding.btnResetPasswordNext.setOnClickListener {
+            val currentPassword = binding.etResetPasswordNow.text.toString()
+            val newPassword = binding.etResetPassword.text.toString()
+
             // 현재 비밀번호 검증 단계
             if (isPasswordNowValid) {
                 if (isPasswordNowMatch) {  // 올바른 비밀번호 입력 시 UI 업데이트
@@ -158,8 +161,16 @@ class PasswordResetFragment : Fragment() {
                     ValidUtils.showSnackbar(requireView(), "현재 비밀번호가 일치하지 않습니다.", binding.lineResetSecond)
                 }
             }
+
+            // 새 비밀번호가 현재 비밀번호와 동일한 경우
+            if (currentPassword == newPassword) {
+                ValidUtils.hideKeyboard(requireContext(), requireView())
+                ValidUtils.showSnackbar(requireView(), "새 비밀번호는 현재 비밀번호와 다르게 설정해주세요.", binding.lineResetSecond)
+                return@setOnClickListener
+            }
+
             // 새 비밀번호 설정 단계
-            else if (isPasswordValid && isPasswordMatch) {
+            if (isPasswordValid && isPasswordMatch) {
                 loadNextFragment(PasswordResetCompleteFragment())
             }
         }
