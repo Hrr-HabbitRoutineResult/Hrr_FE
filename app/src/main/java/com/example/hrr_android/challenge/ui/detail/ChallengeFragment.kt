@@ -7,21 +7,32 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageButton
+import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hrr_android.R
+import com.example.hrr_android.challenge.model.ChallengeDetail
 import com.example.hrr_android.challenge.ui.detail.adapter.CertificationListAdapter
 import com.example.hrr_android.challenge.ui.record.ProgressFragment
 import com.example.hrr_android.challenge.ui.record.RecordFragment
 import com.example.hrr_android.databinding.FragmentChallengeBinding
 import com.example.hrr_android.databinding.LayoutChallengeButtonBinding
+import com.example.hrr_android.databinding.LayoutChallengeHeaderBinding
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
-
+@AndroidEntryPoint
 class ChallengeFragment : Fragment(), ChallengeDialogInterface {
     // 뷰 바인딩 정의
     private var _binding: FragmentChallengeBinding? = null
     private val binding get() = _binding!!
+    private val viewModel: ChallengeDetailViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,10 +66,21 @@ class ChallengeFragment : Fragment(), ChallengeDialogInterface {
             showCreateDialog()
         }
 
-        val challengeId = arguments?.getInt("challenge_id", -1)
-
+        // 전달받은 challengeId로 데이터 요청
+        val challengeId = arguments?.getInt("challenge_id", -1) ?: -1
         if (challengeId != -1) {
-            Log.d("ChallengeId", "Received challenge ID: $challengeId")
+            viewModel.fetchChallengeDetail(challengeId)
+        }
+
+        // 데이터 observe
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.challengeState.collect { result ->
+                result?.onSuccess { challenge ->
+                    updateHeaderUI(challenge)
+                }?.onFailure { e ->
+                    Toast.makeText(requireContext(), "챌린지 정보를 불러오는데 실패했습니다.", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
 
     }
@@ -103,6 +125,45 @@ class ChallengeFragment : Fragment(), ChallengeDialogInterface {
                 .replace(R.id.main_frame, ProgressFragment())
                 .addToBackStack(null)
                 .commit()
+        }
+    }
+
+    // 챌린지 헤더 UI 업데이트
+    private fun updateHeaderUI(challenge: ChallengeDetail) {
+        // 레이아웃 바인딩 사용
+        val headerBinding = LayoutChallengeHeaderBinding.bind(
+            binding.llChallengeContainer.getChildAt(0) // 첫 번째 child가 header layout
+        )
+
+        with(headerBinding) {
+            // 챌린지 이름
+            tvChallengeHeaderTitle.text = challenge.name
+            // 챌린지 소개
+            tvChallengeHeaderDescription.text = challenge.description
+
+            // 참여 인원 (현재/최대)
+            tvChallengeHeaderCurrentParticipants.text = challenge.currentParticipants.toString()
+            tvChallengeHeaderMaxParticipants.text = challenge.maxParticipants.toString()
+
+            // 챌린지 기간 표시
+            val durationText = when {
+                challenge.duration.startsWith("month_") -> {
+                    val months = challenge.duration.substringAfter("month_")
+                    "${months}개월"
+                }
+                challenge.duration.startsWith("week_") -> {
+                    val weeks = challenge.duration.substringAfter("week_")
+                    "${weeks}주"
+                }
+                else -> challenge.duration
+            }
+            // TODO: 인증 요일 정보 추가되면 레이아웃 분리 후 "요일|기간" 형식으로 표시
+            tvChallengeHeaderPeriod.text = durationText
+
+            // 닫기 버튼 클릭 리스너
+            btnChallengeHeaderClose.setOnClickListener {
+                findNavController().navigateUp()
+            }
         }
     }
 
