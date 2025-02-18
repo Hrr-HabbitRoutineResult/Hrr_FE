@@ -7,7 +7,9 @@ import com.example.hrr_android.access.ui.fragment.PasswordResetFragment
 import com.example.hrr_android.R
 import com.example.hrr_android.access.ui.fragment.VerificationFragment
 import com.example.hrr_android.databinding.ActivityPasswordBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class PasswordActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityPasswordBinding
