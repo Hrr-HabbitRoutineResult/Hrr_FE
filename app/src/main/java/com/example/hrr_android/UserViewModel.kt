@@ -214,11 +214,11 @@ class UserViewModel @Inject constructor(
     * 뱃지 조건 상세 조회
     * */
 
-    fun getBadgeCondition(badgeId: Int, onResult: (BadgeConditionResponse) -> Unit){
+    fun getBadgeCondition(badgeId: Int, onResult: (List<BadgeCondition>) -> Unit){
         viewModelScope.launch {
             val result = userRepository.getBadgeCondition(badgeId)
             result.onSuccess{ conditions ->
-                onResult(conditions) // ✅ UI에 직접 데이터 전달
+                onResult(conditions)
             }.onFailure {
                 _errorMessage.postValue(result.exceptionOrNull()?.message) // 실패 시 에러 메시지 전달
             }

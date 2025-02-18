@@ -62,7 +62,8 @@ class ProfileBadgeMoreFragment : Fragment(), OnBadgeMoreClickListener {
                         Badge(
                             name = badge.name,
                             icon = ValidUtils.getDrawableResId(requireContext(), badge.icon),
-                            isObtained = badge.isObtained
+                            isObtained = badge.isObtained,
+                            id = badge.badgeId
                         )
                     } ?: emptyList()
             )
@@ -74,7 +75,8 @@ class ProfileBadgeMoreFragment : Fragment(), OnBadgeMoreClickListener {
                         Badge(
                             name = badge.name,
                             icon = ValidUtils.getDrawableResId(requireContext(), badge.icon),
-                            isObtained = badge.isObtained
+                            isObtained = badge.isObtained,
+                            id = badge.badgeId
                         )
                     } ?: emptyList()
             )
@@ -126,6 +128,7 @@ class ProfileBadgeMoreFragment : Fragment(), OnBadgeMoreClickListener {
 
         val intent = Intent(requireContext(), MyBadgeDetailActivity::class.java).apply {
             putExtra("badgeJson", badgeJson)
+            putExtra("badgeId", badge.id)
         }
         startActivity(intent)
 

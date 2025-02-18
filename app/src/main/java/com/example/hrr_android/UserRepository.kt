@@ -122,7 +122,7 @@ class UserRepository @Inject constructor(
     }
 
     // 뱃지 조건 상세 조회
-    suspend fun getBadgeCondition(badgeId: Int): Result<BadgeConditionResponse>{
+    suspend fun getBadgeCondition(badgeId: Int): Result<List<BadgeCondition>>{
         return handleResponse { userService.getBadgeCondition(badgeId) }
     }
 
