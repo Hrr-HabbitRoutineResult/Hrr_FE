@@ -7,14 +7,20 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.activityViewModels
 import com.example.hrr_android.R
+import com.example.hrr_android.access.AuthViewModel
 import com.example.hrr_android.access.ValidUtils
 import com.example.hrr_android.databinding.FragmentVerificationBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class VerificationFragment : Fragment() {
 
     private var _binding: FragmentVerificationBinding? = null
     private val binding get() = _binding!!
+
+    private val authViewModel: AuthViewModel by activityViewModels() // 뷰 모델 초기화
 
     // 유효성 상태 변수 선언
     private var isEmailValid = false
@@ -38,6 +44,22 @@ class VerificationFragment : Fragment() {
         setupVerificationProcess()
         setupNextButton()
         updateNextButtonState() // 초기 상태 설정
+
+        // 이메일 인증 API 호출 결과를 관찰하는 코드
+        authViewModel.isVerified.observe(viewLifecycleOwner) { isVerified ->
+            when (isVerified) {
+                true -> {
+                    ValidUtils.hideKeyboard(requireContext(), requireView())
+                    ValidUtils.showSnackbar(requireView(), "인증 코드가 전송 되었습니다.", binding.lineVerification)
+                    validateAndProceed() // 상태 업데이트
+                }
+                false -> {
+                    ValidUtils.hideKeyboard(requireContext(), requireView())
+                    ValidUtils.showSnackbar(requireView(), "인증 코드를 전송하지 못했습니다.", binding.lineVerification)
+                }
+                else -> {} // null이면 아무것도 안 함 (초기 상태)
+            }
+        }
     }
 
     private fun initializeViews() {
@@ -73,8 +95,13 @@ class VerificationFragment : Fragment() {
     }
 
     private fun handleEmailSend() {
-        // 이메일 전송 처리
+        val email = binding.etVerificationEmail.text.toString()
         if (isEmailValid) {
+            // 네트워크 요청 전에 기존 인증 상태 초기화
+            authViewModel.setIsVerified(null)
+            // 이메일 인증 코드를 서버로 요청 (InfoInputFragment와 동일한 API 호출)
+            authViewModel.sendVerificationCode(email)
+
             isEmailSent = true
             binding.etVerificationEmail.isEnabled = false
             binding.etVerificationEmail.setTextColor(ValidUtils.getTextColorDefault(requireContext()))
@@ -86,25 +113,38 @@ class VerificationFragment : Fragment() {
             binding.btnVerification.background = ValidUtils.getButtonActiveBackground(requireContext())
             binding.tvVerification.setTextColor(ValidUtils.getTextColorError(requireContext()))
             ValidUtils.hideKeyboard(requireContext(), requireView())
-            ValidUtils.showSnackbar(requireView(), "인증 코드가 전송 되었습니다.", binding.lineVerification)
         }
     }
 
     private fun handleVerification() {
-        // 인증 코드 검증 처리
+        val email = binding.etVerificationEmail.text.toString()
         val verificationCode = binding.etVerification.text.toString()
+
         ValidUtils.hideKeyboard(requireContext(), requireView())
-        if (isEmailSent && verificationCode == "0202") { // 인증 코드 "0202"로 확인
-            isVerificationValid = true
-            binding.etVerification.isEnabled = false
-            binding.etVerification.setTextColor(ValidUtils.getTextColorDefault(requireContext()))
-            binding.btnVerification.isEnabled = false
-            binding.btnVerification.background = ValidUtils.getButtonInactiveBackground(requireContext())
-            binding.tvVerification.setTextColor(ValidUtils.getTextColorDefault(requireContext()))
-            ValidUtils.showSnackbar(requireView(), "이메일 인증이 완료 되었습니다.", binding.lineVerification)
-            updateNextButtonState() // 인증 완료 시 버튼 상태 업데이트
-        } else {
-            ValidUtils.showSnackbar(requireView(), "올바른 인증 코드를 입력해 주세요.", binding.lineVerification)
+
+        if (isEmailSent) {
+            // 이메일 인증 코드 확인 요청
+            authViewModel.confirmVerificationCode(email, verificationCode)
+
+            // ViewModel의 응답에 따라 UI 업데이트
+            authViewModel.verifiedUserId.observe(viewLifecycleOwner) { userId ->
+                if (userId != null) {  // ID가 존재하면 인증 성공
+                    isVerificationValid = true
+                    binding.etVerification.isEnabled = false
+                    binding.etVerification.setTextColor(ValidUtils.getTextColorDefault(requireContext()))
+
+                    binding.btnVerification.isEnabled = false
+                    binding.btnVerification.background = ValidUtils.getButtonInactiveBackground(requireContext())
+                    binding.tvVerification.setTextColor(ValidUtils.getTextColorDefault(requireContext()))
+
+                    ValidUtils.showSnackbar(requireView(), "이메일 인증이 완료되었습니다.", binding.lineVerification)
+                    // 인증 완료 시 다음 버튼 활성화
+                    updateNextButtonState()
+                } else {
+                    ValidUtils.hideKeyboard(requireContext(), requireView())
+                    ValidUtils.showSnackbar(requireView(), "올바른 인증 코드를 입력해 주세요.", binding.lineVerification)
+                }
+            }
         }
     }
 
@@ -120,14 +160,18 @@ class VerificationFragment : Fragment() {
     }
 
     private fun updateNextButtonState() {
-        val isEnabled = isVerificationValid
-
+        // isVerificationValid가 true이면 다음 버튼 활성화
         ValidUtils.updateButtonState(
             binding.btnVerificationNext,
             binding.tvVerificationNext,
             binding.ivVerificationNext,
-            isEnabled
+            isVerificationValid
         )
+    }
+
+    // 인증이 완료되었을 때 추가적인 처리가 필요하면 이 함수에서 처리 (여기서는 단순히 다음 버튼 상태 업데이트)
+    private fun validateAndProceed() {
+        updateNextButtonState()
     }
 
     private fun loadNextFragment(fragment: Fragment) {
