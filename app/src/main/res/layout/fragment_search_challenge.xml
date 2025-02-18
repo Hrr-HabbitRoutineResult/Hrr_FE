@@ -3,10 +3,14 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
     <include layout="@layout/layout_challenge_search_header"
-        android:id="@+id/layout_challenge_search_header"/>
+        android:id="@+id/layout_challenge_search_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <!-- 챌린지 검색할 때 -->
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -26,7 +30,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="101dp"/>
+            android:layout_marginTop="137dp"/>
 
         <TextView
             android:id="@+id/tv_challenge_search"
@@ -62,9 +66,10 @@
                 android:text="챌린지 개설하기"
                 android:textColor="@color/white"
                 android:textSize="13sp"
+                android:gravity="center"
                 android:fontFamily="@font/noto_sans_kr_semi_bold"
                 android:layout_gravity="center"
-                android:layout_marginBottom="5.5dp"/>
+                android:includeFontPadding="false"/>
         </FrameLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -101,7 +106,7 @@
         android:id="@+id/cl_search_challenge_x"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="234dp"
+        android:layout_marginTop="324dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:visibility="gone">
@@ -110,7 +115,7 @@
             android:id="@+id/iv_search_challenge_x"
             android:layout_width="103dp"
             android:layout_height="130dp"
-            android:src="@drawable/ic_challenge_search_info_x"
+            android:src="@drawable/img_character_grey"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />

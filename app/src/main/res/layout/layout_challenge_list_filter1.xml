@@ -1,20 +1,16 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/white">
 
-    <!-- 필터 버튼들 -->
     <HorizontalScrollView
         android:id="@+id/filterScrollView"
         android:layout_width="match_parent"
         android:layout_height="62dp"
         android:overScrollMode="never"
-        android:scrollbars="none"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -25,130 +21,107 @@
             android:paddingEnd="18dp">
 
             <!-- 전체 버튼 -->
-            <FrameLayout
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_filter_all"
                 android:layout_width="54dp"
                 android:layout_height="28dp"
                 android:layout_marginEnd="10dp"
-                android:background="@drawable/btn_challenge_filter"
-                android:clickable="true"
-                android:focusable="true">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:font="@font/noto_sans_kr_medium"
-                    android:gravity="center"
-                    android:text="전체"
-                    android:textColor="@color/text_tertiary"
-                    android:textSize="13sp" />
-            </FrameLayout>
+                android:background="@drawable/btn_challenge_filter2"
+                android:text="전체"
+                android:textColor="@drawable/btn_onboarding_text"
+                android:textSize="13sp"
+                android:fontFamily="@font/noto_sans_kr_medium"
+                android:includeFontPadding="false"
+                android:gravity="center" />
 
             <!-- 카테고리 버튼 -->
-            <FrameLayout
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_filter_category"
                 android:layout_width="77dp"
                 android:layout_height="28dp"
+                android:minWidth="54dp"
                 android:layout_marginEnd="10dp"
-                android:background="@drawable/btn_challenge_filter"
-                android:clickable="true"
-                android:focusable="true">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:font="@font/noto_sans_kr_medium"
-                    android:gravity="center"
-                    android:text="카테고리"
-                    android:textColor="@color/text_tertiary"
-                    android:textSize="13sp" />
-            </FrameLayout>
+                android:background="@drawable/btn_challenge_filter2"
+                android:text="카테고리"
+                android:textColor="@drawable/btn_onboarding_text"
+                android:textSize="13sp"
+                android:fontFamily="@font/noto_sans_kr_medium"
+                android:includeFontPadding="false"
+                android:gravity="center"/>
 
             <!-- 유형 버튼 -->
-            <FrameLayout
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_filter_type"
                 android:layout_width="54dp"
                 android:layout_height="28dp"
+                android:minWidth="54dp"
                 android:layout_marginEnd="10dp"
-                android:background="@drawable/btn_challenge_filter"
-                android:clickable="true"
-                android:focusable="true">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:font="@font/noto_sans_kr_medium"
-                    android:gravity="center"
-                    android:text="유형"
-                    android:textColor="@color/text_tertiary"
-                    android:textSize="13sp" />
-            </FrameLayout>
+                android:background="@drawable/btn_challenge_filter2"
+                android:text="유형"
+                android:textColor="@drawable/btn_onboarding_text"
+                android:textSize="13sp"
+                android:fontFamily="@font/noto_sans_kr_medium"
+                android:includeFontPadding="false"
+                android:gravity="center"/>
 
             <!-- 기간 버튼 -->
-            <FrameLayout
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_filter_duration"
                 android:layout_width="54dp"
                 android:layout_height="28dp"
+                android:minWidth="54dp"
                 android:layout_marginEnd="10dp"
-                android:background="@drawable/btn_challenge_filter"
-                android:clickable="true"
-                android:focusable="true">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:font="@font/noto_sans_kr_medium"
-                    android:gravity="center"
-                    android:text="기간"
-                    android:textColor="@color/text_tertiary"
-                    android:textSize="13sp" />
-            </FrameLayout>
+                android:background="@drawable/btn_challenge_filter2"
+                android:text="기간"
+                android:textColor="@drawable/btn_onboarding_text"
+                android:textSize="13sp"
+                android:fontFamily="@font/noto_sans_kr_medium"
+                android:includeFontPadding="false"
+                android:gravity="center"/>
 
             <!-- 빈도 버튼 -->
-            <FrameLayout
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_filter_frequency"
                 android:layout_width="54dp"
                 android:layout_height="28dp"
+                android:minWidth="54dp"
                 android:layout_marginEnd="10dp"
-                android:background="@drawable/btn_challenge_filter"
-                android:clickable="true"
-                android:focusable="true">
+                android:background="@drawable/btn_challenge_filter2"
+                android:text="빈도"
+                android:textColor="@drawable/btn_onboarding_text"
+                android:textSize="13sp"
+                android:fontFamily="@font/noto_sans_kr_medium"
+                android:includeFontPadding="false"
+                android:gravity="center"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:font="@font/noto_sans_kr_medium"
-                    android:gravity="center"
-                    android:text="빈도"
-                    android:textColor="@color/text_tertiary"
-                    android:textSize="13sp" />
-            </FrameLayout>
+            <!-- 요일 버튼 -->
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_filter_day"
+                android:layout_width="54dp"
+                android:layout_height="28dp"
+                android:minWidth="54dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/btn_challenge_filter2"
+                android:text="요일"
+                android:textColor="@drawable/btn_onboarding_text"
+                android:textSize="13sp"
+                android:fontFamily="@font/noto_sans_kr_medium"
+                android:includeFontPadding="false"
+                android:gravity="center"/>
 
             <!-- 인원 버튼 -->
-            <FrameLayout
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_filter_max_people"
                 android:layout_width="54dp"
                 android:layout_height="28dp"
-                android:layout_marginEnd="10dp"
-                android:background="@drawable/btn_challenge_filter"
-                android:clickable="true"
-                android:focusable="true">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:font="@font/noto_sans_kr_medium"
-                    android:gravity="center"
-                    android:text="인원"
-                    android:textColor="@color/text_tertiary"
-                    android:textSize="13sp" />
-            </FrameLayout>
+                android:minWidth="54dp"
+                android:background="@drawable/btn_onboarding"
+                android:text="인원"
+                android:textColor="@drawable/btn_onboarding_text"
+                android:textSize="13sp"
+                android:fontFamily="@font/noto_sans_kr_medium"
+                android:includeFontPadding="false"
+                android:gravity="center"/>
         </LinearLayout>
     </HorizontalScrollView>
 </LinearLayout>
