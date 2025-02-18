@@ -81,4 +81,10 @@ interface UserService {
     @GET("/api/v1/users/badges/lately")
     suspend fun getRecentBadge(): Response<ApiResponse<RecentBadge>>
 
+    // 뱃지 조건 상세 조회
+    @GET("/api/v1/users/badges/{badgeId}/conditions")
+    suspend fun getBadgeCondition(
+        @Body badgeId: Int)
+    : Response<ApiResponse<BadgeConditionResponse>>
+
 }

@@ -120,4 +120,10 @@ class UserRepository @Inject constructor(
     suspend fun getRecentBadge(): Result<RecentBadge>{
         return handleResponse { userService.getRecentBadge() }
     }
+
+    // 뱃지 조건 상세 조회
+    suspend fun getBadgeCondition(badgeId: Int): Result<BadgeConditionResponse>{
+        return handleResponse { userService.getBadgeCondition(badgeId) }
+    }
+
 }
