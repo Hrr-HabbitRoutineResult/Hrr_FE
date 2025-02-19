@@ -1,5 +1,6 @@
 package com.example.hrr_android.access.ui.fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -8,12 +9,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import com.example.hrr_android.ProfileUpdateRequest
 import com.example.hrr_android.UserViewModel
 import com.example.hrr_android.access.AuthViewModel
 import com.example.hrr_android.access.ValidUtils
 import com.example.hrr_android.access.ui.SignUpActivity
 import com.example.hrr_android.databinding.FragmentNicknameBinding
+import kotlinx.coroutines.launch
 
 class NicknameFragment : Fragment() {
 
@@ -47,14 +50,30 @@ class NicknameFragment : Fragment() {
 
         // 다음 버튼 클릭 시 CompleteFragment로 이동
         binding.btnNicknameNext.setOnClickListener {
-            (activity as? SignUpActivity)?.changeFragment(CompleteFragment())
-
             val profileToUpdate = ProfileUpdateRequest(
                 name = binding.etNickname.text.toString(),
                 profilePhoto = "",
                 badges = listOf(null, null, null)
             )
-            userViewModel.updateProfile(profileToUpdate)
+
+            // suspend 함수 호출은 코루틴 내에서 처리
+            lifecycleScope.launch {
+                try {
+                    userViewModel.updateProfile(profileToUpdate)
+                    // API 호출 성공 시 플래그 저장
+                    val prefs = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+                    prefs.edit().putBoolean("isProfileUpdated", true).apply()
+
+                    (activity as? SignUpActivity)?.changeFragment(CompleteFragment())
+                } catch (e: Exception) {
+                    // API 호출 실패 시 에러 처리
+                    ValidUtils.showSnackbar(
+                        requireView(),
+                        "닉네임 설정에 실패하였습니다.",
+                        binding.lineInfoInput
+                    )
+                }
+            }
         }
     }
 
