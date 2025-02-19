@@ -66,6 +66,7 @@ class ChallengeListFragment : Fragment() {
 
         makeChallengeButtonClick()
         setupCheckboxListener()
+        setupFilterClickListener()
 
         filter1Binding.btnFilterAll.isSelected = true
 
@@ -114,6 +115,21 @@ class ChallengeListFragment : Fragment() {
         challengeAdapter.updateList(filteredList)
     }
 
+    private fun setupFilterClickListener() {
+        filter1Binding.btnFilterAll.setOnClickListener { showFilterDialog() }
+        filter1Binding.btnFilterCategory.setOnClickListener { showFilterDialog() }
+        filter1Binding.btnFilterType.setOnClickListener { showFilterDialog() }
+        filter1Binding.btnFilterDuration.setOnClickListener { showFilterDialog() }
+        filter1Binding.btnFilterFrequency.setOnClickListener { showFilterDialog() }
+        filter1Binding.btnFilterDay.setOnClickListener { showFilterDialog() }
+        filter1Binding.btnFilterMaxPeople.setOnClickListener { showFilterDialog() }
+    }
+
+    private fun showFilterDialog() {
+        val filterDialog = FilterDialog()
+        filterDialog.show(parentFragmentManager, "FilterDialog")
+    }
+
     private fun applyFilter(
         category: String, type: String, duration: String, frequency: String, week: String, people: String
     ) {
@@ -159,12 +175,6 @@ class ChallengeListFragment : Fragment() {
 
     private fun dpToPx(dp: Double): Int {
         return (dp * resources.displayMetrics.density).toInt()
-    }
-
-    private fun requestFilteredChallengeList(
-        category: String, type: String, duration: String, frequency: String, week: String, people: String
-    ) {
-        Log.d("API", "필터 적용: $category, $type, $duration, $frequency, $week, $people")
     }
 
     private fun getChallengeList(): List<ChallengeItem> {

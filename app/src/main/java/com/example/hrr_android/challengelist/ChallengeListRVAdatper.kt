@@ -77,37 +77,6 @@ class ChallengeListRVAdapter(private var challengeList: List<ChallengeItem> = li
                 binding.ivChallengeCamera.setColorFilter(greyColor)
                 binding.icChallengePerson.setColorFilter(greyColor)
             }
-
-            // ✅ 체크박스 선택 시 상태 업데이트
-            binding.checkbox.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked) {
-                    // 선택된 아이템이 currentPeople != maxPeople이면 원래 색상으로 복원
-                    if (challenge.currentPeople != challenge.maxPeople) {
-                        binding.tvChallengeTitle.setTextColor(defaultColor)
-                        binding.tvChallengeDescribe.setTextColor(defaultColor)
-                        binding.tvChallengeCycle.setTextColor(defaultColor)
-                        binding.tvChallengePeople.setTextColor(defaultColor)
-
-                        binding.icChallengeStudy.setImageResource(R.drawable.ic_challenge_study)
-                        binding.ivChallengeWrite.clearColorFilter()
-                        binding.ivChallengeCamera.clearColorFilter()
-                        binding.icChallengePerson.clearColorFilter()
-                    }
-                } else {
-                    // 체크 해제 시 다시 currentPeople 확인 후 색상 적용
-                    if (challenge.currentPeople == challenge.maxPeople) {
-                        binding.tvChallengeTitle.setTextColor(greyColor)
-                        binding.tvChallengeDescribe.setTextColor(greyColor)
-                        binding.tvChallengeCycle.setTextColor(greyColor)
-                        binding.tvChallengePeople.setTextColor(greyColor)
-
-                        binding.icChallengeStudy.setImageResource(R.drawable.ic_challenge_study_grey)
-                        binding.ivChallengeWrite.setColorFilter(greyColor)
-                        binding.ivChallengeCamera.setColorFilter(greyColor)
-                        binding.icChallengePerson.setColorFilter(greyColor)
-                    }
-                }
-            }
         }
     }
 
