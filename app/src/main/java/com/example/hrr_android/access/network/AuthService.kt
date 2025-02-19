@@ -11,6 +11,8 @@ import com.example.hrr_android.access.model.LoginRequest
 import com.example.hrr_android.access.model.LoginResponse
 import com.example.hrr_android.access.model.NicknameCheckRequest
 import com.example.hrr_android.access.model.NicknameCheckResponse
+import com.example.hrr_android.access.model.PasswordCheckRequest
+import com.example.hrr_android.access.model.PasswordCheckResponse
 import com.example.hrr_android.access.model.RegisterRequest
 import com.example.hrr_android.access.model.RegisterResponse
 import com.example.hrr_android.access.model.TokenRequest
@@ -63,4 +65,10 @@ interface AuthService {
     suspend fun refreshToken(
         @Body request: TokenRequest
     ): Response<ApiResponse<TokenResponse>>
+
+    // 현 비밀번호 확인 API
+    @POST("/api/v1/auth/password/check")
+    suspend fun passwordCheck(
+        @Body request: PasswordCheckRequest
+    ): Response<ApiResponse<PasswordCheckResponse>>
 }
