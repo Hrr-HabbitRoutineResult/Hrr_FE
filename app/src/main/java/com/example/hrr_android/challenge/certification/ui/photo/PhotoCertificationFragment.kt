@@ -9,9 +9,11 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.Matrix
 import android.graphics.Paint
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
+import android.media.ExifInterface
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -269,20 +271,63 @@ class PhotoCertificationFragment : BaseCertificationFragment<FragmentPhotoCertif
         return resultBitmap
     }
 
+    // 이미지 회전 처리를 위한 함수 추가
+    private fun getRotatedBitmap(uri: Uri): Bitmap {
+        // contentResolver를 통해 이미지 파일의 입력 스트림 열기
+        val input = requireContext().contentResolver.openInputStream(uri)
+        // EXIF 메타데이터 읽기
+        val exif = ExifInterface(input!!)
+
+        // 원본 비트맵 가져오기
+        val bitmap = MediaStore.Images.Media.getBitmap(requireContext().contentResolver, uri)
+
+        // EXIF 데이터에서 방향 정보 추출
+        val orientation = exif.getAttributeInt(
+            ExifInterface.TAG_ORIENTATION,
+            ExifInterface.ORIENTATION_NORMAL
+        )
+
+        // Matrix 객체를 사용하여 이미지 회전 변환 수행
+        val matrix = Matrix()
+        when (orientation) {
+            ExifInterface.ORIENTATION_ROTATE_90 -> matrix.postRotate(90f)
+            ExifInterface.ORIENTATION_ROTATE_180 -> matrix.postRotate(180f)
+            ExifInterface.ORIENTATION_ROTATE_270 -> matrix.postRotate(270f)
+        }
+
+        input.close()
+
+        // 원본 비트맵을 matrix 변환을 적용하여 새로운 비트맵 생성
+        return Bitmap.createBitmap(
+            bitmap,
+            0,
+            0,
+            bitmap.width,
+            bitmap.height,
+            matrix,
+            true
+        )
+    }
+
     // 촬영한 사진 결과 처리
     private val cameraLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             imageUri?.let { uri ->
-                // 저장된 이미지를 비트맵으로 가져오기
-                val bitmap = MediaStore.Images.Media.getBitmap(requireContext().contentResolver, uri)
-                // 비트맵에 타임스탬프 추가
-                val timestampedBitmap = addTimestampToBitmap(bitmap)
-                // 이미지를 프리뷰에 표시
-                binding.ivPhotoPreview.setImageBitmap(timestampedBitmap)
+                try {
+                    // 회전된 비트맵 가져오기
+                    val rotatedBitmap = getRotatedBitmap(uri)
+                    // 타임스탬프 추가
+                    val timestampedBitmap = addTimestampToBitmap(rotatedBitmap)
+                    // 이미지를 프리뷰에 표시
+                    binding.ivPhotoPreview.setImageBitmap(timestampedBitmap)
 
-                hasPhoto = true
-                showPreviewMode()
-                updateCompleteButton()
+                    hasPhoto = true
+                    showPreviewMode()
+                    updateCompleteButton()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    showCustomSnackbar(binding.root, "이미지 처리 중 오류가 발생했습니다.")
+                }
             }
         }
     }
