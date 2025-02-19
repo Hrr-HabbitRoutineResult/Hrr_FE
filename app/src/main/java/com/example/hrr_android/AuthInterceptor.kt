@@ -21,7 +21,7 @@ class AuthInterceptor @Inject constructor(
 
         // Authorization이 필요 없는 api 경로들
         val excludedPatterns = listOf(  // 공통 경로로 묶을 수 있는 경우
-            Regex("^/api/v1/auth/.*"),   // 로그인 관련
+            // Regex("^/api/v1/auth/.*"),   // 로그인 관련
             Regex("^/api/v1/posts/hotness$"),      // 전체 인기글
             Regex("^/api/v1/posts$"),              // 게시판 리스트 불러오기
             Regex("^/api/v1/posts/\\d+$"),         // 게시글 불러오기
@@ -31,6 +31,7 @@ class AuthInterceptor @Inject constructor(
         // Todo: 개별 경로 생기면 추가하고 아래 코드 주석 해제하기
 /*        val excludedEndpoints = setOf(  // 그 외 개별 경로
             "/api/v1/users/{userId}"
+
         )
 
         // 권한 헤더가 필요 없는 api 경로를 제외하고 자동으로 헤더 추가

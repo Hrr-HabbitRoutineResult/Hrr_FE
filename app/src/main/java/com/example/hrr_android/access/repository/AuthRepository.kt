@@ -16,6 +16,10 @@ import com.example.hrr_android.access.model.LoginRequest
 import com.example.hrr_android.access.model.LoginResponse
 import com.example.hrr_android.access.model.NicknameCheckRequest
 import com.example.hrr_android.access.model.NicknameCheckResponse
+import com.example.hrr_android.access.model.PasswordCheckRequest
+import com.example.hrr_android.access.model.PasswordCheckResponse
+import com.example.hrr_android.access.model.PasswordNewRequest
+import com.example.hrr_android.access.model.PasswordNewResponse
 import com.example.hrr_android.access.model.RegisterRequest
 import com.example.hrr_android.access.model.RegisterResponse
 import com.example.hrr_android.access.model.TokenRequest
@@ -196,6 +200,48 @@ class AuthRepository @Inject constructor(
         } catch (e: Exception) {
             Log.e("AuthRepository", "토큰 갱신 중 예외 발생: ${e.message}")
             null
+        }
+    }
+
+    // 현 비밀번호 확인 요청
+    suspend fun passwordCheck(password: String): Result<PasswordCheckResponse> {
+        return try {
+            val response = authService.passwordCheck(PasswordCheckRequest(password))
+
+            if (response.isSuccessful) {
+                val apiResponse = response.body()
+                if (apiResponse != null && apiResponse.error == null && apiResponse.success != null) {
+                    Result.success(apiResponse.success) // 성공 응답 반환
+                } else {
+                    Result.failure(Exception("비밀번호 확인 실패: ${apiResponse?.error ?: "알 수 없는 오류"}"))
+                }
+            } else {
+                val errorBody = response.errorBody()?.string() ?: "Unknown error"
+                Result.failure(Exception("비밀번호 확인 실패: $errorBody"))
+            }
+        } catch (e: Exception) {
+            Result.failure(Exception("네트워크 오류: ${e.message}"))
+        }
+    }
+
+    // 비밀번호 재설정 요청
+    suspend fun passwordNew(password: String): Result<PasswordNewResponse> {
+        return try {
+            val response = authService.passwordNew(PasswordNewRequest(password))
+
+            if (response.isSuccessful) {
+                val apiResponse = response.body()
+                if (apiResponse != null && apiResponse.error == null && apiResponse.success != null) {
+                    Result.success(apiResponse.success) // 성공 응답 반환
+                } else {
+                    Result.failure(Exception("비밀번호 재설정 실패: ${apiResponse?.error ?: "알 수 없는 오류"}"))
+                }
+            } else {
+                val errorBody = response.errorBody()?.string() ?: "Unknown error"
+                Result.failure(Exception("비밀번호 재설정 실패: $errorBody"))
+            }
+        } catch (e: Exception) {
+            Result.failure(Exception("네트워크 오류: ${e.message}"))
         }
     }
 

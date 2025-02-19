@@ -11,6 +11,10 @@ import com.example.hrr_android.access.model.LoginRequest
 import com.example.hrr_android.access.model.LoginResponse
 import com.example.hrr_android.access.model.NicknameCheckRequest
 import com.example.hrr_android.access.model.NicknameCheckResponse
+import com.example.hrr_android.access.model.PasswordCheckRequest
+import com.example.hrr_android.access.model.PasswordCheckResponse
+import com.example.hrr_android.access.model.PasswordNewRequest
+import com.example.hrr_android.access.model.PasswordNewResponse
 import com.example.hrr_android.access.model.RegisterRequest
 import com.example.hrr_android.access.model.RegisterResponse
 import com.example.hrr_android.access.model.TokenRequest
@@ -18,6 +22,7 @@ import com.example.hrr_android.access.model.TokenResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.Headers
+import retrofit2.http.PATCH
 import retrofit2.http.POST
 
 interface AuthService {
@@ -63,4 +68,16 @@ interface AuthService {
     suspend fun refreshToken(
         @Body request: TokenRequest
     ): Response<ApiResponse<TokenResponse>>
+
+    // 현 비밀번호 확인 API
+    @POST("/api/v1/auth/password/check")
+    suspend fun passwordCheck(
+        @Body request: PasswordCheckRequest
+    ): Response<ApiResponse<PasswordCheckResponse>>
+
+    // 현 비밀번호 확인 API
+    @PATCH("/api/v1/auth/password")
+    suspend fun passwordNew(
+        @Body request: PasswordNewRequest
+    ): Response<ApiResponse<PasswordNewResponse>>
 }
