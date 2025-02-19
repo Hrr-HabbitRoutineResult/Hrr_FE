@@ -237,10 +237,11 @@
             android:layout_marginBottom="50dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_home_popular_post"/>
+            app:layout_constraintTop_toBottomOf="@+id/tv_home_popular_post"
+            android:visibility="gone"/>
 
         <!-- 인기글 섹션 -->
-        <FrameLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_home_popular_post"
             android:layout_width="match_parent"
             android:layout_height="200dp"
@@ -250,35 +251,46 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_home_popular_post"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <ImageView
                 android:id="@+id/bg_home_hot_post_none"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/bg_square_grey_filled_15" />
+                android:src="@drawable/bg_square_grey_filled_15"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
             <ImageView
                 android:id="@+id/iv_home_hot_post_none"
                 android:layout_width="wrap_content"
                 android:layout_height="80dp"
-                android:layout_marginBottom="16dp"
-                android:layout_gravity="center"
-                android:src="@drawable/img_character_grey" />
+                android:src="@drawable/img_character_grey"
+                android:layout_marginBottom="45dp"
+                app:layout_constraintBottom_toBottomOf="@+id/bg_home_hot_post_none"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/bg_home_hot_post_none" />
 
             <TextView
                 android:id="@+id/tv_home_hot_post_none"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="60dp"
-                android:text="고정된 게시판이 없어요"
+                android:text="이 기능은 향후 업데이트에서 추가될 예정입니다.\n보다 나은 서비스를 위해 준비 중이니, 조금만 기다려주세요!"
                 android:textColor="@color/text_tertiary"
                 android:textSize="13sp"
-                android:fontFamily="@font/noto_sans_kr_medium"
-                android:layout_gravity="center"
-                android:layout_marginBottom="16dp" />
-        </FrameLayout>
+                android:fontFamily="@font/noto_sans_kr_regular"
+                android:textAlignment="center"
+                android:includeFontPadding="false"
+                android:layout_marginTop="10dp"
+                app:layout_constraintTop_toBottomOf="@id/iv_home_hot_post_none"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

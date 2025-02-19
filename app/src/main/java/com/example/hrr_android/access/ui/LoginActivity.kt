@@ -81,11 +81,6 @@ class LoginActivity : AppCompatActivity() {
             attemptKakaoLogin()
         }
 
-        // 네이버 로고 클릭 시
-        binding.ivLoginNaver.setOnClickListener {
-            navigateToPasswordActivity(PasswordNavigator.RESET)
-        }
-
         // 카카오 로그인 결과 관찰
         authViewModel.kakaoLoginResult.observe(this) { result ->
             result.onSuccess {

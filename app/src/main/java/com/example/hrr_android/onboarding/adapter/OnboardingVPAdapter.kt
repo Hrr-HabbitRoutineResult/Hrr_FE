@@ -3,22 +3,41 @@ package com.example.hrr_android.onboarding.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.hrr_android.Challenge
+import com.bumptech.glide.Glide
+import com.example.hrr_android.OnChallengeClickListener
 import com.example.hrr_android.databinding.ItemChallengeOnboardingBinding
+import com.example.hrr_android.onboarding.model.OnboardingSuccess
 
-class OnboardingVPAdapter(private val items: List<Challenge>) :
-    RecyclerView.Adapter<OnboardingVPAdapter.ChallengeViewHolder>() {
+class OnboardingVPAdapter(
+    private val items: List<OnboardingSuccess>,
+    private val itemClickListener: OnChallengeClickListener
+) : RecyclerView.Adapter<OnboardingVPAdapter.ChallengeViewHolder>() {
 
     // 커스텀 ViewHolder 클래스
-    class ChallengeViewHolder(private val binding: ItemChallengeOnboardingBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    class ChallengeViewHolder(
+        private val binding: ItemChallengeOnboardingBinding,
+        private val itemClickListener: OnChallengeClickListener
+    ) : RecyclerView.ViewHolder(binding.root) {
 
         // 데이터 바인딩
-        fun bind(item: Challenge) {
+        fun bind(item: OnboardingSuccess) {
             binding.apply {
-                tvChallengeOnboardingTitle.text = item.title  // 제목 설정
-                ivChallengeOnboardingCover.setImageResource(item.coverimg)  // 커버 이미지 설정
+                tvChallengeOnboardingTitle.text = item.name  // 제목 설정
                 tvChallengeOnboardingDescription.text = item.description  // 챌린지 소개 설정
+                tvChallengeOnboardingType.text = when (item.type) {
+                "basic" -> "베이직"
+                "study" -> "스터디"
+                else -> "기타"
+            }
+
+                // Glide를 사용하여 이미지 로드
+                Glide.with(ivChallengeOnboardingCover.context)
+                    .load(item.challengeImage)  // 이미지 URL
+                    .into(ivChallengeOnboardingCover)
+
+                root.setOnClickListener {
+                    itemClickListener.onItemClick(item.challengeId)
+                }
             }
         }
     }
@@ -30,7 +49,7 @@ class OnboardingVPAdapter(private val items: List<Challenge>) :
             parent,
             false
         )
-        return ChallengeViewHolder(binding)
+        return ChallengeViewHolder(binding, itemClickListener)
     }
 
     // ViewHolder에 데이터 바인딩
@@ -38,6 +57,6 @@ class OnboardingVPAdapter(private val items: List<Challenge>) :
         holder.bind(items[position])
     }
 
-    // 아이템 개수 반환
-    override fun getItemCount(): Int = items.size
+    // 아이템 개수 반환 (최대 3개 제한)
+    override fun getItemCount(): Int = items.size.coerceAtMost(3)
 }
