@@ -58,10 +58,9 @@ interface AuthService {
 
     // 카카오 로그인 API
     @POST("api/v1/auth/login/kakao")
-    @Headers("Content-Type: application/json")
     suspend fun loginWithKakao(
         @Body request: KakaoLoginRequest
-    ): Response<KakaoLoginResponse>
+    ): Response<ApiResponse<KakaoLoginResponse>>
 
     // 토큰 갱신 API
     @POST("api/v1/auth/token")
