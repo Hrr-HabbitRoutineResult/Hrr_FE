@@ -20,6 +20,8 @@ import com.example.hrr_android.access.model.PasswordCheckRequest
 import com.example.hrr_android.access.model.PasswordCheckResponse
 import com.example.hrr_android.access.model.PasswordNewRequest
 import com.example.hrr_android.access.model.PasswordNewResponse
+import com.example.hrr_android.access.model.PasswordResetRequest
+import com.example.hrr_android.access.model.PasswordResetResponse
 import com.example.hrr_android.access.model.RegisterRequest
 import com.example.hrr_android.access.model.RegisterResponse
 import com.example.hrr_android.access.model.TokenRequest
@@ -239,6 +241,27 @@ class AuthRepository @Inject constructor(
             } else {
                 val errorBody = response.errorBody()?.string() ?: "Unknown error"
                 Result.failure(Exception("비밀번호 재설정 실패: $errorBody"))
+            }
+        } catch (e: Exception) {
+            Result.failure(Exception("네트워크 오류: ${e.message}"))
+        }
+    }
+
+    // 임시 비밀번호 요청
+    suspend fun passwordReset(email: String): Result<PasswordResetResponse> {
+        return try {
+            val response = authService.passwordReset(PasswordResetRequest(email))
+
+            if (response.isSuccessful) {
+                val apiResponse = response.body()
+                if (apiResponse != null && apiResponse.error == null && apiResponse.success != null) {
+                    Result.success(apiResponse.success) // 성공 응답 반환
+                } else {
+                    Result.failure(Exception("임시 비밀번호 발급 실패: ${apiResponse?.error ?: "알 수 없는 오류"}"))
+                }
+            } else {
+                val errorBody = response.errorBody()?.string() ?: "Unknown error"
+                Result.failure(Exception("임시 비밀번호 발급 실패: $errorBody"))
             }
         } catch (e: Exception) {
             Result.failure(Exception("네트워크 오류: ${e.message}"))
