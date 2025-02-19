@@ -56,7 +56,9 @@ class VerificationFragment : Fragment() {
                 updateNextButtonState()
             }.onFailure {
                 ValidUtils.hideKeyboard(requireContext(), requireView())
-                ValidUtils.showSnackbar(requireView(), "비밀번호를 재설정할 수 없습니다.", binding.lineVerification)
+                ValidUtils.showSnackbar(requireView(), "존재하지 않는 이메일입니다.", binding.lineVerification)
+                binding.etVerificationEmail.isEnabled = true
+                binding.etVerificationEmail.setTextColor(ValidUtils.getTextColorActive(requireContext()))
             }
         }
 
