@@ -11,6 +11,7 @@ import com.example.hrr_android.access.model.NicknameCheckRequest
 import com.example.hrr_android.access.model.NicknameCheckResponse
 import com.example.hrr_android.access.model.PasswordCheckResponse
 import com.example.hrr_android.access.model.PasswordNewResponse
+import com.example.hrr_android.access.model.PasswordResetResponse
 import com.example.hrr_android.access.model.RegisterRequest
 import com.example.hrr_android.access.model.RegisterResponse
 import com.example.hrr_android.access.model.TokenResponse
@@ -64,6 +65,10 @@ class AuthViewModel @Inject constructor(
     // 현 비밀번호 확인 결과 LiveData
     private val _passwordNewResult = MutableLiveData<Result<PasswordNewResponse>>()
     val passwordNewResult: LiveData<Result<PasswordNewResponse>> = _passwordNewResult
+
+    // 임시 비밀번호 발급 확인 결과 LiveData
+    private val _passwordResetResult = MutableLiveData<Result<PasswordResetResponse>>()
+    val passwordResetResult: LiveData<Result<PasswordResetResponse>> = _passwordResetResult
 
     // AuthEventManager의 로그아웃 이벤트
     val logoutEvent: LiveData<Unit>
@@ -174,11 +179,19 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-    // 비밀번호 확인 요청
+    // 비밀번호 재설정 요청
     fun passwordNew(newPassword: String) {
         viewModelScope.launch {
             val result = authRepository.passwordNew(newPassword)
             _passwordNewResult.value = result
+        }
+    }
+
+    // 임시 비밀번호 발급 요청
+    fun passwordReset(newPassword: String) {
+        viewModelScope.launch {
+            val result = authRepository.passwordReset(newPassword)
+            _passwordResetResult.value = result
         }
     }
 

@@ -342,7 +342,6 @@ class HomeFragment : Fragment(), OnChallengeClickListener {
     }
 
     override fun onMoreClick() {
-        Toast.makeText(requireContext(), "더보기를 클릭했습니다", Toast.LENGTH_SHORT).show() // 클릭 확인용
         findNavController().navigate(R.id.action_currentFragment_to_challengeListFragment)
     }
 }

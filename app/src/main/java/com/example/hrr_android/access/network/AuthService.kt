@@ -15,6 +15,8 @@ import com.example.hrr_android.access.model.PasswordCheckRequest
 import com.example.hrr_android.access.model.PasswordCheckResponse
 import com.example.hrr_android.access.model.PasswordNewRequest
 import com.example.hrr_android.access.model.PasswordNewResponse
+import com.example.hrr_android.access.model.PasswordResetRequest
+import com.example.hrr_android.access.model.PasswordResetResponse
 import com.example.hrr_android.access.model.RegisterRequest
 import com.example.hrr_android.access.model.RegisterResponse
 import com.example.hrr_android.access.model.TokenRequest
@@ -75,9 +77,15 @@ interface AuthService {
         @Body request: PasswordCheckRequest
     ): Response<ApiResponse<PasswordCheckResponse>>
 
-    // 현 비밀번호 확인 API
+    // 비밀번호 재설정 API
     @PATCH("/api/v1/auth/password")
     suspend fun passwordNew(
         @Body request: PasswordNewRequest
     ): Response<ApiResponse<PasswordNewResponse>>
+
+    // 임시 비밀번호 발급 API
+    @POST("/api/v1/auth/password/reset")
+    suspend fun passwordReset(
+        @Body request: PasswordResetRequest
+    ): Response<ApiResponse<PasswordResetResponse>>
 }

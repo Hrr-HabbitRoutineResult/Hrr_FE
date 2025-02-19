@@ -19,6 +19,10 @@ object ValidUtils {
         return ContextCompat.getColor(context, R.color.text_tertiary)
     }
 
+    fun getTextColorActive(context: Context): Int {
+        return ContextCompat.getColor(context, R.color.text_primary)
+    }
+
     fun getTextColorError(context: Context): Int {
         return ContextCompat.getColor(context, R.color.sub_01)
     }
