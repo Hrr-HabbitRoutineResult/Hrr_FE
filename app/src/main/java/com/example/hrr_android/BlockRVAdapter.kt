@@ -12,7 +12,8 @@ interface OnBlockClickListener{
 }
 
 class BlockRVAdapter (
-    private val tempList : ArrayList<TempUser>
+    private val tempList : ArrayList<TempUser>,
+    private val listener: OnBlockClickListener
 )
     : RecyclerView.Adapter<BlockRVAdapter.ViewHolder>() {
     override fun onCreateViewHolder(
@@ -61,6 +62,7 @@ class BlockRVAdapter (
                 binding.ivBlockedBtn.visibility = View.GONE
                 binding.ivBlockBtn.visibility = View.VISIBLE
                 //Todo: 차단 해제 처리
+                listener.onBlockedClicked(tempUser)
             }
 
         }

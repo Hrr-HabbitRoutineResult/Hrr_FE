@@ -1,5 +1,8 @@
 package com.example.hrr_android
 
+import android.app.AlertDialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,9 +10,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.hrr_android.databinding.DialogBlockBinding
+import com.example.hrr_android.databinding.DialogLogoutBinding
 import com.example.hrr_android.databinding.FragmentSettingBlockListBinding
 
-class SettingBlockListFragment : Fragment() {
+class SettingBlockListFragment : Fragment(), OnBlockClickListener {
     private var _binding: FragmentSettingBlockListBinding? = null
     private val binding get() = _binding!!
     private var tempList = ArrayList<TempUser>()
@@ -57,7 +62,7 @@ class SettingBlockListFragment : Fragment() {
             add(TempUser("김흐르", "실버", R.drawable.ic_profile_default, true))
         }
 
-        val blockRVAdapter = BlockRVAdapter(tempList)
+        val blockRVAdapter = BlockRVAdapter(tempList, this)
         binding.rvBlocklist.apply {
             adapter = blockRVAdapter
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
@@ -69,5 +74,37 @@ class SettingBlockListFragment : Fragment() {
         super.onDestroyView()
         (activity as? ProfileMoreActivity)?.setTitle("설정")
         _binding = null
+    }
+
+    override fun onBlockClicked(tempUser: TempUser) {
+
+    }
+
+    override fun onBlockedClicked(tempUser: TempUser) {
+        showLinkDialog()
+    }
+
+    private fun showLinkDialog() {
+        val dialogView = LayoutInflater.from(requireContext())
+            .inflate(R.layout.dialog_block, null)
+
+        val blockBinding = DialogBlockBinding.bind(dialogView) // 뷰 바인딩 사용
+
+        val dialog = AlertDialog.Builder(requireContext())
+            .setView(dialogView)
+            .create()
+
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        blockBinding.tvClearBlockYes.setOnClickListener {
+            // Todo: 차단 해제
+            dialog.dismiss()
+        }
+
+        blockBinding.tvClearBlockNo.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 }
