@@ -9,6 +9,7 @@ import com.example.hrr_android.access.model.KakaoLoginResponse
 import com.example.hrr_android.access.model.LoginResponse
 import com.example.hrr_android.access.model.NicknameCheckRequest
 import com.example.hrr_android.access.model.NicknameCheckResponse
+import com.example.hrr_android.access.model.PasswordCheckResponse
 import com.example.hrr_android.access.model.RegisterRequest
 import com.example.hrr_android.access.model.RegisterResponse
 import com.example.hrr_android.access.model.TokenResponse
@@ -54,6 +55,10 @@ class AuthViewModel @Inject constructor(
     // 카카오 로그인 결과 LiveData
     private val _kakaoLoginResult = MutableLiveData<Result<KakaoLoginResponse>>()
     val kakaoLoginResult: LiveData<Result<KakaoLoginResponse>> get() = _kakaoLoginResult
+
+    // 현 비밀번호 확인 결과 LiveData
+    private val _passwordCheckResult = MutableLiveData<Result<PasswordCheckResponse>>()
+    val passwordCheckResult: LiveData<Result<PasswordCheckResponse>> = _passwordCheckResult
 
     // AuthEventManager의 로그아웃 이벤트
     val logoutEvent: LiveData<Unit>
@@ -153,6 +158,14 @@ class AuthViewModel @Inject constructor(
                 }
             }
             _registrationResult.value = result.mapCatching { it.success ?: throw Exception("회원가입 응답이 올바르지 않음") }
+        }
+    }
+
+    // 비밀번호 확인 요청
+    fun passwordCheck(password: String) {
+        viewModelScope.launch {
+            val result = authRepository.passwordCheck(password)
+            _passwordCheckResult.value = result
         }
     }
 
