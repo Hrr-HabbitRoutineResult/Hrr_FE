@@ -44,6 +44,7 @@ class VerificationFragment : Fragment() {
         setupVerificationProcess()
         setupNextButton()
         updateNextButtonState() // 초기 상태 설정
+        setupEnterKeyListener()
 
         // 이메일 인증 API 호출 결과를 관찰하는 코드
         authViewModel.isVerified.observe(viewLifecycleOwner) { isVerified ->
@@ -179,6 +180,14 @@ class VerificationFragment : Fragment() {
             .replace(R.id.layout_password_fragment, fragment)
             .addToBackStack(null)
             .commit()
+    }
+
+    private fun setupEnterKeyListener() {
+        // 이메일 입력란에서 엔터 키를 눌렀을 때
+        ValidUtils.setEnterKeyListener(binding.etVerificationEmail, binding.btnVerificationSend)
+
+        // 인증코드 입력란에서 엔터 키를 눌렀을 때
+        ValidUtils.setEnterKeyListener(binding.etVerification, binding.btnVerification)
     }
 
     override fun onDestroyView() {

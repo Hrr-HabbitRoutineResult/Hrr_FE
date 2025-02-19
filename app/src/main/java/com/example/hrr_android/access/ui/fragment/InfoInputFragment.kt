@@ -58,6 +58,7 @@ class InfoInputFragment : Fragment() {
         setupVerificationProcess()
         setupPasswordValidation()
         setupPasswordMatchValidation()
+        setupEnterKeyListener()
 
         // 회원가입 API 결과 관찰
         observeRegistrationResult()
@@ -353,6 +354,23 @@ class InfoInputFragment : Fragment() {
             binding.ivInfoInputNext,
             isEnabled
         )
+    }
+
+    private fun setupEnterKeyListener() {
+        // 닉네임 입력란에서 엔터 키를 눌렀을 때
+        ValidUtils.setEnterKeyListener(binding.etSignupNickname, binding.btnSignupNicknameCheck)
+
+        // 이메일 입력란에서 엔터 키를 눌렀을 때
+        ValidUtils.setEnterKeyListener(binding.etSignupEmail, binding.btnSignupSend)
+
+        // 인증코드 입력란에서 엔터 키를 눌렀을 때
+        ValidUtils.setEnterKeyListener(binding.etSignupVerification, binding.btnSignupVerification)
+
+        // 비밀번호 입력란에서 엔터 키를 눌렀을 때
+        ValidUtils.setEnterKeyListener(binding.etSignupPassword, binding.btnInfoInputNext)
+
+        // 비밀번호 확인 입력란에서 엔터 키를 눌렀을 때
+        ValidUtils.setEnterKeyListener(binding.etSignupPasswordConfirm, binding.btnInfoInputNext)
     }
 
     override fun onDestroyView() {

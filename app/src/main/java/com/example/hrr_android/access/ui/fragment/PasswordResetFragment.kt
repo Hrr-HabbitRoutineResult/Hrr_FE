@@ -6,7 +6,6 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import com.example.hrr_android.R
@@ -43,6 +42,7 @@ class PasswordResetFragment : Fragment() {
         setupPasswordMatchValidation()
         setupNextButton()
         updateNextButtonState() // 초기 상태 설정
+        setupEnterKeyListener()
     }
 
     private fun initializeViews() {
@@ -181,6 +181,17 @@ class PasswordResetFragment : Fragment() {
             .replace(R.id.layout_password_fragment, fragment)
             .addToBackStack(null)
             .commit()
+    }
+
+    private fun setupEnterKeyListener() {
+        // 현재 비밀번호 입력란에서 엔터 키를 눌렀을 때
+        ValidUtils.setEnterKeyListener(binding.etResetPasswordNow, binding.btnResetPasswordNext)
+
+        // 새 비밀번호 입력란에서 엔터 키를 눌렀을 때
+        ValidUtils.setEnterKeyListener(binding.etResetPassword, binding.btnResetPasswordNext)
+
+        // 새 비밀번호 확인 입력란에서 엔터 키를 눌렀을 때
+        ValidUtils.setEnterKeyListener(binding.etResetPasswordConfirm, binding.btnResetPasswordNext)
     }
 
     override fun onDestroyView() {
