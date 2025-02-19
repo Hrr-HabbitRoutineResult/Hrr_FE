@@ -66,6 +66,7 @@
             android:includeFontPadding="false"/>
 
         <FrameLayout
+            android:id="@+id/btn_login_next"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:layout_marginTop="25dp">

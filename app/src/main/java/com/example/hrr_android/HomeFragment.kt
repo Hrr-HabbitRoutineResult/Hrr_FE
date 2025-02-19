@@ -19,6 +19,8 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.hrr_android.access.ui.LoginActivity
 import com.example.hrr_android.databinding.FragmentHomeBinding
 import com.example.hrr_android.access.AuthViewModel
+import com.example.hrr_android.access.PasswordNavigator
+import com.example.hrr_android.access.ui.PasswordActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.abs
 
@@ -112,6 +114,10 @@ class HomeFragment : Fragment(), OnChallengeClickListener {
         binding.ivHomeAlarm.setOnClickListener {
             val intent = Intent(requireContext(), NotificationActivity::class.java)
             startActivity(intent)
+        }
+
+        binding.tvHomeMore.setOnClickListener {
+            navigateToPasswordActivity(PasswordNavigator.RESET)
         }
     }
 
@@ -313,6 +319,12 @@ class HomeFragment : Fragment(), OnChallengeClickListener {
         val intent = Intent(requireContext(), LoginActivity::class.java)
         startActivity(intent)
         requireActivity().finish() // 현재 액티비티 종료
+    }
+
+    private fun navigateToPasswordActivity(fragment: PasswordNavigator) {
+        val intent = Intent(requireContext(), PasswordActivity::class.java)
+        intent.putExtra("fragment_to_load", fragment.fragmentName) // Enum에서 fragmentName 사용
+        startActivity(intent)
     }
 
     override fun onItemClick(challengeId: Int) {
