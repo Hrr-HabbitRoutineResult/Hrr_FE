@@ -3,19 +3,23 @@ package com.example.hrr_android.challenge.certification.ui.photo
 import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.Matrix
 import android.graphics.Paint
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
+import android.media.ExifInterface
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,6 +33,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.example.hrr_android.MainActivity
 import com.example.hrr_android.R
 import com.example.hrr_android.challenge.certification.ui.base.BaseCertificationFragment
 import com.example.hrr_android.databinding.CustomSnackbarBinding
@@ -204,8 +209,21 @@ class PhotoCertificationFragment : BaseCertificationFragment<FragmentPhotoCertif
         }
 
     private fun openCamera() {
-        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        cameraLauncher.launch(intent)
+        // 카메라로 찍은 이미지를 저장할 URI 생성
+        val imageUri = requireContext().contentResolver.insert(
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+            ContentValues()
+        )
+
+        // 카메라 인텐트 생성 및 고화질 이미지를 위한 URI 설정
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE).apply {
+            putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
+        }
+
+        imageUri?.let {
+            this.imageUri = it  // 촬영한 이미지의 URI를 변수에 저장
+            cameraLauncher.launch(intent)
+        }
     }
 
     // 비트맵 이미지에 타임스탬프 추가
@@ -215,7 +233,8 @@ class PhotoCertificationFragment : BaseCertificationFragment<FragmentPhotoCertif
 
         // sp를 px로 변환
         val scale = resources.displayMetrics.scaledDensity
-        val textSizeInPx = 7 * scale
+        // 비트맵의 크기에 비례하여 텍스트 크기 계산
+        val textSizeInPx = (originalBitmap.width * 0.04f).toFloat() // 비트맵 너비의 4% 정도로 설정
 
         // 날짜, 시간 포맷팅
         val date = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
@@ -235,10 +254,10 @@ class PhotoCertificationFragment : BaseCertificationFragment<FragmentPhotoCertif
             isAntiAlias = true
         }
 
-        // 위치 계산
-        val leftPadding = 17f
-        val bottomPadding = 16f
-        val lineSpacing = 3f // 줄 간격
+        // 위치 계산, dp를 px로 변환
+        val leftPadding = 50f * resources.displayMetrics.density
+        val bottomPadding = 90f * resources.displayMetrics.density
+        val lineSpacing = 10f * resources.displayMetrics.density
 
         // 텍스트 위치 계산
         val xPos = leftPadding
@@ -252,15 +271,64 @@ class PhotoCertificationFragment : BaseCertificationFragment<FragmentPhotoCertif
         return resultBitmap
     }
 
+    // 이미지 회전 처리를 위한 함수 추가
+    private fun getRotatedBitmap(uri: Uri): Bitmap {
+        // contentResolver를 통해 이미지 파일의 입력 스트림 열기
+        val input = requireContext().contentResolver.openInputStream(uri)
+        // EXIF 메타데이터 읽기
+        val exif = ExifInterface(input!!)
+
+        // 원본 비트맵 가져오기
+        val bitmap = MediaStore.Images.Media.getBitmap(requireContext().contentResolver, uri)
+
+        // EXIF 데이터에서 방향 정보 추출
+        val orientation = exif.getAttributeInt(
+            ExifInterface.TAG_ORIENTATION,
+            ExifInterface.ORIENTATION_NORMAL
+        )
+
+        // Matrix 객체를 사용하여 이미지 회전 변환 수행
+        val matrix = Matrix()
+        when (orientation) {
+            ExifInterface.ORIENTATION_ROTATE_90 -> matrix.postRotate(90f)
+            ExifInterface.ORIENTATION_ROTATE_180 -> matrix.postRotate(180f)
+            ExifInterface.ORIENTATION_ROTATE_270 -> matrix.postRotate(270f)
+        }
+
+        input.close()
+
+        // 원본 비트맵을 matrix 변환을 적용하여 새로운 비트맵 생성
+        return Bitmap.createBitmap(
+            bitmap,
+            0,
+            0,
+            bitmap.width,
+            bitmap.height,
+            matrix,
+            true
+        )
+    }
+
     // 촬영한 사진 결과 처리
     private val cameraLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
-            val originalBitmap = result.data?.extras?.get("data") as Bitmap
-            val timestampedBitmap = addTimestampToBitmap(originalBitmap)
-            binding.ivPhotoPreview.setImageBitmap(timestampedBitmap)
-            hasPhoto = true
-            showPreviewMode()
-            updateCompleteButton()
+            imageUri?.let { uri ->
+                try {
+                    // 회전된 비트맵 가져오기
+                    val rotatedBitmap = getRotatedBitmap(uri)
+                    // 타임스탬프 추가
+                    val timestampedBitmap = addTimestampToBitmap(rotatedBitmap)
+                    // 이미지를 프리뷰에 표시
+                    binding.ivPhotoPreview.setImageBitmap(timestampedBitmap)
+
+                    hasPhoto = true
+                    showPreviewMode()
+                    updateCompleteButton()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    showCustomSnackbar(binding.root, "이미지 처리 중 오류가 발생했습니다.")
+                }
+            }
         }
     }
 
