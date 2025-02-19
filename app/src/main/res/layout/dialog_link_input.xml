@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="280dp"
+    android:layout_height="120dp"
+    android:orientation="vertical"
+    android:background="@drawable/bg_radius_15_white">
+
+    <!-- URL 입력 영역 -->
+    <EditText
+        android:id="@+id/et_certification_url"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="20dp"
+        android:hint="URL을 입력하세요."
+        android:inputType="textUri"
+        android:background="@null"
+        android:textSize="13sp"
+        android:fontFamily="@font/font_style"
+        android:textFontWeight="400"
+        android:textColorHint="@color/text_tertiary"
+        android:includeFontPadding="false"/>
+
+    <!-- 확인/취소 버튼 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp">
+
+        <TextView
+            android:id="@+id/btn_certification_confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_marginStart="10dp"
+            android:text="확인"
+            android:textSize="13sp"
+            android:fontFamily="@font/font_style"
+            android:textFontWeight="500"
+            android:textColor="@color/text_primary"
+            android:includeFontPadding="false" />
+
+        <TextView
+            android:id="@+id/btn_certification_cancle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="취소"
+            android:textSize="13sp"
+            android:fontFamily="@font/font_style"
+            android:textFontWeight="500"
+            android:textColor="@color/text_tertiary"
+            android:includeFontPadding="false" />
+
+    </LinearLayout>
+
+</LinearLayout>

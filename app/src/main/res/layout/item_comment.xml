@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="15dp"
+    android:background="@color/white">
+
+    <!-- 프로필 이미지 -->
+    <ImageView
+        android:id="@+id/iv_comment_profile"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/img_profile"
+        android:layout_marginStart="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- 작성자 닉네임 -->
+    <TextView
+        android:id="@+id/tv_comment_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="작성자명"
+        android:textSize="13sp"
+        android:fontFamily="@font/font_style"
+        android:textFontWeight="500"
+        android:textColor="@color/text_primary"
+        android:includeFontPadding="false"
+        android:layout_marginStart="10dp"
+        app:layout_constraintStart_toEndOf="@id/iv_comment_profile"
+        app:layout_constraintTop_toTopOf="@id/iv_comment_profile" />
+
+    <!-- 댓글 내용 -->
+    <TextView
+        android:id="@+id/tv_comment_content"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Text"
+        android:textSize="13sp"
+        android:fontFamily="@font/font_style"
+        android:textFontWeight="400"
+        android:textColor="@color/text_primary"
+        android:includeFontPadding="false"
+        android:layout_marginTop="4dp"
+        app:layout_constraintStart_toStartOf="@id/tv_comment_name"
+        app:layout_constraintEnd_toStartOf="@id/btn_comment_accept"
+        app:layout_constraintTop_toBottomOf="@id/tv_comment_name" />
+
+    <!-- 작성 시간 -->
+    <TextView
+        android:id="@+id/tv_comment_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="시간"
+        android:textSize="13sp"
+        android:fontFamily="@font/font_style"
+        android:textFontWeight="400"
+        android:textColor="@color/text_secondary"
+        android:includeFontPadding="false"
+        app:layout_constraintStart_toStartOf="@id/tv_comment_content"
+        app:layout_constraintTop_toBottomOf="@id/tv_comment_content"
+        android:layout_marginTop="14dp"/>
+
+    <!-- 채택 버튼 -->
+    <ImageButton
+        android:id="@+id/btn_comment_accept"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_comment_adopt"
+        android:background="@null"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintEnd_toStartOf="@id/btn_comment_reply"
+        app:layout_constraintTop_toTopOf="@id/tv_comment_name" />
+
+    <!-- 답댓글 버튼 -->
+    <ImageButton
+        android:id="@+id/btn_comment_reply"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:src="@drawable/ic_comment_reply"
+        android:background="@null"
+        android:layout_marginEnd="3dp"
+        app:layout_constraintEnd_toStartOf="@id/btn_comment_like"
+        app:layout_constraintTop_toTopOf="@id/tv_comment_name" />
+
+    <!-- 좋아요 버튼 -->
+    <ImageButton
+        android:id="@+id/btn_comment_like"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:src="@drawable/ic_comment_like"
+        android:background="@null"
+        android:layout_marginEnd="3dp"
+        app:layout_constraintEnd_toStartOf="@id/btn_comment_more"
+        app:layout_constraintTop_toTopOf="@id/tv_comment_name" />
+
+    <!-- 더보기 버튼 -->
+    <ImageButton
+        android:id="@+id/btn_comment_more"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:src="@drawable/ic_comment_more"
+        android:background="@null"
+        android:layout_marginEnd="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_comment_name" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

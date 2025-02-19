@@ -1,6 +1,7 @@
 package com.example.hrr_android.challenge.ui.detail
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -49,6 +50,17 @@ class ChallengeFragment : Fragment(), ChallengeDialogInterface {
 //            dialog.show(parentFragmentManager, "ChallengeDialog")
 //            true
 //        }
+        val showDialog = arguments?.getBoolean("showCreateDialog", false) ?: false
+        if (showDialog) {
+            showCreateDialog()
+        }
+
+        val challengeId = arguments?.getInt("challenge_id", -1)
+
+        if (challengeId != -1) {
+            Log.d("ChallengeId", "Received challenge ID: $challengeId")
+        }
+
     }
 
     // JOIN 다이얼로그에서 '네' 버튼 클릭 시 호출
@@ -181,6 +193,12 @@ class ChallengeFragment : Fragment(), ChallengeDialogInterface {
         JOINED,     // 챌린지 참가 후, 인증 전
         CERTIFIED,   // 인증 완료
         COMPLETED    // 챌린지 완주
+    }
+
+    //챌린지 개설 후 다이얼로그
+    private fun showCreateDialog() {
+        val dialog = ChallengeDialog(this, ChallengeDialog.DialogType.CREATE)
+        dialog.show(parentFragmentManager, "ChallengeDialog")
     }
 
     override fun onDestroyView() {

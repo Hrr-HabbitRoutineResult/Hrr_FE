@@ -64,15 +64,14 @@ class AuthInterceptor @Inject constructor(
 
         var response = chain.proceed(modifiedRequest)
 
-        // 토큰 만료 감지 로직
         if (isAccessTokenExpired(response)) {
-            Log.d("AuthInterceptor", "토큰 만료 감지, 새 액세스 토큰 요청 시도")
+            Log.d("AuthInterceptor", "액세스 토큰 만료 감지, 새 액세스 토큰 요청 시도")
 
-            // 첫 번째 refresh token 요청 시도
             val newAccessToken = runBlocking {
                 val authRepository = authRepositoryProvider.get()
                 authRepository.refreshAccessToken()
             }
+
             if (!newAccessToken.isNullOrEmpty()) {
                 tokenManager.saveAccessToken(newAccessToken)
                 val newRequest = modifiedRequest.newBuilder()
@@ -80,21 +79,34 @@ class AuthInterceptor @Inject constructor(
                     .build()
                 response = chain.proceed(newRequest)
             } else {
-                // 토큰 갱신 실패 시
+                Log.e("AuthInterceptor", "리프레시 토큰이 유효하지 않음 - 강제 로그아웃 진행")
                 tokenManager.clearTokens()
-                AuthEventManager.postLogoutEvent()  // UI에서 로그아웃 이벤트를 받아 LoginActivity로 전환
+                AuthEventManager.postLogoutEvent()
             }
+        } else if (isRefreshTokenInvalid(response)) {
+            Log.e("AuthInterceptor", "리프레시 토큰 만료 감지 - 강제 로그아웃 진행")
+            tokenManager.clearTokens()
+            AuthEventManager.postLogoutEvent()
         }
 
         return response
     }
 
-    // 서버 응답에서 토큰 만료 여부 감지
+    // 서버 응답에서 액세스 토큰 만료 여부 감지
     private fun isAccessTokenExpired(response: Response): Boolean {
         val responseBodyString = response.peekBody(Long.MAX_VALUE).string()
         Log.d("AuthInterceptor", "서버 응답 상태 코드: ${response.code}")
         Log.d("AuthInterceptor", "서버 응답 바디: $responseBodyString")
 
-        return responseBodyString.contains("Error: access token expired")
+        return response.code == 401
+    }
+
+    // 서버 응답에서 리프레시 토큰 만료 여부 감지
+    private fun isRefreshTokenInvalid(response: Response): Boolean {
+        val responseBodyString = response.peekBody(Long.MAX_VALUE).string()
+        Log.d("AuthInterceptor", "서버 응답 상태 코드: ${response.code}")
+        Log.d("AuthInterceptor", "서버 응답 바디: $responseBodyString")
+
+        return response.code == 403
     }
 }

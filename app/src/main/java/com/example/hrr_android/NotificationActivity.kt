@@ -14,7 +14,7 @@ class NotificationActivity : AppCompatActivity() {
         binding = ActivityNotificationBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val notificationList = listOf(
+/*        val notificationList = listOf(
             Notification(
                 NotificationType.CHALLENGE_REMINDER,
                 mapOf("challenge" to "자잘자잘"),
@@ -78,10 +78,10 @@ class NotificationActivity : AppCompatActivity() {
                 "1일 전",
                 R.drawable.ic_notification_warning
             )
-        )
+        )*/
 
         // 더미 데이터 없는 상태
-        // val notificationList = listOf<Notification>()
+        val notificationList = listOf<Notification>()
 
         // RecyclerView 설정
         binding.rvNotificationList.layoutManager = LinearLayoutManager(this)

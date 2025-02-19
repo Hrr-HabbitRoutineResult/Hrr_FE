@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="120dp"
+    android:layout_height="70dp"
+    android:orientation="vertical"
+    android:background="@drawable/bg_radius10_white_border1_grey500">
+
+    <!-- 쪽지 보내기 -->
+    <TextView
+        android:id="@+id/tv_comment_send_message"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="쪽지 보내기"
+        android:textSize="13sp"
+        android:fontFamily="@font/font_style"
+        android:textFontWeight="500"
+        android:textColor="@color/text_primary"
+        android:includeFontPadding="false"
+        android:gravity="center" />
+
+    <!-- 구분선 -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/text_line"/>
+
+    <!-- 차단하기 -->
+    <TextView
+        android:id="@+id/tv_comment_block"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="차단"
+        android:textSize="13sp"
+        android:fontFamily="@font/font_style"
+        android:textFontWeight="500"
+        android:textColor="@color/sub_01"
+        android:includeFontPadding="false"
+        android:gravity="center" />
+
+</LinearLayout>

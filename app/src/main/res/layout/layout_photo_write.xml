@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_marginTop="35dp"
+    android:paddingHorizontal="17dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="31dp">
+
+        <!-- 사진 프리뷰 -->
+        <ImageView
+            android:id="@+id/iv_certification_image"
+            android:layout_width="100dp"
+            android:layout_height="135dp"
+            android:scaleType="centerCrop"
+            android:background="@drawable/bg_radius15"
+            android:clipToOutline="true"/>
+
+        <!-- 여백을 위한 View -->
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <!-- 질문 체크박스 -->
+        <android.widget.CheckBox
+            android:id="@+id/cb_certification_question"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="질문"
+            android:textSize="15sp"
+            android:fontFamily="@font/font_style"
+            android:textFontWeight="400"
+            android:textColor="@color/text_tertiary"
+            android:includeFontPadding="false"
+            android:paddingStart="7dp"
+            android:button="@drawable/cb_custom"/>
+
+    </LinearLayout>
+
+    <!-- 제목 입력 -->
+    <EditText
+        android:id="@+id/et_certification_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:hint="제목"
+        android:textSize="15sp"
+        android:fontFamily="@font/font_style"
+        android:textFontWeight="500"
+        android:textColorHint="@color/text_tertiary"
+        android:includeFontPadding="false"
+        android:inputType="text"
+        android:maxLines="1"
+        android:paddingVertical="8dp"/>
+
+    <!-- 제목 입력 구분선 -->
+    <View
+        android:layout_width="324dp"
+        android:layout_height="1dp"
+        android:background="@color/text_line"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="10dp"/>
+
+    <!-- 내용 입력 -->
+    <EditText
+        android:id="@+id/et_certification_content"
+        android:layout_width="326dp"
+        android:layout_height="232dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@null"
+        android:gravity="top"
+        android:hint="내용을 입력하세요. (200자 이내)"
+        android:textSize="12sp"
+        android:inputType="textMultiLine"
+        android:scrollbars="vertical"
+        android:textColorHint="@color/text_tertiary"/>
+
+</LinearLayout>

@@ -88,6 +88,28 @@
                     android:layout_marginEnd="14dp"
                     android:src="@drawable/ic_signup_error"
                     android:visibility="gone" />
+
+                <!-- 확인 버튼 -->
+                <FrameLayout
+                    android:id="@+id/btn_signup_nickname_check"
+                    android:layout_width="50dp"
+                    android:layout_height="28dp"
+                    android:layout_marginEnd="14dp"
+                    android:layout_gravity="end|center_vertical"
+                    android:background="@drawable/btn_grey_30">
+
+                    <!-- 버튼 텍스트 -->
+                    <TextView
+                        android:id="@+id/tv_signup_nickname_check"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="확인"
+                        android:textColor="#AEB2B8"
+                        android:textSize="12sp"
+                        android:fontFamily="@font/noto_sans_kr_regular"
+                        android:includeFontPadding="false"
+                        android:gravity="center"/>
+                </FrameLayout>
             </FrameLayout>
 
 

@@ -2,6 +2,9 @@ package com.example.hrr_android
 
 import android.util.Log
 import com.example.hrr_android.access.repository.AuthRepository
+import com.example.hrr_android.onboarding.model.OnboardingRequest
+import com.example.hrr_android.onboarding.model.OnboardingResponse
+import com.example.hrr_android.onboarding.model.OnboardingSuccess
 import retrofit2.Response
 import java.io.IOException
 import javax.inject.Inject
@@ -71,6 +74,29 @@ class UserRepository @Inject constructor(
         }
     }
 
+    // 사용자 맞춤 추천 챌린지 조회
+    suspend fun getOnboardingChallenge(category: String): Result<List<OnboardingSuccess>> {
+        return try {
+            val requestBody = OnboardingRequest(category)
+            val response = userService.getOnboardingChallenge(requestBody)
+
+            if (response.isSuccessful) {
+                val apiResponse: OnboardingResponse<OnboardingSuccess> = response.body()
+                    ?: return Result.failure(Exception("서버 응답이 비어 있습니다."))
+
+                return apiResponse.success?.let { list ->
+                    Result.success(list)  // List<OnboardingSuccess> 반환
+                } ?: Result.failure(Exception("서버 응답이 올바르지 않습니다."))
+            } else {
+                Result.failure(Exception("서버 오류 발생: ${response.code()}"))
+            }
+        } catch (e: IOException) {
+            Result.failure(Exception("네트워크 연결에 실패했습니다. 인터넷을 확인하세요."))
+        } catch (e: Exception) {
+            Result.failure(Exception("알 수 없는 오류 발생: ${e.localizedMessage}"))
+        }
+    }
+
     // 최근 완주한 챌린지 조회
     suspend fun getChallengesEnd(userId: Int): Result<ChallengeEndResponse> {
         return handleResponse { userService.getChallengesEnd(userId) }
@@ -125,5 +151,10 @@ class UserRepository @Inject constructor(
     suspend fun getBadgeCondition(badgeId: Int): Result<List<BadgeCondition>>{
         return handleResponse { userService.getBadgeCondition(badgeId) }
     }
+    // 회원 탈퇴
+    suspend fun withdrawal(): Result<QuitResponse>{
+        return handleResponse { userService.withdrawal() }
+    }
+
 
 }

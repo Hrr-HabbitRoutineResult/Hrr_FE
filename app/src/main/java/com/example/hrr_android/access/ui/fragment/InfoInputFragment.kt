@@ -3,6 +3,7 @@ package com.example.hrr_android.access.ui.fragment
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import android.view.LayoutInflater
@@ -28,6 +29,8 @@ class InfoInputFragment : Fragment() {
     private val authViewModel: AuthViewModel by activityViewModels() // 뷰 모델 초기화
 
     // 유효성 상태 변수 선언
+    private var isNicknameValid = false // 닉네임 유효성 상태
+    private var isNicknameChecked = false // 닉네임 중복 확인 여부
     private var isEmailValid = false // 이메일 유효성 상태
     private var isEmailSent = false // 이메일 전송 여부
     private var isVerificationValid = false // 인증 코드 유효성 상태
@@ -73,42 +76,32 @@ class InfoInputFragment : Fragment() {
                 authViewModel.registerUser(registerRequest)
             }
         }
+
+        authViewModel.isVerified.observe(viewLifecycleOwner) { isVerified ->
+            when (isVerified) {
+                true -> {
+                    ValidUtils.hideKeyboard(requireContext(), requireView())
+                    ValidUtils.showSnackbar(requireView(), "인증 코드가 전송 되었습니다.", binding.lineInfoInput)
+                    validateAndProceed()
+                }
+                false -> {
+                    ValidUtils.hideKeyboard(requireContext(), requireView())
+                    ValidUtils.showSnackbar(requireView(), "인증 코드를 전송하지 못했습니다.", binding.lineInfoInput)
+                }
+                else -> {} // null이면 아무것도 안 함 (초기 상태)
+            }
+        }
     }
 
     private fun observeRegistrationResult() {
         authViewModel.registrationResult.observe(viewLifecycleOwner) { result ->
-            result.onSuccess { registerResponse ->
-                saveUserInfo(registerResponse)
-
+            result.onSuccess {
                 // CompleteFragment로 이동
                 (activity as? SignUpActivity)?.changeFragment(CompleteFragment())
             }.onFailure {
                 ValidUtils.hideKeyboard(requireContext(), requireView())
                 ValidUtils.showSnackbar(requireView(), "회원가입에 실패하였습니다.", binding.lineInfoInput)
             }
-        }
-    }
-
-    private fun saveUserInfo(registerResponse: RegisterResponse) {
-        val user = registerResponse.createdUser
-        // MasterKey 생성
-        val masterKey = MasterKey.Builder(requireContext())
-            .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
-            .build()
-        // EncryptedSharedPreferences 인스턴스 생성
-        val sharedPreferences = EncryptedSharedPreferences.create(
-            requireContext(),
-            "user_prefs",
-            masterKey,
-            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-        )
-        // 사용자 정보 저장
-        sharedPreferences.edit().apply {
-            putInt("user_id", user.id)
-            putString("user_email", user.email)
-            putString("user_nickname", user.nickname)
-            apply()
         }
     }
 
@@ -120,28 +113,63 @@ class InfoInputFragment : Fragment() {
     }
 
     private fun setupNicknameValidation() {
-        // 닉네임 입력 시 유효성 검사 수행
         binding.etSignupNickname.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val nickname = s.toString()
-                val isValid = ValidUtils.isValidNickname(nickname)
-                updateNicknameUI(isValid, hasFocus = true) // 닉네임 입력 중 유효성 업데이트
-                validateAndProceed() // 전체 버튼 상태 업데이트
+                isNicknameValid = ValidUtils.isValidNickname(nickname)
+
+                updateNicknameUI(isNicknameValid, hasFocus = true)
+                updateNicknameCheckButtonState()
+                isNicknameChecked = false // 닉네임 변경 시 중복 확인 초기화
+                validateAndProceed()
             }
 
             override fun afterTextChanged(s: Editable?) {}
         })
 
-        // 포커스 상태 변경 시 기본 상태로 복원
         binding.etSignupNickname.setOnFocusChangeListener { _, hasFocus ->
+            updateNicknameUI(isNicknameValid, hasFocus)
+        }
+
+        binding.btnSignupNicknameCheck.setOnClickListener {
             val nickname = binding.etSignupNickname.text.toString()
-            val isValid = ValidUtils.isValidNickname(nickname)
-            updateNicknameUI(isValid, hasFocus) // 포커스 변경 시 상태 업데이트
+            authViewModel.checkNickname(nickname)
+        }
+
+        authViewModel.isNicknameAvailable.observe(viewLifecycleOwner) { isAvailable ->
+            if (isAvailable) {
+                isNicknameChecked = true
+                ValidUtils.showSnackbar(requireView(), "사용 가능한 닉네임입니다.", binding.lineInfoInput)
+                binding.tvSignupNicknameHelper.setTextColor(ValidUtils.getTextColorDefault(requireContext()))
+                // 닉네임 입력 비활성화
+                binding.etSignupNickname.isEnabled = false
+                binding.etSignupNickname.setTextColor(ValidUtils.getTextColorDefault(requireContext()))
+                binding.btnSignupNicknameCheck.isEnabled = false
+                binding.btnSignupNicknameCheck.background = ValidUtils.getButtonInactiveBackground(requireContext())
+                binding.tvSignupNicknameCheck.setTextColor(ValidUtils.getTextColorDefault(requireContext()))
+
+            } else {
+                isNicknameChecked = false
+                binding.tvSignupNicknameHelper.text = "이미 사용 중인 닉네임입니다."
+                binding.tvSignupNicknameHelper.setTextColor(ValidUtils.getTextColorError(requireContext()))
+            }
+            validateAndProceed()
         }
     }
 
+    private fun updateNicknameCheckButtonState() {
+        if (isNicknameValid) {
+            binding.btnSignupNicknameCheck.isEnabled = true
+            binding.btnSignupNicknameCheck.background = ValidUtils.getButtonActiveBackground(requireContext())
+            binding.tvSignupNicknameCheck.setTextColor(ValidUtils.getTextColorError(requireContext()))
+        } else {
+            binding.btnSignupNicknameCheck.isEnabled = false
+            binding.btnSignupNicknameCheck.background = ValidUtils.getButtonInactiveBackground(requireContext())
+            binding.tvSignupNicknameCheck.setTextColor(ValidUtils.getTextColorDefault(requireContext()))
+        }
+    }
 
     private fun updateNicknameUI(valid: Boolean, hasFocus: Boolean) {
         // 닉네임 유효성 검사 결과와 포커스 여부에 따라 UI 업데이트
@@ -194,7 +222,7 @@ class InfoInputFragment : Fragment() {
         val email = binding.etSignupEmail.text.toString()
 
         if (isEmailValid) {
-            // 이메일 인증 코드 전송 요청
+            authViewModel.setIsVerified(null) // 네트워크 요청 전에 초기화
             authViewModel.sendVerificationCode(email)
 
             isEmailSent = true
@@ -209,18 +237,6 @@ class InfoInputFragment : Fragment() {
             binding.btnSignupVerification.isEnabled = true
             binding.btnSignupVerification.background = ValidUtils.getButtonActiveBackground(requireContext())
             binding.tvSignupVerification.setTextColor(ValidUtils.getTextColorError(requireContext()))
-
-            // ViewModel의 응답에 따라 UI 업데이트
-            authViewModel.isVerified.observe(viewLifecycleOwner) { isVerified ->
-                if (isVerified) {  // 성공 응답 처리
-                    ValidUtils.hideKeyboard(requireContext(), requireView())
-                    ValidUtils.showSnackbar(requireView(), "인증 코드가 전송 되었습니다.", binding.lineInfoInput)
-                    validateAndProceed() // 상태 업데이트
-                } else {
-                    ValidUtils.hideKeyboard(requireContext(), requireView())
-                    ValidUtils.showSnackbar(requireView(),  "인증 코드를 전송하지 못했습니다.", binding.lineInfoInput)
-                }
-            }
         }
     }
 
@@ -324,7 +340,7 @@ class InfoInputFragment : Fragment() {
         val isNicknameValid = ValidUtils.isValidNickname(nickname)
 
         // 입력값 상태를 기반으로 버튼 활성화/비활성화
-        val isButtonEnabled = isNicknameValid && isPasswordValid && isPasswordMatch && isVerificationValid
+        val isButtonEnabled = isNicknameValid && isPasswordValid && isPasswordMatch && isVerificationValid && isNicknameChecked
 
         updateNextButtonState(isButtonEnabled)
     }

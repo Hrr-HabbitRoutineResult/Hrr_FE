@@ -47,7 +47,6 @@ class ProfileChallengeFragment : Fragment() {
 
             // LiveData 관찰 (데이터가 변경될 때 자동 업데이트되도록 설정)
             userViewModel.challengesOngoing.observe(viewLifecycleOwner) { result ->
-                Log.d("asdf", "ViewModel에서 받은 데이터: $result") // 디버깅용 로그 추가
 
                 result.onSuccess { challengeList ->
                     challengeList.map { challenge ->
@@ -115,7 +114,6 @@ class ProfileChallengeFragment : Fragment() {
 
             // LiveData 관찰 (데이터가 변경될 때 자동 업데이트되도록 설정)
             otherUserViewModel.challengesOngoing.observe(viewLifecycleOwner) { result ->
-                Log.d("asdf", "ViewModel에서 받은 데이터: $result") // 디버깅용 로그 추가
 
                 result.onSuccess { challengeList ->
                     challengeList.map { challenge ->

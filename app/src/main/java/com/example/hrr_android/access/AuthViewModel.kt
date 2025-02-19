@@ -7,6 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.hrr_android.access.model.KakaoLoginResponse
 import com.example.hrr_android.access.model.LoginResponse
+import com.example.hrr_android.access.model.NicknameCheckRequest
+import com.example.hrr_android.access.model.NicknameCheckResponse
 import com.example.hrr_android.access.model.RegisterRequest
 import com.example.hrr_android.access.model.RegisterResponse
 import com.example.hrr_android.access.model.TokenResponse
@@ -29,9 +31,17 @@ class AuthViewModel @Inject constructor(
     private val _loginResult = MutableLiveData<Result<LoginResponse>>()
     val loginResult: LiveData<Result<LoginResponse>> get() = _loginResult
 
+    // 닉네임 중복 검사 API 응답을 저장하는 LiveData
+    private val _nicknameCheckResult = MutableLiveData<Result<NicknameCheckResponse>>()
+    val nicknameCheckResult: LiveData<Result<NicknameCheckResponse>> get() = _nicknameCheckResult
+
+    // 닉네임 사용 가능 여부를 저장하는 LiveData (true: 사용 가능, false: 중복된 닉네임)
+    private val _isNicknameAvailable = MutableLiveData<Boolean>()
+    val isNicknameAvailable: LiveData<Boolean> get() = _isNicknameAvailable
+
     // 이메일 인증 코드 전송 여부 및 버튼 상태 관리
-    private val _isVerified = MutableLiveData<Boolean>()
-    val isVerified: LiveData<Boolean> get() = _isVerified
+    private val _isVerified = MutableLiveData<Boolean?>()
+    val isVerified: MutableLiveData<Boolean?> get() = _isVerified
 
     // 이메일 인증 후 받은 ID 저장
     private val _verifiedUserId = MutableLiveData<Int?>()
@@ -62,6 +72,22 @@ class AuthViewModel @Inject constructor(
         }
     }
 
+    // 닉네임 중복 확인 요청
+    fun checkNickname(nickname: String) {
+        viewModelScope.launch {
+            val result = authRepository.checkNickname(NicknameCheckRequest(nickname))
+            _nicknameCheckResult.postValue(result)
+
+            result.onSuccess { response ->
+                _isNicknameAvailable.postValue(response.success?.check == false)
+                // success.check == false → 사용 가능
+                // success.check == true → 사용 불가 (중복됨)
+            }.onFailure {
+                _isNicknameAvailable.postValue(false) // 오류 발생 시 기본값 설정 (사용 불가)
+            }
+        }
+    }
+
     // 카카오 로그인 요청
     fun loginWithKakao(kakaoAccessToken: String) {
         viewModelScope.launch {
@@ -79,13 +105,25 @@ class AuthViewModel @Inject constructor(
     // 이메일 인증 코드 전송
     fun sendVerificationCode(email: String) {
         viewModelScope.launch {
+            _isVerified.postValue(null) // 네트워크 요청 전 초기화 (UI 반응 방지)
+
             val result = authRepository.sendVerificationCode(email)
-            result.onSuccess {
-                _isVerified.postValue(true)  // 성공 시 true 저장
-            }.onFailure {
-                _isVerified.postValue(false)  // 실패 시 false 저장
+
+            result.onSuccess { success ->
+                if (success) {
+                    _isVerified.postValue(true)  // 성공 시 true 설정
+                } else {
+                    _isVerified.postValue(false) // 실패 처리
+                }
+            }.onFailure { exception ->
+                _isVerified.postValue(false) // 네트워크 오류 발생 시 false 설정
             }
         }
+    }
+
+    // 즉시 실행 방지를 위한 초기값 설정 함수 추가
+    fun setIsVerified(value: Boolean?) {
+        _isVerified.postValue(value)
     }
 
     // 이메일 인증 코드 확인 및 ID 저장
@@ -93,8 +131,12 @@ class AuthViewModel @Inject constructor(
         viewModelScope.launch {
             val result = authRepository.confirmVerificationCode(email, code)
             result.onSuccess { id ->
-                _verifiedUserId.postValue(id)  // 받은 ID 저장
-            }.onFailure { e ->
+                if (id > 0) {
+                    _verifiedUserId.postValue(id)
+                } else {
+                    _verifiedUserId.postValue(null)
+                }
+            }.onFailure {
                 _verifiedUserId.postValue(null)
             }
         }
@@ -104,7 +146,13 @@ class AuthViewModel @Inject constructor(
     fun registerUser(request: RegisterRequest) {
         viewModelScope.launch {
             val result = authRepository.registerUser(request)
-            _registrationResult.value = result
+
+            result.onSuccess { apiResponse ->
+                apiResponse.success?.let { createdUser ->
+                    tokenManager.saveTokens(createdUser.accessToken, createdUser.refreshToken)
+                }
+            }
+            _registrationResult.value = result.mapCatching { it.success ?: throw Exception("회원가입 응답이 올바르지 않음") }
         }
     }
 

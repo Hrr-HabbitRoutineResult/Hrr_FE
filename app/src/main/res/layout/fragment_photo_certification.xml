@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!-- 상단 헤더 영역 -->
+    <LinearLayout
+        android:id="@+id/ll_certification_header"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="45dp"
+        android:layout_marginBottom="10dp">
+
+        <!-- 뒤로가기 버튼 -->
+        <ImageButton
+            android:id="@+id/btn_certification_back"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@null"
+            android:src="@drawable/ic_arrow_back"
+            android:scaleType="center"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp" />
+
+        <!-- 타이틀 -->
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="사진"
+            android:textSize="20sp"
+            android:fontFamily="@font/font_style"
+            android:textFontWeight="600"
+            android:textColor="@color/text_primary"
+            android:includeFontPadding="false" />
+
+        <!-- 완료 버튼 -->
+        <TextView
+            android:id="@+id/tv_certification_complete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="완료"
+            android:textSize="16sp"
+            android:fontFamily="@font/font_style"
+            android:textFontWeight="600"
+            android:textColor="@color/grey_500"
+            android:includeFontPadding="false"
+            android:layout_marginEnd="16dp"/>
+
+    </LinearLayout>
+
+    <!-- 회색 구분선 -->
+    <View
+        android:id="@+id/view_certification_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grey_50" />
+
+    <!-- 화면 전환을 위한 ViewFlipper -->
+    <ViewFlipper
+        android:id="@+id/view_flipper"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <!-- 첫 번째 화면: 사진 촬영 화면 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="27dp"
+            android:paddingHorizontal="16dp">
+
+            <!-- 사진 프리뷰 -->
+            <ImageView
+                android:id="@+id/iv_photo_preview"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:scaleType="centerCrop"
+                android:background="@drawable/bg_radius15"
+                android:clipToOutline="true"/>
+
+            <!-- 질문 체크박스 -->
+            <android.widget.CheckBox
+                android:id="@+id/cb_photo_confirm_question"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="15dp"
+                android:text="질문"
+                android:textSize="15sp"
+                android:fontFamily="@font/font_style"
+                android:textFontWeight="400"
+                android:textColor="@color/text_tertiary"
+                android:includeFontPadding="false"
+                android:paddingStart="7dp"
+                android:button="@drawable/cb_custom"/>
+
+            <!-- 하단 버튼 영역 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="14dp"
+                android:layout_marginBottom="61dp">
+
+                <!-- 다시 찍기 -->
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_photo_retake"
+                    android:layout_width="128dp"
+                    android:layout_height="45dp"
+                    android:text="다시 찍기"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/font_style"
+                    android:textFontWeight="600"
+                    android:textColor="@color/sub_01"
+                    android:includeFontPadding="false"
+                    android:background="@drawable/bg_button_countdown"
+                    android:stateListAnimator="@null"
+                    android:layout_marginEnd="10dp"/>
+
+                <!-- 인증하기 -->
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_photo_confirm"
+                    android:layout_width="190dp"
+                    android:layout_height="45dp"
+                    android:text="인증하기"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/font_style"
+                    android:textFontWeight="600"
+                    android:textColor="@color/white"
+                    android:includeFontPadding="false"
+                    android:background="@drawable/bg_button_certification"
+                    android:stateListAnimator="@null"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- 두 번째 화면: 글 작성 화면 -->
+        <include layout="@layout/layout_photo_write" />
+
+    </ViewFlipper>
+
+</LinearLayout>

@@ -4,14 +4,18 @@ import android.content.Context
 import android.util.Log
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
+import com.example.hrr_android.ApiResponse
 import com.example.hrr_android.access.TokenManager
 import com.example.hrr_android.access.network.AuthService
 import com.example.hrr_android.access.model.EmailConfirmRequest
 import com.example.hrr_android.access.model.EmailVerificationRequest
+import com.example.hrr_android.access.model.EmailVerificationResponse
 import com.example.hrr_android.access.model.KakaoLoginRequest
 import com.example.hrr_android.access.model.KakaoLoginResponse
 import com.example.hrr_android.access.model.LoginRequest
 import com.example.hrr_android.access.model.LoginResponse
+import com.example.hrr_android.access.model.NicknameCheckRequest
+import com.example.hrr_android.access.model.NicknameCheckResponse
 import com.example.hrr_android.access.model.RegisterRequest
 import com.example.hrr_android.access.model.RegisterResponse
 import com.example.hrr_android.access.model.TokenRequest
@@ -64,17 +68,37 @@ class AuthRepository @Inject constructor(
         }
     }
 
-
-    // 이메일 인증 코드 전송
-    suspend fun sendVerificationCode(email: String): Result<String> {
+    // 닉네임 중복 확인
+    suspend fun checkNickname(request: NicknameCheckRequest): Result<NicknameCheckResponse> {
         return try {
-            val response = authService.sendVerificationCode(EmailVerificationRequest(email))
+            val response = authService.checkNickname(request)
             if (response.isSuccessful) {
                 val responseBody = response.body()
                 if (responseBody != null) {
-                    Result.success("이메일 인증 코드가 전송되었습니다.")
+                    Result.success(responseBody)
                 } else {
-                    Result.failure(Exception("서버 응답이 올바르지 않습니다."))
+                    Result.failure(Exception("응답 본문이 비어있음"))
+                }
+            } else {
+                val errorBody = response.errorBody()?.string() ?: "Unknown error"
+                Result.failure(Exception("닉네임 중복 확인 실패: $errorBody"))
+            }
+        } catch (e: Exception) {
+            Result.failure(Exception("네트워크 오류: ${e.message}"))
+        }
+    }
+
+    suspend fun sendVerificationCode(email: String): Result<Boolean> {
+        return try {
+            val response = authService.sendVerificationCode(EmailVerificationRequest(email))
+
+            if (response.isSuccessful) {
+                val responseBody: EmailVerificationResponse? = response.body()
+
+                if (responseBody?.resultType == "SUCCESS" && responseBody.error == null) {
+                    Result.success(true)  // 성공 처리
+                } else {
+                    Result.failure(Exception("이메일 인증 코드 전송 실패: ${responseBody?.error}"))
                 }
             } else {
                 val errorBody = response.errorBody()?.string() ?: "Unknown error"
@@ -85,15 +109,14 @@ class AuthRepository @Inject constructor(
         }
     }
 
-    // 이메일 인증 코드 확인
     suspend fun confirmVerificationCode(email: String, code: String): Result<Int> {
         return try {
             val response = authService.confirmVerificationCode(EmailConfirmRequest(email, code))
 
             if (response.isSuccessful) {
                 val responseBody = response.body()
-                if (responseBody?.verified == true) {
-                    Result.success(responseBody.id)
+                if (responseBody?.success?.verified == true) {
+                    Result.success(responseBody.success.id)
                 } else {
                     Result.failure(Exception("이메일 인증 실패: 코드가 올바르지 않음"))
                 }
@@ -107,12 +130,16 @@ class AuthRepository @Inject constructor(
     }
 
     // 회원가입 요청
-    suspend fun registerUser(request: RegisterRequest): Result<RegisterResponse> {
+    suspend fun registerUser(request: RegisterRequest): Result<ApiResponse<RegisterResponse>> {
         return try {
             val response = authService.registerUser(request)
             if (response.isSuccessful) {
                 val responseBody = response.body()
                 if (responseBody != null) {
+                    // 토큰 및 userId 저장
+                    responseBody.success?.let { tokenManager.saveTokens(responseBody.success.accessToken, it.refreshToken) }
+                    responseBody.success?.let { saveUserId(it.userId) }
+
                     Result.success(responseBody)
                 } else {
                     Result.failure(Exception("응답 본문이 비어있음"))

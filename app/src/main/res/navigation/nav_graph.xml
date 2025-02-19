@@ -27,4 +27,34 @@
         android:name="com.example.hrr_android.ProfileFragment"
         android:label="프로필" />
 
+    <!-- 임시저장 -->
+    <fragment
+        android:id="@+id/draftListFragment"
+        android:name="com.example.hrr_android.challenge.certification.ui.draft.DraftListFragment"
+        android:label="DraftListFragment" />
+    <action
+        android:id="@+id/action_textCertificationFragment_to_draftListFragment"
+        app:destination="@id/draftListFragment" />
+
+    <!-- 업로드한 인증 게시물 -->
+    <fragment
+        android:id="@+id/postFragment"
+        android:name="com.example.hrr_android.challenge.certification.ui.post.PostFragment"
+        android:label="PostFragment" />
+    <action
+        android:id="@+id/action_textCertificationFragment_to_postFragment"
+        app:destination="@id/postFragment" />
+    <action
+        android:id="@+id/action_photoCertificationFragment_to_postFragment"
+        app:destination="@id/postFragment" />
+
+    <!-- 챌린지 프로필 -->
+    <fragment
+        android:id="@+id/challengeFragment"
+        android:name="com.example.hrr_android.challenge.ui.detail.ChallengeFragment"
+        android:label="ChallengeFragment" />
+    <action
+        android:id="@+id/action_homeFragment_to_challengeFragment"
+        app:destination="@id/challengeFragment" />
+
 </navigation>
