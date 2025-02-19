@@ -75,7 +75,7 @@ interface AuthService {
         @Body request: PasswordCheckRequest
     ): Response<ApiResponse<PasswordCheckResponse>>
 
-    // 현 비밀번호 확인 API
+    // 비밀번호 재설정 API
     @PATCH("/api/v1/auth/password")
     suspend fun passwordNew(
         @Body request: PasswordNewRequest
