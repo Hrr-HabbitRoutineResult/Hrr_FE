@@ -20,21 +20,26 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.example.hrr_android.access.ValidUtils
 import com.example.hrr_android.databinding.ActivityEditProfileBinding
 import com.example.hrr_android.databinding.DialogProfileEditBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.gson.Gson
+import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
+@AndroidEntryPoint
 class EditProfileActivity : AppCompatActivity(), OnBadgeClickListener {
     private lateinit var binding: ActivityEditProfileBinding        // 뷰 바인딩
     private lateinit var user: User     // 유저 데이터 - 수정된 정보로 업데이트하여 서버에 전달
@@ -45,52 +50,100 @@ class EditProfileActivity : AppCompatActivity(), OnBadgeClickListener {
     private lateinit var editBadgeRVAdapter: EditBadgeRVAdapter
     private var cameraPhotoUri: Uri? = null     // 이미지 uri
     private var onCalled: (() -> Unit)? = null
+    private val userViewModel: UserViewModel by viewModels()
+    private var selectedBadgeIdList: MutableList<Int> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         // 변수 초기화
         binding = ActivityEditProfileBinding.inflate(layoutInflater)
-        user = User("닉네임 테스트")
+        user = User(intent.getStringExtra("name")?:"로딩 중..")
         userImg = binding.ivEditUserImage
-        obtainedBadgeList.apply {
-            add(Badge("오늘부터 챌린저1", R.drawable.badge_type_fromtoday_challenger))
-            add(Badge("오늘부터 챌린저2", R.drawable.badge_type_fromtoday_challenger))
-            add(Badge("오늘부터 챌린저3", R.drawable.badge_type_fromtoday_challenger))
-            add(Badge("오늘부터 챌린저4", R.drawable.badge_type_fromtoday_challenger))
-            add(Badge("오늘부터 챌린저5", R.drawable.badge_type_fromtoday_challenger))
-            add(Badge("오늘부터 챌린저6", R.drawable.badge_type_fromtoday_challenger, isSelected = true))
-            add(Badge("오늘부터 챌린저7", R.drawable.badge_type_fromtoday_challenger))
-            add(Badge("오늘부터 챌린저8", R.drawable.badge_type_fromtoday_challenger))
-            add(Badge("오늘부터 챌린저9", R.drawable.badge_type_fromtoday_challenger))
-            add(Badge("오늘부터 챌린저10", R.drawable.badge_type_fromtoday_challenger, isSelected = true))
-            add(Badge("오늘부터 챌린저11", R.drawable.badge_type_fromtoday_challenger))
-            add(Badge("오늘부터 챌린저12", R.drawable.badge_type_fromtoday_challenger, isSelected = true))
-            add(Badge("오늘부터 챌린저13", R.drawable.badge_type_fromtoday_challenger))
-            add(Badge("오늘부터 챌린저14", R.drawable.badge_type_fromtoday_challenger))
-        }
-        selectedBadgeList = mutableListOf()
-        selectedBadgeList = obtainedBadgeList
-            .filter { it.isSelected }
-            .map { it.name to it.icon }
-            .toMutableList()
 
-        if(selectedBadgeList.size==3){
-            addPossible = false
-        }
+        // Intent에서 넘어온 뱃지 이름 리스트 가져오기
+        val selectedBadgeNames = intent.getStringArrayListExtra("badgeNames") ?: arrayListOf()
+        Log.d("badgeDebug", "selectedBadgeNames: $selectedBadgeNames")
 
-        setContentView(binding.root)
+        userViewModel.badges.observe(this) { response ->
+            Log.d("badgeDebug", "response?.typeBadges: ${response?.typeBadges}")
+            Log.d("badgeDebug", "response?.categoryBadges: ${response?.categoryBadges}")
+            obtainedBadgeList = ArrayList(
+                (response?.typeBadges.orEmpty() + response?.categoryBadges.orEmpty()) // 모든 뱃지를 합침
+                    .filter { it.isObtained } // 획득한 배지만 필터링
+                    .map { badge ->
+                        Badge(
+                            name = badge.name,
+                            icon = ValidUtils.getDrawableResId(this, badge.icon),
+                            isObtained = true,
+                            isSelected = badge.name in selectedBadgeNames,
+                            id = badge.badgeId
+                        )
+                    }
+            )
 
-        // Intent 데이터 확인
-        val trigger = intent.getStringExtra("clicked")
-        if (trigger == "badge") {
-            binding.llEditBadge.post {
-                binding.llEditBadge.performClick() // 뱃지 편집 모드 강제 실행
+            selectedBadgeList = mutableListOf()
+            selectedBadgeList = obtainedBadgeList
+                .filter { it.isSelected }
+                .map { it.name to it.icon }
+                .toMutableList()
+
+            selectedBadgeIdList = obtainedBadgeList
+                .filter { it.isSelected } // 선택된 배지만 필터링
+                .map { it.id } // null 값 제거 후 ID만 저장
+                .toMutableList()
+
+            if(selectedBadgeList.size==3){
+                addPossible = false
+            }
+
+            Log.d("badgeDebug", "obtainedBadgeList: $obtainedBadgeList")
+            // 대표 뱃지 바인딩
+            setSelectedBadges(selectedBadgeList, binding)
+
+            // 뱃지 편집
+            binding.llEditBadge.setOnClickListener {
+                // 획득한 뱃지 리스트 보이게
+                binding.rvEditBadge.visibility = View.VISIBLE
+                // 현재 뱃지 보이게 흑백 오버레이 숨기기
+                binding.viewOverlay01.visibility = View.GONE
+                binding.viewOverlay02.visibility = View.GONE
+                binding.viewOverlay03.visibility = View.GONE
+            }
+            //카테고리 뱃지 RecyclerView 연결
+            editBadgeRVAdapter = EditBadgeRVAdapter(obtainedBadgeList, this, addPossible)
+            binding.rvEditBadge.apply {
+                adapter = editBadgeRVAdapter
+                layoutManager = GridLayoutManager(this@EditProfileActivity, 3)
+            }
+
+            // Intent 데이터 확인
+            val trigger = intent.getStringExtra("clicked")
+            if (trigger == "badge") {
+                binding.llEditBadge.post {
+                    binding.llEditBadge.performClick() // 뱃지 편집 모드 강제 실행
+                }
             }
         }
 
-        // 대표 뱃지 바인딩
-        setSelectedBadges(selectedBadgeList, binding)
+        userViewModel.errorMessage.observe(this) { errorMsg ->
+            errorMsg?.let {
+                val errorToUser = when {
+                    it.contains("IllegalStateException") -> "데이터를 불러오는 중 문제가 발생했습니다. 다시 시도해 주세요."
+                    it.contains("JsonSyntaxException") -> "서버 응답이 올바르지 않습니다. 업데이트를 확인해 주세요."
+                    it.contains("SocketTimeoutException") -> "서버 응답이 지연되고 있습니다. 잠시 후 다시 시도해 주세요."
+                    it.contains("IOException") -> "네트워크 연결을 확인해 주세요."
+                    else -> "알 수 없는 오류가 발생했습니다. 잠시 후 다시 시도해 주세요."
+                }
+
+                Toast.makeText(this, errorToUser, Toast.LENGTH_LONG).show()
+                Log.e("ProfileFragmentVM", "오류 발생: $errorMsg")
+            }
+        }
+
+        userViewModel.loadBadges()  // 유저 뱃지 로딩
+
+        setContentView(binding.root)
 
         // 취소 클릭 처리
         binding.tvEditCancel.setOnClickListener {
@@ -100,6 +153,12 @@ class EditProfileActivity : AppCompatActivity(), OnBadgeClickListener {
         // 완료 클릭 처리
         binding.tvEditComplete.setOnClickListener {
             // TODO: 사용자 정보 서버에 업데이트
+            val profileToUpdate = ProfileUpdateRequest(
+                name = binding.tvEditUsername.text.toString(),
+                profilePhoto = "",      // Todo: 이미지 처리
+                badges = selectedBadgeIdList + List(3 - selectedBadgeIdList.size) { null } // 부족한 부분을 null로 채움
+            )
+            userViewModel.updateProfile(profileToUpdate)
             finish()
         }
 
@@ -189,22 +248,6 @@ class EditProfileActivity : AppCompatActivity(), OnBadgeClickListener {
             }
 
             dialog.show()
-        }
-
-        // 뱃지 편집
-        binding.llEditBadge.setOnClickListener {
-            // 획득한 뱃지 리스트 보이게
-            binding.rvEditBadge.visibility = View.VISIBLE
-            // 현재 뱃지 보이게 흑백 오버레이 숨기기
-            binding.viewOverlay01.visibility = View.GONE
-            binding.viewOverlay02.visibility = View.GONE
-            binding.viewOverlay03.visibility = View.GONE
-        }
-        //카테고리 뱃지 RecyclerView 연결
-        editBadgeRVAdapter = EditBadgeRVAdapter(obtainedBadgeList, this, addPossible)
-        binding.rvEditBadge.apply {
-            adapter = editBadgeRVAdapter
-            layoutManager = GridLayoutManager(this@EditProfileActivity, 3)
         }
 
     }
@@ -429,6 +472,7 @@ class EditProfileActivity : AppCompatActivity(), OnBadgeClickListener {
             // 대표 뱃지를 선택한 경우, 대표 리스트에서 제거
             selectedBadgeList = selectedBadgeList.filterNot { it.first == badge.name }.toMutableList()
             badge.isSelected = false
+            selectedBadgeIdList.remove(badge.id)
         }
         else{
             // 새로 선택됐을 경우, 대표 리스트에 추가
@@ -436,6 +480,9 @@ class EditProfileActivity : AppCompatActivity(), OnBadgeClickListener {
                 // 뱃지 개수 3개로 제한
                 selectedBadgeList.add(badge.name to badge.icon)
                 badge.isSelected = true
+                if (!selectedBadgeIdList.contains(badge.id)) {
+                    selectedBadgeIdList.add(badge.id)
+                }
             }
             else{
                 Toast.makeText(this, "뱃지는 최대 3개 선택 가능합니다.", Toast.LENGTH_SHORT).show()
@@ -447,6 +494,7 @@ class EditProfileActivity : AppCompatActivity(), OnBadgeClickListener {
 
     // 대표 뱃지 바인딩
     private fun setSelectedBadges(selectedBadgeList: MutableList<Pair<String, Int>>, binding: ActivityEditProfileBinding){
+        Log.d("badgeDebug", "selectedBadgeList: ${selectedBadgeList}")
         //설정한 대표 뱃지 개수에 따라 visibility 조정
         when(selectedBadgeList.size){
             //first: 이름, second: 아이콘 ID

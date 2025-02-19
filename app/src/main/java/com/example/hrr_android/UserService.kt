@@ -69,6 +69,28 @@ interface UserService {
         @Path("userId") userId: Int
     ): Response<ApiResponse<BlockResponse>>
 
+    // 사용자 뱃지 조회
+    @GET("/api/v1/users/{userId}/badges")
+    suspend fun getMyBadges(
+        @Path("userId") userId: Int
+    ): Response<ApiResponse<BadgeResponse>>
+
+    // 사용자 정보 수정
+    @PUT("/api/v1/users/me")
+    suspend fun updateProfile(
+        @Body request: ProfileUpdateRequest
+    ): Response<ApiResponse<ProfileUpdateResponse>>
+
+    // 최근 획득한 뱃지 조회
+    @GET("/api/v1/users/badges/lately")
+    suspend fun getRecentBadge(): Response<ApiResponse<RecentBadge>>
+
+    // 뱃지 조건 상세 조회
+    @GET("/api/v1/users/badges/{badgeId}/conditions")
+    suspend fun getBadgeCondition(
+        @Path("badgeId") badgeId: Int)
+    : Response<ApiResponse<List<BadgeCondition>>>
+
     // 회원 탈퇴
     @PATCH("/api/v1/users/quit")
     suspend fun withdrawal(): Response<ApiResponse<QuitResponse>>

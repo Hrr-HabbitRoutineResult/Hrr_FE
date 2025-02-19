@@ -25,25 +25,20 @@ class AuthInterceptor @Inject constructor(
             Regex("^/api/v1/posts/hotness$"),      // 전체 인기글
             Regex("^/api/v1/posts$"),              // 게시판 리스트 불러오기
             Regex("^/api/v1/posts/\\d+$"),         // 게시글 불러오기
-            Regex("^/api/v1/board/\\d+/hotness$")  // 게시판 내 HOT 게시글
+            Regex("^/api/v1/board/\\d+/hotness$"),  // 게시판 내 HOT 게시글
+            Regex("^/api/v1/users/\\d+$")
         )
-        // Todo: 일단 쓰는 경로 중에서만 적어놨으니 계속 추가하기
-        val excludedEndpoints = setOf(  // 그 외 개별 경로
-            "/api/v1/users/{userId}",
-            "/api/v1/auth/login/email",
-            "/api/v1/auth/send-verify-email",
-            "/api/v1/auth/check-email-verification-code",
-            "/api/v1/auth/check-nickname",
-            "/api/v1/auth/register",
-            "/api/v1/auth/login/kakao",
-            "/api/v1/auth/token"
+        // Todo: 개별 경로 생기면 추가하고 아래 코드 주석 해제하기
+/*        val excludedEndpoints = setOf(  // 그 외 개별 경로
+            "/api/v1/users/{userId}"
+
         )
 
         // 권한 헤더가 필요 없는 api 경로를 제외하고 자동으로 헤더 추가
         val isExcluded = excludedEndpoints.contains(originalRequest.url.encodedPath) ||
-                excludedPatterns.any { it.matches(originalRequest.url.encodedPath) }
+                excludedPatterns.any { it.matches(originalRequest.url.encodedPath) }*/
 
-        //val isExcluded = excludedPatterns.any { it.matches(originalRequest.url.encodedPath) }
+        val isExcluded = excludedPatterns.any { it.matches(originalRequest.url.encodedPath) }
 
 
         if (!isExcluded && originalRequest.header("Authorization") == null) {
@@ -59,7 +54,7 @@ class AuthInterceptor @Inject constructor(
         val modifiedRequest = requestBuilder.build()
 
         // 최종 요청 로그 추가 (확인용)
-        Log.d("AuthInterceptor", "Final Request Headers: ${modifiedRequest.headers}")
+        Log.d("AuthInterceptor", "Final Request Headers: \"${modifiedRequest.headers}\"")
 
         // 요청 바디 로그 (확인용, GET 요청이면 없음)
         modifiedRequest.body?.let { body ->
