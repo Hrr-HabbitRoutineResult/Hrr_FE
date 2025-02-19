@@ -11,17 +11,17 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
 import androidx.core.view.children
-import com.example.hrr_android.databinding.FragmentSettingNoticeBinding
+import com.example.hrr_android.databinding.FragmentSettingNoticeMoreBinding
 
-class SettingNoticeFragment : Fragment() {
-    private var _binding: FragmentSettingNoticeBinding? = null
+class SettingNoticeMoreFragment : Fragment() {
+    private var _binding: FragmentSettingNoticeMoreBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentSettingNoticeBinding.inflate(inflater, container, false)
+        _binding = FragmentSettingNoticeMoreBinding.inflate(inflater, container, false)
 
         return binding.root
     }
@@ -46,14 +46,14 @@ class SettingNoticeFragment : Fragment() {
                         }
                     }
 
-                    (activity as? ProfileMoreActivity)?.setTitle("설정")
+                    (activity as? ProfileMoreActivity)?.setTitle("알림")
                 }
             })
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        (activity as? ProfileMoreActivity)?.setTitle("설정")
+        (activity as? ProfileMoreActivity)?.setTitle("알림")
         _binding = null
     }
 
@@ -91,31 +91,14 @@ class SettingNoticeFragment : Fragment() {
 
     private fun redrawAllSwitch(){
         val switches = listOf(
-            binding.switchAllNoticeStop,
-            binding.switchCommentForPost,
-            binding.switchNewMesssage,
-            binding.switchNewBadge,
-            binding.switchNewFollower)
+            binding.switchNoticeMyCertify,
+            binding.switchNoticeChallengeOut,
+            binding.switchWeakCertify,
+            binding.switchNewChallengeAsk)
         switches.forEach{redrawSwitch(it)}
     }
 
     private fun initClickListener() {
         // 클릭 처리
-        // 계정 설정
-        binding.llSettingPostComment.setOnClickListener {
-            parentFragmentManager.beginTransaction().apply {
-                // 현재 보여지고 있는 Fragment 숨기기
-                parentFragmentManager.findFragmentById(R.id.fl_profile_more_fragment_container)?.let { hide(it) }
-
-                // 새로운 Fragment 추가
-                add(R.id.fl_profile_more_fragment_container, SettingNoticeMoreFragment())
-                addToBackStack(null) // 뒤로 가기 지원
-                commit()
-            }
-
-            (activity as? ProfileMoreActivity)?.setTitle("챌린지 및 인증")
-
-        }
     }
-
 }
