@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import com.example.hrr_android.DialogNoTitle
+import com.example.hrr_android.MainActivity
 import com.example.hrr_android.access.PasswordNavigator
 import com.example.hrr_android.access.ui.fragment.PasswordResetFragment
 import com.example.hrr_android.R
@@ -54,26 +55,58 @@ class PasswordActivity : AppCompatActivity() {
     }
 
     private fun handleBackPressed() {
-        val dialog = DialogNoTitle(
-            context = this,
-            message = "진행 중인 작업을 중단하고\n로그인 화면으로 이동하시겠습니까?",
-            yesText = "네",
-            noText = "아니오",
-            object : DialogNoTitle.DialogListener {
-                override fun onYesClicked() {
-                    val intent = Intent(this@PasswordActivity, LoginActivity::class.java).apply {
-                        flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
-                    }
-                    startActivity(intent)
-                    finish()
-                }
+        val currentFragment = supportFragmentManager.findFragmentById(R.id.layout_password_fragment)
 
-                override fun onNoClicked() {
-                    // 다이얼로그 닫기 (기본적으로 dismiss()가 호출됨)
-                }
+        when (currentFragment) {
+            is VerificationFragment -> {
+                // VerificationFragment에서 뒤로 가기
+                val dialog = DialogNoTitle(
+                    context = this,
+                    message = "진행 중인 작업을 중단하고 로그인 화면으로 이동하시겠습니까?",
+                    yesText = "네",
+                    noText = "아니오",
+                    object : DialogNoTitle.DialogListener {
+                        override fun onYesClicked() {
+                            val intent = Intent(this@PasswordActivity, LoginActivity::class.java).apply {
+                                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+                            }
+                            startActivity(intent)
+                            finish()
+                        }
+
+                        override fun onNoClicked() {
+                            // 다이얼로그 닫기
+                        }
+                    }
+                )
+                dialog.show()
             }
-        )
-        dialog.show()
+
+            is PasswordResetFragment -> {
+                // PasswordResetFragment에서 뒤로 가기
+                val dialog = DialogNoTitle(
+                    context = this,
+                    message = "진행 중인 작업을 중단하고 홈화면으로 이동하시겠습니까?",
+                    yesText = "네",
+                    noText = "아니오",
+                    object : DialogNoTitle.DialogListener {
+                        override fun onYesClicked() {
+                            val intent = Intent(this@PasswordActivity, MainActivity::class.java).apply {
+                                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+                            }
+                            startActivity(intent)
+                            finish()
+                        }
+
+                        override fun onNoClicked() {
+                            // 다이얼로그 닫기
+                        }
+                    }
+                )
+                dialog.show()
+            }
+        }
     }
+
 }
 
