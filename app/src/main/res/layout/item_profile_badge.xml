@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="108dp"
+    android:layout_height="104dp"
+    android:orientation="vertical"
+    android:paddingHorizontal="14dp">
+
+    <!-- 뱃지 아이콘 -->
+    <ImageView
+        android:id="@+id/iv_profile_badge_icon"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/badge_type_fromtoday_challenger"/>
+
+    <!-- 뱃지명 -->
+    <TextView
+        android:id="@+id/tv_profile_badge_name"
+        android:layout_width="108dp"
+        android:layout_height="wrap_content"
+        android:text="내 하루는 48시간"
+        android:gravity="center"
+        android:fontFamily="@font/font_style"
+        android:textFontWeight="400"
+        android:includeFontPadding="false"
+        android:textSize="12.7sp"
+        android:textColor="@color/text_primary"
+        android:layout_gravity="center"
+        android:letterSpacing="-0.1"/>
+
+</LinearLayout>

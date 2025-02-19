@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".OtherProfileActivity"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- 프로필 레이아웃 클론  -->
+        <include
+            android:id="@+id/include_profile_fragment"
+            layout="@layout/fragment_profile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <!--  뒤로가기 버튼  -->
+        <ImageView
+            android:id="@+id/iv_other_profile_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/btn_arrow_left"
+            app:tint="@color/white"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="55dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="20dp"/>
+
+        <!--  더보기 버튼  -->
+        <ImageView
+            android:id="@+id/iv_other_profile_more"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/btn_more_dot"
+            app:tint="@color/white"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="45dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="10dp"/>
+
+        <ImageView
+            android:id="@+id/iv_other_follow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/btn_profile_follow"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="162dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="14dp"/>
+
+        <ImageView
+            android:id="@+id/iv_other_following"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/btn_profile_following"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="162dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="14dp"
+            android:visibility="visible"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/btn_message"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="156dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="73dp"/>
+
+        <FrameLayout
+            android:id="@+id/fl_unfollow_view"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:background="@drawable/bg_radius10_white_border1_grey500"
+            android:paddingVertical="8dp"
+            android:paddingHorizontal="23.5dp"
+            android:visibility="visible"
+            app:layout_constraintTop_toBottomOf="@+id/iv_other_following"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="14dp">
+
+            <TextView
+                android:id="@+id/tv_unfollow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="김흐르 님 언팔로우하기"
+                android:fontFamily="@font/font_style"
+                android:textFontWeight="500"
+                android:includeFontPadding="false"
+                android:textSize="13sp"
+                android:textColor="@color/sub_01"/>
+        </FrameLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>

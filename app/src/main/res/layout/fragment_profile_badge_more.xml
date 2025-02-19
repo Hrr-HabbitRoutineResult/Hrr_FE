@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 뱃지 더보기 클릭 시 나오는 화면 -->
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ProfileBadgeMoreFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- 타이틀 -->
+        <TextView
+            android:id="@+id/tv_badge_more_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="최근 획득 뱃지"
+            android:textSize="18sp"
+            android:textColor="@color/text_primary"
+            android:fontFamily="@font/font_style"
+            android:textFontWeight="600"
+            android:includeFontPadding="false"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="30dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="16dp"/>
+
+        <!-- 최근 획득 뱃지 정보 -->
+        <LinearLayout
+            android:id="@+id/ll_recent_achieved_badge"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:background="@drawable/bg_radius20_bg02"
+            app:layout_constraintTop_toBottomOf="@+id/tv_badge_more_title"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="16dp"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+
+            <!-- 뱃지 아이콘 -->
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/badge_category_exercise_master"
+                android:layout_marginTop="40dp"/>
+
+            <!-- 뱃지 이름 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="운동 마스터"
+                android:fontFamily="@font/font_style"
+                android:textFontWeight="700"
+                android:includeFontPadding="false"
+                android:textSize="24sp"
+                android:textColor="@color/white"
+                android:layout_marginTop="10dp"/>
+
+            <!-- 뱃지 종류 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="카테고리"
+                android:fontFamily="@font/font_style"
+                android:textFontWeight="400"
+                android:includeFontPadding="false"
+                android:textSize="12sp"
+                android:textColor="@color/white"
+                android:layout_marginTop="5dp"/>
+
+        </LinearLayout>
+
+        <!-- 유형 뱃지 획득 현황 -->
+        <LinearLayout
+            android:id="@+id/ll_badge_more_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/ll_recent_achieved_badge"
+            android:layout_marginTop="50dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="16dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="유형"
+                android:fontFamily="@font/font_style"
+                android:textFontWeight="500"
+                android:includeFontPadding="false"
+                android:textSize="15sp"
+                android:textColor="@color/text_primary"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_badge_more_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:listitem="@layout/item_profile_badge_more"
+                android:overScrollMode="never"
+                android:nestedScrollingEnabled="false"/>
+
+        </LinearLayout>
+
+        <!-- 카테고리 뱃지 획득 현황 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/ll_badge_more_type"
+            android:layout_marginTop="65dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="16dp"
+            android:orientation="vertical"
+            android:paddingBottom="146dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="카테고리"
+                android:fontFamily="@font/font_style"
+                android:textFontWeight="500"
+                android:includeFontPadding="false"
+                android:textSize="15sp"
+                android:textColor="@color/text_primary"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_badge_more_category"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:listitem="@layout/item_profile_badge_more"
+                android:overScrollMode="never"
+                android:nestedScrollingEnabled="false"/>
+
+        </LinearLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

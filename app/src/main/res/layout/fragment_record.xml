@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".challenge.ui.record.RecordFragment">
+
+    <!-- 상단 헤더 영역(고정) -->
+    <include
+        android:id="@+id/layout_record_header"
+        layout="@layout/layout_record_header"/>
+
+    <ScrollView
+        android:id="@+id/sv_record_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/layout_record_header"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <LinearLayout
+            android:id="@+id/ll_record_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- 프로필 영역 -->
+            <include layout="@layout/layout_record_profile"/>
+
+            <!-- 간격 추가 -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="37dp" />
+
+            <!-- 인증 목록 영역 -->
+            <include
+                android:id="@+id/layout_record_list"
+                layout="@layout/layout_record_list"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

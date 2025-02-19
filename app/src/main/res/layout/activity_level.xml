@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 레벨 달성 현황을 보여주는 뷰 -->
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".LevelActivity"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/main_active">
+
+    <!-- 로고, x 버튼 -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ll_level_logo_x"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="53dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="16dp">
+
+        <!-- 좌상단 로고 -->
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_app_logo_color"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="2dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="6dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="4dp"/>
+
+        <!-- x 버튼 -->
+        <ImageView
+            android:id="@+id/iv_level_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/btn_x"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="7dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="10dp"
+            android:layout_gravity="end"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- 안내 멘트 -->
+    <LinearLayout
+        android:id="@+id/ll_level_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/ll_level_logo_x"
+        android:layout_marginTop="30dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="16dp">
+
+        <TextView
+            android:id="@+id/tv_level_main_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="다음 레벨까지"
+            android:fontFamily="@font/font_style"
+            android:textFontWeight="700"
+            android:includeFontPadding="false"
+            android:textSize="24sp"
+            android:textColor="@color/white"
+            android:layout_marginTop="-3dp"/>
+
+        <TextView
+            android:id="@+id/tv_level_sub_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="다음 레벨까지 남은 여정을 알려드려요!"
+            android:fontFamily="@font/font_style"
+            android:textFontWeight="400"
+            android:includeFontPadding="false"
+            android:textSize="12sp"
+            android:textColor="@color/white"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="1dp"/>
+
+    </LinearLayout>
+
+    <!-- 레벨 로드맵 -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/fl_level_map"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/ll_level_title"
+        android:layout_marginTop="7dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- 배경 -->
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:src="@drawable/bg_level_map"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:scaleType="fitXY"/>
+
+        <!-- 길 -->
+        <ImageView
+            android:id="@+id/iv_level_road"
+            android:layout_width="wrap_content"
+            android:layout_height="400dp"
+            android:src="@drawable/bg_level_map_road"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <!-- 브론즈 -->
+        <FrameLayout
+            android:layout_width="53dp"
+            android:layout_height="53dp"
+            app:layout_constraintTop_toTopOf="@+id/iv_level_road"
+            android:layout_marginTop="324dp"
+            app:layout_constraintStart_toStartOf="@id/iv_level_road"
+            android:layout_marginStart="41dp">
+
+            <ImageView
+                android:id="@+id/iv_level_b_shape"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/bg_level_map_default"
+                android:layout_gravity="center"/>
+
+            <TextView
+                android:id="@+id/tv_level_b"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="B"
+                android:fontFamily="@font/font_style"
+                android:textFontWeight="600"
+                android:includeFontPadding="false"
+                android:textSize="20sp"
+                android:textColor="@color/sub_04"
+                android:layout_gravity="center"
+                android:clickable="false"
+                android:focusable="false"/>
+        </FrameLayout>
+
+        <!-- 실버 -->
+        <FrameLayout
+            android:layout_width="53dp"
+            android:layout_height="53dp"
+            app:layout_constraintTop_toTopOf="@+id/iv_level_road"
+            android:layout_marginTop="283dp"
+            app:layout_constraintStart_toStartOf="@id/iv_level_road"
+            android:layout_marginStart="157dp">
+
+            <ImageView
+                android:id="@+id/iv_level_s_shape"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/bg_level_map_default"
+                android:layout_gravity="center"/>
+
+            <TextView
+                android:id="@+id/tv_level_s"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="S"
+                android:fontFamily="@font/font_style"
+                android:textFontWeight="600"
+                android:includeFontPadding="false"
+                android:textSize="20sp"
+                android:textColor="@color/sub_04"
+                android:layout_gravity="center"/>
+
+        </FrameLayout>
+
+        <!-- 골드 -->
+        <FrameLayout
+            android:layout_width="53dp"
+            android:layout_height="53dp"
+            app:layout_constraintTop_toTopOf="@+id/iv_level_road"
+            android:layout_marginTop="187dp"
+            app:layout_constraintStart_toStartOf="@id/iv_level_road"
+            android:layout_marginStart="216dp">
+
+            <ImageView
+                android:id="@+id/iv_level_g_shape"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/bg_level_map_default"
+                android:layout_gravity="center"/>
+
+            <TextView
+                android:id="@+id/tv_level_g"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="G"
+                android:fontFamily="@font/font_style"
+                android:textFontWeight="600"
+                android:includeFontPadding="false"
+                android:textSize="20sp"
+                android:textColor="@color/sub_04"
+                android:layout_gravity="center"/>
+        </FrameLayout>
+
+
+        <!-- 마스터 -->
+        <FrameLayout
+            android:layout_width="53dp"
+            android:layout_height="53dp"
+            app:layout_constraintTop_toTopOf="@+id/iv_level_road"
+            android:layout_marginTop="84dp"
+            app:layout_constraintStart_toStartOf="@id/iv_level_road"
+            android:layout_marginStart="118dp">
+
+            <ImageView
+                android:id="@+id/iv_level_m_shape"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/bg_level_map_default"
+                android:layout_gravity="center"/>
+
+            <TextView
+                android:id="@+id/tv_level_m"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="M"
+                android:fontFamily="@font/font_style"
+                android:textFontWeight="600"
+                android:includeFontPadding="false"
+                android:textSize="20sp"
+                android:textColor="@color/sub_04"
+                android:layout_gravity="center"/>
+
+        </FrameLayout>
+
+
+        <!-- 챌린지 -->
+        <FrameLayout
+            android:layout_width="53dp"
+            android:layout_height="53dp"
+            app:layout_constraintTop_toTopOf="@+id/iv_level_road"
+            android:layout_marginTop="22dp"
+            app:layout_constraintStart_toStartOf="@id/iv_level_road"
+            android:layout_marginStart="265dp">
+
+            <ImageView
+                android:id="@+id/iv_level_final_shape"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/bg_level_map_default"
+                android:layout_gravity="center"/>
+
+            <ImageView
+                android:id="@+id/iv_level_final"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_level_challenge"
+                android:layout_gravity="center"/>
+        </FrameLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- 포인트 -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/fl_level_map"
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@color/white"
+        android:paddingBottom="108dp">
+
+        <!-- 내 포인트 -->
+        <LinearLayout
+            android:id="@+id/ll_level_point"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="23dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="내 포인트"
+                android:fontFamily="@font/font_style"
+                android:textFontWeight="400"
+                android:includeFontPadding="false"
+                android:textSize="12sp"
+                android:textColor="@color/text_primary"
+                android:layout_marginBottom="2dp"
+                android:layout_marginEnd="12dp"/>
+
+            <TextView
+                android:id="@+id/tv_level_mypoint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="149P"
+                android:fontFamily="@font/font_style"
+                android:textFontWeight="700"
+                android:includeFontPadding="false"
+                android:textSize="24sp"
+                android:textColor="@color/text_primary"/>
+
+        </LinearLayout>
+
+        <!-- 레벨 달성 바 -->
+        <LinearLayout
+            android:id="@+id/ll_level_achieve_bar"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/bg_radius_30_grey_50"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/ll_level_point"
+            android:layout_marginTop="13dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="16dp">
+
+            <ImageView
+                android:id="@+id/iv_level_check"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_level_default"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginStart="6dp"
+                android:padding="3.75dp"/>
+
+            <TextView
+                android:id="@+id/tv_level_achieved_datail"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="포인트 30P 달성 : Bronze 획득!"
+                android:fontFamily="@font/font_style"
+                android:textFontWeight="500"
+                android:includeFontPadding="false"
+                android:textSize="13sp"
+                android:textColor="@color/grey_500"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="11dp"
+                android:layout_marginStart="7dp"/>
+
+        </LinearLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

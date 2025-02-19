@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginTop="45dp"
+    android:layout_marginBottom="25dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <!-- 타이틀 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="챌린지 인증 현황"
+            android:textSize="18sp"
+            android:fontFamily="@font/font_style"
+            android:textFontWeight="600"
+            android:textColor="@color/text_primary"
+            android:includeFontPadding="false"
+            android:layout_marginStart="16dp"/>
+
+        <!-- 더보기 버튼 -->
+        <LinearLayout
+            android:id="@+id/ll_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tv_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="더보기"
+                android:textSize="13sp"
+                android:fontFamily="@font/font_style"
+                android:textFontWeight="500"
+                android:textColor="@color/text_tertiary"
+                android:includeFontPadding="false"
+                android:layout_marginStart="156dp"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="7dp"
+                android:src="@drawable/ic_challenge_more_arrow"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_certification_list"
+        android:layout_width="wrap_content"
+        android:layout_height="160dp"
+        android:layout_marginTop="15dp"
+        android:paddingHorizontal="16dp"
+        android:clipToPadding="false"
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+</LinearLayout>

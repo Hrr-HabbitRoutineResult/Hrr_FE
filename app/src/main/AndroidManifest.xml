@@ -1,33 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+    <!-- 인터넷 권한 추가 -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- 카메라 및 갤러리 사용 권한 추가 -->
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" /> <!-- 카메라 권한 -->
+    <uses-permission android:name="android.permission.CAMERA" /> <!-- Android 13 이상: 미디어 권한 -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" /> <!-- Android 10 이하: 읽기/쓰기 권한 -->
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32"
+        android:required="false" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28"
+        android:required="false" />
 
     <application
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_launcher_hrr"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.HrrAndroid"
+        android:theme="@style/SplashTheme"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".FindInfoActivity"
+            android:name=".LevelActivity"
+            android:exported="false" />
+        <!-- 사진 파일 저장을 위한 경로 사용 -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.example.hrr_android.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+        <activity
+            android:name=".EditProfileActivity"
+            android:exported="false" /> <!-- HTTP 요청 허용 -->
+        <!-- HTTP 요청 허용 -->
+        <!-- Kakao 앱 키 등록 -->
+        <meta-data
+            android:name="com.kakao.sdk.AppKey"
+            android:value="${kakaoAppKey}" />
+
+        <activity
+            android:name=".message.ui.MessageChatroomActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".NotificationActivity"
             android:exported="false" />
         <activity
-            android:name=".SignUpActivity"
+            android:name=".community.ui.BoardActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".MyBadgeDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ProfileMoreActivity"
+            android:exported="false" />
+        <activity
+            android:name=".OtherProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LoadingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".onboarding.ui.IntroActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".access.ui.PasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".access.ui.SignUpActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".access.ui.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".onboarding.ui.ResultActivity"
+            android:exported="false" />
+        <activity
+            android:name=".onboarding.ui.OnboardingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="oauth"
+                    android:scheme="kakao${kakaoAppKey}" />
             </intent-filter>
         </activity>
     </application>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    android:paddingTop="14dp"
+    android:paddingBottom="14dp"
+    android:background="@drawable/bg_snackbar_error"
+    android:gravity="center_vertical">
+
+    <ImageView
+        android:id="@+id/iv_snackbar_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_signup_error_white"
+        android:layout_marginEnd="8dp"/>
+
+    <TextView
+        android:id="@+id/tv_snackbar_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="로그인 실패"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"/>
+</LinearLayout>

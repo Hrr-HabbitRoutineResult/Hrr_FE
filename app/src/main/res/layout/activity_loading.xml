@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LoadingActivity">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/img_loading"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_loading_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="지금 업로드 중이에요!"
+        android:textSize="24sp"
+        android:textColor="@color/text_primary"
+        android:fontFamily="@font/noto_sans_kr_bold"
+        android:includeFontPadding="false"
+        android:layout_marginTop="110dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_loading_describe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:fontFamily="@font/noto_sans_kr_regular"
+        android:includeFontPadding="false"
+        android:text="챌린지와 관련해 다른 정보를 보고 싶다면\n아래의 버튼으로 챌린지 프로필에 돌아갈 수 있어요."
+        android:textColor="@color/text_secondary"
+        android:textSize="13sp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_loading_title" />
+
+    <!-- 챌린지 프로필로 돌아가기 버튼 -->
+    <FrameLayout
+        android:id="@+id/btn_onboarding_next"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- 배경 이미지 -->
+        <ImageView
+            android:id="@+id/iv_onboarding_next"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/btn_navy" />
+
+        <!-- 버튼 텍스트 -->
+        <TextView
+            android:id="@+id/tv_onboarding_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="챌린지 프로필로 돌아가기"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:fontFamily="@font/noto_sans_kr_semi_bold"
+            android:layout_gravity="center"/>
+    </FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

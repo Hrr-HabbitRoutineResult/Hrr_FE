@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="pageMargin">5dp</dimen>
+    <dimen name="pageWidth">230dp</dimen>
+    <dimen name="record_item_spacing">5dp</dimen>
+</resources>

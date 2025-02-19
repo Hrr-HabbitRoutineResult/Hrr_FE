@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context=".ProfileChallengeFragment">
+
+    <!-- 참가중인 챌린지 -->
+    <TextView
+        android:id="@+id/tv_profile_participatingChallenge_title"
+        android:layout_width="118dp"
+        android:layout_height="26dp"
+        android:text="참가중인 챌린지"
+        android:fontFamily="@font/font_style"
+        android:textFontWeight="600"
+        android:includeFontPadding="false"
+        android:textSize="18sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="38dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="226dp"/>
+
+    <!-- 참가중인 챌린지 중 인증 완료한 챌린지 수 -->
+    <TextView
+        android:id="@+id/tv_profile_participatingChallenge_count"
+        android:layout_width="wrap_content"
+        android:layout_height="17dp"
+        android:text="0/0"
+        android:fontFamily="@font/font_style"
+        android:textFontWeight="400"
+        android:includeFontPadding="false"
+        android:textSize="12sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv_profile_participatingChallenge_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="45dp"
+        android:layout_marginEnd="200dp"/>
+
+    <!-- 참가 중인 챌린지 없을 때 -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_profile_participatingChallenge_content_no"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/tv_profile_participatingChallenge_title"
+        android:layout_marginTop="15dp"
+        app:layout_constraintBottom_toTopOf="@+id/ll_profile_completedChallenge_title"
+        android:layout_marginBottom="43dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="16dp"
+        android:visibility="visible">
+
+        <ImageView
+            android:id="@+id/iv_profile_challenge_default_bg"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:src="@drawable/profile_challenge_default_bg"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+        <ImageView
+            android:id="@+id/iv_profile_participatingChallenge_no"
+            android:layout_width="50dp"
+            android:layout_height="63.11dp"
+            android:src="@drawable/ic_profile_no_data"
+            app:layout_constraintTop_toTopOf="@+id/iv_profile_challenge_default_bg"
+            app:layout_constraintStart_toStartOf="@+id/iv_profile_challenge_default_bg"
+            app:layout_constraintEnd_toEndOf="@+id/iv_profile_challenge_default_bg"
+            app:layout_constraintBottom_toBottomOf="@id/iv_profile_challenge_default_bg"
+            android:layout_marginTop="18.95dp"
+            android:layout_marginBottom="37.95dp"
+            android:layout_marginStart="139dp"
+            android:layout_marginEnd="139dp"/>
+
+        <TextView
+            android:id="@+id/tv_profile_participatingChallenge_no"
+            android:layout_width="wrap_content"
+            android:layout_height="19dp"
+            android:text="참가중인 챌린지가 없어요"
+            android:textSize="13sp"
+            android:fontFamily="@font/font_style"
+            android:textFontWeight="400"
+            android:includeFontPadding="false"
+            app:layout_constraintTop_toBottomOf="@+id/iv_profile_participatingChallenge_no"
+            app:layout_constraintStart_toStartOf="@+id/iv_profile_challenge_default_bg"
+            app:layout_constraintEnd_toEndOf="@+id/iv_profile_challenge_default_bg"
+            android:layout_marginTop="1dp"
+            android:layout_marginStart="97dp"
+            android:layout_marginEnd="97dp"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- 참가중인 챌린지 있을 때 -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_profile_participatingChallenge_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/tv_profile_participatingChallenge_title"
+        android:layout_marginTop="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingHorizontal="8.5dp"
+        app:layout_constraintBottom_toTopOf="@+id/ll_profile_completedChallenge_title"
+        android:layout_marginBottom="45dp"
+        tools:listitem="@layout/item_profile_participating_challenge"
+        android:visibility="gone"
+        android:clipToPadding="false"/>
+
+    <!-- 최근 완주한 챌린지 -->
+    <LinearLayout
+        android:id="@+id/ll_profile_completedChallenge_title"
+        android:layout_width="wrap_content"
+        android:layout_height="29dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/cl_profile_completedChallenge_content_no"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginHorizontal="16dp"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/tv_profile_completedChallenge_title"
+            android:layout_width="wrap_content"
+            android:layout_height="26dp"
+            android:text="최근 완주한 챌린지"
+            android:fontFamily="@font/font_style"
+            android:textFontWeight="600"
+            android:includeFontPadding="false"
+            android:textSize="18sp"/>
+
+        <!-- 최근 완주한 챌린지 더보기 -->
+        <LinearLayout
+            android:id="@+id/ll_profile_completedChallenge_more"
+            android:layout_width="52dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="140dp"
+            android:gravity="center_vertical"
+            app:layout_constraintStart_toEndOf="@+id/tv_profile_completedChallenge_title">
+
+            <TextView
+                android:layout_width="38dp"
+                android:layout_height="19dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="7dp"
+                android:layout_marginBottom="4dp"
+                android:fontFamily="@font/font_style"
+                android:includeFontPadding="false"
+                android:text="더보기"
+                android:textColor="@color/text_tertiary"
+                android:textFontWeight="500" />
+
+            <ImageView
+                android:layout_width="5dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="2dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/btn_arrow_right"
+                android:tintMode="src_in"
+                app:tint="@color/text_tertiary" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <!-- 최근 완주한 챌린지 없을 때 -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_profile_completedChallenge_content_no"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/ll_profile_completedChallenge_title"
+        android:layout_marginTop="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="16dp"
+        android:visibility="visible"
+        android:paddingBottom="77dp">
+
+        <ImageView
+            android:id="@+id/iv_profile_completedChallenge_default_bg"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:src="@drawable/profile_challenge_default_bg"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <ImageView
+            android:id="@+id/iv_profile_completedChallenge_no"
+            android:layout_width="50dp"
+            android:layout_height="63.11dp"
+            android:src="@drawable/ic_profile_no_data"
+            app:layout_constraintTop_toTopOf="@+id/iv_profile_completedChallenge_default_bg"
+            app:layout_constraintStart_toStartOf="@+id/iv_profile_completedChallenge_default_bg"
+            app:layout_constraintEnd_toEndOf="@+id/iv_profile_completedChallenge_default_bg"
+            app:layout_constraintBottom_toBottomOf="@id/iv_profile_completedChallenge_default_bg"
+            android:layout_marginTop="18.95dp"
+            android:layout_marginBottom="37.95dp"
+            android:layout_marginStart="139dp"
+            android:layout_marginEnd="139dp"/>
+
+        <TextView
+            android:id="@+id/tv_profile_completedChallenge_no"
+            android:layout_width="wrap_content"
+            android:layout_height="19dp"
+            android:text="최근 완주한 챌린지가 없어요"
+            android:textSize="13sp"
+            android:fontFamily="@font/font_style"
+            android:textFontWeight="400"
+            android:includeFontPadding="false"
+            app:layout_constraintTop_toBottomOf="@+id/iv_profile_completedChallenge_no"
+            app:layout_constraintStart_toStartOf="@+id/iv_profile_completedChallenge_default_bg"
+            app:layout_constraintEnd_toEndOf="@+id/iv_profile_completedChallenge_default_bg"
+            android:layout_marginTop="1dp"
+            android:layout_marginStart="97dp"
+            android:layout_marginEnd="97dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- 최근 완주한 챌린지 있을 때 -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_profile_completedChallenge_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/ll_profile_completedChallenge_title"
+        android:layout_marginTop="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:paddingHorizontal="8.5dp"
+        tools:listitem="@layout/item_profile_completed_challenge"
+        android:visibility="gone"
+        android:clipToPadding="false"
+        android:paddingBottom="62dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

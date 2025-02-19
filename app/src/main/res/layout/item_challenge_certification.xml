@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="200dp"
+    android:layout_height="160dp"
+    android:layout_marginEnd="8dp"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="0dp"
+    app:cardBackgroundColor="@color/white"
+    app:strokeWidth="1dp"
+    app:strokeColor="@color/text_line">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/iv_question"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/img_question"/>
+
+        <!-- 질문 표시 -->
+        <ImageView
+            android:id="@+id/iv_question_badge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/ic_challenge_question" />
+
+        <!-- 하단 텍스트 영역 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_gravity="bottom"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="12dp"
+            android:background="@color/white">
+
+            <TextView
+                android:id="@+id/tv_question_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:text="에러났는데 뭐가 문제인지 잘 모르겠어요"
+                android:textSize="12sp"
+                android:fontFamily="@font/font_style"
+                android:textFontWeight="400"
+                android:textColor="@color/text_primary"
+                android:includeFontPadding="false"/>
+
+            <TextView
+                android:id="@+id/tv_questioner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="김흐르"
+                android:textSize="12sp"
+                android:fontFamily="@font/font_style"
+                android:textFontWeight="400"
+                android:textColor="@color/text_secondary"
+                android:includeFontPadding="false"/>
+        </LinearLayout>
+
+    </FrameLayout>
+
+</com.google.android.material.card.MaterialCardView>

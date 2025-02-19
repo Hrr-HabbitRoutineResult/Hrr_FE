@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_challenge_card"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/bg_home_gradation"/>
+
+    <ImageView
+        android:id="@+id/iv_challenge_card_cover"
+        android:layout_width="230dp"
+        android:layout_height="230dp"
+        android:layout_gravity="center"
+        android:scaleType="centerCrop"
+        android:src="@drawable/img_study"
+        android:background="@drawable/layout_rounded_image"
+        android:clipToOutline="true" />
+
+    <ImageView
+        android:layout_width="230dp"
+        android:layout_height="230dp"
+        android:src="@drawable/gradient_home_challenge_card"
+        android:layout_gravity="center"/>
+
+    <ImageView
+        android:layout_width="230dp"
+        android:layout_height="230dp"
+        android:layout_gravity="center"
+        android:src="@drawable/img_home_ring"/>
+
+    <!-- 마지막 세 요소 그룹화 -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/ic_challenge_card_unchecked"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_challenge_card_unchecked"
+            android:visibility="visible" />
+
+        <!-- 체크된 아이콘 -->
+        <ImageView
+            android:id="@+id/ic_challenge_card_checked"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_challenge_card_checked"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_challenge_card_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="자잘자잘"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="@color/text_primary"
+            android:fontFamily="@font/noto_sans_kr_bold"
+            android:includeFontPadding="false"
+            android:layout_marginBottom="10dp"/>
+
+        <FrameLayout
+            android:id="@+id/layout_challenge_card_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="4dp">
+
+            <ImageView
+                android:id="@+id/iv_challenge_card_type"
+                android:layout_width="53dp"
+                android:layout_height="18dp"
+                android:src="@drawable/btn_orange_white_30"/>
+
+            <TextView
+                android:id="@+id/tv_challenge_card_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="베이직"
+                android:textSize="10sp"
+                android:textColor="@color/sub_01"
+                android:fontFamily="@font/noto_sans_kr_regular"
+                android:includeFontPadding="false"
+                android:layout_gravity="center" />
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

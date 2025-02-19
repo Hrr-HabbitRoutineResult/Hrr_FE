@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="120dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:paddingTop="21dp"
+        android:paddingBottom="25dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
+
+        <!-- 왼쪽 텍스트 부분 -->
+        <LinearLayout
+            android:id="@+id/ll_profile_certification_content_text"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:orientation="vertical"
+            android:gravity="center_vertical">
+
+            <!-- 챌린지명, 제목, 링크 -->
+            <LinearLayout
+                android:id="@+id/ll_profile_certification_name_title_and_link"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_profile_certification_record_content_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="챌린지명"
+                    android:textSize="15sp"
+                    android:textColor="@color/text_primary"
+                    android:fontFamily="@font/font_style"
+                    android:textFontWeight="500"
+                    android:includeFontPadding="false"
+                    android:layout_marginBottom="5dp"/>
+
+                <!-- 게시글 제목, 링크 -->
+                <LinearLayout
+                    android:id="@+id/ll_profile_certification_title_and_link"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_profile_certification_record_content_title"
+                        android:layout_width="62dp"
+                        android:layout_height="wrap_content"
+                        android:text="게시글 제목"
+                        android:textSize="13sp"
+                        android:textColor="@color/text_tertiary"
+                        android:fontFamily="@font/font_style"
+                        android:textFontWeight="500"
+                        android:includeFontPadding="false"
+                        android:layout_marginEnd="5dp"
+                        android:ellipsize="end"
+                        android:maxLines="1"/>
+
+                    <ImageView
+                        android:id="@+id/iv_profile_certification_record_link"
+                        android:layout_width="13dp"
+                        android:layout_height="13dp"
+                        android:src="@drawable/ic_with_link"
+                        android:layout_gravity="center"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- 인증 일자 -->
+            <TextView
+                android:id="@+id/tv_profile_certification_record_content_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2024.12.31"
+                android:textSize="12sp"
+                android:textColor="@color/text_tertiary"
+                android:fontFamily="@font/font_style"
+                android:textFontWeight="500"
+                android:includeFontPadding="false"
+                android:layout_marginTop="11dp"/>
+        </LinearLayout>
+
+        <!-- 커버 이미지 -->
+        <ImageView
+            android:id="@+id/iv_profile_certification_record_content_img"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/img_running"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- 인증기록 RecyclerView 구분선 -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/text_line"
+        android:layout_gravity="bottom" />
+
+</FrameLayout>
+

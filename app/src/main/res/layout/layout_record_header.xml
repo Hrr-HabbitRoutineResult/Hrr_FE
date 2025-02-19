@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="45dp"
+        android:layout_marginBottom="10dp">
+
+        <!-- 뒤로가기 버튼 -->
+        <ImageButton
+            android:id="@+id/btn_record_back"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@null"
+            android:src="@drawable/ic_arrow_back"
+            android:scaleType="center"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp" />
+
+        <!-- 타이틀 -->
+        <TextView
+            android:id="@+id/tv_record_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="인증 기록"
+            android:textSize="20sp"
+            android:fontFamily="@font/font_style"
+            android:textFontWeight="600"
+            android:textColor="@color/text_primary"
+            android:includeFontPadding="false" />
+
+    </LinearLayout>
+
+    <!-- 회색 구분선 -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grey_50" />
+
+</LinearLayout>

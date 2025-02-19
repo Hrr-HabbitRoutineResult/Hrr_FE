@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/bg_challenge_dialog">
+
+    <TextView
+        android:id="@+id/tv_challenge_dialog_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="챌린지에 참가하시겠어요?"
+        android:textSize="18sp"
+        android:fontFamily="@font/font_style"
+        android:textFontWeight="600"
+        android:textColor="@color/text_primary"
+        android:includeFontPadding="false"
+        android:layout_marginTop="170dp"/>
+
+    <TextView
+        android:id="@+id/tv_challenge_dialog_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="참가 완료된 챌린지는 취소 혹은\n중도 포기가 불가능합니다."
+        android:textSize="12sp"
+        android:fontFamily="@font/font_style"
+        android:textFontWeight="400"
+        android:textColor="@color/text_primary"
+        android:includeFontPadding="false"
+        android:textAlignment="center"
+        android:layout_marginTop="10dp"/>
+
+    <!-- 버튼 영역 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16.19dp"
+        android:layout_marginTop="50dp"
+        android:gravity="center">
+
+        <!-- 아니오 버튼 -->
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_join_no"
+            android:layout_width="70dp"
+            android:layout_height="35dp"
+            android:text="아니오"
+            android:textSize="13sp"
+            android:fontFamily="@font/font_style"
+            android:textFontWeight="500"
+            android:textColor="@color/text_tertiary"
+            android:includeFontPadding="false"
+            android:background="@drawable/bg_button_grey"
+            android:stateListAnimator="@null" />
+
+        <!-- 네 버튼 -->
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_join_yes"
+            android:layout_width="170dp"
+            android:layout_height="35dp"
+            android:text="네"
+            android:textSize="13sp"
+            android:fontFamily="@font/font_style"
+            android:textFontWeight="500"
+            android:textColor="@color/white"
+            android:includeFontPadding="false"
+            android:background="@drawable/bg_button_orange_filled"
+            android:layout_marginStart="8dp"
+            android:stateListAnimator="@null" />
+    </LinearLayout>
+
+</LinearLayout>

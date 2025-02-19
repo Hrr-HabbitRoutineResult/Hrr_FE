@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_home_challenge_participate"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- 그라데이션 배경 -->
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/bg_home_gradation" />
+
+    <!-- 캐릭터 이미지 -->
+    <ImageView
+        android:id="@+id/iv_home_character"
+        android:layout_width="230dp"
+        android:layout_height="230dp"
+        android:src="@drawable/img_home_character"
+        android:layout_gravity="center"/>
+
+    <!-- 이미지의 테두리 -->
+    <ImageView
+        android:id="@+id/iv_home_ring"
+        android:layout_width="230dp"
+        android:layout_height="230dp"
+        android:layout_gravity="center"
+        android:src="@drawable/img_home_ring"/>
+
+    <!-- 버튼 FrameLayout -->
+    <FrameLayout
+        android:id="@+id/layout_home_challenge_button"
+        android:layout_width="120dp"
+        android:layout_height="35dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="55dp">
+
+        <!-- 버튼 배경 이미지 -->
+        <ImageView
+            android:id="@+id/iv_home_challenge_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/bg_circle_orange"/>
+
+        <!-- 버튼 위의 텍스트 -->
+        <TextView
+            android:id="@+id/tv_home_challenge_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="챌린지 참가하기"
+            android:textColor="@android:color/white"
+            android:textSize="13sp"
+            android:fontFamily="@font/noto_sans_kr_medium"
+            android:includeFontPadding="false"
+            android:gravity="center"
+            android:layout_gravity="center"/>
+    </FrameLayout>
+
+</FrameLayout>

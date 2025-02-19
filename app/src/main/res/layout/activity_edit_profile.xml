@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ns_profile"
+    tools:context=".EditProfileActivity"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:descendantFocusability="blocksDescendants">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- 상단 배너 -->
+        <FrameLayout
+            android:id="@+id/fl_topBanner_edit"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:background="@color/main_active"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- 취소 -->
+        <TextView
+            android:id="@+id/tv_edit_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="취소"
+            android:fontFamily="@font/font_style"
+            android:textFontWeight="600"
+            android:includeFontPadding="false"
+            android:textSize="16sp"
+            android:textColor="@color/white"
+            app:layout_constraintTop_toTopOf="@+id/fl_topBanner_edit"
+            android:layout_marginTop="45dp"
+            app:layout_constraintStart_toStartOf="@+id/fl_topBanner_edit"
+            android:layout_marginStart="10dp"
+            android:padding="10dp"/>
+
+        <!-- 완료 -->
+        <TextView
+            android:id="@+id/tv_edit_complete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="완료"
+            android:fontFamily="@font/font_style"
+            android:textFontWeight="600"
+            android:includeFontPadding="false"
+            android:textSize="16sp"
+            android:textColor="@color/white"
+            app:layout_constraintTop_toTopOf="@+id/fl_topBanner_edit"
+            android:layout_marginTop="45dp"
+            app:layout_constraintEnd_toEndOf="@+id/fl_topBanner_edit"
+            android:layout_marginEnd="10dp"
+            android:padding="10dp"/>
+
+        <!-- 유저 이미지 배경 -->
+        <ImageView
+            android:id="@+id/iv_edit_userBgImage"
+            android:layout_width="124dp"
+            android:layout_height="124dp"
+            android:layout_marginTop="88dp"
+            android:src="@drawable/ic_profile_bg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/fl_topBanner_edit" />
+
+        <FrameLayout
+            android:id="@+id/fl_edit_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/fl_topBanner_edit"
+            android:layout_marginTop="110dp">
+
+            <!-- 유저 이미지 -->
+            <ImageView
+                android:id="@+id/iv_edit_userImage"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/ic_profile_default"
+                 />
+
+            <!-- 검정색 오버레이 -->
+            <View
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:background="@drawable/bg_circle_overlay"
+                android:src="@drawable/ic_profile_default"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/btn_edit_camera"
+                android:layout_gravity="center"/>
+
+        </FrameLayout>
+
+        <!-- 유저 닉네임 수정 -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/ll_edit_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fl_edit_img"
+            android:layout_marginTop="5dp">
+
+            <TextView
+                android:id="@+id/tv_edit_username"
+                android:layout_width="wrap_content"
+                android:layout_height="29dp"
+                android:text="닉네임"
+                android:textAlignment="center"
+                android:textColor="@color/text_primary"
+                android:textSize="20sp"
+                android:fontFamily="@font/font_style"
+                android:textFontWeight="600"
+                android:includeFontPadding="false"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/iv_edit_name_pen"
+                android:layout_marginStart="25dp"/>
+
+            <EditText
+                android:id="@+id/et_edit_username"
+                android:layout_width="wrap_content"
+                android:layout_height="29dp"
+                android:hint="닉네임"
+                android:textAlignment="center"
+                android:textColor="@color/text_tertiary"
+                android:textSize="20sp"
+                android:fontFamily="@font/font_style"
+                android:textFontWeight="600"
+                android:includeFontPadding="false"
+                android:inputType="textPersonName"
+                android:background="@null"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="25dp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toStartOf="@+id/iv_edit_name_pen"/>
+
+            <ImageView
+                android:id="@+id/iv_edit_name_pen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/btn_pen_edit"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="5dp"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- 대표 뱃지 -->
+        <LinearLayout
+            android:id="@+id/ll_edit_badge"
+            android:layout_width="wrap_content"
+            android:layout_height="61dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ll_edit_name"
+            android:layout_marginTop="20dp"
+            android:gravity="center_horizontal"
+            android:fontFamily="@font/font_style"
+            android:textFontWeight="400"
+            android:includeFontPadding="false">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/ll_edit_badge_01"
+                android:layout_width="62dp"
+                android:layout_height="61dp"
+                android:gravity="center_horizontal"
+                android:layout_gravity="center_horizontal">
+
+                <ImageView
+                    android:id="@+id/iv_edit_badge_01"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_profile_default"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <!-- 검정색 오버레이 -->
+                <View
+                    android:id="@+id/view_overlay_01"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/bg_circle_overlay"
+                    android:src="@drawable/ic_profile_default"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <ImageView
+                    android:id="@+id/iv_edit_badge_pen_01"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/btn_pen_edit"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@+id/iv_edit_badge_01"
+                    app:tint="@color/white"/>
+
+                <TextView
+                    android:id="@+id/tv_edit_badge_01"
+                    android:layout_width="match_parent"
+                    android:layout_height="17dp"
+                    android:text="뱃지명"
+                    android:textSize="12sp"
+                    android:textColor="@color/text_primary"
+                    android:fontFamily="@font/font_style"
+                    android:textFontWeight="400"
+                    android:includeFontPadding="false"
+                    android:gravity="center"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    app:layout_constraintTop_toBottomOf="@+id/iv_edit_badge_01"
+                    android:layout_marginTop="5dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/ll_edit_badge_02"
+                android:layout_width="62dp"
+                android:layout_height="61dp"
+                android:gravity="center_horizontal"
+                android:layout_gravity="center_horizontal"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/iv_edit_badge_02"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_profile_default"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <!-- 검정색 오버레이 -->
+                <View
+                    android:id="@+id/view_overlay_02"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/bg_circle_overlay"
+                    android:src="@drawable/ic_profile_default"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <ImageView
+                    android:id="@+id/iv_edit_badge_pen_02"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/btn_pen_edit"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@+id/iv_edit_badge_02"
+                    app:tint="@color/white"/>
+
+                <TextView
+                    android:id="@+id/tv_edit_badge_02"
+                    android:layout_width="match_parent"
+                    android:layout_height="17dp"
+                    android:text="뱃지명"
+                    android:textSize="12sp"
+                    android:textColor="@color/text_primary"
+                    android:fontFamily="@font/font_style"
+                    android:textFontWeight="400"
+                    android:includeFontPadding="false"
+                    android:gravity="center"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    app:layout_constraintTop_toBottomOf="@+id/iv_edit_badge_02"
+                    android:layout_marginTop="5dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/ll_edit_badge_03"
+                android:layout_width="62dp"
+                android:layout_height="61dp"
+                android:gravity="center_horizontal"
+                android:layout_gravity="center_horizontal"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/iv_edit_badge_03"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_profile_default"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <!-- 검정색 오버레이 -->
+                <View
+                    android:id="@+id/view_overlay_03"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/bg_circle_overlay"
+                    android:src="@drawable/ic_profile_default"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <ImageView
+                    android:id="@+id/iv_edit_badge_pen_03"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/btn_pen_edit"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@+id/iv_edit_badge_03"
+                    app:tint="@color/white"/>
+
+                <TextView
+                    android:id="@+id/tv_edit_badge_03"
+                    android:layout_width="match_parent"
+                    android:layout_height="17dp"
+                    android:text="뱃지명"
+                    android:textSize="12sp"
+                    android:textColor="@color/text_primary"
+                    android:fontFamily="@font/font_style"
+                    android:textFontWeight="400"
+                    android:includeFontPadding="false"
+                    android:gravity="center"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    app:layout_constraintTop_toBottomOf="@+id/iv_edit_badge_03"
+                    android:layout_marginTop="5dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_edit_badge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:listitem="@layout/item_profile_badge"
+            app:layout_constraintTop_toBottomOf="@+id/ll_edit_badge"
+            android:layout_marginTop="50dp"
+            android:paddingHorizontal="35dp"
+            android:visibility="gone"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>
