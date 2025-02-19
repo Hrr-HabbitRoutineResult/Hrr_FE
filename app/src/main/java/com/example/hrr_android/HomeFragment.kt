@@ -116,6 +116,11 @@ class HomeFragment : Fragment(), OnChallengeClickListener {
             startActivity(intent)
         }
 
+        //검색 화면으로 이동
+        binding.ivHomeSearch.setOnClickListener {
+            findNavController().navigate(R.id.action_currentFragment_to_searchChallengeFragment)
+        }
+
         binding.tvHomeMore.setOnClickListener {
             navigateToPasswordActivity(PasswordNavigator.RESET)
         }
@@ -151,7 +156,7 @@ class HomeFragment : Fragment(), OnChallengeClickListener {
 
                 // 챌린지 목록 프래그먼트로 이동
                 binding.itemHomeChallengeCardNew.root.setOnClickListener {
-                    // TODO: 챌린지 목록 프래그먼트로 이동하는 클릭 이벤트 추가
+                    findNavController().navigate(R.id.action_currentFragment_to_challengeListFragment)
                 }
 
                 // 인디케이터 설정
@@ -338,6 +343,6 @@ class HomeFragment : Fragment(), OnChallengeClickListener {
 
     override fun onMoreClick() {
         Toast.makeText(requireContext(), "더보기를 클릭했습니다", Toast.LENGTH_SHORT).show() // 클릭 확인용
-        // TODO: 챌린지 목록 프래그먼트로 이동하는 클릭 이벤트 추가
+        findNavController().navigate(R.id.action_currentFragment_to_challengeListFragment)
     }
 }
