@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.hrr_android.access.ui.LoginActivity
+import com.example.hrr_android.MainActivity
 import com.example.hrr_android.databinding.FragmentPasswordResetCompleteBinding
 
 class PasswordResetCompleteFragment : Fragment() {
@@ -30,7 +30,7 @@ class PasswordResetCompleteFragment : Fragment() {
 
     private fun setupNextButton() {
         binding.btnResetCompleteNext.setOnClickListener {
-            val intent = Intent(requireContext(), LoginActivity::class.java).apply {
+            val intent = Intent(requireContext(), MainActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
             }
             startActivity(intent)
