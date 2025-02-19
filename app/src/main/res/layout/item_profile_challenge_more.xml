@@ -39,6 +39,7 @@
 
     <!-- 완료 도장 -->
     <ImageView
+        android:id="@+id/iv_challenge_complete_icon"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:src="@drawable/img_complete"

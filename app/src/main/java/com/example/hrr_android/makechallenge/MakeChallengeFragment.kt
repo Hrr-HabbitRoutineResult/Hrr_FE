@@ -1,17 +1,14 @@
-package com.example.hrr_android
+package com.example.hrr_android.makechallenge
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import com.example.hrr_android.R
 import com.example.hrr_android.databinding.FragmentMakeChallengeBinding
 import com.example.hrr_android.databinding.LayoutMakeChallengeHeaderBinding
-
-import com.example.hrr_android.makechallenge.MakeBasicChallengeFragment
-import com.example.hrr_android.makechallenge.MakeStudyChallengeFragment
 
 class MakeChallengeFragment : Fragment() {
 
@@ -135,10 +132,14 @@ class MakeChallengeFragment : Fragment() {
             binding.btnApply.isEnabled = isEnabled
             if (isEnabled) {
                 binding.btnApply.setBackgroundResource(R.drawable.bg_button_activate_10)
-                binding.btnApply.findViewById<TextView>(R.id.tv_make_challenge_apply).setTextColor(resources.getColor(R.color.white))
+                binding.btnApply.findViewById<TextView>(R.id.tv_make_challenge_apply).setTextColor(resources.getColor(
+                    R.color.white
+                ))
             } else {
                 binding.btnApply.setBackgroundResource(R.drawable.bg_button_deactivate_10)
-                binding.btnApply.findViewById<TextView>(R.id.tv_make_challenge_apply).setTextColor(resources.getColor(R.color.text_tertiary))
+                binding.btnApply.findViewById<TextView>(R.id.tv_make_challenge_apply).setTextColor(resources.getColor(
+                    R.color.text_tertiary
+                ))
             }
             binding.btnApply.invalidate()
         }

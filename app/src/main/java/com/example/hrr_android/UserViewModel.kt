@@ -161,6 +161,18 @@ class UserViewModel @Inject constructor(
         }
     }
 
+    // 회원 탈퇴
+    fun withdrawal(){
+        viewModelScope.launch {
+            val result = userRepository.withdrawal()
+            result.onSuccess {
+
+            }.onFailure {
+                _errorMessage.postValue(result.exceptionOrNull()?.message) // 에러 메시지 전달
+            }
+        }
+    }
+
     // Onboarding API 응답을 담을 LiveData
     private val _onboardingResult = MutableLiveData<List<OnboardingSuccess>?>()
     val onboardingResult: LiveData<List<OnboardingSuccess>?> get() = _onboardingResult
