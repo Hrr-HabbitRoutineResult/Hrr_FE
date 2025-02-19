@@ -92,7 +92,7 @@ object ValidUtils {
             0 // 기본값 반환
         }
     }
-
+/*
     // 엔터 키 눌렀을 때 특정 버튼이 작동하도록 하는 함수
     fun setEnterKeyListener(editText: EditText, button: FrameLayout) {
         editText.setOnEditorActionListener { _, actionId, _ ->
@@ -103,5 +103,5 @@ object ValidUtils {
                 false
             }
         }
-    }
+    }*/
 }

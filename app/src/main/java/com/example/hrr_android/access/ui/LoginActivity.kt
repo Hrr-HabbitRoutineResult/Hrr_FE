@@ -86,7 +86,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         // 인증코드 입력란에서 엔터 키를 눌렀을 때
-        ValidUtils.setEnterKeyListener(binding.etLoginPassword, binding.btnLoginNext)
+        // ValidUtils.setEnterKeyListener(binding.etLoginPassword, binding.btnLoginNext)
 
         // 카카오 로그인 결과 관찰
         authViewModel.kakaoLoginResult.observe(this) { result ->

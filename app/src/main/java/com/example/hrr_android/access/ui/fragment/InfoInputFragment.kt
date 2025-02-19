@@ -58,7 +58,7 @@ class InfoInputFragment : Fragment() {
         setupVerificationProcess()
         setupPasswordValidation()
         setupPasswordMatchValidation()
-        setupEnterKeyListener()
+        // setupEnterKeyListener()
 
         // 회원가입 API 결과 관찰
         observeRegistrationResult()
@@ -356,6 +356,7 @@ class InfoInputFragment : Fragment() {
         )
     }
 
+/*
     private fun setupEnterKeyListener() {
         // 닉네임 입력란에서 엔터 키를 눌렀을 때
         ValidUtils.setEnterKeyListener(binding.etSignupNickname, binding.btnSignupNicknameCheck)
@@ -372,6 +373,7 @@ class InfoInputFragment : Fragment() {
         // 비밀번호 확인 입력란에서 엔터 키를 눌렀을 때
         ValidUtils.setEnterKeyListener(binding.etSignupPasswordConfirm, binding.btnInfoInputNext)
     }
+*/
 
     override fun onDestroyView() {
         // 뷰 바인딩 해제
