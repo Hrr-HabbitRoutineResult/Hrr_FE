@@ -6,11 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.hrr_android.databinding.FragmentSettingBlockListBinding
 
 class SettingBlockListFragment : Fragment() {
     private var _binding: FragmentSettingBlockListBinding? = null
     private val binding get() = _binding!!
+    private var tempList = ArrayList<TempUser>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,6 +42,26 @@ class SettingBlockListFragment : Fragment() {
                     (activity as? ProfileMoreActivity)?.setTitle("설정")
                 }
             })
+
+        //팔로워 더미 데이터
+        tempList.apply {
+            add(TempUser("김흐르", "실버", R.drawable.ic_profile_default, true))
+            add(TempUser("김흐르", "실버", R.drawable.ic_profile_default, true))
+            add(TempUser("김흐르", "실버", R.drawable.ic_profile_default, true))
+            add(TempUser("김흐르", "실버", R.drawable.ic_profile_default, true))
+            add(TempUser("조흐르", "실버", R.drawable.ic_profile_default, true))
+            add(TempUser("이흐르", "실버", R.drawable.ic_profile_default, true))
+            add(TempUser("김흐르", "실버", R.drawable.ic_profile_default, true))
+            add(TempUser("김흐르", "실버", R.drawable.ic_profile_default, true))
+            add(TempUser("김흐르", "실버", R.drawable.ic_profile_default, true))
+            add(TempUser("김흐르", "실버", R.drawable.ic_profile_default, true))
+        }
+
+        val blockRVAdapter = BlockRVAdapter(tempList)
+        binding.rvBlocklist.apply {
+            adapter = blockRVAdapter
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        }
 
     }
 
