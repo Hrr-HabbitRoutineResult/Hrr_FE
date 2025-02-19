@@ -6,11 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.hrr_android.databinding.FragmentSettingCommentChallengeBinding
 
 class SettingCommentChallengeFragment : Fragment() {
     private var _binding: FragmentSettingCommentChallengeBinding? = null
     private val binding get() = _binding!!
+    private var posts = ArrayList<Post>() //기록 리스트
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,6 +42,29 @@ class SettingCommentChallengeFragment : Fragment() {
                     (activity as? ProfileMoreActivity)?.setTitle("설정")
                 }
             })
+
+        //챌린지 더미 데이터
+        posts.apply {
+            add(Post("챌린지명", "게시글 제목", "2024.12.31", R.drawable.img_running, true, ))
+            add(Post("Run To You", "마지막 인증합니다~^^", "2024.12.31", R.drawable.img_running, true))
+            add(Post("사진 없을 경우", "게시글 제목", "2025.01.01", hasLink = false))
+            add(Post("링크 없을 경우", "1년 만에 인증합니다~^^", "2025.01.01", R.drawable.img_running, false))
+            add(Post("인증 제목 없을 경우", "", "2025.01.01", R.drawable.img_running, false))
+            add(Post("테스트", "게시글 제목", "2024.12.31",R.drawable.img_running, true))
+            add(Post("테스트", "게시글 제목", "2024.12.31",R.drawable.img_running, true))
+            add(Post("테스트", "게시글 제목", "2024.12.31",R.drawable.img_running, true))
+            add(Post("테스트", "게시글 제목", "2024.12.31",R.drawable.img_running, true))
+            add(Post("테스트", "게시글 제목", "2024.12.31",R.drawable.img_running, true))
+            add(Post("테스트", "게시글 제목", "2024.12.31",R.drawable.img_running, true))
+            add(Post("테스트", "게시글 제목", "2024.12.31",R.drawable.img_running, true))
+        }
+
+        // Adapter 연결
+        val commentedPostRVAdapter = CommentedPostRVAdapter(posts)
+        binding.rvRecordComment.apply {
+            adapter = commentedPostRVAdapter
+            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        }
 
     }
 
