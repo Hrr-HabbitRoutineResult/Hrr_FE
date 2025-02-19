@@ -159,7 +159,6 @@ class AuthRepository @Inject constructor(
         }
     }
 
-    // 카카오 로그인 요청
     suspend fun loginWithKakao(kakaoAccessToken: String): Result<KakaoLoginResponse> {
         return try {
             val request = KakaoLoginRequest(kakaoAccessToken)
@@ -168,9 +167,17 @@ class AuthRepository @Inject constructor(
             if (response.isSuccessful) {
                 val responseBody = response.body()
                 if (responseBody != null) {
-                    // TokenManager를 이용하여 토큰 저장
-                    tokenManager.saveTokens(responseBody.accessToken, responseBody.refreshToken)
-                    Result.success(responseBody)
+                    if (responseBody.resultType == "SUCCESS" && responseBody.success != null) {
+                        val loginData = responseBody.success
+
+                        // TokenManager를 이용하여 토큰 저장
+                        tokenManager.saveTokens(loginData.accessToken, loginData.refreshToken)
+                        saveUserId(loginData.userId)
+
+                        Result.success(loginData)
+                    } else {
+                        Result.failure(Exception("로그인 실패: ${responseBody.error ?: "알 수 없는 오류"}"))
+                    }
                 } else {
                     Result.failure(Exception("서버 응답 오류: 응답 본문이 비어 있음"))
                 }
@@ -182,6 +189,7 @@ class AuthRepository @Inject constructor(
             Result.failure(Exception("네트워크 오류: ${e.message}"))
         }
     }
+
 
     // 토큰 갱신 요청
     suspend fun refreshAccessToken(): String? {
