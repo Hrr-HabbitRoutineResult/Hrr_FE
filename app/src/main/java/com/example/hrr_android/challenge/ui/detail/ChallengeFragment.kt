@@ -99,12 +99,31 @@ class ChallengeFragment : Fragment(), ChallengeDialogInterface {
             }
         }
 
+        // join API 응답 observe
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.joinState.collect { result ->
+                result?.onSuccess { challenge ->
+                    addCertificationViews()
+                    updateButtonLayout(ChallengeState.JOINED)
+                    updateUI(challenge)
+                }?.onFailure { e ->
+                    if (e.message?.contains("이미 참여 중인 챌린지입니다") == true) {
+                        // 이미 참여 중인 경우에도 JOINED 상태로 변경
+                        addCertificationViews()
+                        updateButtonLayout(ChallengeState.JOINED)
+                    }
+                    Toast.makeText(requireContext(), e.message, Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
     }
 
     // JOIN 다이얼로그에서 '네' 버튼 클릭 시 호출
     override fun onJoinButtonClick() {
-        addCertificationViews()
-        updateButtonLayout(ChallengeState.JOINED)  // 상태 변경
+        val challengeId = arguments?.getInt("challenge_id", -1) ?: -1
+        if (challengeId != -1) {
+            viewModel.joinChallenge(challengeId)
+        }
     }
 
     // 인증 관련 뷰 동적으로 추가

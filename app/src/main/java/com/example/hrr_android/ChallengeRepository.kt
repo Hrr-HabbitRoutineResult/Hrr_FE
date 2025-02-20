@@ -71,4 +71,30 @@ class ChallengeRepository @Inject constructor(
             Result.failure(Exception("알 수 없는 오류 발생: ${e.localizedMessage}"))
         }
     }
+    // 특정 챌린지 참가 Repository 메서드
+    suspend fun joinChallenge(challengeId: Int): Result<ChallengeDetail> {
+        return try {
+            val response = challengeService.joinChallenge(challengeId)
+            if (response.isSuccessful) {
+                val apiResponse = response.body()
+                    ?: return Result.failure(Exception("서버 응답이 비어 있습니다."))
+                return (apiResponse.success?.let {
+                    Result.success(it)
+                } ?: Result.failure(Exception("서버 응답이 올바르지 않습니다.")))
+            } else {
+                // 에러 응답 처리
+                val errorBody = response.errorBody()?.string()
+                val errorMessage = if (errorBody?.contains("already joined") == true) {
+                    "이미 참여 중인 챌린지입니다."
+                } else {
+                    "챌린지 참가에 실패했습니다."
+                }
+                Result.failure(Exception(errorMessage))
+            }
+        } catch (e: IOException) {
+            Result.failure(Exception("네트워크 연결에 실패했습니다. 인터넷을 확인하세요."))
+        } catch (e: Exception) {
+            Result.failure(Exception("알 수 없는 오류 발생: ${e.localizedMessage}"))
+        }
+    }
 }

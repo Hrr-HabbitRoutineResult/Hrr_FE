@@ -3,6 +3,7 @@ package com.example.hrr_android
 import com.example.hrr_android.challenge.model.ChallengeDetail
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface ChallengeService {
@@ -22,4 +23,10 @@ interface ChallengeService {
     suspend fun getUserProfile(
         @Path("userId") userId: Int
     ): Response<ApiResponse<UserResponse>>
+
+    // 챌린지 참가
+    @POST("/api/v1/challenge/{challengeId}/join")
+    suspend fun joinChallenge(
+        @Path("challengeId") challengeId: Int
+    ): Response<ApiResponse<ChallengeDetail>>
 }
