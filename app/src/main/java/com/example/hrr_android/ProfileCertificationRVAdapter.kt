@@ -12,7 +12,8 @@ interface OnRecordClickListener{
 
 class ProfileCertificationRVAdapter (
     private val certificationList : ArrayList<Certification>,
-    private val listener: OnRecordClickListener) : RecyclerView.Adapter<ProfileCertificationRVAdapter.ViewHolder>() {
+    private val listener: OnRecordClickListener)
+    : RecyclerView.Adapter<ProfileCertificationRVAdapter.ViewHolder>() {
     override fun onCreateViewHolder(
         viewGroup: ViewGroup,
         viewType: Int
