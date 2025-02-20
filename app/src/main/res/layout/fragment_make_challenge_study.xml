@@ -344,10 +344,10 @@
                         android:textSize="15sp" />
 
                     <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_marginStart="46dp"
-                        android:layout_marginTop="20dp"
+                        android:layout_width="12.22dp"
+                        android:layout_height="10dp"
+                        android:layout_marginStart="51dp"
+                        android:layout_marginTop="27dp"
                         android:src="@drawable/ic_challenge_camera" />
 
                     <TextView
@@ -386,10 +386,10 @@
                         android:textSize="15sp" />
 
                     <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_marginStart="32dp"
-                        android:layout_marginTop="20dp"
+                        android:layout_width="11dp"
+                        android:layout_height="10dp"
+                        android:layout_marginStart="37dp"
+                        android:layout_marginTop="27dp"
                         android:src="@drawable/ic_challenge_pen" />
 
                     <TextView
@@ -652,7 +652,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/noto_sans_kr_regular"
-                android:text="설정한 키워드에 따라 해당 챌린지를 더욱 많은 챌린저들이 방문할\n 수 있습니다. (최대 3개 입력)"
+                android:text="설정한 키워드에 따라 해당 챌린지를 더욱 많은 챌린저들이 방문할 수 있습니다. (최대 3개 입력)"
                 android:textColor="@color/text_secondary"
                 android:textSize="12sp"
                 android:layout_marginTop="6dp"
