@@ -78,12 +78,8 @@ class LoginActivity : AppCompatActivity() {
             navigateToPasswordActivity(PasswordNavigator.VERIFICATION)
         }
 
-        binding.ivLoginKakao.setOnClickListener {
+        binding.layoutKakaoLogin.setOnClickListener {
             attemptKakaoLogin()
-        }
-
-        binding.ivLoginNaver.setOnClickListener {
-            navigateToPasswordActivity(PasswordNavigator.RESET)
         }
 
         // 인증코드 입력란에서 엔터 키를 눌렀을 때

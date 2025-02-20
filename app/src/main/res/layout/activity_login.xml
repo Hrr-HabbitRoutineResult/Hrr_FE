@@ -164,34 +164,43 @@
                 android:layout_marginStart="8dp"/>
         </LinearLayout>
 
-        <!-- SNS 로그인 버튼 -->
-        <LinearLayout
-            android:id="@+id/layout_login_sns"
+        <!-- 카카오 로그인 버튼 -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_kakao_login"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:layout_marginTop="20dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/bg_kakao_login"
             app:layout_constraintTop_toBottomOf="@id/layout_login_divider"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
-            <!-- 카카오톡 로그인 -->
             <ImageView
-                android:id="@+id/iv_login_kakao"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:id="@+id/iv_kakao_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_kakao_logo"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginStart="15dp"/>
+
+            <TextView
+                android:id="@+id/tv_kakao_login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:fontFamily="@font/noto_sans_kr_medium"
+                android:text="카카오 로그인"
+                android:textColor="@color/text_primary"
+                android:textSize="15sp"
                 android:layout_marginEnd="20dp"
-                android:src="@drawable/ic_logo_kakao" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/iv_kakao_logo"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <!-- 네이버 로그인 -->
-            <ImageView
-                android:id="@+id/iv_login_naver"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/ic_logo_naver" />
-
-        </LinearLayout>
     </LinearLayout>
 
     <ImageView
