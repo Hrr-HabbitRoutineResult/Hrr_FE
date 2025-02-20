@@ -9,7 +9,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.hrr_android.databinding.FragmentSettingSaveChallengeBinding
 
-class SettingSaveChallengeFragment : Fragment() {
+class SettingSaveChallengeFragment : Fragment(), OnRecordClickListener {
     private var _binding: FragmentSettingSaveChallengeBinding? = null
     private val binding get() = _binding!!
     private var certifications = ArrayList<Certification>() //기록 리스트
@@ -60,7 +60,7 @@ class SettingSaveChallengeFragment : Fragment() {
         }
 
         // Adapter 연결
-        val profileRecordMoreRVAdapter = ProfileRecordMoreRVAdapter(certifications)
+        val profileRecordMoreRVAdapter = ProfileRecordMoreRVAdapter(certifications, this)
         binding.rvPostSaved.apply {
             adapter = profileRecordMoreRVAdapter
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
@@ -72,5 +72,9 @@ class SettingSaveChallengeFragment : Fragment() {
         super.onDestroyView()
         (activity as? ProfileMoreActivity)?.setTitle("설정")
         _binding = null
+    }
+
+    override fun onRecordClicked(certification: Certification) {
+        TODO("Not yet implemented")
     }
 }

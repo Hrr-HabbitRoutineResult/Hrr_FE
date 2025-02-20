@@ -6,7 +6,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hrr_android.databinding.ItemProfileChallengeMoreBinding
 
-class ProfileChallengerMoreRVAdapter(private var challengeList: ArrayList<Challenge>, private var isSaved: Boolean = false): RecyclerView.Adapter<ProfileChallengerMoreRVAdapter.ViewHolder>() {
+class ProfileChallengerMoreRVAdapter(
+    private var challengeList: ArrayList<Challenge>,
+    private var isSaved: Boolean = false,
+    private val listener: OnCompletedChallengeClickListener)
+    : RecyclerView.Adapter<ProfileChallengerMoreRVAdapter.ViewHolder>() {
     override fun onCreateViewHolder(
         viewGroup: ViewGroup,
         viewType: Int
@@ -35,6 +39,10 @@ class ProfileChallengerMoreRVAdapter(private var challengeList: ArrayList<Challe
 
             if(isSaved){
                 binding.ivChallengeCompleteIcon.visibility = View.INVISIBLE
+            }
+
+            binding.root.setOnClickListener {
+                listener.onChallengeClicked(challenge)
             }
         }
     }

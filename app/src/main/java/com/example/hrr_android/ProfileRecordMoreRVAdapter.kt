@@ -6,7 +6,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hrr_android.databinding.ItemProfileCertificationRecoredBinding
 
-class ProfileRecordMoreRVAdapter(private var certificationList: ArrayList<Certification>): RecyclerView.Adapter<ProfileRecordMoreRVAdapter.ViewHolder>() {
+class ProfileRecordMoreRVAdapter(
+    private var certificationList: ArrayList<Certification>,
+    private val listener: OnRecordClickListener)
+    : RecyclerView.Adapter<ProfileRecordMoreRVAdapter.ViewHolder>() {
     override fun onCreateViewHolder(
         viewGroup: ViewGroup,
         viewType: Int
@@ -51,6 +54,11 @@ class ProfileRecordMoreRVAdapter(private var certificationList: ArrayList<Certif
             if(certification.title==""){
                 //게시글 제목 없을 때
                 binding.llProfileCertificationTitleAndLink.visibility = View.GONE
+            }
+
+            // 클릭 시 해당 기록으로 이동
+            binding.root.setOnClickListener {
+                listener.onRecordClicked(certification)
             }
         }
     }

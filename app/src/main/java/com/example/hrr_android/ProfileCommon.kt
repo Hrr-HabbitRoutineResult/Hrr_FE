@@ -32,13 +32,13 @@ class ProfileCommon {
                  Level("gold", 150, 250),
                  Level("master", 250, 400),
                  Level("challenger", 400, -1))   // 챌린저 달성 시 별도 처리 위해 -1로 설정
-    fun setupCircularProgressBar(binding: FragmentProfileBinding, level:String, myPoint: Int) {
+    fun setupCircularProgressBar(binding: FragmentProfileBinding, level:String?, myPoint: Int?) {
         // 레벨 달성률 반원 게이지 바
         val circularProgressBar = binding.cpbProfileLevelGauge
 
         // 퍼센트 계산
         val thisLevel = levels.find { it.grade == level }
-        val earnedPoint = myPoint - (thisLevel?.gotPoint ?: 0) + 0.1    // ProgressBar에 미세하게 표시하기 위한 보정치 추가
+        val earnedPoint = (myPoint?:0) - (thisLevel?.gotPoint ?: 0) + 0.1    // ProgressBar에 미세하게 표시하기 위한 보정치 추가
         val requiredPoint = (thisLevel?.needPoint?: 1) - (thisLevel?.gotPoint ?: 0)
         val progressPercentage =
             if (level == "challenger") 50f // 챌린저 달성 시 full

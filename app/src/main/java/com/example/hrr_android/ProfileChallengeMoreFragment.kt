@@ -9,13 +9,16 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.hrr_android.access.ValidUtils
 import com.example.hrr_android.databinding.FragmentProfileChallengeMoreBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ProfileChallengeMoreFragment : Fragment() {
+class ProfileChallengeMoreFragment : Fragment(), OnCompletedChallengeClickListener {
     //뷰 바인딩
     private var _binding: FragmentProfileChallengeMoreBinding? = null
     private val binding get() = _binding!!
@@ -49,7 +52,7 @@ class ProfileChallengeMoreFragment : Fragment() {
                 challenges?.completedChallenges?.map{challengeEnd->
                     Challenge(
                         challengeEnd.name,
-                        challengeEnd.imageUrl.toInt(),      // 이미지 처리 구현 전이라 오류 방지를 위해 임시로 Int로 전환해서 사용
+                        0,      // 이미지 처리 구현 전이라 오류 방지를 위해 임시로 Int로 전환해서 사용
                         challengeEnd.description)
 
                 }.let {
@@ -57,6 +60,7 @@ class ProfileChallengeMoreFragment : Fragment() {
                         clear()
                         if (it != null) {
                             addAll(it)
+                            binding.rvChallengeMore.adapter?.notifyDataSetChanged()
                         }
                     }
                 }
@@ -91,7 +95,7 @@ class ProfileChallengeMoreFragment : Fragment() {
                 challenges?.completedChallenges?.map{challengeEnd->
                     Challenge(
                         challengeEnd.name,
-                        challengeEnd.imageUrl.toInt(),      // 이미지 처리 구현 전이라 오류 방지를 위해 임시로 Int로 전환해서 사용
+                        0,      // 이미지 처리 구현 전이라 오류 방지를 위해 임시로 Int로 전환해서 사용
                         challengeEnd.description)
 
                 }.let {
@@ -99,6 +103,7 @@ class ProfileChallengeMoreFragment : Fragment() {
                         clear()
                         if (it != null) {
                             addAll(it)
+                            binding.rvChallengeMore.adapter?.notifyDataSetChanged()
                         }
                     }
                 }
@@ -123,7 +128,7 @@ class ProfileChallengeMoreFragment : Fragment() {
             otherUserViewModel.loadChallengesEnd(ownerId)
         }
 
-        val profileChallengerMoreRVAdapter = ProfileChallengerMoreRVAdapter(completedChallenges)
+        val profileChallengerMoreRVAdapter = ProfileChallengerMoreRVAdapter(completedChallenges, listener = this)
         binding.rvChallengeMore.apply {
             adapter = profileChallengerMoreRVAdapter
             layoutManager = GridLayoutManager(requireContext(), 2)
@@ -134,5 +139,13 @@ class ProfileChallengeMoreFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onChallengeClicked(challenge: Challenge) {
+        val bundle = Bundle().apply {
+            putString("state", "completed")
+        }
+
+        //findNavController().navigate(R.id.action_profileChallengeMoreFragment_to_challengeFragment, bundle)
     }
 }

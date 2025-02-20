@@ -5,7 +5,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hrr_android.databinding.ItemProfileCompletedChallengeBinding
 
-class ProfileCompletedChallengeRVAdapter(private val challengeList : ArrayList<Challenge>) : RecyclerView.Adapter<ProfileCompletedChallengeRVAdapter.ViewHolder>() {
+interface OnCompletedChallengeClickListener{
+    fun onChallengeClicked(challenge: Challenge)
+}
+
+class ProfileCompletedChallengeRVAdapter(
+    private val challengeList : ArrayList<Challenge>,
+    private val listener: OnCompletedChallengeClickListener
+    ) : RecyclerView.Adapter<ProfileCompletedChallengeRVAdapter.ViewHolder>() {
     override fun onCreateViewHolder(
         viewGroup: ViewGroup,
         viewType: Int
@@ -29,6 +36,9 @@ class ProfileCompletedChallengeRVAdapter(private val challengeList : ArrayList<C
             binding.tvProfileCompletedChallengeDetailTitle.text = challenge.title
             binding.tvProfileCompletedChallengeDetailSubtitle.text = challenge.description
 
+            binding.root.setOnClickListener {
+                listener.onChallengeClicked(challenge)
+            }
         }
     }
 }

@@ -63,6 +63,47 @@
         android:id="@+id/action_homeFragment_to_challengeFragment"
         app:destination="@id/challengeFragment" />
 
+    <!-- 프로필 챌린지  -->
+    <fragment
+        android:id="@+id/profileChallengeFragment"
+        android:name="com.example.hrr_android.ProfileChallengeFragment"
+        android:label="ProfileChallengeFragment"/>
+    <action
+        android:id="@+id/action_profileChallengeFragment_to_challengeFragment"
+        app:destination="@id/challengeFragment"/>
+    <activity
+        android:id="@+id/profileMoreActivity"
+        android:name="com.example.hrr_android.ProfileMoreActivity"
+        android:label="ProfileMoreActivity"/>
+    <fragment
+        android:id="@+id/profileChallengeMoreFragment"
+        android:name="com.example.hrr_android.ProfileChallengeMoreFragment"
+        android:label="ProfileChallengeMoreFragment">
+
+        <action
+            android:id="@+id/action_profileChallengeMoreFragment_to_challengeFragment"
+            app:destination="@id/challengeFragment"/>
+
+    </fragment>
+
+
+    <!--  인증기록  -->
+    <fragment
+        android:id="@+id/profileCertificationRecordFragment"
+        android:name="com.example.hrr_android.ProfileCertificationRecordFragment"
+        android:label="ProfileCertificationRecordFragment"/>
+    <action
+        android:id="@+id/action_profileCertificationRecordFragment_to_postFragment"
+        app:destination="@id/postFragment"/>
+    <fragment
+        android:id="@+id/profileRecordMoreFragment"
+        android:name="com.example.hrr_android.ProfileRecordMoreFragment"
+        android:label="ProfileRecordMoreFragment"/>
+    <action
+        android:id="@+id/action_profileRecordMoreFragment_to_postFragment"
+        app:destination="@id/postFragment"/>
+
+
     <!-- 챌린지 리스트 -->
     <fragment
         android:id="@+id/challengeListFragment"
