@@ -52,4 +52,23 @@ class ChallengeRepository @Inject constructor(
             Result.failure(Exception("알 수 없는 오류 발생: ${e.localizedMessage}"))
         }
     }
+    // 사용자 프로필 정보 조회 Repository 메서드
+    suspend fun getUserProfile(userId: Int): Result<UserResponse> {
+        return try {
+            val response = challengeService.getUserProfile(userId)
+            if (response.isSuccessful) {
+                val apiResponse = response.body()
+                    ?: return Result.failure(Exception("서버 응답이 비어 있습니다."))
+                return (apiResponse.success?.let {
+                    Result.success(it)
+                } ?: Result.failure(Exception("서버 응답이 올바르지 않습니다.")))
+            } else {
+                Result.failure(Exception("서버 오류 발생: ${response.code()}"))
+            }
+        } catch (e: IOException) {
+            Result.failure(Exception("네트워크 연결에 실패했습니다. 인터넷을 확인하세요."))
+        } catch (e: Exception) {
+            Result.failure(Exception("알 수 없는 오류 발생: ${e.localizedMessage}"))
+        }
+    }
 }

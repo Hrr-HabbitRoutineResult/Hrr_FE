@@ -26,6 +26,8 @@ import com.example.hrr_android.databinding.LayoutChallengeButtonBinding
 import com.example.hrr_android.databinding.LayoutChallengeHeaderBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import com.example.hrr_android.UserResponse
+import com.example.hrr_android.databinding.LayoutChallengeProfileBinding
 
 @AndroidEntryPoint
 class ChallengeFragment : Fragment(), ChallengeDialogInterface {
@@ -72,13 +74,26 @@ class ChallengeFragment : Fragment(), ChallengeDialogInterface {
             viewModel.fetchChallengeDetail(challengeId)
         }
 
-        // 데이터 observe
+        // 챌린지 데이터 observe
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.challengeState.collect { result ->
                 result?.onSuccess { challenge ->
-                    updateHeaderUI(challenge)
+                    updateUI(challenge)
+                    // 챌린지 owner의 프로필 정보 요청
+                    viewModel.fetchUserProfile(challenge.ownerId)
                 }?.onFailure { e ->
                     Toast.makeText(requireContext(), "챌린지 정보를 불러오는데 실패했습니다.", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
+        // 프로필 데이터 observe
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.userProfileState.collect { result ->
+                result?.onSuccess { userProfile ->
+                    updateProfileUI(userProfile)
+                }?.onFailure { e ->
+                    Toast.makeText(requireContext(), "프로필 정보를 불러오는데 실패했습니다.", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -128,6 +143,12 @@ class ChallengeFragment : Fragment(), ChallengeDialogInterface {
         }
     }
 
+    // 챌린지 UI 업데이트
+    private fun updateUI(challenge: ChallengeDetail) {
+        updateHeaderUI(challenge)
+        updateRuleUI(challenge)
+    }
+
     // 챌린지 헤더 UI 업데이트
     private fun updateHeaderUI(challenge: ChallengeDetail) {
         // 레이아웃 바인딩 사용
@@ -163,6 +184,27 @@ class ChallengeFragment : Fragment(), ChallengeDialogInterface {
             // 닫기 버튼 클릭 리스너
             btnChallengeHeaderClose.setOnClickListener {
                 findNavController().navigateUp()
+            }
+        }
+    }
+
+    // 챌린지 규칙 UI 업데이트
+    private fun updateRuleUI(challenge: ChallengeDetail) {
+        val ruleLayout = binding.llChallengeContainer.findViewById<View>(R.id.layout_challenge_rule)
+        ruleLayout?.findViewById<TextView>(R.id.tv_challenge_rule)?.text = challenge.rule
+    }
+
+    private fun updateProfileUI(userProfile: UserResponse) {
+        val profileBinding = LayoutChallengeProfileBinding.bind(
+            binding.llChallengeContainer.getChildAt(1)
+        )
+
+        with(profileBinding) {
+            tvChallengeProfileName.text = userProfile.nickname
+            tvChallengeProfileLevel.text = userProfile.level
+
+            // TODO: 프로필 상세 화면으로 이동
+            root.setOnClickListener {
             }
         }
     }

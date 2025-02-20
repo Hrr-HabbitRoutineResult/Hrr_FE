@@ -16,4 +16,10 @@ interface ChallengeService {
     suspend fun getChallengeDetail(
         @Path("challengeId") challengeId: Int
     ): Response<ApiResponse<ChallengeDetail>>
+
+    // 사용자 프로필 정보 조회
+    @GET("/api/v1/users/{userId}")
+    suspend fun getUserProfile(
+        @Path("userId") userId: Int
+    ): Response<ApiResponse<UserResponse>>
 }
