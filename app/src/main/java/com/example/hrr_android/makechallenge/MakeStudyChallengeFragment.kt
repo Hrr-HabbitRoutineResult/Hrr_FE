@@ -1,20 +1,23 @@
 package com.example.hrr_android.makechallenge
 
+import android.content.Context
 import android.os.Bundle
 import android.net.Uri
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.example.hrr_android.ChallengeRepository
 import com.example.hrr_android.ChallengeViewModel
 import com.example.hrr_android.databinding.FragmentMakeChallengeStudyBinding
 import com.example.hrr_android.databinding.LayoutMakeChallengeHeaderBinding
@@ -49,6 +52,7 @@ class MakeStudyChallengeFragment : Fragment() {
 
     private val challengeViewModel: ChallengeViewModel by viewModels()
     @Inject lateinit var authRepository: AuthRepository
+    @Inject lateinit var challengeRepository: ChallengeRepository
 
     private val imagePickerLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         uri?.let {
@@ -88,7 +92,7 @@ class MakeStudyChallengeFragment : Fragment() {
         setupApplyButtonClick()
     }
 
-    // ✅ 챌린지 개설 API 요청
+    //  챌린지 개설 API 요청
     private fun makeStudyChallenge() {
         viewLifecycleOwner.lifecycleScope.launch {
             val ownerId = authRepository.getUserId()
@@ -113,20 +117,23 @@ class MakeStudyChallengeFragment : Fragment() {
                 keywords = getKeywords()
             )
 
-            challengeViewModel.makeChallenge(request)
-            try {
-                // API 요청 전 로그 찍기
-                println("🔵 Sending Request: $request")
+            Log.d("MakeChallengeDebug", "🔵 챌린지 생성 요청 시작")
 
-                // API 호출
-                val response = challengeViewModel.makeChallenge(request)
+            val result = challengeRepository.makeChallenge(request)
 
-                // API 응답 확인
-                println("🟢 Response received: $response")
-            } catch (e: Exception) {
-                println("🔴 API Error: ${e.message}")
-                e.printStackTrace()
+            result.onSuccess {
+                val challengeId = it.result.challenge.id
+                Log.d("MakeChallengeDebug", "🟢 챌린지 생성 성공! ID: $challengeId")
+
+                // ✅ ChallengeRepository를 사용하여 challengeId 저장
+                challengeRepository.saveChallengeId(challengeId) // `getChallengeId(challengeId)` 대신 `saveChallengeId(challengeId)` 호출
+                Log.d("MakeChallengeDebug", "💾 challengeId 저장 완료: $challengeId")
+
+                navigateToChallengeFragment(challengeId) //  저장된 challengeId를 사용
+            }.onFailure { e ->
+                Log.e("MakeChallengeDebug", "챌린지 생성 실패: ${e.message}")
             }
+
         }
     }
 
@@ -334,18 +341,42 @@ class MakeStudyChallengeFragment : Fragment() {
     private fun setupApplyButtonClick() {
         binding.btnMakeStudyChallenge.setOnClickListener {
             makeStudyChallenge()
-            val challengeFragment = ChallengeFragment()
-
-            val args = Bundle()
-            args.putBoolean("showCreateDialog", true)
-            challengeFragment.arguments = args
-
-            requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.main_frame, challengeFragment)
-                .addToBackStack(null)
-                .commit()
         }
     }
+
+    private fun navigateToChallengeFragment(challengeId: Int) {
+        Log.d("MakeChallengeDebug", "ChallengeFragment로 이동 준비, challengeId: $challengeId")
+
+        if (!isAdded || view == null) {
+            Log.e("MakeChallengeDebug", "Fragment가 더 이상 존재하지 않음. Navigation 중단")
+            return
+        }
+
+        if (challengeId == -1) {
+            Log.e("MakeChallengeDebug", "Challenge ID가 유효하지 않음 (challengeId == -1)")
+            return
+        }
+
+        try {
+            val challengeFragment = ChallengeFragment().apply {
+                arguments = Bundle().apply {
+                    putInt("challenge_id", challengeId)
+                    putBoolean("showCreateDialog", true)
+                }
+            }
+
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.main_frame, challengeFragment)  // main_frame은 실제 Fragment를 표시할 컨테이너 ID
+                .addToBackStack(null)  // 뒤로 가기 가능하게 설정
+                .commit()
+
+
+            Log.d("MakeChallengeDebug", "ChallengeFragment로 정상 이동 완료")
+        } catch (e: Exception) {
+            Log.e("MakeChallengeDebug", "ChallengeFragment 이동 실패: ${e.message}", e)
+        }
+    }
+
 
     companion object {
         private const val ARG_CATEGORY = "category"

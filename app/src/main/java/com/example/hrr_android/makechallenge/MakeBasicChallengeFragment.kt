@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.net.Uri
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,8 @@ import androidx.fragment.app.Fragment
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import com.example.hrr_android.ChallengeRepository
 import com.example.hrr_android.ChallengeViewModel
 import com.example.hrr_android.databinding.FragmentMakeChallengeBasicBinding
 import com.example.hrr_android.databinding.LayoutMakeChallengeHeaderBinding
@@ -42,6 +45,7 @@ class MakeBasicChallengeFragment : Fragment() {
 
     private val challengeViewModel: ChallengeViewModel by viewModels()
     @Inject lateinit var authRepository: AuthRepository
+    @Inject lateinit var challengeRepository: ChallengeRepository
 
     private val imagePickerLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         uri?.let {
@@ -149,7 +153,17 @@ class MakeBasicChallengeFragment : Fragment() {
                 keywords = getKeywords()
             )
 
-            challengeViewModel.makeChallenge(request)
+            val result = challengeRepository.makeChallenge(request)
+
+            result.onSuccess {
+                val challengeId = it.result.challenge.id
+                Log.d("MakeChallengeDebug", "챌린지 생성 성공! ID: $challengeId")
+
+                challengeRepository.saveChallengeId(challengeId)
+                navigateToChallengeFragment(challengeId) // ✅ 이동
+            }.onFailure { e ->
+                Log.e("MakeChallengeDebug", "챌린지 생성 실패: ${e.message}")
+            }
         }
 
     }
@@ -274,17 +288,39 @@ class MakeBasicChallengeFragment : Fragment() {
     // "개설하기" 버튼 클릭 시 ChallengeFragment로 이동하며 다이얼로그 띄우기
     private fun setupApplyButtonClick() {
         binding.btnMakeBasicChallenge.setOnClickListener {
-            val challengeFragment = ChallengeFragment()
             makeBasicChallenge()
+        }
+    }
 
-            val args = Bundle()
-            args.putBoolean("showCreateDialog", true)
-            challengeFragment.arguments = args
+    private fun navigateToChallengeFragment(challengeId: Int) {
+        Log.d("MakeChallengeDebug", "ChallengeFragment로 이동 준비, challengeId: $challengeId")
+
+        if (!isAdded || view == null) {
+            Log.e("MakeChallengeDebug", "Fragment가 더 이상 존재하지 않음. Navigation 중단")
+            return
+        }
+
+        if (challengeId == -1) {
+            Log.e("MakeChallengeDebug", "Challenge ID가 유효하지 않음 (challengeId == -1)")
+            return
+        }
+
+        try {
+            val challengeFragment = ChallengeFragment().apply {
+                arguments = Bundle().apply {
+                    putInt("challenge_id", challengeId)
+                    putBoolean("showCreateDialog", true)
+                }
+            }
 
             requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.main_frame, challengeFragment)
-                .addToBackStack(null)
+                .replace(R.id.main_frame, challengeFragment)  // main_frame은 실제 Fragment를 표시할 컨테이너 ID
+                .addToBackStack(null)  // 뒤로 가기 가능하게 설정
                 .commit()
+
+            Log.d("MakeChallengeDebug", "ChallengeFragment로 정상 이동 완료")
+        } catch (e: Exception) {
+            Log.e("MakeChallengeDebug", "ChallengeFragment 이동 실패: ${e.message}", e)
         }
     }
 
