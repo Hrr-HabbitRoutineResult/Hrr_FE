@@ -62,7 +62,7 @@ class PasswordActivity : AppCompatActivity() {
                 // VerificationFragment에서 뒤로 가기
                 val dialog = DialogNoTitle(
                     context = this,
-                    message = "진행 중인 작업을 중단하고 로그인 화면으로 이동하시겠습니까?",
+                    message = "진행 중인 작업을 중단하고\n로그인 화면으로 이동하시겠습니까?",
                     yesText = "네",
                     noText = "아니오",
                     object : DialogNoTitle.DialogListener {
@@ -86,7 +86,7 @@ class PasswordActivity : AppCompatActivity() {
                 // PasswordResetFragment에서 뒤로 가기
                 val dialog = DialogNoTitle(
                     context = this,
-                    message = "진행 중인 작업을 중단하고 홈화면으로 이동하시겠습니까?",
+                    message = "진행 중인 작업을 중단하고\n홈화면으로 이동하시겠습니까?",
                     yesText = "네",
                     noText = "아니오",
                     object : DialogNoTitle.DialogListener {
