@@ -7,7 +7,7 @@ data class UserResponse(
     @SerializedName("nickname") val nickname: String = "User",
     @SerializedName("gender") val gender: String = "",
     @SerializedName("email") val email: String = "",
-    @SerializedName("level") val level: String = "general",
+    @SerializedName("level") val level: String? = "general",
     @SerializedName("points") val points: Int = 0,
     @SerializedName("followerCount") val followerCount: Int = 0,
     @SerializedName("followingCount") val followingCount: Int = 0,

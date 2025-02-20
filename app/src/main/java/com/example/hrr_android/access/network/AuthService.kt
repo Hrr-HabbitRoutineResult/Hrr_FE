@@ -29,43 +29,43 @@ import retrofit2.http.POST
 
 interface AuthService {
     // 로그인 API
-    @POST("api/v1/auth/login/email")
+    @POST("/api/v1/auth/login/email")
     suspend fun login(
         @Body request: LoginRequest
     ): Response<LoginResponse>
 
     // 이메일 인증 코드 전송 API
-    @POST("api/v1/auth/send-verify-email")
+    @POST("/api/v1/auth/send-verify-email")
     suspend fun sendVerificationCode(
         @Body request: EmailVerificationRequest
     ): Response<EmailVerificationResponse>
 
     // 이메일 인증 코드 확인 API
-    @POST("api/v1/auth/check-email-verification-code")
+    @POST("/api/v1/auth/check-email-verification-code")
     suspend fun confirmVerificationCode(
         @Body request: EmailConfirmRequest
     ): Response<ApiResponse<EmailConfirmResponse>>
 
     // 닉네임 중복 확인 API
-    @POST("api/v1/auth/check-nickname")
+    @POST("/api/v1/auth/check-nickname")
     suspend fun checkNickname(
         @Body request: NicknameCheckRequest
     ): Response<NicknameCheckResponse>
 
     // 회원가입 API
-    @POST("api/v1/auth/register")
+    @POST("/api/v1/auth/register")
     suspend fun registerUser(
         @Body request: RegisterRequest
     ): Response<ApiResponse<RegisterResponse>>
 
     // 카카오 로그인 API
-    @POST("api/v1/auth/login/kakao")
+    @POST("/api/v1/auth/login/kakao")
     suspend fun loginWithKakao(
         @Body request: KakaoLoginRequest
     ): Response<ApiResponse<KakaoLoginResponse>>
 
     // 토큰 갱신 API
-    @POST("api/v1/auth/token")
+    @POST("/api/v1/auth/token")
     suspend fun refreshToken(
         @Body request: TokenRequest
     ): Response<ApiResponse<TokenResponse>>

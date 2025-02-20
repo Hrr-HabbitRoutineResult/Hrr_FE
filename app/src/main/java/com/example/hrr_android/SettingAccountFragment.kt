@@ -92,7 +92,7 @@ class SettingAccountFragment : Fragment() {
 
         // 로그아웃 처리
         binding.llSettingLogout.setOnClickListener {
-            showLinkDialog()
+            logoutDialog()
         }
 
         // 탈퇴 다이얼로그
@@ -123,6 +123,26 @@ class SettingAccountFragment : Fragment() {
 
     }
 
+    private fun logoutDialog() {
+        val dialog = DialogNoTitle(
+            context = requireContext(),
+            message = "로그아웃 하시겠어요?",
+            yesText = "네",
+            noText = "아니오",
+            object : DialogNoTitle.DialogListener {
+                override fun onYesClicked() {
+                    logout()
+                }
+
+                override fun onNoClicked() {
+                    // 다이얼로그 닫기 (기본적으로 dismiss()가 호출됨)
+                }
+            }
+        )
+        dialog.show()
+    }
+
+/*
     private fun showLinkDialog() {
         val dialogView = LayoutInflater.from(requireContext())
             .inflate(R.layout.dialog_logout, null)
@@ -146,6 +166,7 @@ class SettingAccountFragment : Fragment() {
 
         dialog.show()
     }
+*/
 
 
     private fun logout() {
