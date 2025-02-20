@@ -82,16 +82,16 @@ class HomeFragment : Fragment(), OnChallengeClickListener {
         observeChallengesHotness()
 
         // 더미데이터
-/*        val hotPostList = listOf(
+        val hotPostList = listOf(
             HotPost("운동게시판", "어제 PT 갔거든? 근데 피티쌤이"),
             HotPost("학업게시판", "교수님이 아무래도 내가 자기 수업만 듣는 줄 아는 것 같아 그렇지 않고서야"),
             HotPost("취업준비게시판", "IT 계열인데 서류는 통과했어"),
             HotPost("생활습관게시판", "우리 챌린지 방 스터디가 잘 운영이 안되는 것 같아"),
             HotPost("공공기관/공무원/정출연 취준생", "해커스 공기업 NCS 통합 봉모 주황이 1회차")
-        )*/
+        )
 
         // 더미 데이터가 없는 상태
-        val hotPostList = listOf<HotPost>()
+        // val hotPostList = listOf<HotPost>()
 
         // 데이터 확인 후 visibility 조정
         if (hotPostList.isEmpty()) {
