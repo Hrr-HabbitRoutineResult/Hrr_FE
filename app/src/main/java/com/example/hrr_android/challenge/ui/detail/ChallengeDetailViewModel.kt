@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.hrr_android.ChallengeRepository
 import com.example.hrr_android.UserResponse
 import com.example.hrr_android.challenge.model.ChallengeDetail
+import com.example.hrr_android.challenge.model.WeeklyVerificationResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -43,6 +44,16 @@ class ChallengeDetailViewModel @Inject constructor(
     fun joinChallenge(challengeId: Int) {
         viewModelScope.launch {
             _joinState.value = repository.joinChallenge(challengeId)
+        }
+    }
+
+    // 주간 인증 상태 관리
+    private val _weeklyVerificationState = MutableStateFlow<Result<WeeklyVerificationResponse>?>(null)
+    val weeklyVerificationState = _weeklyVerificationState.asStateFlow()
+
+    fun fetchWeeklyVerification(challengeId: Int) {
+        viewModelScope.launch {
+            _weeklyVerificationState.value = repository.getWeeklyVerification(challengeId)
         }
     }
 }

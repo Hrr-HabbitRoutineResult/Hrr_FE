@@ -1,6 +1,7 @@
 package com.example.hrr_android
 
 import com.example.hrr_android.challenge.model.ChallengeDetail
+import com.example.hrr_android.challenge.model.WeeklyVerificationResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -29,4 +30,10 @@ interface ChallengeService {
     suspend fun joinChallenge(
         @Path("challengeId") challengeId: Int
     ): Response<ApiResponse<ChallengeDetail>>
+
+    // 이번 주 인증 현황 조회
+    @GET("/api/v1/verification/{challengeId}/verification/weekly")
+    suspend fun getWeeklyVerification(
+        @Path("challengeId") challengeId: Int
+    ): Response<ApiResponse<WeeklyVerificationResponse>>
 }

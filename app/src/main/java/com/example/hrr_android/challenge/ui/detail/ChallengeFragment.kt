@@ -28,6 +28,7 @@ import com.example.hrr_android.databinding.LayoutChallengeHeaderBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import com.example.hrr_android.UserResponse
+import com.example.hrr_android.challenge.model.WeeklyVerificationResponse
 import com.example.hrr_android.databinding.LayoutChallengeProfileBinding
 
 @AndroidEntryPoint
@@ -126,19 +127,46 @@ class ChallengeFragment : Fragment(), ChallengeDialogInterface {
         }
     }
 
+    // 요일 버튼 ID와 요일 문자열 매핑
+    private val dayButtonMap = mapOf(
+        R.id.btn_sunday to "Sunday",
+        R.id.btn_monday to "Monday",
+        R.id.btn_tuesday to "Tuesday",
+        R.id.btn_wednesday to "Wednesday",
+        R.id.btn_thursday to "Thursday",
+        R.id.btn_friday to "Friday",
+        R.id.btn_saturday to "Saturday"
+    )
+
     // 인증 관련 뷰 동적으로 추가
     private fun addCertificationViews() {
         val container = binding.llChallengeContainer
         val ruleView = container.findViewById<View>(R.id.layout_challenge_rule)
         val ruleIndex = container.indexOfChild(ruleView)
 
-        // 이번 주 인증 완료 뷰 추가
+        // 이번 주 인증 완료 뷰 추가 후 API 호출
         val weeklyView = layoutInflater.inflate(
             R.layout.layout_challenge_weekly_certification,
             container,
             false
         )
         container.addView(weeklyView, ruleIndex)
+
+        val challengeId = arguments?.getInt("challenge_id", -1) ?: -1
+        if (challengeId != -1) {
+            viewModel.fetchWeeklyVerification(challengeId)
+        }
+
+        // WeeklyVerification 상태 observe
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.weeklyVerificationState.collect { result ->
+                result?.onSuccess { response ->
+                    updateWeeklyVerificationUI(weeklyView, response)
+                }?.onFailure { e ->
+                    Toast.makeText(requireContext(), "주간 인증 정보를 불러오는데 실패했습니다.", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
 
         // 챌린지 인증 현황 뷰 추가
         val certificationListView = layoutInflater.inflate(
@@ -317,6 +345,36 @@ class ChallengeFragment : Fragment(), ChallengeDialogInterface {
                 }
             }
             else -> {}
+        }
+    }
+
+    private fun updateWeeklyVerificationUI(weeklyView: View, verification: WeeklyVerificationResponse) {
+        dayButtonMap.forEach { (buttonId, dayName) ->
+            val dayButton = weeklyView.findViewById<TextView>(buttonId)
+
+            when {
+                verification.checked_days.contains(dayName) -> {
+                    // 인증 완료된 요일
+                    dayButton.apply {
+                        setBackgroundResource(R.drawable.bg_button_weekly_completed)
+                        setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+                    }
+                }
+                verification.need_certified.contains(dayName) -> {
+                    // 인증이 필요한 요일
+                    dayButton.apply {
+                        setBackgroundResource(R.drawable.bg_button_weekly_required)
+                        setTextColor(ContextCompat.getColor(requireContext(), R.color.sub_01))
+                    }
+                }
+                else -> {
+                    // 기본 상태
+                    dayButton.apply {
+                        setBackgroundResource(R.drawable.bg_button_weekly_default)
+                        setTextColor(ContextCompat.getColor(requireContext(), R.color.grey_500))
+                    }
+                }
+            }
         }
     }
 
