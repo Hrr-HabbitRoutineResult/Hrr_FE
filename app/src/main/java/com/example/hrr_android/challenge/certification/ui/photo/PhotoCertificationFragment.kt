@@ -27,10 +27,10 @@ import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.hrr_android.R
-import com.example.hrr_android.challenge.certification.ui.base.BaseCertificationFragment
 import com.example.hrr_android.databinding.CustomSnackbarBinding
 import com.example.hrr_android.databinding.FragmentPhotoCertificationBinding
 import com.google.android.material.snackbar.Snackbar
@@ -41,7 +41,10 @@ import java.util.Date
 import java.util.Locale
 
 
-class PhotoCertificationFragment : BaseCertificationFragment<FragmentPhotoCertificationBinding>() {
+class PhotoCertificationFragment : Fragment() {
+    private var _binding: FragmentPhotoCertificationBinding? = null
+    private val binding get() = _binding!!
+
     private val CAMERA_PERMISSION = Manifest.permission.CAMERA
     private var imageUri: Uri? = null
     private var isPreviewMode = false
@@ -52,10 +55,14 @@ class PhotoCertificationFragment : BaseCertificationFragment<FragmentPhotoCertif
     private var hasPhoto = false
     private val MAX_CONTENT_LENGTH = 200
 
-    override fun getViewBinding(
+    override fun onCreateView(
         inflater: LayoutInflater,
-        container: ViewGroup?
-    ) = FragmentPhotoCertificationBinding.inflate(inflater, container, false)
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentPhotoCertificationBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -318,19 +325,9 @@ class PhotoCertificationFragment : BaseCertificationFragment<FragmentPhotoCertif
         }
     }
 
-    // BaseCertificationFragment 추상 메서드
-    // TODO: 리팩토링 시 CertificationFragment 공통 작업 로직 분리하기
-    override fun initCommonViews() {
-        // 공통 뷰 초기화
-    }
-    override fun initCertificationView() {
-        // 인증 관련 뷰 초기화
-    }
-    override fun handleSubmit() {
-        // 제출 처리
-    }
-    override fun validateInput(): Boolean {
-        return true
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }

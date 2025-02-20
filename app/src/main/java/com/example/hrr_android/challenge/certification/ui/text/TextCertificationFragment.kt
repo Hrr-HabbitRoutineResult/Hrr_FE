@@ -18,10 +18,10 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.hrr_android.R
-import com.example.hrr_android.challenge.certification.ui.base.BaseCertificationFragment
 import com.example.hrr_android.databinding.CustomSnackbarBinding
 import com.example.hrr_android.databinding.FragmentTextCertificationBinding
 import com.google.android.material.snackbar.Snackbar
@@ -29,7 +29,9 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
-class TextCertificationFragment : BaseCertificationFragment<FragmentTextCertificationBinding>() {
+class TextCertificationFragment : Fragment() {
+    private var _binding: FragmentTextCertificationBinding? = null
+    private val binding get() = _binding!!
 
     // UI 입력값 상태 관리
     private var hasTitle = false
@@ -37,15 +39,20 @@ class TextCertificationFragment : BaseCertificationFragment<FragmentTextCertific
     private var hasLink = false
     private val MAX_CONTENT_LENGTH = 200
 
-    override fun getViewBinding(
+    override fun onCreateView(
         inflater: LayoutInflater,
-        container: ViewGroup?
-    ) = FragmentTextCertificationBinding.inflate(inflater, container, false)
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentTextCertificationBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         setupTextWatchers()
+        initViews()
 
         // 키보드 설정
         requireActivity().window.setSoftInputMode(
@@ -69,14 +76,40 @@ class TextCertificationFragment : BaseCertificationFragment<FragmentTextCertific
         }
     }
 
-    override fun initCommonViews() {
+    private fun initViews() {
         with(binding) {
+            // 임시저장 목록으로 이동
+            tvCertificationTempCount.setOnClickListener {
+                findNavController().navigate(R.id.action_textCertificationFragment_to_draftListFragment)
+            }
+
+            // 완료 버튼
             tvCertificationComplete.setOnClickListener {
                 if (validateInput()) {
                     showLoadingAndNavigate()
                 }
             }
+
+            // 뒤로가기
+            btnCertificationBack.setOnClickListener {
+                requireActivity().onBackPressed()
+            }
+
+            // 이미지 추가
+            btnCertificationImage.setOnClickListener {
+                openGallery()
+            }
+
+            // 링크 추가
+            btnCertificationLink.setOnClickListener {
+                showLinkDialog()
+            }
         }
+    }
+
+    private fun validateInput(): Boolean {
+        return hasTitle && hasContent && hasLink &&
+                binding.etCertificationContent.text.length <= MAX_CONTENT_LENGTH
     }
 
     // EditText 입력값 변경 감지
@@ -185,32 +218,6 @@ class TextCertificationFragment : BaseCertificationFragment<FragmentTextCertific
         }
     }
 
-    override fun validateInput(): Boolean {
-        return hasTitle && hasContent && hasLink &&
-                binding.etCertificationContent.text.length <= MAX_CONTENT_LENGTH
-    }
-
-    override fun initCertificationView() {
-        with(binding) {
-            btnCertificationBack.setOnClickListener {
-                requireActivity().onBackPressed()
-            }
-
-            btnCertificationImage.setOnClickListener {
-                openGallery()
-            }
-
-            btnCertificationLink.setOnClickListener {
-                showLinkDialog()
-            }
-        }
-    }
-
-    override fun handleSubmit() {
-        val content = binding.etCertificationContent.text.toString()
-        // TODO: 서버 API 연결 로직 작성
-    }
-
     private fun openGallery() {
         getContent.launch("image/*")
     }
@@ -273,6 +280,11 @@ class TextCertificationFragment : BaseCertificationFragment<FragmentTextCertific
         }
 
         dialog.show()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }
