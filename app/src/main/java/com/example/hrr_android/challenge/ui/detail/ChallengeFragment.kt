@@ -61,6 +61,16 @@ class ChallengeFragment : Fragment(), ChallengeDialogInterface {
             Log.d("ChallengeId", "Received challenge ID: $challengeId")
         }
 
+        // 다른 곳에서 해당 화면으로 넘어올 때 케이스별 View 전환
+        val receivedState = arguments?.getString("state", "initial")
+        when(receivedState){
+            /*"initial" ->
+            "joined" ->
+            "certified" -> */
+            "completed" -> showCompleteLayout()
+
+        }
+
     }
 
     // JOIN 다이얼로그에서 '네' 버튼 클릭 시 호출

@@ -243,7 +243,10 @@ class ProfileChallengeFragment : Fragment(), OnCompletedChallengeClickListener {
     }
 
     override fun onChallengeClicked(challenge: Challenge) {
-        findNavController().navigate(R.id.action_profileChallengeFragment_to_challengeFragment)
+        val bundle = Bundle().apply {
+            putString("state", "completed")
+        }
+        findNavController().navigate(R.id.action_profileChallengeFragment_to_challengeFragment, bundle)
     }
 
 }
