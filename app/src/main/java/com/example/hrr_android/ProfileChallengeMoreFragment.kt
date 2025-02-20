@@ -9,13 +9,14 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.hrr_android.access.ValidUtils
 import com.example.hrr_android.databinding.FragmentProfileChallengeMoreBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ProfileChallengeMoreFragment : Fragment() {
+class ProfileChallengeMoreFragment : Fragment(), OnCompletedChallengeClickListener {
     //뷰 바인딩
     private var _binding: FragmentProfileChallengeMoreBinding? = null
     private val binding get() = _binding!!
@@ -123,7 +124,7 @@ class ProfileChallengeMoreFragment : Fragment() {
             otherUserViewModel.loadChallengesEnd(ownerId)
         }
 
-        val profileChallengerMoreRVAdapter = ProfileChallengerMoreRVAdapter(completedChallenges)
+        val profileChallengerMoreRVAdapter = ProfileChallengerMoreRVAdapter(completedChallenges, this)
         binding.rvChallengeMore.apply {
             adapter = profileChallengerMoreRVAdapter
             layoutManager = GridLayoutManager(requireContext(), 2)
@@ -134,5 +135,12 @@ class ProfileChallengeMoreFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onChallengeClicked(challenge: Challenge) {
+        val bundle = Bundle().apply {
+            putString("state", "completed")
+        }
+        findNavController().navigate(R.id.action_profileChallengeMoreFragment_to_challengeFragment, bundle)
     }
 }
