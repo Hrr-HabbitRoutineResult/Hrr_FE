@@ -57,4 +57,13 @@
         android:id="@+id/action_homeFragment_to_challengeFragment"
         app:destination="@id/challengeFragment" />
 
+    <!-- 사진 인증 -->
+    <fragment
+        android:id="@+id/photoCertificationFragment"
+        android:name="com.example.hrr_android.challenge.certification.ui.photo.PhotoCertificationFragment"
+        android:label="PhotoCertificationFragment" />
+    <action
+        android:id="@+id/action_challengeFragment_to_photoCertificationFragment"
+        app:destination="@id/photoCertificationFragment" />
+
 </navigation>

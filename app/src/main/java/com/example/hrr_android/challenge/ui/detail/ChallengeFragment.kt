@@ -326,7 +326,14 @@ class ChallengeFragment : Fragment(), ChallengeDialogInterface {
         when(state) {
             ChallengeState.JOINED -> {
                 newButtonLayout.findViewById<Button>(R.id.btn_challenge_certification)?.setOnClickListener {
-                    updateButtonLayout(ChallengeState.COMPLETED)
+                    // 현재 챌린지 ID를 PhotoCertificationFragment로 전달
+                    val challengeId = arguments?.getInt("challenge_id", -1) ?: -1
+                    findNavController().navigate(
+                        R.id.action_challengeFragment_to_photoCertificationFragment,
+                        Bundle().apply {
+                            putInt("challenge_id", challengeId)
+                        }
+                    )
                 }
             }
             // TODO: 개발용 완주 화면 테스트, 추후 삭제
