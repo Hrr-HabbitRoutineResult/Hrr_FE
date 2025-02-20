@@ -128,7 +128,7 @@ class ProfileChallengeMoreFragment : Fragment(), OnCompletedChallengeClickListen
             otherUserViewModel.loadChallengesEnd(ownerId)
         }
 
-        val profileChallengerMoreRVAdapter = ProfileChallengerMoreRVAdapter(completedChallenges, this)
+        val profileChallengerMoreRVAdapter = ProfileChallengerMoreRVAdapter(completedChallenges, listener = this)
         binding.rvChallengeMore.apply {
             adapter = profileChallengerMoreRVAdapter
             layoutManager = GridLayoutManager(requireContext(), 2)

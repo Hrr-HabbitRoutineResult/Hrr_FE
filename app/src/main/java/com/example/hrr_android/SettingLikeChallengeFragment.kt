@@ -11,7 +11,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.hrr_android.databinding.FragmentSettingLikeChallengeBinding
 
-class SettingLikeChallengeFragment : Fragment() {
+class SettingLikeChallengeFragment : Fragment(), OnCompletedChallengeClickListener {
     private var _binding: FragmentSettingLikeChallengeBinding? = null
     private val binding get() = _binding!!
     private var completedChallenges = ArrayList<Challenge>()
@@ -60,7 +60,7 @@ class SettingLikeChallengeFragment : Fragment() {
             add(Challenge("챌린지 10", R.drawable.img_cook, "테스트"))
         }
 
-        val profileChallengerMoreRVAdapter = ProfileChallengerMoreRVAdapter(completedChallenges, isSaved = true)
+        val profileChallengerMoreRVAdapter = ProfileChallengerMoreRVAdapter(completedChallenges, isSaved = true, this)
         binding.rvLikedChallenge.apply {
             adapter = profileChallengerMoreRVAdapter
             layoutManager = GridLayoutManager(requireContext(), 2)
@@ -72,6 +72,10 @@ class SettingLikeChallengeFragment : Fragment() {
         super.onDestroyView()
         (activity as? ProfileMoreActivity)?.setTitle("설정")
         _binding = null
+    }
+
+    override fun onChallengeClicked(challenge: Challenge) {
+        TODO("Not yet implemented")
     }
 
 
