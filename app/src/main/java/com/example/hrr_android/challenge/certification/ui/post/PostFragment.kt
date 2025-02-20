@@ -46,6 +46,9 @@ class PostFragment : Fragment() {
         binding.layoutPostProfile.btnPostMore.setOnClickListener {
             showBottomSheet()
         }
+
+        //Todo: 넘겨받은 verification_id로 인증 정보 바인딩 필요
+        val verificationId = arguments?.getInt("verification_id", 0)
     }
 
     private fun setupRecyclerView() {

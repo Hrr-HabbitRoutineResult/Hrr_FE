@@ -51,7 +51,8 @@ class ProfileRecordMoreFragment : Fragment(), OnRecordClickListener {
                     history.title,
                     dateFormat(history.createTime),
                     R.drawable.img_running,
-                    history.textUrl != null // 링크 주소가 있다면 true
+                    history.textUrl != null, // 링크 주소가 있다면 true
+                    verificationId = history.verificationId
                     //Todo: 이미지 처리 추가 예정
                 )
             }?.let {
@@ -95,7 +96,10 @@ class ProfileRecordMoreFragment : Fragment(), OnRecordClickListener {
     }
 
     override fun onRecordClicked(certification: Certification) {
-        findNavController().navigate(R.id.action_profileRecordMoreFragment_to_postFragment)
+        val bundle = Bundle().apply {
+            putInt("verification_id", certification.verificationId)
+        }
+        findNavController().navigate(R.id.action_profileRecordMoreFragment_to_postFragment, bundle)
     }
 
 
