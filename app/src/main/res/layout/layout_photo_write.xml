@@ -62,7 +62,7 @@
 
     <!-- 제목 입력 구분선 -->
     <View
-        android:layout_width="324dp"
+        android:layout_width="wrap_content"
         android:layout_height="1dp"
         android:background="@color/text_line"
         android:layout_gravity="center_horizontal"
@@ -72,9 +72,8 @@
     <!-- 내용 입력 -->
     <EditText
         android:id="@+id/et_certification_content"
-        android:layout_width="326dp"
+        android:layout_width="wrap_content"
         android:layout_height="232dp"
-        android:layout_gravity="center_horizontal"
         android:background="@null"
         android:gravity="top"
         android:hint="내용을 입력하세요. (200자 이내)"

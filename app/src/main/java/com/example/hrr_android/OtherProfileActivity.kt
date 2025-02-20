@@ -57,7 +57,10 @@ class OtherProfileActivity : AppCompatActivity() {
                 profileBinding.tvProfileFollowerCount.text = it.followerCount.toString()  // 팔로워 수
                 profileBinding.tvProfileFollowingCount.text = it.followingCount.toString() // 팔로잉 수
                 //Todo: 뱃지 관련 바인딩
-                profileCommon.setupCircularProgressBar(profileBinding, it.level, it.points) // 레벨 달성 바 연결
+                it.level?.let { it1 ->
+                    profileCommon.setupCircularProgressBar(profileBinding,
+                        it1, it.points)
+                } // 레벨 달성 바 연결
             }
         }
 

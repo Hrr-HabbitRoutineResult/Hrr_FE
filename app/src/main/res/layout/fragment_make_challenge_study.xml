@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MakeChallengeFragment">
+    tools:context=".makechallenge.MakeChallengeFragment">
 
     <include layout="@layout/layout_make_challenge_header"
         android:id="@+id/layout_make_challenge_study_header"/>

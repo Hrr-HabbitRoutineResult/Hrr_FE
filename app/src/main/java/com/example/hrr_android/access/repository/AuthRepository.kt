@@ -16,6 +16,12 @@ import com.example.hrr_android.access.model.LoginRequest
 import com.example.hrr_android.access.model.LoginResponse
 import com.example.hrr_android.access.model.NicknameCheckRequest
 import com.example.hrr_android.access.model.NicknameCheckResponse
+import com.example.hrr_android.access.model.PasswordCheckRequest
+import com.example.hrr_android.access.model.PasswordCheckResponse
+import com.example.hrr_android.access.model.PasswordNewRequest
+import com.example.hrr_android.access.model.PasswordNewResponse
+import com.example.hrr_android.access.model.PasswordResetRequest
+import com.example.hrr_android.access.model.PasswordResetResponse
 import com.example.hrr_android.access.model.RegisterRequest
 import com.example.hrr_android.access.model.RegisterResponse
 import com.example.hrr_android.access.model.TokenRequest
@@ -153,7 +159,6 @@ class AuthRepository @Inject constructor(
         }
     }
 
-    // 카카오 로그인 요청
     suspend fun loginWithKakao(kakaoAccessToken: String): Result<KakaoLoginResponse> {
         return try {
             val request = KakaoLoginRequest(kakaoAccessToken)
@@ -162,9 +167,17 @@ class AuthRepository @Inject constructor(
             if (response.isSuccessful) {
                 val responseBody = response.body()
                 if (responseBody != null) {
-                    // TokenManager를 이용하여 토큰 저장
-                    tokenManager.saveTokens(responseBody.accessToken, responseBody.refreshToken)
-                    Result.success(responseBody)
+                    if (responseBody.resultType == "SUCCESS" && responseBody.success != null) {
+                        val loginData = responseBody.success
+
+                        // TokenManager를 이용하여 토큰 저장
+                        tokenManager.saveTokens(loginData.accessToken, loginData.refreshToken)
+                        saveUserId(loginData.userId)
+
+                        Result.success(loginData)
+                    } else {
+                        Result.failure(Exception("로그인 실패: ${responseBody.error ?: "알 수 없는 오류"}"))
+                    }
                 } else {
                     Result.failure(Exception("서버 응답 오류: 응답 본문이 비어 있음"))
                 }
@@ -176,6 +189,7 @@ class AuthRepository @Inject constructor(
             Result.failure(Exception("네트워크 오류: ${e.message}"))
         }
     }
+
 
     // 토큰 갱신 요청
     suspend fun refreshAccessToken(): String? {
@@ -196,6 +210,69 @@ class AuthRepository @Inject constructor(
         } catch (e: Exception) {
             Log.e("AuthRepository", "토큰 갱신 중 예외 발생: ${e.message}")
             null
+        }
+    }
+
+    // 현 비밀번호 확인 요청
+    suspend fun passwordCheck(password: String): Result<PasswordCheckResponse> {
+        return try {
+            val response = authService.passwordCheck(PasswordCheckRequest(password))
+
+            if (response.isSuccessful) {
+                val apiResponse = response.body()
+                if (apiResponse != null && apiResponse.error == null && apiResponse.success != null) {
+                    Result.success(apiResponse.success) // 성공 응답 반환
+                } else {
+                    Result.failure(Exception("비밀번호 확인 실패: ${apiResponse?.error ?: "알 수 없는 오류"}"))
+                }
+            } else {
+                val errorBody = response.errorBody()?.string() ?: "Unknown error"
+                Result.failure(Exception("비밀번호 확인 실패: $errorBody"))
+            }
+        } catch (e: Exception) {
+            Result.failure(Exception("네트워크 오류: ${e.message}"))
+        }
+    }
+
+    // 비밀번호 재설정 요청
+    suspend fun passwordNew(password: String): Result<PasswordNewResponse> {
+        return try {
+            val response = authService.passwordNew(PasswordNewRequest(password))
+
+            if (response.isSuccessful) {
+                val apiResponse = response.body()
+                if (apiResponse != null && apiResponse.error == null && apiResponse.success != null) {
+                    Result.success(apiResponse.success) // 성공 응답 반환
+                } else {
+                    Result.failure(Exception("비밀번호 재설정 실패: ${apiResponse?.error ?: "알 수 없는 오류"}"))
+                }
+            } else {
+                val errorBody = response.errorBody()?.string() ?: "Unknown error"
+                Result.failure(Exception("비밀번호 재설정 실패: $errorBody"))
+            }
+        } catch (e: Exception) {
+            Result.failure(Exception("네트워크 오류: ${e.message}"))
+        }
+    }
+
+    // 임시 비밀번호 요청
+    suspend fun passwordReset(email: String): Result<PasswordResetResponse> {
+        return try {
+            val response = authService.passwordReset(PasswordResetRequest(email))
+
+            if (response.isSuccessful) {
+                val apiResponse = response.body()
+                if (apiResponse != null && apiResponse.error == null && apiResponse.success != null) {
+                    Result.success(apiResponse.success) // 성공 응답 반환
+                } else {
+                    Result.failure(Exception("임시 비밀번호 발급 실패: ${apiResponse?.error ?: "알 수 없는 오류"}"))
+                }
+            } else {
+                val errorBody = response.errorBody()?.string() ?: "Unknown error"
+                Result.failure(Exception("임시 비밀번호 발급 실패: $errorBody"))
+            }
+        } catch (e: Exception) {
+            Result.failure(Exception("네트워크 오류: ${e.message}"))
         }
     }
 

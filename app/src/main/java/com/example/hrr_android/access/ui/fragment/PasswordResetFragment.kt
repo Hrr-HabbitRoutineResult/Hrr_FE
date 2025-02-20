@@ -6,19 +6,26 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.example.hrr_android.R
+import com.example.hrr_android.access.AuthViewModel
 import com.example.hrr_android.access.ValidUtils
 import com.example.hrr_android.databinding.FragmentPasswordResetBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class PasswordResetFragment : Fragment() {
 
     private var _binding: FragmentPasswordResetBinding? = null
     private val binding get() = _binding!!
 
+    private val authViewModel: AuthViewModel by viewModels()
+
     // 유효성 상태 변수
+    private var isPasswordNowValid = false
+    private var isPasswordNowMatch = false
     private var isPasswordValid = false
     private var isPasswordMatch = false
 
@@ -33,10 +40,62 @@ class PasswordResetFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        initializeViews()
+
+        setupPasswordNowValidation()
         setupPasswordValidation()
         setupPasswordMatchValidation()
         setupNextButton()
         updateNextButtonState() // 초기 상태 설정
+        // setupEnterKeyListener()
+
+        observeViewModel()
+    }
+
+    private fun initializeViews() {
+        // 초기 상태 설정
+        binding.layoutResetPasswordContainer.visibility = View.GONE
+    }
+
+    private fun setupPasswordNowValidation() {
+        binding.etResetPasswordNow.addTextChangedListener {
+            val passwordNow = it.toString()
+            isPasswordNowValid = passwordNow.isNotEmpty()
+            updateNextButtonState() // 상태 갱신
+        }
+    }
+
+    private fun observeViewModel() {
+        authViewModel.passwordCheckResult.observe(viewLifecycleOwner) { result ->
+            result.onSuccess {
+                isPasswordNowMatch = true
+                updatePasswordNowUI()
+                binding.layoutResetPasswordContainer.visibility = View.VISIBLE
+                isPasswordNowValid = false // 다음 단계로 진행되므로 초기화
+            }.onFailure {
+                isPasswordNowMatch = false
+                ValidUtils.hideKeyboard(requireContext(), requireView())
+                ValidUtils.showSnackbar(requireView(), "현재 비밀번호가 일치하지 않습니다.", binding.lineResetSecond)
+            }
+            updateNextButtonState() // 상태 갱신
+        }
+
+        authViewModel.passwordNewResult.observe(viewLifecycleOwner) { result ->
+            result.onSuccess {
+                loadNextFragment(PasswordResetCompleteFragment()) // 성공 시 다음 화면으로 이동
+            }.onFailure {
+                ValidUtils.showSnackbar(requireView(), "비밀번호 변경에 실패했습니다.", binding.lineResetSecond)
+            }
+        }
+    }
+
+    private fun updatePasswordNowUI() {
+        if (isPasswordNowValid || isPasswordNowMatch) {
+            binding.etResetPasswordNow.isEnabled = false
+            binding.etResetPasswordNow.setTextColor(ValidUtils.getTextColorDefault(requireContext()))
+            isPasswordNowValid = false
+        }
     }
 
     private fun setupPasswordValidation() {
@@ -101,7 +160,7 @@ class PasswordResetFragment : Fragment() {
     }
 
     private fun updateNextButtonState() {
-        val isEnabled = isPasswordValid && isPasswordMatch
+        val isEnabled = isPasswordNowValid || (isPasswordNowMatch && isPasswordValid && isPasswordMatch)
 
         ValidUtils.updateButtonState(
             binding.btnResetPasswordNext,
@@ -110,12 +169,27 @@ class PasswordResetFragment : Fragment() {
             isEnabled
         )
     }
-
-
     private fun setupNextButton() {
         binding.btnResetPasswordNext.setOnClickListener {
+            val currentPassword = binding.etResetPasswordNow.text.toString()
+            val newPassword = binding.etResetPassword.text.toString()
+
+            // 현재 비밀번호 검증 단계 (ViewModel 호출 추가)
+            if (isPasswordNowValid) {
+                authViewModel.passwordCheck(currentPassword) // 비밀번호 확인 API 호출
+                return@setOnClickListener
+            }
+
+            // 새 비밀번호가 현재 비밀번호와 동일한 경우
+            if (currentPassword == newPassword) {
+                ValidUtils.hideKeyboard(requireContext(), requireView())
+                ValidUtils.showSnackbar(requireView(), "새 비밀번호는 현재 비밀번호와 다르게 설정해주세요.", binding.lineResetSecond)
+                return@setOnClickListener
+            }
+
+            // 새 비밀번호 설정 단계 (API 호출 추가)
             if (isPasswordValid && isPasswordMatch) {
-                loadNextFragment(PasswordResetCompleteFragment())
+                authViewModel.passwordNew(newPassword) // 새 비밀번호 변경 API 호출
             }
         }
     }
@@ -126,6 +200,18 @@ class PasswordResetFragment : Fragment() {
             .addToBackStack(null)
             .commit()
     }
+/*
+    private fun setupEnterKeyListener() {
+        // 현재 비밀번호 입력란에서 엔터 키를 눌렀을 때
+        ValidUtils.setEnterKeyListener(binding.etResetPasswordNow, binding.btnResetPasswordNext)
+
+        // 새 비밀번호 입력란에서 엔터 키를 눌렀을 때
+        ValidUtils.setEnterKeyListener(binding.etResetPassword, binding.btnResetPasswordNext)
+
+        // 새 비밀번호 확인 입력란에서 엔터 키를 눌렀을 때
+        ValidUtils.setEnterKeyListener(binding.etResetPasswordConfirm, binding.btnResetPasswordNext)
+    }
+*/
 
     override fun onDestroyView() {
         super.onDestroyView()

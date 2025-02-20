@@ -19,6 +19,9 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.hrr_android.access.ui.LoginActivity
 import com.example.hrr_android.databinding.FragmentHomeBinding
 import com.example.hrr_android.access.AuthViewModel
+import com.example.hrr_android.access.PasswordNavigator
+import com.example.hrr_android.access.ui.PasswordActivity
+import com.example.hrr_android.community.ui.BoardActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.abs
 
@@ -80,16 +83,16 @@ class HomeFragment : Fragment(), OnChallengeClickListener {
         observeChallengesHotness()
 
         // 더미데이터
-/*        val hotPostList = listOf(
+        val hotPostList = listOf(
             HotPost("운동게시판", "어제 PT 갔거든? 근데 피티쌤이"),
             HotPost("학업게시판", "교수님이 아무래도 내가 자기 수업만 듣는 줄 아는 것 같아 그렇지 않고서야"),
             HotPost("취업준비게시판", "IT 계열인데 서류는 통과했어"),
             HotPost("생활습관게시판", "우리 챌린지 방 스터디가 잘 운영이 안되는 것 같아"),
             HotPost("공공기관/공무원/정출연 취준생", "해커스 공기업 NCS 통합 봉모 주황이 1회차")
-        )*/
+        )
 
         // 더미 데이터가 없는 상태
-        val hotPostList = listOf<HotPost>()
+        // val hotPostList = listOf<HotPost>()
 
         // 데이터 확인 후 visibility 조정
         if (hotPostList.isEmpty()) {
@@ -112,6 +115,15 @@ class HomeFragment : Fragment(), OnChallengeClickListener {
         binding.ivHomeAlarm.setOnClickListener {
             val intent = Intent(requireContext(), NotificationActivity::class.java)
             startActivity(intent)
+        }
+
+        // 검색 화면으로 이동
+        binding.ivHomeSearch.setOnClickListener {
+            findNavController().navigate(R.id.action_currentFragment_to_searchChallengeFragment)
+        }
+
+        binding.tvHomeMore.setOnClickListener {
+            navigateToBoardActivity()
         }
     }
 
@@ -145,7 +157,7 @@ class HomeFragment : Fragment(), OnChallengeClickListener {
 
                 // 챌린지 목록 프래그먼트로 이동
                 binding.itemHomeChallengeCardNew.root.setOnClickListener {
-                    // TODO: 챌린지 목록 프래그먼트로 이동하는 클릭 이벤트 추가
+                    findNavController().navigate(R.id.action_currentFragment_to_challengeListFragment)
                 }
 
                 // 인디케이터 설정
@@ -315,6 +327,21 @@ class HomeFragment : Fragment(), OnChallengeClickListener {
         requireActivity().finish() // 현재 액티비티 종료
     }
 
+    private fun navigateToPasswordActivity(fragment: PasswordNavigator) {
+        val intent = Intent(requireContext(), PasswordActivity::class.java)
+        intent.putExtra("fragment_to_load", fragment.fragmentName) // Enum에서 fragmentName 사용
+        startActivity(intent)
+    }
+
+    private fun navigateToBoardActivity() {
+        val intent = Intent(requireContext(), BoardActivity::class.java).apply {
+            putExtra("baseCategory", "인기글") // 타이틀
+            putExtra("subTitle", "") // 서브타이틀 (없으면 공백)
+            putExtra("fragment", "CommunityTabContentFragment") // 표시할 프래그먼트
+        }
+        startActivity(intent)
+    }
+
     override fun onItemClick(challengeId: Int) {
         val navController = findNavController() // 현재 프래그먼트의 네비게이션 컨트롤러 가져오기
 
@@ -325,7 +352,6 @@ class HomeFragment : Fragment(), OnChallengeClickListener {
     }
 
     override fun onMoreClick() {
-        Toast.makeText(requireContext(), "더보기를 클릭했습니다", Toast.LENGTH_SHORT).show() // 클릭 확인용
-        // TODO: 챌린지 목록 프래그먼트로 이동하는 클릭 이벤트 추가
+        findNavController().navigate(R.id.action_currentFragment_to_challengeListFragment)
     }
 }

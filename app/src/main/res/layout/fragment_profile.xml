@@ -256,7 +256,8 @@
                     android:includeFontPadding="false"
                     android:gravity="center"
                     android:ellipsize="end"
-                    android:maxLines="1"/>
+                    android:maxLines="1"
+                    android:layout_marginTop="5dp"/>
 
             </LinearLayout>
 

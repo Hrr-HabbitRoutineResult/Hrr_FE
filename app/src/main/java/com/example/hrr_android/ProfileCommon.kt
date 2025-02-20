@@ -54,6 +54,7 @@ class ProfileCommon {
 
     //대표 뱃지 바인딩
     fun setupBadges(binding: FragmentProfileBinding, selectedBadges: List<Badge>) {
+        Log.d("myDebug", "selectedBadges: ${selectedBadges}")
         when (selectedBadges.size) {
             0 -> {  }
 
