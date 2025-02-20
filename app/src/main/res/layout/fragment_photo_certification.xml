@@ -107,7 +107,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="14dp"
-                android:layout_marginBottom="61dp">
+                android:layout_marginBottom="20dp">
 
                 <!-- 다시 찍기 -->
                 <androidx.appcompat.widget.AppCompatButton

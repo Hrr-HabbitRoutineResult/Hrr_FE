@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="14dp"
-        android:layout_marginBottom="61dp"
+        android:layout_marginBottom="20dp"
         android:gravity="center">
 
         <androidx.appcompat.widget.AppCompatButton
