@@ -1,14 +1,20 @@
+
 package com.example.hrr_android.makechallenge
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import com.example.hrr_android.ChallengeViewModel
 import com.example.hrr_android.R
 import com.example.hrr_android.databinding.FragmentMakeChallengeBinding
 import com.example.hrr_android.databinding.LayoutMakeChallengeHeaderBinding
+import com.example.hrr_android.makechallenge.MakeBasicChallengeFragment
+import com.example.hrr_android.makechallenge.MakeStudyChallengeFragment
 
 class MakeChallengeFragment : Fragment() {
 
@@ -16,7 +22,12 @@ class MakeChallengeFragment : Fragment() {
     private val binding get() = _binding!!
 
     private var _headerBinding: LayoutMakeChallengeHeaderBinding? = null
-    private val headerBinding get() = _headerBinding!! // 헤더 바인딩 추가
+    private val headerBinding get() = _headerBinding!!
+
+    private var selectedCategory: String? = null  // 선택된 카테고리 저장
+    private var selectedType: String? = null  //  선택된 챌린지 타입 저장
+
+    private val challengeViewModel: ChallengeViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -38,20 +49,21 @@ class MakeChallengeFragment : Fragment() {
         setupTypeSelection()
         setupButtonState()
         setupApplyButtonClick()
+
     }
 
     private fun setupCategorySelection() {
-        val categoryButtons = listOf(
-            binding.btnChooseCategoryExercise,
-            binding.btnChooseCategoryStudy,
-            binding.btnChooseCategoryEmployment,
-            binding.btnChooseCategoryHabit,
-            binding.btnChooseCategoryHobby
+        val categoryButtons = mapOf(
+            binding.btnChooseCategoryExercise to "exercise",
+            binding.btnChooseCategoryStudy to "study",
+            binding.btnChooseCategoryEmployment to "jobPreparation",
+            binding.btnChooseCategoryHabit to "lifestyle",
+            binding.btnChooseCategoryHobby to "hobby"
         )
 
-        categoryButtons.forEach { button ->
+        categoryButtons.forEach { (button, category) ->
             button.setOnClickListener {
-                categoryButtons.forEach { btn ->
+                categoryButtons.keys.forEach { btn ->
                     btn.isSelected = false
                     btn.isActivated = false
                     // 모든 자식 TextView의 색상 변경
@@ -69,25 +81,27 @@ class MakeChallengeFragment : Fragment() {
                     textView?.setTextColor(resources.getColor(R.color.white))
                 }
                 button.refreshDrawableState()
+                selectedCategory = category
                 updateButtonState() // 버튼 상태 업데이트
             }
         }
     }
 
     private fun setupTypeSelection() {
-        val typeButtons = listOf(
-            binding.btnChooseTypeStudy,
-            binding.btnChooseTypeBasic
+        val typeButtons = mapOf(
+            binding.btnChooseTypeStudy to "study",
+            binding.btnChooseTypeBasic to "basic"
         )
 
-        typeButtons.forEach { button ->
+        typeButtons.forEach { (button, type) ->
             button.setOnClickListener {
-                typeButtons.forEach { btn ->
+                typeButtons.keys.forEach { btn ->
                     btn.isSelected = false
                     btn.isActivated = false
                     // 모든 자식 TextView의 색상 변경
                     for (i in 0 until btn.childCount) {
                         val textView = btn.getChildAt(i) as? TextView
+                        textView?.setTextColor(resources.getColor(R.color.text_tertiary))
                     }
                     btn.refreshDrawableState()
                 }
@@ -99,6 +113,7 @@ class MakeChallengeFragment : Fragment() {
                     textView?.setTextColor(resources.getColor(R.color.white))
                 }
                 button.refreshDrawableState()
+                selectedType = type
                 updateButtonState() // 버튼 상태 업데이트
             }
         }
@@ -112,34 +127,19 @@ class MakeChallengeFragment : Fragment() {
 
     private fun updateButtonState() {
         // 카테고리와 유형 중 하나라도 선택된 경우 확인
-        val isCategorySelected = listOf(
-            binding.btnChooseCategoryExercise,
-            binding.btnChooseCategoryStudy,
-            binding.btnChooseCategoryEmployment,
-            binding.btnChooseCategoryHabit,
-            binding.btnChooseCategoryHobby
-        ).any { it.isActivated } //
+        val isCategorySelected = selectedCategory != null
+        val isTypeSelected = selectedType != null
 
-        val isTypeSelected = listOf(
-            binding.btnChooseTypeStudy,
-            binding.btnChooseTypeBasic
-        ).any { it.isActivated } //
-
-        // 카테고리 & 유형이 모두 선택된 경우에만 활성화
         val isEnabled = isCategorySelected && isTypeSelected
 
         binding.btnApply.post {
             binding.btnApply.isEnabled = isEnabled
             if (isEnabled) {
                 binding.btnApply.setBackgroundResource(R.drawable.bg_button_activate_10)
-                binding.btnApply.findViewById<TextView>(R.id.tv_make_challenge_apply).setTextColor(resources.getColor(
-                    R.color.white
-                ))
+                binding.btnApply.findViewById<TextView>(R.id.tv_make_challenge_apply).setTextColor(resources.getColor(R.color.white))
             } else {
                 binding.btnApply.setBackgroundResource(R.drawable.bg_button_deactivate_10)
-                binding.btnApply.findViewById<TextView>(R.id.tv_make_challenge_apply).setTextColor(resources.getColor(
-                    R.color.text_tertiary
-                ))
+                binding.btnApply.findViewById<TextView>(R.id.tv_make_challenge_apply).setTextColor(resources.getColor(R.color.text_tertiary))
             }
             binding.btnApply.invalidate()
         }
@@ -147,11 +147,15 @@ class MakeChallengeFragment : Fragment() {
 
     private fun setupApplyButtonClick() {
         binding.btnApply.setOnClickListener {
-            if (binding.btnChooseTypeStudy.isSelected) {
-                navigateToFragment(MakeStudyChallengeFragment())
-            } else if (binding.btnChooseTypeBasic.isSelected) {
-                navigateToFragment(MakeBasicChallengeFragment())
+            if (selectedCategory == null || selectedType == null) return@setOnClickListener
+
+            val fragment = when (selectedType) {
+                "study" -> MakeStudyChallengeFragment.newInstance(selectedCategory!!)
+                "basic" -> MakeBasicChallengeFragment.newInstance(selectedCategory!!)
+                else -> return@setOnClickListener
             }
+
+            navigateToFragment(fragment)
         }
     }
 

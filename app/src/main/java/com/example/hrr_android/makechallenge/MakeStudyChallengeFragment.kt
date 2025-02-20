@@ -8,10 +8,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.setFragmentResultListener
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import com.example.hrr_android.ChallengeViewModel
 import com.example.hrr_android.databinding.FragmentMakeChallengeStudyBinding
 import com.example.hrr_android.databinding.LayoutMakeChallengeHeaderBinding
 import java.text.SimpleDateFormat
@@ -19,6 +23,12 @@ import java.util.*
 import com.example.hrr_android.R
 import com.example.hrr_android.challenge.ui.detail.ChallengeFragment
 import com.example.hrr_android.makechallenge.MakeChallengeCalendarFragment
+import com.example.hrr_android.access.repository.AuthRepository
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+
+@AndroidEntryPoint
 
 class MakeStudyChallengeFragment : Fragment() {
 
@@ -35,6 +45,10 @@ class MakeStudyChallengeFragment : Fragment() {
     private var selectedStartDate: Long? = null
     private var selectedEndDate: Long? = null
     private var selectedImageUri: Uri? = null
+    private lateinit var category: String
+
+    private val challengeViewModel: ChallengeViewModel by viewModels()
+    @Inject lateinit var authRepository: AuthRepository
 
     private val imagePickerLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         uri?.let {
@@ -42,6 +56,15 @@ class MakeStudyChallengeFragment : Fragment() {
             selectedImageUri = it
             updateApplyButtonState()
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        // 🔥 `category` 값을 전달받아 저장
+        arguments?.getString(ARG_CATEGORY)?.let {
+            category = it
+        } ?: throw IllegalArgumentException("Category 값이 전달되지 않았습니다.")
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -63,6 +86,80 @@ class MakeStudyChallengeFragment : Fragment() {
         setupCalendarClick()
         getSelectedDatesFromCalendar()
         setupApplyButtonClick()
+    }
+
+    // ✅ 챌린지 개설 API 요청
+    private fun makeStudyChallenge() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            val ownerId = authRepository.getUserId()
+
+            val request = MakeChallengeRequest(
+                name = binding.etStudyChallengeName.text.toString(),
+                ownerId = ownerId,
+                type = "study",
+                description = binding.etStudyChallengeDescription.text.toString(),
+                challengeImage = "string", // TODO: 사진을 URI로
+                category = category,
+                challengeStatus = "open",
+                maxParticipants = getSelectedMaxParticipants() ?: 10,
+                verificationType = getSelectedVerificationType(),
+                rule = binding.etStudyChallengeRule.text.toString(),
+                joinDate = selectedStartDate?.let { SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date(it)) },
+                endDate = selectedEndDate?.let { SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date(it)) },
+                duration = null,
+                frequencyType = "specificDays",
+                frequencyValue = null,
+                days = getSelectedDays() ?: emptyList(),
+                keywords = getKeywords()
+            )
+
+            challengeViewModel.makeChallenge(request)
+            try {
+                // API 요청 전 로그 찍기
+                println("🔵 Sending Request: $request")
+
+                // API 호출
+                val response = challengeViewModel.makeChallenge(request)
+
+                // API 응답 확인
+                println("🟢 Response received: $response")
+            } catch (e: Exception) {
+                println("🔴 API Error: ${e.message}")
+                e.printStackTrace()
+            }
+        }
+    }
+
+    private fun getSelectedMaxParticipants(): Int? {
+        return when {
+            binding.btnStudyPeople10.isSelected -> 10
+            binding.btnStudyPeople20.isSelected -> 20
+            binding.btnStudyPeople30.isSelected -> 30
+            else -> null
+        }
+    }
+
+    private fun getSelectedVerificationType(): String {
+        return when {
+            binding.btnStudyAuthmeanPicture.isSelected -> "camera"
+            binding.btnStudyAuthmeanWriting.isSelected -> "text" // "writing" → "text"로 변경
+            else -> "text" // 기본값 설정
+        }
+    }
+
+    private fun getSelectedDays(): List<String>? {
+        val selectedDays = listOf(
+            binding.btnStudyWeekMon to "월",
+            binding.btnStudyWeekTues to "화",
+            binding.btnStudyWeekWed to "수",
+            binding.btnStudyWeekThu to "목",
+            binding.btnStudyWeekFri to "금",
+            binding.btnStudyWeekSat to "토",
+            binding.btnStudyWeekSun to "일"
+        ).filter { it.first.isSelected } //
+            .map { it.second }
+
+        return if (selectedDays.isNotEmpty()) selectedDays else null
     }
 
     private fun setupBackButton() {
@@ -192,6 +289,14 @@ class MakeStudyChallengeFragment : Fragment() {
         }
     }
 
+    private fun getKeywords(): List<String> {
+        return listOf(
+            binding.etStudyKeyword1.text.toString().trim(),
+            binding.etStudyKeyword2.text.toString().trim(),
+            binding.etStudyKeyword3.text.toString().trim()
+        ).filter { it.isNotEmpty() }
+    }
+
     private fun updateApplyButtonState() {
         val isNameEntered = binding.etStudyChallengeName.text.isNotBlank()
         val isDescriptionEntered = binding.etStudyChallengeDescription.text.isNotBlank()
@@ -228,6 +333,7 @@ class MakeStudyChallengeFragment : Fragment() {
     // "개설하기" 버튼 클릭 시 ChallengeFragment로 이동하며 다이얼로그 띄우기
     private fun setupApplyButtonClick() {
         binding.btnMakeStudyChallenge.setOnClickListener {
+            makeStudyChallenge()
             val challengeFragment = ChallengeFragment()
 
             val args = Bundle()
@@ -238,6 +344,18 @@ class MakeStudyChallengeFragment : Fragment() {
                 .replace(R.id.main_frame, challengeFragment)
                 .addToBackStack(null)
                 .commit()
+        }
+    }
+
+    companion object {
+        private const val ARG_CATEGORY = "category"
+
+        fun newInstance(category: String): MakeStudyChallengeFragment {
+            return MakeStudyChallengeFragment().apply {
+                arguments = Bundle().apply {
+                    putString(ARG_CATEGORY, category)
+                }
+            }
         }
     }
 

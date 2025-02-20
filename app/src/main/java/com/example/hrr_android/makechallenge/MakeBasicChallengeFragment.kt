@@ -11,11 +11,19 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import com.example.hrr_android.ChallengeViewModel
 import com.example.hrr_android.databinding.FragmentMakeChallengeBasicBinding
 import com.example.hrr_android.databinding.LayoutMakeChallengeHeaderBinding
 import com.example.hrr_android.R
 import com.example.hrr_android.challenge.ui.detail.ChallengeFragment
+import com.example.hrr_android.access.repository.AuthRepository
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MakeBasicChallengeFragment : Fragment() {
 
     private var _binding: FragmentMakeChallengeBasicBinding? = null
@@ -30,6 +38,10 @@ class MakeBasicChallengeFragment : Fragment() {
     private lateinit var frequencyButtons: List<View>
 
     private var selectedImageUri: Uri? = null
+    private lateinit var category: String
+
+    private val challengeViewModel: ChallengeViewModel by viewModels()
+    @Inject lateinit var authRepository: AuthRepository
 
     private val imagePickerLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         uri?.let {
@@ -37,6 +49,14 @@ class MakeBasicChallengeFragment : Fragment() {
             selectedImageUri = it
             updateApplyButtonState()
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        // `category` 값을 전달받아 저장
+        arguments?.getString(ARG_CATEGORY)?.let {
+            category = it
+        } ?: throw IllegalArgumentException("Category 값이 전달되지 않았습니다.")
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -66,32 +86,72 @@ class MakeBasicChallengeFragment : Fragment() {
 
     private fun setupButtonGroups() {
         durationButtons = listOf(
-            binding.btnBasicDuration1week, binding.btnBasicDuration2week,
-            binding.btnBasicDuration3week, binding.btnBasicDuration1month,
-            binding.btnBasicDuration3month, binding.btnBasicDuration6month,
-            binding.btnBasicDuration1year
+            binding.btnBasicDuration1week.apply { tag = "week_1" },
+            binding.btnBasicDuration2week.apply { tag = "week_2" },
+            binding.btnBasicDuration3week.apply { tag = "week_3" },
+            binding.btnBasicDuration1month.apply { tag = "month_1" },
+            binding.btnBasicDuration3month.apply { tag = "month_3" },
+            binding.btnBasicDuration6month.apply { tag = "month_6" },
+            binding.btnBasicDuration1year.apply { tag = "year_1" }
         )
 
         peopleButtons = listOf(
-            binding.btnBasicPeople10, binding.btnBasicPeople20,
-            binding.btnBasicPeople30, binding.btnBasicPeople50,
-            binding.btnBasicPeople100
+            binding.btnBasicPeople10.apply { tag = 10 },
+            binding.btnBasicPeople20.apply { tag = 20 },
+            binding.btnBasicPeople30.apply { tag = 30 },
+            binding.btnBasicPeople50.apply { tag = 50 },
+            binding.btnBasicPeople100.apply { tag = 100 }
         )
 
         authButtons = listOf(
-            binding.btnBasicAuthmeanPicture, binding.btnBasicAuthmeanWriting
+            binding.btnBasicAuthmeanPicture.apply { tag = "camera" },
+            binding.btnBasicAuthmeanWriting.apply { tag = "text" }
         )
 
         frequencyButtons = listOf(
-            binding.btnBasicFrequencyEveryday, binding.btnBasicFrequency2perweek,
-            binding.btnBasicFrequency3perweek, binding.btnBasicFrequency5perweek,
-            binding.btnBasicFrequencyWeekday, binding.btnBasicFrequencyWeekend
+            binding.btnBasicFrequencyEveryday.apply { tag = "everyday" },
+            binding.btnBasicFrequency2perweek.apply { tag = "week_2" },
+            binding.btnBasicFrequency3perweek.apply { tag = "week_3" },
+            binding.btnBasicFrequency5perweek.apply { tag = "week_5" },
+            binding.btnBasicFrequencyWeekday.apply { tag = "weekdays" },
+            binding.btnBasicFrequencyWeekend.apply { tag = "weekends" }
         )
+
 
         setupSingleSelection(durationButtons)
         setupSingleSelection(peopleButtons)
         setupSingleSelection(frequencyButtons)
         setupAuthMethodSelection()
+    }
+
+    // ✅ 챌린지 개설 API 요청
+    private fun makeBasicChallenge() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            val ownerId = authRepository.getUserId()
+
+            val request = MakeChallengeRequest(
+                name = binding.etBasicChallengeName.text.toString(),
+                ownerId = ownerId,
+                type = "basic",
+                description = binding.etBasicChallengeDescription.text.toString(),
+                challengeImage = "string", // TODO: 사진을 URI로
+                category = category,
+                challengeStatus = "open",
+                maxParticipants = getSelectedMaxParticipants(),
+                verificationType = getSelectedVerificationType() ?: "camera",
+                rule = binding.etBasicChallengeRule.text.toString(),
+                joinDate = null,
+                endDate = null,
+                duration = getSelectedDuration(),
+                frequencyType = "weeklyCount",
+                frequencyValue = getSelectedFrequencyValue(),
+                days = null,
+                keywords = getKeywords()
+            )
+
+            challengeViewModel.makeChallenge(request)
+        }
+
     }
 
     private fun setupSingleSelection(buttons: List<View>) {
@@ -108,6 +168,26 @@ class MakeBasicChallengeFragment : Fragment() {
                 updateApplyButtonState()
             }
         }
+    }
+
+    private fun getSelectedMaxParticipants(): Int? =
+        peopleButtons.firstOrNull { it.isSelected }?.tag as? Int
+
+    private fun getSelectedDuration(): String? =
+        durationButtons.firstOrNull { it.isSelected }?.tag as? String
+
+    private fun getSelectedVerificationType(): String? =
+        authButtons.firstOrNull { it.isSelected }?.tag as? String
+
+    private fun getSelectedFrequencyValue(): String? =
+        frequencyButtons.firstOrNull { it.isSelected }?.tag as? String
+
+    private fun getKeywords(): List<String> {
+        return listOf(
+            binding.etBasicKeyword1.text.toString().trim(),
+            binding.etBasicKeyword2.text.toString().trim(),
+            binding.etBasicKeyword3.text.toString().trim()
+        ).filter { it.isNotEmpty() }
     }
 
     private fun setupAuthMethodSelection() {
@@ -195,6 +275,7 @@ class MakeBasicChallengeFragment : Fragment() {
     private fun setupApplyButtonClick() {
         binding.btnMakeBasicChallenge.setOnClickListener {
             val challengeFragment = ChallengeFragment()
+            makeBasicChallenge()
 
             val args = Bundle()
             args.putBoolean("showCreateDialog", true)
@@ -204,6 +285,18 @@ class MakeBasicChallengeFragment : Fragment() {
                 .replace(R.id.main_frame, challengeFragment)
                 .addToBackStack(null)
                 .commit()
+        }
+    }
+
+    companion object {
+        private const val ARG_CATEGORY = "category"
+
+        fun newInstance(category: String): MakeBasicChallengeFragment {
+            return MakeBasicChallengeFragment().apply {
+                arguments = Bundle().apply {
+                    putString(ARG_CATEGORY, category)
+                }
+            }
         }
     }
 

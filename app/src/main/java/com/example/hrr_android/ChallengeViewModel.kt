@@ -5,6 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.hrr_android.makechallenge.MakeChallengeRequest
+import com.example.hrr_android.makechallenge.MakeChallengeResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -32,4 +34,18 @@ class ChallengeViewModel @Inject constructor(
         }
     }
 
+    // 챌린지 개설
+    private val _makeChallengeResult = MutableLiveData<Result<MakeChallengeResponse>?>()
+    val makeChallengeResult: LiveData<Result<MakeChallengeResponse>?> get() = _makeChallengeResult
+
+    fun makeChallenge(request: MakeChallengeRequest) {
+        viewModelScope.launch {
+            val result = challengeRepository.makeChallenge(request)
+            _makeChallengeResult.value = result
+
+            result.onFailure { error ->
+                _errorMessage.value = error.localizedMessage ?: "챌린지 생성 중 오류 발생"
+            }
+        }
+    }
 }
