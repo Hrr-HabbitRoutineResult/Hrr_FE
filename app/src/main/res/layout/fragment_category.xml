@@ -70,11 +70,11 @@
                 android:stateListAnimator="@null" />
 
             <RadioButton
-                android:id="@+id/radio_category_hobby"
+                android:id="@+id/radio_category_company"
                 android:layout_width="0dp"
                 android:layout_height="33dp"
                 android:layout_weight="1"
-                android:text="취미"
+                android:text="취업준비"
                 android:background="@drawable/btn_onboarding"
                 android:textColor="@drawable/btn_onboarding_text"
                 android:fontFamily="@font/noto_sans_kr_regular"
@@ -93,11 +93,11 @@
             android:layout_marginTop="8dp">
 
             <RadioButton
-                android:id="@+id/radio_category_company"
+                android:id="@+id/radio_category_routine"
                 android:layout_width="0dp"
                 android:layout_height="33dp"
                 android:layout_weight="1"
-                android:text="취준"
+                android:text="생활습관"
                 android:background="@drawable/btn_onboarding"
                 android:textColor="@drawable/btn_onboarding_text"
                 android:fontFamily="@font/noto_sans_kr_regular"
@@ -108,11 +108,11 @@
                 android:stateListAnimator="@null" />
 
             <RadioButton
-                android:id="@+id/radio_category_routine"
+                android:id="@+id/radio_category_hobby"
                 android:layout_width="0dp"
                 android:layout_height="33dp"
                 android:layout_weight="1"
-                android:text="생활습관"
+                android:text="취미"
                 android:background="@drawable/btn_onboarding"
                 android:textColor="@drawable/btn_onboarding_text"
                 android:fontFamily="@font/noto_sans_kr_regular"
