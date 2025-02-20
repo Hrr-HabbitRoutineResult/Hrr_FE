@@ -57,4 +57,21 @@
         android:id="@+id/action_homeFragment_to_challengeFragment"
         app:destination="@id/challengeFragment" />
 
+    <!-- 프로필 챌린지  -->
+    <fragment
+        android:id="@+id/profileChallengeFragment"
+        android:name="com.example.hrr_android.ProfileChallengeFragment"
+        android:label="ProfileChallengeFragment"/>
+    <action
+        android:id="@+id/action_profileChallengeFragment_to_challengeFragment"
+        app:destination="@id/challengeFragment"/>
+    <fragment
+        android:id="@+id/profileChallengeMoreFragment"
+        android:name="com.example.hrr_android.ProfileChallengeMoreFragment"
+        android:label="ProfileChallengeMoreFragment"/>
+    <action
+        android:id="@+id/action_profileChallengeMoreFragment_to_challengeFragment"
+        app:destination="@id/challengeFragment"/>
+
+
 </navigation>

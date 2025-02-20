@@ -10,13 +10,14 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.hrr_android.access.ValidUtils
 import com.example.hrr_android.databinding.FragmentProfileChallengeBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ProfileChallengeFragment : Fragment() {
+class ProfileChallengeFragment : Fragment(), OnCompletedChallengeClickListener {
     private var _binding: FragmentProfileChallengeBinding? = null       //뷰 바인딩
     private val binding get() = _binding!!
     private var participatingChallengeList = ArrayList<Challenge>()     //참가중인 챌린지 리스트
@@ -221,7 +222,7 @@ class ProfileChallengeFragment : Fragment() {
         binding.rvProfileParticipatingChallengeContent.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
         //최근 완주한 챌린지 RecyclerView Adapter 연결
-        val profileCompletedChallengeRVAdapter = ProfileCompletedChallengeRVAdapter(completedChallengeList)
+        val profileCompletedChallengeRVAdapter = ProfileCompletedChallengeRVAdapter(completedChallengeList, this)
         binding.rvProfileCompletedChallengeContent.adapter = profileCompletedChallengeRVAdapter
         binding.rvProfileCompletedChallengeContent.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
@@ -239,6 +240,10 @@ class ProfileChallengeFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onChallengeClicked(challenge: Challenge) {
+        findNavController().navigate(R.id.action_profileChallengeFragment_to_challengeFragment)
     }
 
 }
