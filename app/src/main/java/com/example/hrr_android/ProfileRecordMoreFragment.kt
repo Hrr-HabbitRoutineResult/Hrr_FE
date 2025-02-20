@@ -99,7 +99,7 @@ class ProfileRecordMoreFragment : Fragment(), OnRecordClickListener {
         val bundle = Bundle().apply {
             putInt("verification_id", certification.verificationId)
         }
-        findNavController().navigate(R.id.action_profileRecordMoreFragment_to_postFragment, bundle)
+        //findNavController().navigate(R.id.action_profileRecordMoreFragment_to_postFragment, bundle)
     }
 
 
