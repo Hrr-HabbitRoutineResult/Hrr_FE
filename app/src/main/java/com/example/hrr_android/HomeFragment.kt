@@ -21,6 +21,7 @@ import com.example.hrr_android.databinding.FragmentHomeBinding
 import com.example.hrr_android.access.AuthViewModel
 import com.example.hrr_android.access.PasswordNavigator
 import com.example.hrr_android.access.ui.PasswordActivity
+import com.example.hrr_android.community.ui.BoardActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.abs
 
@@ -116,13 +117,13 @@ class HomeFragment : Fragment(), OnChallengeClickListener {
             startActivity(intent)
         }
 
-        //검색 화면으로 이동
+        // 검색 화면으로 이동
         binding.ivHomeSearch.setOnClickListener {
             findNavController().navigate(R.id.action_currentFragment_to_searchChallengeFragment)
         }
 
         binding.tvHomeMore.setOnClickListener {
-            navigateToPasswordActivity(PasswordNavigator.RESET)
+            navigateToBoardActivity()
         }
     }
 
@@ -329,6 +330,15 @@ class HomeFragment : Fragment(), OnChallengeClickListener {
     private fun navigateToPasswordActivity(fragment: PasswordNavigator) {
         val intent = Intent(requireContext(), PasswordActivity::class.java)
         intent.putExtra("fragment_to_load", fragment.fragmentName) // Enum에서 fragmentName 사용
+        startActivity(intent)
+    }
+
+    private fun navigateToBoardActivity() {
+        val intent = Intent(requireContext(), BoardActivity::class.java).apply {
+            putExtra("baseCategory", "인기글") // 타이틀
+            putExtra("subTitle", "") // 서브타이틀 (없으면 공백)
+            putExtra("fragment", "CommunityTabContentFragment") // 표시할 프래그먼트
+        }
         startActivity(intent)
     }
 
