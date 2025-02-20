@@ -57,7 +57,7 @@ class ProfileFragment : Fragment() {
                     "gold" -> "골드"
                     "master" -> "마스터"
                     "challenger" -> "챌린저"
-                    else -> ""
+                    else -> "일반"
                 }
                 binding.tvProfileFollowerCount.text = it.followerCount.toString()  // 팔로워 수
                 binding.tvProfileFollowingCount.text = it.followingCount.toString() // 팔로잉 수
@@ -79,7 +79,10 @@ class ProfileFragment : Fragment() {
                 // 뱃지 UI 업데이트
                 profileCommon.setupBadges(binding, selectedBadges)
 
-                profileCommon.setupCircularProgressBar(binding, myProfile.level, myProfile.points) // 레벨 달성률 게이지 바 구현
+                myProfile.level?.let { it1 ->
+                    profileCommon.setupCircularProgressBar(binding,
+                        it1, myProfile.points)
+                } // 레벨 달성률 게이지 바 구현
                 //팔로우 클릭 처리
                 profileCommon.onFollowClicked(requireActivity(), binding.llProfileFollower, "follower", myId = it.id!!)
                 profileCommon.onFollowClicked(requireActivity(), binding.llProfileFollowing, "following", myId = it.id)
