@@ -28,22 +28,27 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.hrr_android.R
 import com.example.hrr_android.databinding.CustomSnackbarBinding
 import com.example.hrr_android.databinding.FragmentPhotoCertificationBinding
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-
+@AndroidEntryPoint
 class PhotoCertificationFragment : Fragment() {
     private var _binding: FragmentPhotoCertificationBinding? = null
     private val binding get() = _binding!!
+
+    private val viewModel: PhotoCertificationViewModel by viewModels()
+    private var uploadedPhotoUrl: String? = null
 
     private val CAMERA_PERMISSION = Manifest.permission.CAMERA
     private var imageUri: Uri? = null
@@ -71,6 +76,7 @@ class PhotoCertificationFragment : Fragment() {
         initClickListeners()
         setupTextWatchers()
         checkCameraPermission()
+        setupObservers()
     }
 
     // 화면 초기 상태 설정
@@ -268,6 +274,9 @@ class PhotoCertificationFragment : Fragment() {
             hasPhoto = true
             showPreviewMode()
             updateCompleteButton()
+
+            // 촬영한 사진 서버에 업로드
+            viewModel.uploadPhoto(timestampedBitmap, requireContext())
         }
     }
 
@@ -315,12 +324,45 @@ class PhotoCertificationFragment : Fragment() {
 
         loadingDialog.show()
 
-        // TODO: 개발용 2초 뒤 자동 화면 전환, 추후 수정 필요
-        lifecycleScope.launch {
-            delay(2000)
-            if (isAdded) {
-                loadingDialog.dismiss()
-                findNavController().navigate(R.id.action_photoCertificationFragment_to_postFragment)
+        // 인증 정보 업로드
+        val challengeId = arguments?.getInt("challenge_id") ?: -1
+        uploadedPhotoUrl?.let { photoUrl ->
+            viewModel.uploadVerification(
+                challengeId = challengeId,
+                photoUrl = photoUrl,
+                title = binding.viewFlipper.findViewById<EditText>(R.id.et_certification_title).text.toString(),
+                content = binding.viewFlipper.findViewById<EditText>(R.id.et_certification_content).text.toString(),
+                isQuestion = binding.viewFlipper.findViewById<CheckBox>(R.id.cb_certification_question).isChecked
+            )
+        } ?: run {
+            loadingDialog.dismiss()
+            showCustomSnackbar(binding.root, "이미지 업로드를 먼저 완료해주세요.")
+        }
+    }
+
+    private fun setupObservers() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.photoUploadState.collect { result ->
+                result?.onSuccess { url ->
+                    uploadedPhotoUrl = url  // 업로드된 URL 저장
+                }?.onFailure { e ->
+                    showCustomSnackbar(binding.root, e.message ?: "이미지 업로드에 실패했습니다.")
+                }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.verificationState.collect { result ->
+                result?.onSuccess { response ->
+                    findNavController().navigate(
+                        R.id.action_photoCertificationFragment_to_postFragment,
+                        Bundle().apply {
+                            putInt("verification_id", response.verification.verificationId)
+                        }
+                    )
+                }?.onFailure { e ->
+                    showCustomSnackbar(binding.root, e.message ?: "인증 업로드에 실패했습니다.")
+                }
             }
         }
     }
