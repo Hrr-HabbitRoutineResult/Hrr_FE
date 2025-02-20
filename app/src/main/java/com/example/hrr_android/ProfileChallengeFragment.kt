@@ -85,7 +85,8 @@ class ProfileChallengeFragment : Fragment(), OnCompletedChallengeClickListener {
                 challenges?.completedChallenges?.map{challengeEnd->
                     Challenge(
                         challengeEnd.name,
-                        challengeEnd.imageUrl.toInt(),      // 이미지 처리 구현 전이라 오류 방지를 위해 임시로 Int로 전환해서 사용
+//                        challengeEnd.imageUrl,      // 이미지 처리 구현 전이라 오류 방지를 위해 임시로 Int로 전환해서 사용
+                        0,
                         challengeEnd.description)
 
                 }.let {

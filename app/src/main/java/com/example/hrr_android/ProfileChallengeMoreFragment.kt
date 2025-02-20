@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.hrr_android.access.ValidUtils
@@ -50,7 +52,7 @@ class ProfileChallengeMoreFragment : Fragment(), OnCompletedChallengeClickListen
                 challenges?.completedChallenges?.map{challengeEnd->
                     Challenge(
                         challengeEnd.name,
-                        challengeEnd.imageUrl.toInt(),      // 이미지 처리 구현 전이라 오류 방지를 위해 임시로 Int로 전환해서 사용
+                        0,      // 이미지 처리 구현 전이라 오류 방지를 위해 임시로 Int로 전환해서 사용
                         challengeEnd.description)
 
                 }.let {
@@ -58,6 +60,7 @@ class ProfileChallengeMoreFragment : Fragment(), OnCompletedChallengeClickListen
                         clear()
                         if (it != null) {
                             addAll(it)
+                            binding.rvChallengeMore.adapter?.notifyDataSetChanged()
                         }
                     }
                 }
@@ -92,7 +95,7 @@ class ProfileChallengeMoreFragment : Fragment(), OnCompletedChallengeClickListen
                 challenges?.completedChallenges?.map{challengeEnd->
                     Challenge(
                         challengeEnd.name,
-                        challengeEnd.imageUrl.toInt(),      // 이미지 처리 구현 전이라 오류 방지를 위해 임시로 Int로 전환해서 사용
+                        0,      // 이미지 처리 구현 전이라 오류 방지를 위해 임시로 Int로 전환해서 사용
                         challengeEnd.description)
 
                 }.let {
@@ -100,6 +103,7 @@ class ProfileChallengeMoreFragment : Fragment(), OnCompletedChallengeClickListen
                         clear()
                         if (it != null) {
                             addAll(it)
+                            binding.rvChallengeMore.adapter?.notifyDataSetChanged()
                         }
                     }
                 }
@@ -141,6 +145,7 @@ class ProfileChallengeMoreFragment : Fragment(), OnCompletedChallengeClickListen
         val bundle = Bundle().apply {
             putString("state", "completed")
         }
-        findNavController().navigate(R.id.action_profileChallengeMoreFragment_to_challengeFragment, bundle)
+
+        //findNavController().navigate(R.id.action_profileChallengeMoreFragment_to_challengeFragment, bundle)
     }
 }

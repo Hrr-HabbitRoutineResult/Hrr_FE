@@ -53,7 +53,7 @@ class ProfileFragment : Fragment() {
                     "gold" -> "골드"
                     "master" -> "마스터"
                     "challenger" -> "챌린저"
-                    else -> ""
+                    else -> "일반"
                 }
                 binding.tvProfileFollowerCount.text = it.followerCount.toString()  // 팔로워 수
                 binding.tvProfileFollowingCount.text = it.followingCount.toString() // 팔로잉 수

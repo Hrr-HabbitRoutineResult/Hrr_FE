@@ -65,13 +65,21 @@
     <action
         android:id="@+id/action_profileChallengeFragment_to_challengeFragment"
         app:destination="@id/challengeFragment"/>
+    <activity
+        android:id="@+id/profileMoreActivity"
+        android:name="com.example.hrr_android.ProfileMoreActivity"
+        android:label="ProfileMoreActivity"/>
     <fragment
         android:id="@+id/profileChallengeMoreFragment"
         android:name="com.example.hrr_android.ProfileChallengeMoreFragment"
-        android:label="ProfileChallengeMoreFragment"/>
-    <action
-        android:id="@+id/action_profileChallengeMoreFragment_to_challengeFragment"
-        app:destination="@id/challengeFragment"/>
+        android:label="ProfileChallengeMoreFragment">
+
+        <action
+            android:id="@+id/action_profileChallengeMoreFragment_to_challengeFragment"
+            app:destination="@id/challengeFragment"/>
+
+    </fragment>
+
 
     <!--  인증기록  -->
     <fragment

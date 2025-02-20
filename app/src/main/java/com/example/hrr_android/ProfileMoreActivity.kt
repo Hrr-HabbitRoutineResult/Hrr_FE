@@ -3,6 +3,9 @@ package com.example.hrr_android
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.NavigationUI
 import com.example.hrr_android.databinding.ActivityProfileMoreBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -10,6 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class ProfileMoreActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityProfileMoreBinding    // 뷰 바인딩
+    lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,6 +70,14 @@ class ProfileMoreActivity : AppCompatActivity() {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fl_profile_more_fragment_container, fragment)
                 .commit()
+
+            val navHostFragment = supportFragmentManager.findFragmentById(R.id.fl_profile_more_fragment_container) as? NavHostFragment
+            if (navHostFragment != null) {
+                navController = navHostFragment.navController
+                Log.d("NavDebug", "NavHostFragment 초기화 성공: $navController")
+            } else {
+                Log.e("NavDebug", "NavHostFragment 초기화 실패: NavHostFragment가 NULL입니다.")
+            }
         }
 
         //뒤로가기 버튼 클릭 처리
