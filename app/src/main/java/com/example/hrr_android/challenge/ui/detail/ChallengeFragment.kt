@@ -16,6 +16,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.hrr_android.R
 import com.example.hrr_android.challenge.model.ChallengeDetail
 import com.example.hrr_android.challenge.ui.detail.adapter.CertificationListAdapter
@@ -180,6 +181,16 @@ class ChallengeFragment : Fragment(), ChallengeDialogInterface {
             }
             // TODO: 인증 요일 정보 추가되면 레이아웃 분리 후 "요일|기간" 형식으로 표시
             tvChallengeHeaderPeriod.text = durationText
+
+            // 헤더 배경 이미지 설정
+            challenge.challengeImage?.let { imageUrl ->
+                Glide.with(root)
+                    .load(imageUrl)
+                    .centerCrop()
+                    .placeholder(R.drawable.img_challenge_profile_bg) // 로딩 중 표시할 이미지
+                    .error(R.drawable.img_challenge_profile_bg)       // 에러 시 표시할 이미지
+                    .into(ivChallengeHeaderBackground)
+            }
 
             // 닫기 버튼 클릭 리스너
             btnChallengeHeaderClose.setOnClickListener {

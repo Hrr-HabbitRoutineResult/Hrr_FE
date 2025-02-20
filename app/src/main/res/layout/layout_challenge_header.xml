@@ -4,8 +4,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="250dp"
-    android:background="@drawable/bg_challenge_header">
+    android:layout_height="250dp">
+
+    <!-- 배경 -->
+    <ImageView
+        android:id="@+id/iv_challenge_header_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/bg_challenge_header"/>
 
     <!-- 닫기 버튼 -->
     <ImageButton
