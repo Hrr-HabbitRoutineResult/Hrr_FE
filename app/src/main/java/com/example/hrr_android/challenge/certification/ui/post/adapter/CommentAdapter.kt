@@ -8,11 +8,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupWindow
 import androidx.recyclerview.widget.RecyclerView
+import com.example.hrr_android.challenge.model.Comment
 import com.example.hrr_android.databinding.DialogCommentMoreBinding
 import com.example.hrr_android.databinding.ItemCommentBinding
 
 class CommentAdapter : RecyclerView.Adapter<CommentAdapter.CommentViewHolder>() {
     private var popup: PopupWindow? = null
+    private var commentList = listOf<Comment>()  // 데이터 리스트 추가
+
+    fun setItems(items: List<Comment>) {
+        commentList = items
+        notifyDataSetChanged()
+    }
 
     inner class CommentViewHolder(private val binding: ItemCommentBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(position: Int) {
@@ -110,5 +117,5 @@ class CommentAdapter : RecyclerView.Adapter<CommentAdapter.CommentViewHolder>() 
         return (this * context.resources.displayMetrics.density).toInt()
     }
 
-    override fun getItemCount() = 10  // 테스트용
+    override fun getItemCount() = commentList.size  // 실제 데이터 크기 반환
 }

@@ -31,22 +31,30 @@ import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.hrr_android.MainActivity
 import com.example.hrr_android.R
-import com.example.hrr_android.challenge.certification.ui.base.BaseCertificationFragment
 import com.example.hrr_android.databinding.CustomSnackbarBinding
 import com.example.hrr_android.databinding.FragmentPhotoCertificationBinding
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
+@AndroidEntryPoint
+class PhotoCertificationFragment : Fragment() {
+    private var _binding: FragmentPhotoCertificationBinding? = null
+    private val binding get() = _binding!!
 
-class PhotoCertificationFragment : BaseCertificationFragment<FragmentPhotoCertificationBinding>() {
+    private val viewModel: PhotoCertificationViewModel by viewModels()
+    private var uploadedPhotoUrl: String? = null
+
     private val CAMERA_PERMISSION = Manifest.permission.CAMERA
     private var imageUri: Uri? = null
     private var isPreviewMode = false
@@ -57,10 +65,14 @@ class PhotoCertificationFragment : BaseCertificationFragment<FragmentPhotoCertif
     private var hasPhoto = false
     private val MAX_CONTENT_LENGTH = 200
 
-    override fun getViewBinding(
+    override fun onCreateView(
         inflater: LayoutInflater,
-        container: ViewGroup?
-    ) = FragmentPhotoCertificationBinding.inflate(inflater, container, false)
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentPhotoCertificationBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -69,6 +81,7 @@ class PhotoCertificationFragment : BaseCertificationFragment<FragmentPhotoCertif
         initClickListeners()
         setupTextWatchers()
         checkCameraPermission()
+        // setupObservers()
     }
 
     // 화면 초기 상태 설정
@@ -312,23 +325,15 @@ class PhotoCertificationFragment : BaseCertificationFragment<FragmentPhotoCertif
     // 촬영한 사진 결과 처리
     private val cameraLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
-            imageUri?.let { uri ->
-                try {
-                    // 회전된 비트맵 가져오기
-                    val rotatedBitmap = getRotatedBitmap(uri)
-                    // 타임스탬프 추가
-                    val timestampedBitmap = addTimestampToBitmap(rotatedBitmap)
-                    // 이미지를 프리뷰에 표시
-                    binding.ivPhotoPreview.setImageBitmap(timestampedBitmap)
+            val originalBitmap = result.data?.extras?.get("data") as Bitmap
+            val timestampedBitmap = addTimestampToBitmap(originalBitmap)
+            binding.ivPhotoPreview.setImageBitmap(timestampedBitmap)
+            hasPhoto = true
+            showPreviewMode()
+            updateCompleteButton()
 
-                    hasPhoto = true
-                    showPreviewMode()
-                    updateCompleteButton()
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                    showCustomSnackbar(binding.root, "이미지 처리 중 오류가 발생했습니다.")
-                }
-            }
+            // 촬영한 사진 서버에 업로드
+            viewModel.uploadPhoto(timestampedBitmap, requireContext())
         }
     }
 
@@ -357,7 +362,6 @@ class PhotoCertificationFragment : BaseCertificationFragment<FragmentPhotoCertif
         binding.viewFlipper.displayedChild = 1
     }
 
-    // 로딩 화면 표시
     private fun showLoadingAndNavigate() {
         val loadingDialog = AlertDialog.Builder(requireContext())
             .setView(R.layout.activity_loading)
@@ -376,29 +380,45 @@ class PhotoCertificationFragment : BaseCertificationFragment<FragmentPhotoCertif
 
         loadingDialog.show()
 
-        // TODO: 개발용 2초 뒤 자동 화면 전환, 추후 수정 필요
-        lifecycleScope.launch {
-            delay(2000)
-            if (isAdded) {
+        val challengeId = arguments?.getInt("challenge_id") ?: -1
+
+        // 🔹 LiveData를 observe하는 대신, URL을 `setupObservers()`에서 자동으로 감지하도록 함
+        viewModel.photoUploadState.observe(viewLifecycleOwner) { result ->
+            result.onSuccess { photoUrl ->
+                viewModel.uploadVerification(
+                    challengeId = challengeId,
+                    photoUrl = photoUrl,
+                    title = binding.viewFlipper.findViewById<EditText>(R.id.et_certification_title).text.toString(),
+                    content = binding.viewFlipper.findViewById<EditText>(R.id.et_certification_content).text.toString(),
+                    isQuestion = binding.viewFlipper.findViewById<CheckBox>(R.id.cb_certification_question).isChecked
+                )
+            }.onFailure {
                 loadingDialog.dismiss()
-                findNavController().navigate(R.id.action_photoCertificationFragment_to_postFragment)
+                showCustomSnackbar(binding.root, "이미지 업로드를 먼저 완료해주세요.")
+            }
+        }
+
+        // 🔹 `verificationState`를 감지해서 성공하면 화면 이동 & 로딩 종료
+        viewModel.verificationState.observe(viewLifecycleOwner) { result ->
+            result.onSuccess { response ->
+                loadingDialog.dismiss()
+                findNavController().navigate(
+                    R.id.action_photoCertificationFragment_to_postFragment,
+                    Bundle().apply {
+                        putInt("verification_id", response.verification.verificationId)
+                    }
+                )
+            }.onFailure { e ->
+                loadingDialog.dismiss()
+                showCustomSnackbar(binding.root, e.message ?: "인증 업로드에 실패했습니다.")
             }
         }
     }
 
-    // BaseCertificationFragment 추상 메서드
-    // TODO: 리팩토링 시 CertificationFragment 공통 작업 로직 분리하기
-    override fun initCommonViews() {
-        // 공통 뷰 초기화
-    }
-    override fun initCertificationView() {
-        // 인증 관련 뷰 초기화
-    }
-    override fun handleSubmit() {
-        // 제출 처리
-    }
-    override fun validateInput(): Boolean {
-        return true
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }

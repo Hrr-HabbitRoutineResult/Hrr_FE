@@ -21,6 +21,7 @@
 
     <!-- 규칙 상세 내용 -->
     <TextView
+        android:id="@+id/tv_challenge_rule"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_challenge_rule"

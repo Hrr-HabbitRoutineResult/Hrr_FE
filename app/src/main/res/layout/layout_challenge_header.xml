@@ -4,8 +4,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="250dp"
-    android:background="@drawable/bg_challenge_header">
+    android:layout_height="250dp">
+
+    <!-- 배경 -->
+    <ImageView
+        android:id="@+id/iv_challenge_header_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/bg_challenge_header"/>
 
     <!-- 닫기 버튼 -->
     <ImageButton
@@ -56,16 +63,16 @@
         android:layout_height="16dp"
         android:src="@drawable/ic_challenge_person"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/tv_challenge_header_participants"
+        app:layout_constraintBottom_toBottomOf="@id/tv_challenge_header_current_participants"
         android:layout_marginStart="22dp"
         app:tint="@color/white"
         tools:ignore="UseAppTint" />
 
+    <!-- 현재 참여 인원 -->
     <TextView
-        android:id="@+id/tv_challenge_header_participants"
+        android:id="@+id/tv_challenge_header_current_participants"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="26/30"
         android:textSize="13sp"
         android:fontFamily="@font/font_style"
         android:textFontWeight="400"
@@ -74,9 +81,41 @@
         android:layout_marginStart="12dp"
         android:layout_marginBottom="4dp"
         app:layout_constraintStart_toEndOf="@id/iv_challenge_header_participants_icon"
-        app:layout_constraintBottom_toTopOf="@id/tv_challenge_header_period" />
+        app:layout_constraintBottom_toTopOf="@id/tv_challenge_header_period"
+        tools:text="26" />
 
-    <!-- 인증 요일 및 챌린지 기간 정보 영역 -->
+    <!-- 구분 -->
+    <TextView
+        android:id="@+id/tv_challenge_header_separator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="/"
+        android:textSize="13sp"
+        android:fontFamily="@font/font_style"
+        android:textFontWeight="400"
+        android:textColor="@color/white"
+        android:includeFontPadding="false"
+        android:layout_marginStart="2dp"
+        app:layout_constraintStart_toEndOf="@id/tv_challenge_header_current_participants"
+        app:layout_constraintTop_toTopOf="@id/tv_challenge_header_current_participants"
+        app:layout_constraintBottom_toBottomOf="@id/tv_challenge_header_current_participants"/>
+
+    <!-- 최대 참여 인원 -->
+    <TextView
+        android:id="@+id/tv_challenge_header_max_participants"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        android:fontFamily="@font/font_style"
+        android:textFontWeight="400"
+        android:textColor="@color/white"
+        android:includeFontPadding="false"
+        android:layout_marginStart="2dp"
+        app:layout_constraintStart_toEndOf="@id/tv_challenge_header_separator"
+        app:layout_constraintTop_toTopOf="@id/tv_challenge_header_current_participants"
+        app:layout_constraintBottom_toBottomOf="@id/tv_challenge_header_current_participants"
+        tools:text="30" />
+
     <ImageView
         android:id="@+id/iv_challenge_header_period_icon"
         android:layout_width="16dp"

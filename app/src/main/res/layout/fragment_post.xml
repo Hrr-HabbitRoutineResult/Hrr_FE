@@ -59,6 +59,24 @@
                     android:textFontWeight="400"
                     android:textColor="@color/text_primary"
                     android:includeFontPadding="false"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="20dp"/>
+
+                <!-- 첨부한 사진 -->
+                <ImageView
+                    android:id="@+id/iv_photo_preview"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/bg_radius15"
+                    android:clipToOutline="true"/>
+
+                <ImageView
+                    android:id="@+id/iv_post_image"
+                    android:layout_width="300dp"
+                    android:layout_height="400dp"
+                    android:layout_gravity="center_horizontal"
                     android:layout_marginTop="10dp"/>
 
                 <!-- 첨부한 링크 영역 -->
@@ -124,7 +142,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="40dp"/>
+        android:layout_marginBottom="20dp"/>
 
     <!-- 바텀시트 레이아웃 추가 -->
     <include
