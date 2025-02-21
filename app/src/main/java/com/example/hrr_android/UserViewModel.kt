@@ -161,6 +161,83 @@ class UserViewModel @Inject constructor(
         }
     }
 
+    /*
+    * 사용자 뱃지 목록
+    * */
+    private val _badges = MutableLiveData<BadgeResponse?>()
+    val badges: LiveData<BadgeResponse?> get() = _badges
+
+    fun loadBadges(){
+        viewModelScope.launch {
+            val result = userRepository.getMyBadges(authRepository.getUserId())
+            result.onSuccess{
+                _badges.postValue(result.getOrNull()) // 성공 시 데이터 업데이트
+            }.onFailure {
+                _errorMessage.postValue(result.exceptionOrNull()?.message) // 실패 시 에러 메시지 전달
+            }
+        }
+    }
+
+    /*
+    * 사용자 정보 수정
+    * */
+
+    fun updateProfile(profileUpdateRequest: ProfileUpdateRequest){
+        viewModelScope.launch {
+            val result = userRepository.updateProfile(profileUpdateRequest)
+            result.onSuccess{
+
+            }.onFailure {
+                _errorMessage.postValue(result.exceptionOrNull()?.message) // 실패 시 에러 메시지 전달
+            }
+        }
+    }
+
+    /*
+    * 최근 획득한 뱃지 조회
+    * */
+
+    private val _recentBadge = MutableLiveData<RecentBadge?>()
+    val recentBadge: LiveData<RecentBadge?> get() = _recentBadge
+
+    fun getRecentBadge(){
+        viewModelScope.launch {
+            val result = userRepository.getRecentBadge()
+            result.onSuccess{
+                _recentBadge.postValue(result.getOrNull()) // 성공 시 데이터 업데이트
+            }.onFailure {
+                _errorMessage.postValue(result.exceptionOrNull()?.message) // 실패 시 에러 메시지 전달
+            }
+        }
+    }
+
+    /*
+    * 뱃지 조건 상세 조회
+    * */
+
+    fun getBadgeCondition(badgeId: Int, onResult: (List<BadgeCondition>) -> Unit){
+        viewModelScope.launch {
+            val result = userRepository.getBadgeCondition(badgeId)
+            result.onSuccess{ conditions ->
+                onResult(conditions)
+            }.onFailure {
+                _errorMessage.postValue(result.exceptionOrNull()?.message) // 실패 시 에러 메시지 전달
+            }
+        }
+    }
+
+    // 회원 탈퇴
+    fun withdrawal(){
+        viewModelScope.launch {
+            val result = userRepository.withdrawal()
+            result.onSuccess {
+
+            }.onFailure {
+                _errorMessage.postValue(result.exceptionOrNull()?.message) // 에러 메시지 전달
+            }
+        }
+    }
+
     // Onboarding API 응답을 담을 LiveData
     private val _onboardingResult = MutableLiveData<List<OnboardingSuccess>?>()
     val onboardingResult: LiveData<List<OnboardingSuccess>?> get() = _onboardingResult

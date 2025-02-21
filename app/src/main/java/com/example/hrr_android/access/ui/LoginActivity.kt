@@ -1,5 +1,6 @@
 package com.example.hrr_android.access.ui
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -50,7 +51,7 @@ class LoginActivity : AppCompatActivity() {
         AuthEventManager.logoutEvent.observe(this, logoutObserver!!)
 
         // 로그인 버튼 클릭 리스너
-        binding.btnLogin.setOnClickListener {
+        binding.btnLoginNext.setOnClickListener {
             val email = binding.etLoginEmail.text.toString().trim()
             val password = binding.etLoginPassword.text.toString().trim()
 
@@ -77,22 +78,30 @@ class LoginActivity : AppCompatActivity() {
             navigateToPasswordActivity(PasswordNavigator.VERIFICATION)
         }
 
-        binding.ivLoginKakao.setOnClickListener {
+        binding.layoutKakaoLogin.setOnClickListener {
             attemptKakaoLogin()
         }
+
+        // 인증코드 입력란에서 엔터 키를 눌렀을 때
+        // ValidUtils.setEnterKeyListener(binding.etLoginPassword, binding.btnLoginNext)
 
         // 카카오 로그인 결과 관찰
         authViewModel.kakaoLoginResult.observe(this) { result ->
             result.onSuccess {
-                Log.d("KakaoLogin", "로그인 성공! JWT")
-                // Intent에 카카오 로그인 여부를 담아서 전달
-                val intent = Intent(this, SignUpActivity::class.java)
-                intent.putExtra("isKakaoLogin", true)  // 카카오 로그인 여부 전달
+                val prefs = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+                val isProfileUpdated = prefs.getBoolean("isProfileUpdated", false)
+                val targetActivity = if (isProfileUpdated) MainActivity::class.java else SignUpActivity::class.java
+
+                val intent = Intent(this, targetActivity).apply {
+                    putExtra("isKakaoLogin", true)
+                }
                 startActivity(intent)
+                finish()
             }.onFailure { error ->
                 Log.e("KakaoLogin", "로그인 실패: ${error.message}")
             }
         }
+
 
         // 시스템 뒤로가기 버튼을 감지해서 두 번 눌렀을 때 종료 실행
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {

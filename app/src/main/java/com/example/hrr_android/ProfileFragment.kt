@@ -8,7 +8,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import com.example.hrr_android.access.ValidUtils
 import com.example.hrr_android.databinding.FragmentProfileBinding
 import com.google.android.material.tabs.TabLayoutMediator
 import com.mikhaellopez.circularprogressbar.CircularProgressBar
@@ -19,7 +21,7 @@ class ProfileFragment : Fragment() {
     private var _binding: FragmentProfileBinding? = null            //뷰 바인딩
     private val binding get() = _binding!!
     private var selectedBadges = ArrayList<Badge>()                 //대표 뱃지 리스트
-    private val userViewModel: UserViewModel by viewModels()
+    private val userViewModel: UserViewModel by activityViewModels()
     private val profileCommon = ProfileCommon()     //공통 로직 인스턴스 생성
     private var myProfile: UserResponse = UserResponse()    // 로딩된 사용자 정보
 
@@ -35,12 +37,14 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //클릭 이벤트 처리 설정
-        initClickListener()
-
         //ViewPager2 Adapter 연결
         profileCommon.setupViewPager(binding, requireActivity(), true)
 
+        /*
+        * 사용자 기본 정보
+        * */
+
+        // LiveData 관찰 (데이터가 변경될 때 자동 업데이트되도록 설정)
         userViewModel.profile.observe(viewLifecycleOwner) { profile ->
             profile?.let {
                 myProfile = it  // 불러온 정보를 저장해놔서 다른 Fragment를 띄울 때 필요한 정보만 전달하여 불필요한 api 호출을 방지
@@ -53,17 +57,42 @@ class ProfileFragment : Fragment() {
                     "gold" -> "골드"
                     "master" -> "마스터"
                     "challenger" -> "챌린저"
-                    else -> ""
+                    else -> "일반"
                 }
                 binding.tvProfileFollowerCount.text = it.followerCount.toString()  // 팔로워 수
                 binding.tvProfileFollowingCount.text = it.followingCount.toString() // 팔로잉 수
                 //Todo: 뱃지 관련 바인딩
-                profileCommon.setupCircularProgressBar(binding, myProfile.level, myProfile.points) // 레벨 달성률 게이지 바 구현
+                selectedBadges.clear()  // 기존 리스트 초기화
+
+                listOfNotNull(it.userBadge1, it.userBadge2, it.userBadge3)  // null인 항목 제거
+                    .forEach { badge ->
+                        selectedBadges.add(
+                            Badge(
+                                badge.name,
+                                ValidUtils.getDrawableResId(requireContext(), badge.icon)
+                            )
+                        )
+                    }
+
+                Log.d("myDebug", "selectedBadges: ${selectedBadges}")
+
+                // 뱃지 UI 업데이트
+                profileCommon.setupBadges(binding, selectedBadges)
+
+                myProfile.level?.let { it1 ->
+                    profileCommon.setupCircularProgressBar(binding,
+                        it1, myProfile.points)
+                } // 레벨 달성률 게이지 바 구현
                 //팔로우 클릭 처리
                 profileCommon.onFollowClicked(requireActivity(), binding.llProfileFollower, "follower", myId = it.id!!)
                 profileCommon.onFollowClicked(requireActivity(), binding.llProfileFollowing, "following", myId = it.id)
+
+                //클릭 이벤트 처리 설정
+                initClickListener()
             }
         }
+
+
 
         userViewModel.errorMessage.observe(viewLifecycleOwner) { errorMsg ->
             errorMsg?.let {
@@ -84,17 +113,12 @@ class ProfileFragment : Fragment() {
         // 유저 데이터 로드
         userViewModel.loadProfile()
 
-        //뱃지 더미 데이터 - 테스트 시 주석 해제 or 설정
-        selectedBadges.clear()
+    }
 
-        selectedBadges.apply {
-            add(Badge("프로 챌린저", R.drawable.badge_type_fromtoday_challenger))
-            add(Badge("수준급 스터디언", R.drawable.badge_type_fromtoday_challenger))
-            add(Badge("운동 스타터", R.drawable.badge_type_fromtoday_challenger))
-        }
-
-        //설정한 대표 뱃지 개수에 따라 visibility 조정
-        profileCommon.setupBadges(binding, selectedBadges)
+    override fun onResume() {
+        super.onResume()
+        userViewModel.loadProfile()
+        Log.d("myDebug", "여긴데")
     }
 
     override fun onDestroyView() {
@@ -112,7 +136,12 @@ class ProfileFragment : Fragment() {
 
         // 프로필 수정 모드
         binding.tvProfileEdit.setOnClickListener {
+            val badgeNames = ArrayList(selectedBadges.map { it.name }) // 뱃지 이름만 리스트로 변환
+
             val intent = Intent(requireContext(), EditProfileActivity::class.java)
+            intent.putExtra("name", myProfile.nickname)
+            Log.d("myDebug", "myProfile.nickname: ${myProfile.nickname}")
+            intent.putStringArrayListExtra("badgeNames", badgeNames)
             startActivity(intent)
         }
 
@@ -125,8 +154,14 @@ class ProfileFragment : Fragment() {
 
         // 대표 뱃지 클릭 시 뱃지 수정 화면으로 전환
         binding.llProfileBadge.setOnClickListener {
+            val badgeNames = ArrayList(selectedBadges.map { it.name }) // 뱃지 이름만 리스트로 변환
+
             val intent = Intent(requireContext(), EditProfileActivity::class.java)
             intent.putExtra("clicked", "badge")
+            intent.putStringArrayListExtra("badgeNames", badgeNames)
+            intent.putExtra("name", myProfile.nickname)
+            Log.d("myDebug", "myProfile.nickname: ${myProfile.nickname}")
+
             startActivity(intent)
 
         }

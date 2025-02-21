@@ -6,7 +6,8 @@ data class Badge(
     var isObtained: Boolean = false,     //획득 여부
     val type: String = "",    //종류 : 유형, 카테고리
     val obtainCondition: List<Condition> = emptyList(),  //획득 조건, 달성 여부
-    var isSelected: Boolean = false
+    var isSelected: Boolean = false,
+    val id: Int = 0
 )
 
 data class Condition(

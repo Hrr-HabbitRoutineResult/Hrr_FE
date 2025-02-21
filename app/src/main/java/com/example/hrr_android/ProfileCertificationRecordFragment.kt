@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.hrr_android.databinding.FragmentProfileCertificationRecordBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -18,7 +19,7 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
 @AndroidEntryPoint
-class ProfileCertificationRecordFragment : Fragment() {
+class ProfileCertificationRecordFragment : Fragment(), OnRecordClickListener {
     private var _binding: FragmentProfileCertificationRecordBinding? = null     //뷰 바인딩
     private val binding get() = _binding!!
     private var certificationList = ArrayList<Certification>()                  //인증 기록
@@ -44,7 +45,7 @@ class ProfileCertificationRecordFragment : Fragment() {
         }
 
         //인증 기록 RecyclerView 연결
-        val profileCertificationRVAdapter = ProfileCertificationRVAdapter(certificationList)
+        val profileCertificationRVAdapter = ProfileCertificationRVAdapter(certificationList, this)
         binding.rvProfileCertificationRecored.adapter = profileCertificationRVAdapter
         binding.rvProfileCertificationRecored.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
@@ -63,7 +64,8 @@ class ProfileCertificationRecordFragment : Fragment() {
                     history.title,
                     dateFormat(history.createTime),
                     R.drawable.img_running,
-                    history.textUrl != null // 링크 주소가 있다면 true
+                    history.textUrl != null, // 링크 주소가 있다면 true
+                    verificationId = history.verificationId
                     //Todo: 이미지 처리 추가 예정
                 )
             }?.let {
@@ -113,6 +115,13 @@ class ProfileCertificationRecordFragment : Fragment() {
         val new = DateTimeFormatter.ofPattern("yyyy.MM.dd")
             .withZone(ZoneId.of("UTC"))
         return new.format(instant) // 변환된 날짜 문자열 반환
+    }
+
+    override fun onRecordClicked(certification: Certification) {
+        val bundle = Bundle().apply {
+            putInt("verification_id", certification.verificationId)
+        }
+        findNavController().navigate(R.id.action_profileCertificationRecordFragment_to_postFragment, bundle)
     }
 
 }

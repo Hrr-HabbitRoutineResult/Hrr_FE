@@ -54,6 +54,7 @@
 
     <!-- 캘린더 메인 컨테이너(요일 헤더랑 날짜 그리드 포함) -->
     <LinearLayout
+        android:id="@+id/ll_calendar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"

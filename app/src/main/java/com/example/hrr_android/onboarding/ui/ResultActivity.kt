@@ -102,8 +102,8 @@ class ResultActivity : AppCompatActivity(), OnChallengeClickListener {
         val intent = Intent(this, MainActivity::class.java).apply {
             putExtra("navigate_to", "challengeFragment") // ChallengeFragment로 이동할 정보 추가
             putExtra("challenge_id", challengeId) // Challenge ID 전달
+            putExtra("from_result_activity", true) // ResultActivity에서 왔음을 전달
         }
         startActivity(intent)
-        finish()
     }
 }

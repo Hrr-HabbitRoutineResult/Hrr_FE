@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.hrr_android.databinding.FragmentProfileChallengeMoreBinding
@@ -17,7 +18,7 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
 @AndroidEntryPoint
-class ProfileRecordMoreFragment : Fragment() {
+class ProfileRecordMoreFragment : Fragment(), OnRecordClickListener {
     private var _binding: FragmentProfileRecordMoreBinding? = null  //뷰 바인딩
     private val binding get() = _binding!!
     private var certifications = ArrayList<Certification>() //기록 리스트
@@ -36,7 +37,7 @@ class ProfileRecordMoreFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // Adapter 연결
-        val profileRecordMoreRVAdapter = ProfileRecordMoreRVAdapter(certifications)
+        val profileRecordMoreRVAdapter = ProfileRecordMoreRVAdapter(certifications, this)
         binding.rvRecordMore.apply {
             adapter = profileRecordMoreRVAdapter
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
@@ -50,7 +51,8 @@ class ProfileRecordMoreFragment : Fragment() {
                     history.title,
                     dateFormat(history.createTime),
                     R.drawable.img_running,
-                    history.textUrl != null // 링크 주소가 있다면 true
+                    history.textUrl != null, // 링크 주소가 있다면 true
+                    verificationId = history.verificationId
                     //Todo: 이미지 처리 추가 예정
                 )
             }?.let {
@@ -91,6 +93,13 @@ class ProfileRecordMoreFragment : Fragment() {
         val new = DateTimeFormatter.ofPattern("yyyy.MM.dd")
             .withZone(ZoneId.of("UTC"))
         return new.format(instant) // 변환된 날짜 문자열 반환
+    }
+
+    override fun onRecordClicked(certification: Certification) {
+        val bundle = Bundle().apply {
+            putInt("verification_id", certification.verificationId)
+        }
+        //findNavController().navigate(R.id.action_profileRecordMoreFragment_to_postFragment, bundle)
     }
 
 

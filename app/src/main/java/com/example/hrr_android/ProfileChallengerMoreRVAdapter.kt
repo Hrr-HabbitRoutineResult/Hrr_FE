@@ -1,11 +1,16 @@
 package com.example.hrr_android
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hrr_android.databinding.ItemProfileChallengeMoreBinding
 
-class ProfileChallengerMoreRVAdapter(private var challengeList: ArrayList<Challenge>): RecyclerView.Adapter<ProfileChallengerMoreRVAdapter.ViewHolder>() {
+class ProfileChallengerMoreRVAdapter(
+    private var challengeList: ArrayList<Challenge>,
+    private var isSaved: Boolean = false,
+    private val listener: OnCompletedChallengeClickListener)
+    : RecyclerView.Adapter<ProfileChallengerMoreRVAdapter.ViewHolder>() {
     override fun onCreateViewHolder(
         viewGroup: ViewGroup,
         viewType: Int
@@ -31,6 +36,14 @@ class ProfileChallengerMoreRVAdapter(private var challengeList: ArrayList<Challe
         fun bind(challenge: Challenge){
             binding.tvChallengeMoreDetailTitle.text = challenge.title
             binding.tvChallengeMoreDetailSubtitle.text = challenge.description
+
+            if(isSaved){
+                binding.ivChallengeCompleteIcon.visibility = View.INVISIBLE
+            }
+
+            binding.root.setOnClickListener {
+                listener.onChallengeClicked(challenge)
+            }
         }
     }
 }

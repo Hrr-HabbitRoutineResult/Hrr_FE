@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable
 import android.util.Patterns
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
@@ -16,6 +17,10 @@ object ValidUtils {
 
     fun getTextColorDefault(context: Context): Int {
         return ContextCompat.getColor(context, R.color.text_tertiary)
+    }
+
+    fun getTextColorActive(context: Context): Int {
+        return ContextCompat.getColor(context, R.color.text_primary)
     }
 
     fun getTextColorError(context: Context): Int {
@@ -91,4 +96,16 @@ object ValidUtils {
             0 // 기본값 반환
         }
     }
+/*
+    // 엔터 키 눌렀을 때 특정 버튼이 작동하도록 하는 함수
+    fun setEnterKeyListener(editText: EditText, button: FrameLayout) {
+        editText.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == android.view.inputmethod.EditorInfo.IME_ACTION_DONE) {
+                button.performClick() // 버튼 클릭과 동일한 동작 수행
+                true
+            } else {
+                false
+            }
+        }
+    }*/
 }

@@ -45,6 +45,7 @@
 
             <!-- 뱃지 아이콘 -->
             <ImageView
+                android:id="@+id/iv_recent_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/badge_category_exercise_master"
@@ -52,6 +53,7 @@
 
             <!-- 뱃지 이름 -->
             <TextView
+                android:id="@+id/tv_recent_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="운동 마스터"
@@ -64,6 +66,7 @@
 
             <!-- 뱃지 종류 -->
             <TextView
+                android:id="@+id/tv_recent_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="카테고리"

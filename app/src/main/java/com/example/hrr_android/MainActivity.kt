@@ -24,6 +24,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding      // 뷰 바인딩
     private var backPressedOnce = false     // 뒤로가기 버튼 상태 저장 변수
     private val handler = Handler(Looper.getMainLooper())   // 시간 초과 처리
+    private var isFromResultActivity = false     // 뒤로 가기 버튼 상태 변수
 
     private val authViewModel: AuthViewModel by viewModels()
 
@@ -41,28 +42,34 @@ class MainActivity : AppCompatActivity() {
             // 로그아웃 이벤트 수신 시 호출되는 콜백
             navigateToLoginActivity()
         })
-        
-        // 시스템 뒤로가기 버튼을 감지해서 두 번 눌렀을 때 종료 실행
-        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                if (backPressedOnce) {
-                    finish() // 앱 종료
-                } else {
-                    backPressedOnce = true
-                    Toast.makeText(this@MainActivity, "\"뒤로\" 버튼 한 번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show()
 
-                    // 2초 후 다시 false로 변경하여 재입력 요구
-                    handler.postDelayed({ backPressedOnce = false }, 2000)
-                }
-            }
-        })
-
+        // 인텐트로 특정 Fragment에서 왔는지 확인
         val navigateTo = intent.getStringExtra("navigate_to")
         val challengeId = intent.getIntExtra("challenge_id", -1)
 
         if (navigateTo == "challengeFragment") {
             navigateToChallengeFragment(challengeId)
+            isFromResultActivity = true // ResultActivity에서 왔음을 표시
         }
+
+        // 시스템 뒤로 가기 버튼 동작 설정
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (isFromResultActivity) {
+                    finish() // ResultActivity에서 왔다면 한 번만 눌러도 종료
+                } else {
+                    if (backPressedOnce) {
+                        finish() // 앱 종료
+                    } else {
+                        backPressedOnce = true
+                        Toast.makeText(this@MainActivity, "\"뒤로\" 버튼 한 번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show()
+
+                        // 2초 후 다시 false로 변경하여 재입력 요구
+                        handler.postDelayed({ backPressedOnce = false }, 2000)
+                    }
+                }
+            }
+        })
     }
 
     private fun initBottomNavigation(){
