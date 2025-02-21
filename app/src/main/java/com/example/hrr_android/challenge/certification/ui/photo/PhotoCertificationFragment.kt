@@ -76,7 +76,7 @@ class PhotoCertificationFragment : Fragment() {
         initClickListeners()
         setupTextWatchers()
         checkCameraPermission()
-        setupObservers()
+        // setupObservers()
     }
 
     // 화면 초기 상태 설정
@@ -305,7 +305,6 @@ class PhotoCertificationFragment : Fragment() {
         binding.viewFlipper.displayedChild = 1
     }
 
-    // 로딩 화면 표시
     private fun showLoadingAndNavigate() {
         val loadingDialog = AlertDialog.Builder(requireContext())
             .setView(R.layout.activity_loading)
@@ -324,48 +323,41 @@ class PhotoCertificationFragment : Fragment() {
 
         loadingDialog.show()
 
-        // 인증 정보 업로드
         val challengeId = arguments?.getInt("challenge_id") ?: -1
-        uploadedPhotoUrl?.let { photoUrl ->
-            viewModel.uploadVerification(
-                challengeId = challengeId,
-                photoUrl = photoUrl,
-                title = binding.viewFlipper.findViewById<EditText>(R.id.et_certification_title).text.toString(),
-                content = binding.viewFlipper.findViewById<EditText>(R.id.et_certification_content).text.toString(),
-                isQuestion = binding.viewFlipper.findViewById<CheckBox>(R.id.cb_certification_question).isChecked
-            )
-        } ?: run {
-            loadingDialog.dismiss()
-            showCustomSnackbar(binding.root, "이미지 업로드를 먼저 완료해주세요.")
-        }
-    }
 
-    private fun setupObservers() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.photoUploadState.collect { result ->
-                result?.onSuccess { url ->
-                    uploadedPhotoUrl = url  // 업로드된 URL 저장
-                }?.onFailure { e ->
-                    showCustomSnackbar(binding.root, e.message ?: "이미지 업로드에 실패했습니다.")
-                }
+        // 🔹 LiveData를 observe하는 대신, URL을 `setupObservers()`에서 자동으로 감지하도록 함
+        viewModel.photoUploadState.observe(viewLifecycleOwner) { result ->
+            result.onSuccess { photoUrl ->
+                viewModel.uploadVerification(
+                    challengeId = challengeId,
+                    photoUrl = photoUrl,
+                    title = binding.viewFlipper.findViewById<EditText>(R.id.et_certification_title).text.toString(),
+                    content = binding.viewFlipper.findViewById<EditText>(R.id.et_certification_content).text.toString(),
+                    isQuestion = binding.viewFlipper.findViewById<CheckBox>(R.id.cb_certification_question).isChecked
+                )
+            }.onFailure {
+                loadingDialog.dismiss()
+                showCustomSnackbar(binding.root, "이미지 업로드를 먼저 완료해주세요.")
             }
         }
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.verificationState.collect { result ->
-                result?.onSuccess { response ->
-                    findNavController().navigate(
-                        R.id.action_photoCertificationFragment_to_postFragment,
-                        Bundle().apply {
-                            putInt("verification_id", response.verification.verificationId)
-                        }
-                    )
-                }?.onFailure { e ->
-                    showCustomSnackbar(binding.root, e.message ?: "인증 업로드에 실패했습니다.")
-                }
+        // 🔹 `verificationState`를 감지해서 성공하면 화면 이동 & 로딩 종료
+        viewModel.verificationState.observe(viewLifecycleOwner) { result ->
+            result.onSuccess { response ->
+                loadingDialog.dismiss()
+                findNavController().navigate(
+                    R.id.action_photoCertificationFragment_to_postFragment,
+                    Bundle().apply {
+                        putInt("verification_id", response.verification.verificationId)
+                    }
+                )
+            }.onFailure { e ->
+                loadingDialog.dismiss()
+                showCustomSnackbar(binding.root, e.message ?: "인증 업로드에 실패했습니다.")
             }
         }
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

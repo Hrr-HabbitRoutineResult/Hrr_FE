@@ -1,8 +1,6 @@
 package com.example.hrr_android
 
 import android.content.Context
-import android.net.Uri
-import android.util.Log
 import com.example.hrr_android.access.repository.AuthRepository
 import com.example.hrr_android.challenge.model.ChallengeDetail
 import com.example.hrr_android.challenge.model.PostResponse
@@ -128,25 +126,18 @@ class ChallengeRepository @Inject constructor(
     }
 
     // 이미지 업로드
-    suspend fun uploadPhoto(imageUri: Uri, context: Context): Result<String> {
+    suspend fun uploadPhoto(imagePart: MultipartBody.Part): Result<String> {
         return try {
-            val inputStream = context.contentResolver.openInputStream(imageUri)
-            val bytes = inputStream?.readBytes() ?: return Result.failure(Exception("이미지를 읽을 수 없습니다."))
+            // 서버에 이미지 업로드 요청
+            val response = challengeService.uploadPhoto(imagePart)
 
-            val requestBody = bytes.toRequestBody("image/*".toMediaTypeOrNull())
-            val part = MultipartBody.Part.createFormData(
-                "image",
-                "image.jpg",
-                requestBody
-            )
-
-            val response = challengeService.uploadPhoto(part)
             if (response.isSuccessful) {
                 val apiResponse = response.body()
                     ?: return Result.failure(Exception("서버 응답이 비어 있습니다."))
-                return (apiResponse.success?.photoUrl?.let {
-                    Result.success(it)
-                } ?: Result.failure(Exception("서버 응답이 올바르지 않습니다.")))
+
+                apiResponse.success?.photoUrl?.let {
+                    return Result.success(it) // 성공 시 업로드된 이미지 URL 반환
+                } ?: return Result.failure(Exception("서버 응답이 올바르지 않습니다."))
             } else {
                 Result.failure(Exception("서버 오류 발생: ${response.code()}"))
             }
@@ -156,6 +147,7 @@ class ChallengeRepository @Inject constructor(
             Result.failure(Exception("알 수 없는 오류 발생: ${e.localizedMessage}"))
         }
     }
+
     // 인증 업로드
     suspend fun uploadVerification(
         challengeId: Int,

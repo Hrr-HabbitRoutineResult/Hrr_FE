@@ -93,11 +93,17 @@ class PostFragment : Fragment() {
             // 제목 설정
             tvPostTitle.text = post.title
 
-            // 이미지 설정
+            // 기존 이미지 설정 (ivPhotoPreview)
             Glide.with(requireContext())
                 .load(post.photoUrl)
                 .centerCrop()
                 .into(ivPhotoPreview)
+
+            // 새로 추가된 이미지 설정 (iv_post_image)
+            Glide.with(requireContext())
+                .load(post.photoUrl)
+                .centerCrop()
+                .into(ivPostImage)  // 🔹 새로운 ImageView에도 동일한 이미지 적용
 
             // 내용 설정
             post.content?.let {
@@ -116,6 +122,7 @@ class PostFragment : Fragment() {
             commentAdapter.setItems(post.comment)
         }
     }
+
 
     // 날짜 포맷 변환 확장 함수
     private fun String.formatToDisplayDate(): String {
